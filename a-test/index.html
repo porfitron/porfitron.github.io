@@ -15,7 +15,8 @@
 <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-entity light="color: #AFA; intensity: 1.5" position="-1 1 0"></a-entity>
+<a-entity light="type: ambient; color: #BBB"></a-entity>
+<a-entity light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
     <a-scene>
       <a-plane position="0 0 -6" rotation="-90 0 0" width="4" height="4" color="#FF8C8E"></a-plane><!--coral ground-->
       <a-plane position="-2 1 -6" rotation="0 90 0" width="4" height="2" color="#82D1F5"></a-plane><!--cyan left wall-->
