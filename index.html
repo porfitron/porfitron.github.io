@@ -15,7 +15,8 @@
     <style>
 #container {
   display: grid;
-  grid-template-columns: auto 200px 200px 200px auto;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
 }
 
 #container > div {
@@ -31,16 +32,12 @@
 <p>He's hosted with GitHub Pages.</p>
   
 <div id="container">
-  <div>auto</div>
-  <div class="tile">LinkedIn</div>
-  <div class="tile">Twitter</div>
-  <div class="tile">Instagram</div>
-  <div>auto</div>
-  <div>auto</div>
-  <div class="tile">CSS Grid</div>
-  <div class="tile">A-Frame</div>
-  <div class="tile">A-Partment</div>
-  <div>auto</div>
+  <div>LinkedIn</div>
+  <div>Twitter</div>
+  <div>Instagram</div>
+  <div>>CSS Grid</div>
+  <div>A-Frame</div>
+  <div>A-Partment</div>
 </div>  
   
   
