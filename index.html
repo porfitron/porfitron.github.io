@@ -13,15 +13,29 @@
 
     </script>
     <style>
-#container {
+.wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 200px;
+}
+* {box-sizing: border-box;}
+.wrapper {
+    border: 2px solid #f76707;
+    border-radius: 5px;
+    background-color: #fff4e6;
+}
+.wrapper > div {
+    border: 2px solid #ffa94d;
+    border-radius: 5px;
+    background-color: #ffd8a8;
+    padding: 1em;
+    color: #d9480f;
+}
+.nested {
+    border: 2px solid #ffec99;
+    border-radius: 5px;
+    background-color: #fff9db;
+    padding: 1em;
 }
 
-#container > div {
-  height: 200px;
-}
 
     </style>
   </head>
@@ -29,7 +43,7 @@
 <h1>what's a porfir.io?</h1>
 <p>He's hosted with GitHub Pages.</p>
   
-<div id="container">
+<div class="container">
   <div>LinkedIn</div>
   <div>Twitter</div>
   <div>Instagram</div>
