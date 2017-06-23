@@ -4,7 +4,7 @@
       <title>What's a Porfir.io?</title>
 <meta property="og:type" content="business.business">
 <meta property="og:title" content="A-Test of A-Frame - WebVR - What's a Porfirio?">
-<meta property="og:url" content="http://porfir.io/a-test">
+<meta property="og:url" content="http://porfir.io/okar">
 <meta property="og:image" content="http://porfir.io/a-test/images/a-test-preview.png">
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -20,19 +20,13 @@
   </head>
   <body>
 
-    <a-scene>
-      <a-assets>
-          <img id="waterfall" src="images/waterfall-300x400.jpg" width="400" height="300">
-      </a-assets>
-      
-      <a-image src="#waterfall" position="0 1 -7"></a-image>
-      <a-plane position="0 0 -6" rotation="-90 0 0" width="4" height="4" color="#FF8C8E"></a-plane><!--coral ground-->
-      <a-plane position="-2 1 -6" rotation="0 90 0" width="4" height="2" color="#82D1F5"></a-plane><!--cyan left wall-->
-      <a-plane position="2 1 -6" rotation="0 -90 0" width="4" height="2" color="#B6D806"></a-plane><!--lime right wall-->
-      <a-plane position="0 1 -8" rotation="0 0 0" width="4" height="2" color="#FABA00"></a-plane><!--orange back-->
-
-      <a-sky color="#ECECEC"></a-sky>
-    </a-scene>
+<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+<body style='margin : 0px; overflow: hidden;'>
+	<a-scene embedded artoolkit='sourceType: webcam;'>
+		<a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
+		<a-marker-camera preset='hiro'></a-marker-camera>
+	</a-scene>
 
   </body>
 </html>
