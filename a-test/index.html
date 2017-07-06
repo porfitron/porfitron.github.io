@@ -19,20 +19,11 @@
 <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
   </head>
   <body>
-
     <a-scene>
-      <a-assets>
-          <img id="waterfall" src="images/waterfall-300x400.jpg" width="400" height="300">
-      </a-assets>
-      
-      <a-image src="#waterfall" position="0 1 -7"></a-image>
-      <a-plane position="0 0 -6" rotation="-90 0 0" width="4" height="4" color="#FF8C8E"></a-plane><!--coral ground-->
-      <a-plane position="-2 1 -6" rotation="0 90 0" width="4" height="2" color="#82D1F5"></a-plane><!--cyan left wall-->
-      <a-plane position="2 1 -6" rotation="0 -90 0" width="4" height="2" color="#B6D806"></a-plane><!--lime right wall-->
-      <a-plane position="0 1 -8" rotation="0 0 0" width="4" height="2" color="#FABA00"></a-plane><!--orange back-->
+      <a-sky src="casa-meowington-360-VR-1.jpg" rotation="0 -130 0"></a-sky>
 
-      <a-sky color="#ECECEC"></a-sky>
+      <a-text font="kelsonsans" value="The Meowingtons, San Francisco" width="6" position="-2.5 0.25 -1.5"
+              rotation="0 15 0"></a-text>
     </a-scene>
-
   </body>
 </html>
