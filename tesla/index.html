@@ -20,6 +20,7 @@
     color: #cfcfd1; 
     background-color: #2a2a2e;    
     text-align:center;
+    margin-bottom: 50px;
     } 
 
     #wrapper 
@@ -28,11 +29,30 @@
     text-align:left;   
     margin-left:auto;  
     margin-right:auto;  
-    background-color: #38383d; 
+    //background-color: #38383d; 
     }
+    
+    #footer {
+  background-color: #38383d;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 60px;
+  border-top: solid 1px #cfcfd1;
+  margin-bottom: 0px;
+  padding-top:15px;
+  font-size: 14px;
+}
+
+
     </style>
   </head>
 <body>
+<div style="position: fixed; top: 0px; width:100%; height: 50px; text-align:left;background-color: #2a2a2e;">
+<img style="margin:15px;" src="images/tesla-wordmark.png" width="10%" border="0" />
+</div>
+
 <h1>&nbsp;</h1>
 <div id="wrapper">
 
@@ -41,11 +61,36 @@
 
 <input type="text" name="q" size="25" style="color:#cfcfd1; background-color:#38383d; border:0; width:900px; font-size:16px;" maxlength="255" value="Search the Web"
 onfocus="if(this.value==this.defaultValue)this.value=''; this.style.color='white';" onblur="if(this.value=='')this.value=this.defaultValue; "/>
-<input type="submit" value="Go!" style="color:#cfcfd1; border:0; font-size:16px; background-color:#38383d;" />
+<input type="submit" value="Go!" style="color:#fff; font-weight:bold; border:0; font-size:16px; background-color:#38383d;" />
 
 </form>
 </div>
 
+<h1>&nbsp;</h1>
+<p style="font-size:14px; font-weight:bold;">The latest on Twitter...</p>
+
+<div style="text-align:center;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" border="0" style="border:0;" cols="3">
+<tr>
+<td width="33%">
+<a class="twitter-timeline" data-width="300" data-height="900" data-theme="dark" data-link-color="#F5F8FA" href="https://twitter.com/Tesla?ref_src=twsrc%5Etfw">Tesla Motors</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+</td>
+<td width="33%">
+<a class="twitter-timeline" data-width="300" data-height="900" data-theme="dark" data-link-color="#F5F8FA" href="https://twitter.com/ElonMusk?ref_src=twsrc%5Etfw">Elon Musk</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+</td>
+<td width="33%">
+<a class="twitter-timeline" data-width="300" data-height="900" data-theme="dark" data-link-color="#F5F8FA" href="https://twitter.com/Teslarati?ref_src=twsrc%5Etfw">Teslarati</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+</td>
+</tr>
+</table>
 </div>
+
+</div>
+
+<div id="footer">
+  <a href="https://firefox.com"><img src="images/firefox-logo-glyph.png" height="40" width="40" border="0" style="vertical-align:middle;" /></a>&nbsp;
+  If you like this start page, consider getting <a style="color:#fff;" href="https://firefox.com">Firefox</a> on your PC, Mac, Mobile or Fire TV.
+</div>
+
 </body>
 </html>
