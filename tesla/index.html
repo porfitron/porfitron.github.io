@@ -47,8 +47,9 @@
 
 
     </style>
+    
   </head>
-<body>
+<body onload="getParamValuesByName();">
 <div style="position: fixed; top: 0px; width:100%; height: 50px; text-align:left;background-color: #2a2a2e;">
 <a href="https://tesla.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img style="margin:15px;" src="images/tesla-wordmark.png" width="10%" border="0" /></a>
 </div>
@@ -68,7 +69,7 @@ onfocus="if(this.value==this.defaultValue)this.value=''; this.style.color='white
 
 <p>
 <a href="http://duckhuntjs.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img src="images/tile-duckhuntjs.png" border="0" style="padding:8px;" /></a> 
-<a href="http://wunderground.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img src="images/tile-weather.png" border="0" style="padding:8px;" /></a> 
+<a id="weather" href="https://weather.com/weather/today/l/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img src="images/tile-weather.png" border="0" style="padding:8px;" /></a> 
 <a href="http://teslarati.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img src="images/tile-teslarati.png" border="0" style="padding:8px;" /></a> 
 <a href="https://m.facebook.com/groups/TeslaMotorsModel3/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"><img src="images/tile-teslafb.png" border="0" style="padding:8px;" /></a> 
 </p>
@@ -95,6 +96,32 @@ onfocus="if(this.value==this.defaultValue)this.value=''; this.style.color='white
   If you like this start page, consider getting <a style="color:#fff;" href="https://www.mozilla.org/firefox/new/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">Firefox</a> on your PC, Mac, Mobile or Fire TV. 
   Page by <a href="https://twitter.com/porfitron" style="color:#fff;">@porfitron</a>.
 </div>
+
+<script type="text/javascript">
+function getParamValuesByName (querystring) {
+
+  var qstring = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for (var i = 0; i < qstring.length; i++) {
+    var urlparam = qstring[i].split('=');
+    if (urlparam[0] == querystring) {
+       return urlparam[1];
+    }
+  }
+}
+
+  var uid = getParamValuesByName('zip');
+var uname = getParamValuesByName('uname');
+//alert(uid);
+
+if (uid == null) {
+  document.getElementById('weather').href='https://weather.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github';
+
+} else {
+  document.getElementById('weather').href='https://weather.com/weather/today/l/'+uid+'?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github';
+
+}
+</script>
+
 
 </body>
 </html>
