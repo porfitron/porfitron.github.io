@@ -58,6 +58,11 @@
             border-bottom: 1px solid #eee;
         }
         
+        /* Link wrapper for the logo */
+        header a:first-child {
+            padding: 0;
+        }
+
         header img { /* Logo Styling - DOUBLED SIZE */
             height: 60px; 
             vertical-align: middle;
@@ -244,7 +249,10 @@
 <body>
 
     <!-- Top Menu Bar (Fixed Header) --><header>
-        <img src="images/logo_betsie_red.png" alt="Betsie Logo">
+        <!-- Updated: Logo wrapped in anchor tag pointing to index.html -->
+        <a href="index.html">
+            <img src="images/logo_betsie_red.png" alt="Betsie Logo">
+        </a>
         
         <nav>
             <a href="#">Features</a>
@@ -309,10 +317,10 @@
     <!-- Footer Links --><footer>
         <h3>Site Links</h3>
         
-        <a href="betsie_about_us.html">About Us</a>
-        <a href="betsie_privacy_policy.html">Privacy Policy</a>
-        <a href="betsie_terms_of_service.html">Terms of Service</a>
-        <a href="betsie_community_guidelines.html">Community Guidelines</a>
+        <a href="about_us.html">About Us</a>
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="terms_of_service.html">Terms of Service</a>
+        <a href="community_guidelines.html">Community Guidelines</a>
 
         <!-- Copyright Text --><p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
             Betsie is a Trademark of Squeaky Cheese, LLC - Site &copy; 2025 Squeaky Cheese, LLC
