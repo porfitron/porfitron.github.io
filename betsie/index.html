@@ -7,6 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
     
+    <!-- This font is used specifically for the high-vibe emphasis text -->
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     
     <style>
@@ -35,13 +36,14 @@
             color: var(--color-dark); 
         }
 
-        /* Style for <strong> tag now uses Primary Red */
+        /* REVERTED STYLE: <strong> is back to the handwriting font with a text shadow */
         strong {
             font-family: 'Shadows Into Light', cursive;
             font-weight: 400;
             font-size: 1.1em;
             color: var(--color-primary-red); /* HIGHLIGHTED with Primary Red */
-            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 0 var(--color-dark); /* The blocky shadow for emphasis */
+            text-decoration: none; /* Ensure no underline remains */
         }
         
         /* Layout Container for Content */
@@ -214,7 +216,7 @@
             min-height: 50px;
         }
 
-        /* --- Scoreboard Section --- */
+        /* --- Scoreboard Section (Now How-To) --- */
         #scoreboard-section {
             padding: 60px 20px;
             background-color: var(--color-soft-bg); /* Use the soft pink background */
@@ -228,26 +230,65 @@
             color: var(--color-accent-blue);
             margin-bottom: 10px;
             text-shadow: 1px 1px 0 var(--color-dark);
+            font-size: 2em; /* Ensure it's large and punchy */
         }
 
-        .pattern-list {
+        /* Updated list to be a step-by-step process */
+        .process-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 20px;
             margin-top: 30px;
             text-align: left;
             padding: 0 40px;
         }
-        .pattern-list div {
+        .process-list div {
             background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            /* Left border now uses Accent Yellow */
-            border-left: 5px solid var(--color-accent-yellow);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            /* Style for the step number */
+            position: relative;
+            padding-left: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            min-height: 100px; /* Ensure cards have space */
         }
         
+        .process-list div:before {
+            content: attr(data-step);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            font-weight: 800;
+            color: white;
+            background-color: var(--color-primary-red);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Blocky shadow for the step number */
+            box-shadow: 2px 2px 0 var(--color-dark); 
+        }
+
+        /* Specific styling for the privacy note */
+        .privacy-note {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: var(--color-secondary-pink);
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--color-dark);
+            border: 2px solid var(--color-accent-yellow);
+            display: inline-block;
+        }
+
+
         /* --- CTA Section Styles --- */
         #cta-section {
             text-align: center;
@@ -308,7 +349,7 @@
             #card-container {
                 flex-direction: column;
             }
-            #scoreboard-section .pattern-list {
+            #scoreboard-section .process-list {
                 grid-template-columns: 1fr;
                 padding: 0;
             }
@@ -355,17 +396,13 @@
     <div id="hero-section" class="content-container">
         
         <div id="hero-text">
-            <!-- UPDATED H1: More energetic and focused on "main character" vibe -->
-            <h1>Call The Chaos.<br />Get The Receipts.<br /><strong>Claim Your Main Character Glory.</strong></h1>
+            <h1>Call The Chaos.<br />
+            Get The Receipts.<br />
+            <strong>Claim Your Main Character Glory.</strong></h1>
             
-            <!-- UPDATED COPY: Focusing on the chat dynamic and higher social stakes -->
-            <!-- <p>The group chat is basically a crystal ball, but who keeps score?</p> -->
-            <p>Betsie&trade; is where you turn those "I told you so!" moments into <u>permanent, indisputable receipts</u>.</p>
-            <p>Track your predictive genius on a <u>real-time scoreboard</u> against your whole circle.</p>
-            <p>If you have the superior insight, <u>you deserve the glory</u>.</p>
+            <p>Your friend group chat is basically a crystal ball, but who keeps score? Betsie is where you turn those "I told you so!" moments into <b>permanent, indisputable receipts</b>. Track your predictive genius on a <b>real-time scoreboard</b> against your whole circle. If you have the superior insight, you deserve the glory.</p>
 
-            <!-- <p>Loser buys the espresso martini? Winner decides the group vacation spot?</p> -->
-            <p>It's time to settle the score with zero chill.</p>
+            <p>Loser buys the espresso martini? Winner decides the group vacation spot? <b>It's time to settle the score with zero chill.</b></p>
 
             <p>
                 <a href="#">Download Betsie Now</a>
@@ -387,55 +424,66 @@
             
             <div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Breakup+Arc+Energy" alt="Friend Group Chat Icon">
-                <!-- UPDATED CARD COPY: Relatable friend drama -->
-                <p>Which friend is giving off major <u>breakup arc energy</u> (and when it’s going down)</p>
+                <p>Which friend is giving off major <b>breakup arc energy</b> (and when it’s going down)</p>
             </div>
 
             <div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Reality+TV+Finale" alt="Reality TV Icon">
-                <!-- UPDATED CARD COPY: Pop culture/reality TV bet -->
-                <p>If the latest <u>reality TV couple</u> will make it past the reunion special</p>
+                <p>If the latest <b>reality TV couple</b> will make it past the reunion special</p>
             </div>
 
             <div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Soft+Launch+Drama" alt="Social Media Icon">
-                <!-- UPDATED CARD COPY: Social media tracking/gossip -->
-                <p>When your friend will <u>soft-launch</u> their new thing (and then immediately delete it)</p>
+                <p>When your friend will <b>soft-launch</b> their new thing (and then immediately delete it)</p>
             </div>
 
             <div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Spicy+New+Diet" alt="Diet and Fitness Icon">
-                <!-- UPDATED CARD COPY: High-chaos friend prediction -->
-                <p>How long before your most chaotic friend tries a <u>spicy new diet</u> and gives up immediately</p>
+                <p>How long before your most chaotic friend tries a <b>spicy new diet</b> and gives up immediately</p>
             </div>
         </div>
     </div>
     
-    <!-- 3. Scoreboard Section -->
+    <!-- 3. Scoreboard/How-To Section -->
     <div id="scoreboard-section" class="content-container">
-        <!-- UPDATED HEADING: Focus on predictive power -->
-        <h2>The Official Scoreboard:<br />Your Predictive Power Gets A Permanent Record.</h2>
+        <h2>How The Chaos Gets Logged: The Betsie Playbook</h2>
         
-        <!-- UPDATED PARAGRAPH: References "main character energy" -->
-        <p>No more “Ugh, I totally called that first!” Betsie logs it permanently and gives you the official, 
-            indisputable scoreboard, revealing who has the best <u>main character energy</u> by tracking:</p>
+        <p>Turn your group chat banter into an official W/L record in four iconic steps. This is how the receipts are made:</p>
         
-        <div class="pattern-list">
-            <!-- UPDATED LIST ITEMS: Punchier language -->
-            <div>Who is secretly a certified genius</div>
-            <div>Who is consistently unhinged (but always right)</div>
-            <div>Who is always slightly too optimistic</div>
-            <div>Who never sees the obvious train wreck coming</div>
-            <div>Who should be forbidden from making predictions (for everyone's sake)</div>
-            <div>Who in your circle is the *true* visionary</div>
+        <div class="process-list">
+            
+            <div data-step="1">
+                <h3>Set the Scene & The Rules</h3>
+                <p>Pick your prediction, invite a friend, and <b>define the timeframe</b>. They have to accept the terms before the clock starts ticking. No take-backs!</p>
+            </div>
+
+            <div data-step="2">
+                <h3>Raise the Stakes (Optional)</h3>
+                <p>Agree on a <b>fun, low-stakes consequence</b>—buying lunch, posting a dare, or making the loser wear a ridiculous hat for the day. You set the rules!</p>
+            </div>
+            
+            <div data-step="3">
+                <h3>Close the Bet & Get Confirmation</h3>
+                <p>When the outcome happens (or the deadline hits), both parties must <b>agree on the result</b> in the app. No cheating, the app makes sure it's 100% mutual.</p>
+            </div>
+            
+            <div data-step="4">
+                <h3>Memorialize the Win/Loss Record</h3>
+                <p>The win is <b>permanently logged</b> on your profile! Your W/L ratio automatically updates, cementing your status as a certified psychic (or maybe just a certified hottie).</p>
+            </div>
+
+        </div>
+        
+        <div class="privacy-note">
+            <b>Your Vibe, Your Rules:</b> All bets are <b>private</b> between the two of you<br />
+            unless you choose to share the results or invite friends to spectate!
         </div>
     </div>
 
     <!-- 4. Final CTA Section -->
     <div id="cta-section" class="content-container">
         
-        <!-- UPDATED H2: More sassy and analytical -->
-        <h2>It's Not Just Gossiping.<br />It's Strategic, Receipt-Backed Analysis.</h2>
+        <h2>It's Not Just Gossiping. It's Strategic, Receipt-Backed Analysis.</h2>
         <p>Stop talking about it, be about it. Call the chaos. Catalog the disasters.<br />Log every victory. Get Betsie&trade; now.</p>
         <a href="#" id="app-store-button">
             <!-- Placeholder for App Store Download button -->
