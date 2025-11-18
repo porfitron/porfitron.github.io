@@ -3,76 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Betsie - Bets with besties.</title>
-    <!-- Import Fonts -->
+    <title>Betsie - Social Predictions</title>
+    <!-- Import Montserrat Font -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- NEW: Import Shadows Into Light Font for <strong> tag -->
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     
-    <!-- Inline CSS using element selectors and IDs --><style>
+    <!-- Inline CSS using element selectors and IDs -->
+    <style>
+        /* Define the new color palette for easy access in CSS */
+        :root {
+            --color-primary-red: #f5444e; /* New Primary CTA Color */
+            --color-secondary-pink: #ffc7ed; /* Light Background Accent */
+            --color-accent-blue: #002cfc; /* Scoreboard/Pattern Accent */
+            --color-accent-yellow: #f7dd24; /* Strong Text Emphasis */
+            --color-dark: #333;
+            --color-light-bg: #fff8fc; /* Very light tint of secondary pink for body */
+            --color-soft-bg: #f9e3f4; /* Slightly deeper tint of secondary pink for section backgrounds */
+        }
+        
         /* Global Styles */
         body {
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             margin: 0;
-            /* Top padding to clear space for the fixed header */
             padding-top: 95px; 
-            background-color: #f9f9f9; /* Light grey background for contrast with hero */
+            background-color: var(--color-light-bg); /* Use the very light pink background */
         }
         
+        h1, h2, h3 {
+            font-weight: 800;
+            color: var(--color-dark); 
+        }
+
+        /* UPDATED: Style for <strong> tag using the Accent Yellow */
         strong {
             font-family: 'Shadows Into Light', cursive;
-            font-weight: 400; /* This font only has one weight, but we set it explicitly */
-            font-size: 1.1em; /* Slight bump in size for visibility */
-            color: #f5444e;
-        }
-    
-        h1, h2, h3 {
-            font-weight: 800; /* Use extra bold for main headings */
-            color: #333; 
+            font-weight: 400;
+            font-size: 1.1em;
+            color: var(--color-accent-yellow); /* HIGHLIGHTED with Yellow */
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
         }
         
-        /* Layout Container for Content (This sets the 900px max width and centering for the content sections) */
+        /* Layout Container for Content */
         .content-container {
             max-width: 900px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Link Styling */
+        /* UPDATED: General Link Styling with Primary Red */
         a {
-            color: #f5444e; /* Betsie primary link color */
+            color: var(--color-primary-red);
             text-decoration: none;
             padding: 5px 10px;
         }
 
         /* --- Header Styles (Top Menu Bar) --- */
         header {
-            position: fixed; /* MAKE HEADER STICKY */
+            position: fixed;
             top: 0;
-            left: 50%; /* Center the fixed element */
-            transform: translateX(-50%); /* Pull it back by half its width */
-
-            /* Now apply max-width and background to the fixed element */
+            left: 50%; 
+            transform: translateX(-50%); 
             max-width: 900px; 
             width: 100%; 
-            
-            background-color: white; /* Ensures content doesn't show through */
-            z-index: 10; /* Ensures it stays on top */
-
-            display: flex; /* Enables flex layout */
-            justify-content: space-between; /* Pushes logo and nav to opposite ends */
-            align-items: center; /* Vertically centers items */
-            
+            background-color: white; 
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px 20px; 
-            border-bottom: 1px solid #eee;
+            border-bottom: 3px solid var(--color-secondary-pink); /* Accent border */
         }
         
-        /* Link wrapper for the logo */
         header a:first-child {
             padding: 0;
         }
 
-        header img { /* Logo Styling - DOUBLED SIZE */
+        header img {
             height: 60px; 
             vertical-align: middle;
         }
@@ -82,47 +90,46 @@
             font-weight: 700;
         }
         
-        /* Specific styling for the last link (Download App) to make it look like a button */
+        /* UPDATED: Download App Button uses Primary Red */
         header nav a:last-child {
-            background-color: #f5444e; /* Button color */
-            color: white; /* White text */
-            padding: 8px 15px; /* Larger padding for button shape */
-            border-radius: 12px; 
+            background-color: var(--color-primary-red);
+            color: white;
+            padding: 8px 15px; 
+            border-radius: 12px;
+            box-shadow: 0 4px 0 var(--color-dark); /* Fun, blocky shadow */
+            transition: all 0.1s ease;
+        }
+        header nav a:last-child:hover {
+            box-shadow: 0 2px 0 var(--color-dark);
+            transform: translateY(2px);
         }
 
-        /* --- Hero Section Styles (Main Content) --- */
+        /* --- Hero Section Styles --- */
         #hero-section {
-            /* Placeholder background color: #F8EBE6 */
-            background-color: #ffc7ed; 
-            color: #333; /* Text color set to dark grey for contrast */
+            background-color: var(--color-secondary-pink); /* Hero Background using Secondary Pink */
+            color: var(--color-dark);
             padding: 50px 20px;
-            
-            /* Center and set max width */
             max-width: 900px;
             margin: 20px auto 40px auto; 
-
-            /* Flex layout for columns */
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 40px;
             border-radius: 16px;
             overflow: hidden; 
+            border: 3px solid var(--color-primary-red);
         }
 
-        /* Reset h1/h2 color inside hero to dark grey */
-        #hero-section h1, #hero-section h2 {
-            color: #333;
-            margin-top: 0; 
+        #hero-section h1 {
+            font-size: 2.5em;
+            line-height: 1.1;
         }
 
-        /* Hero Text Column (Left Justified) */
         #hero-text {
             flex: 1; 
             max-width: 60%; 
         }
 
-        /* Hero Image Column (Right Justified) */
         #hero-image {
             flex-shrink: 0;
             max-width: 300px; 
@@ -135,23 +142,36 @@
             display: block;
         }
 
-        /* --- Main Content Button Styling (Request Early Access) --- */
+        /* UPDATED: Main CTA Button uses Primary Red */
         #hero-text p a {
-            background-color: #f5444e; 
+            background-color: var(--color-primary-red);
             color: white;
             font-weight: 700;
             padding: 12px 25px; 
             border-radius: 12px;
             display: inline-block; 
             margin-top: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 6px 0 var(--color-accent-blue); /* Fun, contrasting shadow */
+        }
+        #hero-text p a:hover {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 var(--color-accent-blue);
         }
 
-        /* --- Features Section Styles (Below Hero) */
+        /* --- Features Section Styles --- */
         #features-section {
             padding: 20px 0 60px 0;
             text-align: center;
         }
         
+        /* UPDATED: Feature Heading uses Primary Red */
+        #features-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: var(--color-primary-red);
+        }
+
         #card-container {
             display: flex;
             justify-content: space-between;
@@ -161,28 +181,67 @@
         
         .feature-card {
             flex: 1;
-            background-color: #ffc7ed;
+            background-color: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Stronger shadow */
             text-align: center;
+            min-height: 250px; 
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
+            border: 1px solid #eee;
         }
 
         .feature-card img {
             width: 100%;
-            height: 120px; /* Increased height */
+            height: 120px;
             object-fit: contain;
             margin-bottom: 15px;
             border-radius: 8px;
+            /* Placeholder styling to visually integrate the new colors */
+            background-color: var(--color-soft-bg); 
+            border: 2px dashed var(--color-primary-red);
         }
 
         .feature-card p {
             font-size: 0.95em;
             font-weight: 500;
+            min-height: 50px;
+        }
 
+        /* --- Scoreboard Section --- */
+        #scoreboard-section {
+            padding: 60px 20px;
+            background-color: var(--color-soft-bg); /* Use the soft pink background */
+            border-radius: 16px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* UPDATED: Scoreboard Heading uses Accent Blue */
+        #scoreboard-section h2 {
+            color: var(--color-accent-blue);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 0 var(--color-dark);
+        }
+
+        .pattern-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+            text-align: left;
+            padding: 0 40px;
+        }
+        .pattern-list div {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            /* UPDATED: Left border uses Primary Red */
+            border-left: 5px solid var(--color-primary-red);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
         /* --- CTA Section Styles --- */
@@ -190,15 +249,17 @@
             text-align: center;
             padding: 60px 20px;
             margin-bottom: 40px;
-            background-color: white; /* White background for separation */
+            background-color: white;
             border-radius: 16px;
             margin-top: 40px;
+            border: 1px solid #eee;
         }
 
+        /* UPDATED: Final CTA Heading uses Primary Red */
         #cta-section h2 {
-            font-size: 3em; /* Very large text */
+            font-size: 3em;
             margin-bottom: 10px;
-            color: #f5444e; /* Betsie primary color for high impact */
+            color: var(--color-primary-red);
         }
 
         #cta-section p {
@@ -207,12 +268,12 @@
         }
         
         #app-store-button {
-            padding: 0; /* Remove default link padding for the badge */
+            padding: 0;
             display: inline-block;
         }
         
         #app-store-button img {
-            height: 50px; /* Size the badge appropriately */
+            height: 50px;
             width: auto;
             vertical-align: middle;
         }
@@ -233,10 +294,14 @@
                 margin-top: 30px;
             }
             #card-container {
-                flex-direction: column; /* Stack cards vertically on mobile */
+                flex-direction: column;
+            }
+            #scoreboard-section .pattern-list {
+                grid-template-columns: 1fr;
+                padding: 0;
             }
             #cta-section h2 {
-                font-size: 2.5em; /* Slightly smaller on mobile */
+                font-size: 2.5em;
             }
         }
         
@@ -244,7 +309,7 @@
         footer {
             max-width: 900px;
             margin: 0 auto;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--color-secondary-pink);
             padding: 30px 20px;
             text-align: center;
         }
@@ -257,73 +322,104 @@
 </head>
 <body>
 
-    <!-- Top Menu Bar (Fixed Header) --><header>
-        <!-- Updated: Logo wrapped in anchor tag pointing to index.html -->
+    <!-- Top Menu Bar (Fixed Header) -->
+    <header>
         <a href="index.html">
-            <img src="images/logo_betsie_red.png" alt="Betsie Logo">
+            <!-- Using placeholder image names; imagine these match the new red/pink branding -->
+            <img src="https://placehold.co/150x60/f5444e/ffffff?text=Betsie+Logo" alt="Betsie Logo">
         </a>
         
         <nav>
-            <a href="#">Features</a>
-            <a href="#">Support</a>
+            <a href="#scoreboard-section">Patterns</a>
+            <a href="about_us.html">About</a>
             <a href="#">Download App</a> 
         </nav>
     </header>
 
 
-    <!-- Main Content Area - HERO SECTION with two columns --><div id="hero-section">
+    <!-- Main Content Area - HERO SECTION -->
+    <div id="hero-section" class="content-container">
         
-        <!-- Left Column: Text Content --><div id="hero-text">
-            <h1><strong>Make a game out of being right</strong></h1>
+        <!-- Left Column: Text Content -->
+        <div id="hero-text">
+            <h1>The Social App That Turns Your Predictions Into Bragging Rights (With Receipts.)</h1>
             
-            <p>Track bets with friends – Everything from the petty to the profound is fair game. Set the stakes, and keep score of who comes out on top.</p>
+            <p>Let’s be honest: you already predict everything. You call the breakups before the couple does. You spot the office meltdown brewing weeks in advance.</p>
 
-            <!-- Call to Action Link - STYLED AS A BUTTON --><p>
-                <a href="#">Request Early Access</a>
+            <p>But until now, all that glorious, psychic-level insight and intuition has gone unrecorded. Uncelebrated. <strong>Unweaponized.</strong></p>
+
+            <!-- Call to Action Link - STYLED AS A BUTTON -->
+            <p>
+                <a href="#">Download Betsie Now</a>
             </p>
         </div>
 
-        <!-- Right Column: Image Placeholder --><div id="hero-image">
-            <!-- App screenshot image --><img src="images/hero-image.png" alt="Betsie App Screenshot on Phone">
+        <!-- Right Column: Image Placeholder -->
+        <div id="hero-image">
+             <img src="https://placehold.co/300x400/002cfc/ffffff?text=Betsie+App+Screens" alt="Betsie App Screenshot on Phone">
         </div>
 
     </div>
-    
-        <!-- FEATURES SECTION: Four Boxes in a Row --><div id="features-section" class="content-container">
-        <h2>Bet on Anything, Like...</h2>
+
+    <!-- FEATURES SECTION: Four Boxes in a Row - Focused on Specific, Hilarious Scenarios -->
+    <div id="features-section" class="content-container">
+        <h2>Make Bets on the Delicious Chaos of Everyday Life:</h2>
 
         <div id="card-container">
-            <!-- Card 1: Taylor Swift (Excitement/Pop Culture) --><div class="feature-card">
-                <img src="images/usecase-001.png" alt="Mic and Concert Icon">
-                <p>Which surprise song Taylor will sing tonight?</p>
+            <!-- Card 1: Social Life Drama -->
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Breakup+Era" alt="Friend Group Chat Icon">
+                <p>Which cousin is about to enter their <strong>“mysterious breakup era”</strong></p>
             </div>
 
-            <!-- Card 2: Skinny Jeans (Fashion/Trend Prediction) --><div class="feature-card">
-                <img src="images/usecase-002.png" alt="Jeans and Fashion Icon">
-                <p>Will skinny jeans make a comeback?</p>
+            <!-- Card 2: Petty Roommate/Situationship -->
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Combusts" alt="Roommate and Arguments Icon">
+                <p>How long before your roommate’s situationship <strong>combusts</strong></p>
             </div>
 
-            <!-- Card 3: Synergy (Work/Frustration/Prediction) --><div class="feature-card">
-                <img src="images/usecase-003.png" alt="Meeting and Synergy Icon">
-                <p>How many times will “synergy” be said in your next meeting?</p>
+            <!-- Card 3: Family/Shopping -->
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Shopping+Chaos" alt="Shopping Cart Icon">
+                <p>Whether mom will actually “just browse” or <strong>buy something she doesn't need</strong></p>
             </div>
 
-            <!-- Card 4: Bad Boss (Hope/Relief/Prediction) --><div class="feature-card">
-                <img src="images/usecase-004.png" alt="Boss and Fired Icon">
-                <p>When will your bad boss finally get fired?</p>
+            <!-- Card 4: Micro-moments/Lateness -->
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Late+Again" alt="Clock and Late Icon">
+                <p>Which friend will be <strong>late again</strong> despite insisting they are “already on the way”</p>
             </div>
         </div>
     </div>
     
-    <!-- FINAL CALL-TO-ACTION SECTION --><div id="cta-section" class="content-container">
-        <h2><strong>Ready to Be Right?</strong></h2>
-        <p>Download Betsie&trade; now to start challenging your besties for <strong>free</strong>.</p>
+    <!-- SCOREBOARD SECTION: Exposing Patterns -->
+    <div id="scoreboard-section" class="content-container">
+        <h2>Betsie Doesn't Just Track Wins. She Exposes Patterns.</h2>
+        <p>No more **“I swear I said that!”** No more **“That’s not what I remember.”** Betsie logs it permanently and gives you the official, indisputable scoreboard, revealing:</p>
+        
+        <div class="pattern-list">
+            <div>Who is secretly a genius</div>
+            <div>Who is consistently unhinged</div>
+            <div>Who is always slightly too optimistic</div>
+            <div>Who never sees the obvious train wreck coming</div>
+            <div>Who should be forbidden from making predictions ever again</div>
+            <div>Who in your circle is a true visionary</div>
+        </div>
+    </div>
+
+    <!-- FINAL CALL-TO-ACTION SECTION -->
+    <div id="cta-section" class="content-container">
+        <!-- Punchy closing line -->
+        <h2>Because Being Right Is Fun... But Being Right With Receipts? Chef’s Kiss.</h2>
+        <p>Go on. Call the chaos. Catalog the disasters. Log every victory. Get Betsie&trade; now.</p>
         <a href="#" id="app-store-button">
-            <!-- App Store badge --><img src="images/download_apple_ios.png" alt="Download on the Apple App Store">
+            <!-- Updated placeholder badge color to fit the new palette -->
+            <img src="https://placehold.co/180x50/f5444e/ffffff?text=Download+on+App+Store" alt="Download on the Apple App Store">
         </a>
     </div>
 
-    <!-- Footer Links --><footer>
+    <!-- Footer Links -->
+    <footer>
         <h3>Site Links</h3>
         
         <a href="about_us.html">About Us</a>
@@ -331,7 +427,8 @@
         <a href="terms_of_service.html">Terms of Service</a>
         <a href="community_guidelines.html">Community Guidelines</a>
 
-        <!-- Copyright Text --><p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
+        <!-- Copyright Text -->
+        <p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
             Betsie is a Trademark of Squeaky Cheese, LLC - Site &copy; 2025 Squeaky Cheese, LLC
         </p>
     </footer>
