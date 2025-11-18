@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Betsie - Social Predictions</title>
-    <!-- Import Montserrat Font --><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- NEW: Import Shadows Into Light Font for <strong> tag --><link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     
-    <!-- Inline CSS using element selectors and IDs --><style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    
+    <style>
         /* Define the new color palette for easy access in CSS */
         :root {
             --color-primary-red: #f5444e; /* Primary CTA Color, Bold Text Color */
@@ -33,7 +35,7 @@
             color: var(--color-dark); 
         }
 
-        /* UPDATED: Style for <strong> tag now uses Primary Red */
+        /* Style for <strong> tag now uses Primary Red */
         strong {
             font-family: 'Shadows Into Light', cursive;
             font-weight: 400;
@@ -116,7 +118,7 @@
             gap: 40px;
             border-radius: 16px;
             overflow: hidden; 
-            /* UPDATED: Border now uses Accent Yellow */
+            /* Border now uses Accent Yellow */
             border: 3px solid var(--color-accent-yellow);
         }
 
@@ -202,7 +204,7 @@
             border-radius: 8px;
             /* Placeholder styling to visually integrate the new colors */
             background-color: var(--color-soft-bg); 
-            /* UPDATED: Placeholder border uses Accent Yellow */
+            /* Placeholder border uses Accent Yellow */
             border: 2px dashed var(--color-accent-yellow);
         }
 
@@ -241,7 +243,7 @@
             padding: 15px;
             border-radius: 8px;
             font-weight: 600;
-            /* UPDATED: Left border now uses Accent Yellow */
+            /* Left border now uses Accent Yellow */
             border-left: 5px solid var(--color-accent-yellow);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
@@ -274,7 +276,7 @@
             display: inline-block;
         }
         
-        /* UPDATED: Set height for the actual button image */
+        /* Set height for the actual button image */
         #app-store-button img {
             height: 50px; 
             width: auto;
@@ -284,6 +286,13 @@
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
+            
+            /* Hide 'About' and 'Support' links for narrow screens */
+            header nav a:nth-child(1),
+            header nav a:nth-child(2) {
+                display: none; 
+            }
+
             #hero-section {
                 flex-direction: column; 
                 text-align: center;
@@ -325,95 +334,126 @@
 </head>
 <body>
 
-    <!-- Top Menu Bar (Fixed Header) --><header>
+    <!-- Header / Fixed Top Menu Bar -->
+    <header>
         <a href="index.html">
-            <!-- Logo path set to images/logo_betsie_red.png --><img src="images/logo_betsie_red.png" alt="Betsie Logo">
+            <!-- Bestie Logo -->
+            <img src="images/logo_betsie_red.png" alt="Betsie Logo">
         </a>
         
-        <!-- UPDATED NAVIGATION --><nav>
+        <nav>
+            <!-- These two links hide on mobile (CSS @media query) -->
             <a href="about_us.html">About</a>
             <a href="support.html">Support</a> 
-            <a href="#">Download App</a> <!-- Remains the button --></nav>
+            <!-- Download link remains visible -->
+            <a href="#">Download App</a> 
+        </nav>
     </header>
 
 
-    <!-- Main Content Area - HERO SECTION --><div id="hero-section" class="content-container">
+    <!-- 1. Hero Section -->
+    <div id="hero-section" class="content-container">
         
-        <!-- Left Column: Text Content --><div id="hero-text">
-            <h1>The Social App That Turns Your Predictions Into Bragging Rights (With Receipts.)</h1>
+        <div id="hero-text">
+            <!-- UPDATED H1: More energetic and focused on "main character" vibe -->
+            <h1>Call The Chaos.<br />Get The Receipts.<br /><strong>Claim Your Main Character Glory.</strong></h1>
             
-            <p>Let’s be honest: you already predict everything. You call the breakups before the couple does. You spot the office meltdown brewing weeks in advance.</p>
+            <!-- UPDATED COPY: Focusing on the chat dynamic and higher social stakes -->
+            <p>The group chat is basically a crystal ball, but who keeps score?</p>
+            <p>Betsie is where you turn those "I told you so!" moments into <u>permanent, indisputable receipts</u>.</p>
+            <p>Track your predictive genius on a <u>real-time scoreboard</u> against your whole circle.</p>
+            <p>If you have the superior insight, <u>you deserve the glory</u>.</p>
 
-            <p>But until now, all that glorious, psychic-level insight and intuition has gone unrecorded. Uncelebrated. <strong>Unweaponized.</strong></p>
+            <p>Loser buys the espresso martini? Winner decides the group vacation spot?</p>
+            <p>It's time to settle the score with zero chill.</p>
 
-            <!-- Call to Action Link - STYLED AS A BUTTON --><p>
+            <p>
                 <a href="#">Download Betsie Now</a>
             </p>
         </div>
 
-        <!-- Right Column: Image Placeholder --><div id="hero-image">
-             <!-- UPDATED: Using the specified image path for the hero screenshot --><img src="images/hero-image.png" alt="Betsie App Screenshot on Phone">
+        <div id="hero-image">
+             <!-- Placeholder for a compelling app screenshot -->
+            <img src="images/hero-image.png" alt="Betsie App Screenshot on Phone">
         </div>
 
     </div>
 
-    <!-- FEATURES SECTION: Four Boxes in a Row - Focused on Specific, Hilarious Scenarios --><div id="features-section" class="content-container">
+    <!-- 2. Features Section -->
+    <div id="features-section" class="content-container">
         <h2>Make Bets on the Delicious Chaos of Everyday Life:</h2>
 
         <div id="card-container">
-            <!-- Card 1: Social Life Drama --><div class="feature-card">
-                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Breakup+Era" alt="Friend Group Chat Icon">
-                <p>Which cousin is about to enter their <strong>“mysterious breakup era”</strong></p>
+            
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Breakup+Arc+Energy" alt="Friend Group Chat Icon">
+                <!-- UPDATED CARD COPY: Relatable friend drama -->
+                <p>Which friend is giving off major <u>breakup arc energy</u> (and when it’s going down)</p>
             </div>
 
-            <!-- Card 2: Petty Roommate/Situationship --><div class="feature-card">
-                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Combusts" alt="Roommate and Arguments Icon">
-                <p>How long before your roommate’s situationship <strong>combusts</strong></p>
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Reality+TV+Finale" alt="Reality TV Icon">
+                <!-- UPDATED CARD COPY: Pop culture/reality TV bet -->
+                <p>If the latest <u>reality TV couple</u> will make it past the reunion special</p>
             </div>
 
-            <!-- Card 3: Family/Shopping --><div class="feature-card">
-                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Shopping+Chaos" alt="Shopping Cart Icon">
-                <p>Whether mom will actually “just browse” or <strong>buy something she doesn't need</strong></p>
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Soft+Launch+Drama" alt="Social Media Icon">
+                <!-- UPDATED CARD COPY: Social media tracking/gossip -->
+                <p>When your friend will <u>soft-launch</u> their new thing (and then immediately delete it)</p>
             </div>
 
-            <!-- Card 4: Micro-moments/Lateness --><div class="feature-card">
-                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Late+Again" alt="Clock and Late Icon">
-                <p>Which friend will be <strong>late again</strong> despite insisting they are “already on the way”</p>
+            <div class="feature-card">
+                <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Spicy+New+Diet" alt="Diet and Fitness Icon">
+                <!-- UPDATED CARD COPY: High-chaos friend prediction -->
+                <p>How long before your most chaotic friend tries a <u>spicy new diet</u> and gives up immediately</p>
             </div>
         </div>
     </div>
     
-    <!-- SCOREBOARD SECTION: Exposing Patterns --><div id="scoreboard-section" class="content-container">
-        <h2>Betsie Doesn't Just Track Wins. She Exposes Patterns.</h2>
-        <p>No more **“I swear I said that!”** No more **“That’s not what I remember.”** Betsie logs it permanently and gives you the official, indisputable scoreboard, revealing:</p>
+    <!-- 3. Scoreboard Section -->
+    <div id="scoreboard-section" class="content-container">
+        <!-- UPDATED HEADING: Focus on predictive power -->
+        <h2>The Official Scoreboard:<br />Your Predictive Power Gets A Permanent Record.</h2>
+        
+        <!-- UPDATED PARAGRAPH: References "main character energy" -->
+        <p>No more “Ugh, I totally called that first!” Betsie logs it permanently and gives you the official, 
+            indisputable scoreboard, revealing who has the best <u>main character energy</u> by tracking:</p>
         
         <div class="pattern-list">
-            <div>Who is secretly a genius</div>
-            <div>Who is consistently unhinged</div>
+            <!-- UPDATED LIST ITEMS: Punchier language -->
+            <div>Who is secretly a certified genius</div>
+            <div>Who is consistently unhinged (but always right)</div>
             <div>Who is always slightly too optimistic</div>
             <div>Who never sees the obvious train wreck coming</div>
-            <div>Who should be forbidden from making predictions ever again</div>
-            <div>Who in your circle is a true visionary</div>
+            <div>Who should be forbidden from making predictions (for everyone's sake)</div>
+            <div>Who in your circle is the *true* visionary</div>
         </div>
     </div>
 
-    <!-- FINAL CALL-TO-ACTION SECTION --><div id="cta-section" class="content-container">
-        <!-- Punchy closing line --><h2>Because Being Right Is Fun... But Being Right With Receipts? Chef’s Kiss.</h2>
-        <p>Go on. Call the chaos. Catalog the disasters. Log every victory. Get Betsie&trade; now.</p>
+    <!-- 4. Final CTA Section -->
+    <div id="cta-section" class="content-container">
+        
+        <!-- UPDATED H2: More sassy and analytical -->
+        <h2>It's Not Just Gossiping.<br />It's Strategic, Receipt-Backed Analysis.</h2>
+        <p>Stop talking about it, be about it. Call the chaos. Catalog the disasters.<br />Log every victory. Get Betsie&trade; now.</p>
         <a href="#" id="app-store-button">
-            <!-- UPDATED: Using the specified image path for the app store badge --><img src="images/download_apple_ios.png" alt="Download on the Apple App Store">
+            <!-- Placeholder for App Store Download button -->
+            <img src="images/download_apple_ios.png" alt="Download on the Apple App Store">
         </a>
     </div>
 
-    <!-- Footer Links --><footer>
+    <!-- Footer -->
+    <footer>
         <h3>Site Links</h3>
         
         <a href="about_us.html">About Us</a>
         <a href="privacy_policy.html">Privacy Policy</a>
         <a href="terms_of_service.html">Terms of Service</a>
         <a href="community_guidelines.html">Community Guidelines</a>
+        <a href="support.html">Support</a> 
 
-        <!-- Copyright Text --><p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
             Betsie is a Trademark of Squeaky Cheese, LLC - Site &copy; 2025 Squeaky Cheese, LLC
         </p>
     </footer>
