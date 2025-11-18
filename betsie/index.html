@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Betsie - Social Predictions</title>
-    <!-- Import Montserrat Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- NEW: Import Shadows Into Light Font for <strong> tag -->
-    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <!-- Import Montserrat Font --><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- NEW: Import Shadows Into Light Font for <strong> tag --><link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     
-    <!-- Inline CSS using element selectors and IDs -->
-    <style>
+    <!-- Inline CSS using element selectors and IDs --><style>
         /* Define the new color palette for easy access in CSS */
         :root {
-            --color-primary-red: #f5444e; /* New Primary CTA Color */
+            --color-primary-red: #f5444e; /* Primary CTA Color, Bold Text Color */
             --color-secondary-pink: #ffc7ed; /* Light Background Accent */
             --color-accent-blue: #002cfc; /* Scoreboard/Pattern Accent */
-            --color-accent-yellow: #f7dd24; /* Strong Text Emphasis */
+            --color-accent-yellow: #f7dd24; /* Strong Border/Stroke Color */
             --color-dark: #333;
             --color-light-bg: #fff8fc; /* Very light tint of secondary pink for body */
             --color-soft-bg: #f9e3f4; /* Slightly deeper tint of secondary pink for section backgrounds */
@@ -36,12 +33,12 @@
             color: var(--color-dark); 
         }
 
-        /* UPDATED: Style for <strong> tag using the Accent Yellow */
+        /* UPDATED: Style for <strong> tag now uses Primary Red */
         strong {
             font-family: 'Shadows Into Light', cursive;
             font-weight: 400;
             font-size: 1.1em;
-            color: var(--color-accent-yellow); /* HIGHLIGHTED with Yellow */
+            color: var(--color-primary-red); /* HIGHLIGHTED with Primary Red */
             text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
         }
         
@@ -52,7 +49,7 @@
             padding: 0 20px;
         }
 
-        /* UPDATED: General Link Styling with Primary Red */
+        /* General Link Styling with Primary Red */
         a {
             color: var(--color-primary-red);
             text-decoration: none;
@@ -73,15 +70,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px; 
-            border-bottom: 3px solid var(--color-secondary-pink); /* Accent border */
+            border-bottom: 3px solid var(--color-secondary-pink); /* Accent border remains pink */
         }
         
         header a:first-child {
             padding: 0;
         }
 
+        /* Logo image styling */
         header img {
-            height: 60px; 
+            height: 60px; /* Enforce height as it was in the placeholder */
+            width: auto;
             vertical-align: middle;
         }
 
@@ -90,7 +89,7 @@
             font-weight: 700;
         }
         
-        /* UPDATED: Download App Button uses Primary Red */
+        /* Download App Button uses Primary Red (It is the last link in the nav) */
         header nav a:last-child {
             background-color: var(--color-primary-red);
             color: white;
@@ -117,7 +116,8 @@
             gap: 40px;
             border-radius: 16px;
             overflow: hidden; 
-            border: 3px solid var(--color-primary-red);
+            /* UPDATED: Border now uses Accent Yellow */
+            border: 3px solid var(--color-accent-yellow);
         }
 
         #hero-section h1 {
@@ -136,13 +136,14 @@
             text-align: right;
         }
         
+        /* Ensure the actual image fits within its container */
         #hero-image img {
             max-width: 100%; 
             height: auto;
             display: block;
         }
 
-        /* UPDATED: Main CTA Button uses Primary Red */
+        /* Main CTA Button uses Primary Red */
         #hero-text p a {
             background-color: var(--color-primary-red);
             color: white;
@@ -165,7 +166,7 @@
             text-align: center;
         }
         
-        /* UPDATED: Feature Heading uses Primary Red */
+        /* Feature Heading uses Primary Red */
         #features-section h2 {
             font-size: 1.8em;
             margin-bottom: 30px;
@@ -201,7 +202,8 @@
             border-radius: 8px;
             /* Placeholder styling to visually integrate the new colors */
             background-color: var(--color-soft-bg); 
-            border: 2px dashed var(--color-primary-red);
+            /* UPDATED: Placeholder border uses Accent Yellow */
+            border: 2px dashed var(--color-accent-yellow);
         }
 
         .feature-card p {
@@ -219,7 +221,7 @@
             text-align: center;
         }
 
-        /* UPDATED: Scoreboard Heading uses Accent Blue */
+        /* Scoreboard Heading uses Accent Blue */
         #scoreboard-section h2 {
             color: var(--color-accent-blue);
             margin-bottom: 10px;
@@ -239,8 +241,8 @@
             padding: 15px;
             border-radius: 8px;
             font-weight: 600;
-            /* UPDATED: Left border uses Primary Red */
-            border-left: 5px solid var(--color-primary-red);
+            /* UPDATED: Left border now uses Accent Yellow */
+            border-left: 5px solid var(--color-accent-yellow);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
@@ -255,7 +257,7 @@
             border: 1px solid #eee;
         }
 
-        /* UPDATED: Final CTA Heading uses Primary Red */
+        /* Final CTA Heading uses Primary Red */
         #cta-section h2 {
             font-size: 3em;
             margin-bottom: 10px;
@@ -272,8 +274,9 @@
             display: inline-block;
         }
         
+        /* UPDATED: Set height for the actual button image */
         #app-store-button img {
-            height: 50px;
+            height: 50px; 
             width: auto;
             vertical-align: middle;
         }
@@ -322,78 +325,65 @@
 </head>
 <body>
 
-    <!-- Top Menu Bar (Fixed Header) -->
-    <header>
+    <!-- Top Menu Bar (Fixed Header) --><header>
         <a href="index.html">
-            <!-- Using placeholder image names; imagine these match the new red/pink branding -->
-            <img src="https://placehold.co/150x60/f5444e/ffffff?text=Betsie+Logo" alt="Betsie Logo">
+            <!-- Logo path set to images/logo_betsie_red.png --><img src="images/logo_betsie_red.png" alt="Betsie Logo">
         </a>
         
-        <nav>
-            <a href="#scoreboard-section">Patterns</a>
+        <!-- UPDATED NAVIGATION --><nav>
             <a href="about_us.html">About</a>
-            <a href="#">Download App</a> 
-        </nav>
+            <a href="support.html">Support</a> 
+            <a href="#">Download App</a> <!-- Remains the button --></nav>
     </header>
 
 
-    <!-- Main Content Area - HERO SECTION -->
-    <div id="hero-section" class="content-container">
+    <!-- Main Content Area - HERO SECTION --><div id="hero-section" class="content-container">
         
-        <!-- Left Column: Text Content -->
-        <div id="hero-text">
+        <!-- Left Column: Text Content --><div id="hero-text">
             <h1>The Social App That Turns Your Predictions Into Bragging Rights (With Receipts.)</h1>
             
             <p>Let’s be honest: you already predict everything. You call the breakups before the couple does. You spot the office meltdown brewing weeks in advance.</p>
 
             <p>But until now, all that glorious, psychic-level insight and intuition has gone unrecorded. Uncelebrated. <strong>Unweaponized.</strong></p>
 
-            <!-- Call to Action Link - STYLED AS A BUTTON -->
-            <p>
+            <!-- Call to Action Link - STYLED AS A BUTTON --><p>
                 <a href="#">Download Betsie Now</a>
             </p>
         </div>
 
-        <!-- Right Column: Image Placeholder -->
-        <div id="hero-image">
-             <img src="https://placehold.co/300x400/002cfc/ffffff?text=Betsie+App+Screens" alt="Betsie App Screenshot on Phone">
+        <!-- Right Column: Image Placeholder --><div id="hero-image">
+             <!-- UPDATED: Using the specified image path for the hero screenshot --><img src="images/hero-image.png" alt="Betsie App Screenshot on Phone">
         </div>
 
     </div>
 
-    <!-- FEATURES SECTION: Four Boxes in a Row - Focused on Specific, Hilarious Scenarios -->
-    <div id="features-section" class="content-container">
+    <!-- FEATURES SECTION: Four Boxes in a Row - Focused on Specific, Hilarious Scenarios --><div id="features-section" class="content-container">
         <h2>Make Bets on the Delicious Chaos of Everyday Life:</h2>
 
         <div id="card-container">
-            <!-- Card 1: Social Life Drama -->
-            <div class="feature-card">
+            <!-- Card 1: Social Life Drama --><div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Breakup+Era" alt="Friend Group Chat Icon">
                 <p>Which cousin is about to enter their <strong>“mysterious breakup era”</strong></p>
             </div>
 
-            <!-- Card 2: Petty Roommate/Situationship -->
-            <div class="feature-card">
+            <!-- Card 2: Petty Roommate/Situationship --><div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Combusts" alt="Roommate and Arguments Icon">
                 <p>How long before your roommate’s situationship <strong>combusts</strong></p>
             </div>
 
-            <!-- Card 3: Family/Shopping -->
-            <div class="feature-card">
+            <!-- Card 3: Family/Shopping --><div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Shopping+Chaos" alt="Shopping Cart Icon">
                 <p>Whether mom will actually “just browse” or <strong>buy something she doesn't need</strong></p>
             </div>
 
-            <!-- Card 4: Micro-moments/Lateness -->
-            <div class="feature-card">
+            <!-- Card 4: Micro-moments/Lateness --><div class="feature-card">
                 <img src="https://placehold.co/300x120/ffc7ed/f5444e?text=Late+Again" alt="Clock and Late Icon">
                 <p>Which friend will be <strong>late again</strong> despite insisting they are “already on the way”</p>
             </div>
         </div>
     </div>
     
-    <!-- SCOREBOARD SECTION: Exposing Patterns -->
-    <div id="scoreboard-section" class="content-container">
+    <!-- SCOREBOARD SECTION: Exposing Patterns --><div id="scoreboard-section" class="content-container">
         <h2>Betsie Doesn't Just Track Wins. She Exposes Patterns.</h2>
         <p>No more **“I swear I said that!”** No more **“That’s not what I remember.”** Betsie logs it permanently and gives you the official, indisputable scoreboard, revealing:</p>
         
@@ -407,19 +397,15 @@
         </div>
     </div>
 
-    <!-- FINAL CALL-TO-ACTION SECTION -->
-    <div id="cta-section" class="content-container">
-        <!-- Punchy closing line -->
-        <h2>Because Being Right Is Fun... But Being Right With Receipts? Chef’s Kiss.</h2>
+    <!-- FINAL CALL-TO-ACTION SECTION --><div id="cta-section" class="content-container">
+        <!-- Punchy closing line --><h2>Because Being Right Is Fun... But Being Right With Receipts? Chef’s Kiss.</h2>
         <p>Go on. Call the chaos. Catalog the disasters. Log every victory. Get Betsie&trade; now.</p>
         <a href="#" id="app-store-button">
-            <!-- Updated placeholder badge color to fit the new palette -->
-            <img src="https://placehold.co/180x50/f5444e/ffffff?text=Download+on+App+Store" alt="Download on the Apple App Store">
+            <!-- UPDATED: Using the specified image path for the app store badge --><img src="images/download_apple_ios.png" alt="Download on the Apple App Store">
         </a>
     </div>
 
-    <!-- Footer Links -->
-    <footer>
+    <!-- Footer Links --><footer>
         <h3>Site Links</h3>
         
         <a href="about_us.html">About Us</a>
@@ -427,8 +413,7 @@
         <a href="terms_of_service.html">Terms of Service</a>
         <a href="community_guidelines.html">Community Guidelines</a>
 
-        <!-- Copyright Text -->
-        <p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
+        <!-- Copyright Text --><p style="font-size: 0.8em; color: #666; margin-top: 20px; padding-top: 10px;">
             Betsie is a Trademark of Squeaky Cheese, LLC - Site &copy; 2025 Squeaky Cheese, LLC
         </p>
     </footer>
