@@ -30,7 +30,8 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 60px 20px 40px 20px; 
+            /* INCREASED TOP PADDING: Ensures the profile image (pulled up 90px) is not cut off. */
+            padding: 100px 20px 40px 20px; 
         }
 
         /* --- Image Overlap Section --- */
@@ -55,7 +56,8 @@
 
         .profile-img {
             position: absolute;
-            top: -60px; 
+            /* Profile image is pulled up 90px to reduce overlap */
+            top: -90px; 
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -71,7 +73,8 @@
             text-align: center;
             width: 100%;
             max-width: 680px;
-            margin-top: -48px; 
+            /* Adjust margin-top to align text visually below the header image */
+            margin-top: -40px; 
             margin-bottom: 32px; 
             position: relative;
             z-index: 3;
@@ -241,7 +244,7 @@
             <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
                 Co-Creator: DIY Wedding Dance
             </a>
-            <p class="link-description">If you want to have a great wedding dance on-line</p>
+            <p class="link-description">If you want to build a great wedding dance on-line</p>
         </div>
     </div>
 
@@ -254,40 +257,30 @@
             const linkItems = document.querySelectorAll('.link-item');
 
             linkItems.forEach(item => {
-                const linkButton = item.querySelector('.link-btn');
-                
-                // Add click listener for mobile/touch devices
                 item.addEventListener('click', (event) => {
                     const isActive = item.classList.contains('active');
 
-                    // If the item is already active, allow the link to follow through
                     if (isActive) {
-                        return; // Let the browser handle the navigation in the link-btn
+                        return;
                     }
 
-                    // Prevent default action (navigation)
                     event.preventDefault();
                     
-                    // First, remove the 'active' class from all other link items
                     linkItems.forEach(i => {
                         if (i !== item) {
                             i.classList.remove('active');
                         }
                     });
 
-                    // Toggle the 'active' class on the clicked item
                     item.classList.toggle('active');
                 });
             });
             
-            // Optional: Hide description if user clicks anywhere else on the page
             document.addEventListener('click', (event) => {
                 let isLinkItemClick = false;
-                event.path.forEach(el => {
-                    if (el.classList && el.classList.contains('link-item')) {
-                        isLinkItemClick = true;
-                    }
-                });
+                if (event.target.closest('.link-item')) {
+                    isLinkItemClick = true;
+                }
 
                 if (!isLinkItemClick) {
                     linkItems.forEach(item => {
