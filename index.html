@@ -1,101 +1,302 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url='https://linktr.ee/porfitron'" />
-    <title>What's a Porfir.io?</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porfirio Jose Landeros | Product Marketing Executive</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  ga('create', 'UA-99747601-1', 'auto');
-  ga('send', 'pageview');
-
+      gtag('config', 'G-YN76XZSY41');
     </script>
+    
     <style>
-    body 
-    { 
-    font: 62.5%/1.5  "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif; 
-    background: url(/images/wallpaper.png) repeat; 
-    color: #000000;     
-    text-align:center;
-    } 
+        /* Global Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    #wrapper 
-    {  
-    width:980px;  
-    text-align:left;   
-    margin-left:auto;  
-    margin-right:auto;  
-    background-color: #FFFFFF; 
-    }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #252525;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 60px 20px 40px 20px; 
+        }
+
+        /* --- Image Overlap Section --- */
+
+        .visual-stack {
+            width: 100%;
+            max-width: 680px;
+            position: relative;
+            margin-bottom: 40px; 
+            display: flex;
+            justify-content: center;
+            padding-bottom: 16px; 
+        }
+
+        .header-img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            object-fit: cover;
+            z-index: 1; 
+        }
+
+        .profile-img {
+            position: absolute;
+            top: -60px; 
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            z-index: 2; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* --- Text Info Section --- */
+
+        .profile-text-info {
+            text-align: center;
+            width: 100%;
+            max-width: 680px;
+            margin-top: -48px; 
+            margin-bottom: 32px; 
+            position: relative;
+            z-index: 3;
+        }
+
+        .profile-username {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-title {
+            font-size: 18px;
+            color: #eaeaea;
+            font-weight: 500;
+        }
+        
+        /* --- Links Section --- */
+
+        .links-container {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .link-item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 30px;
+            transition: all 0.3s ease; 
+            overflow: hidden; 
+            cursor: pointer;
+        }
+
+        .link-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            padding: 16px 20px;
+            background-color: #39e09b; 
+            color: #000000;
+            text-decoration: none;
+            font-weight: 600;
+            line-height: 1.4;
+            border-radius: 30px;
+            z-index: 10;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
+        }
+
+        /* Standard desktop hover and Mobile/Active click states */
+        .link-btn:hover,
+        .link-item.active .link-btn {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(57, 224, 155, 0.3);
+            background-color: #32c488;
+        }
+
+        /* Description Styling */
+        .link-description {
+            background-color: #383838;
+            color: #e0e0e0;
+            font-size: 14px;
+            text-align: center; 
+            padding: 0 20px; 
+            height: 0; 
+            opacity: 0;
+            visibility: hidden;
+            transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+            line-height: 1.5;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+        
+        /* DESKTOP Hover effect to reveal the description */
+        .link-item:hover .link-description {
+            height: auto;
+            padding: 10px 20px 15px 20px; 
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* MOBILE / ACTIVE state to reveal the description */
+        .link-item.active .link-description {
+            height: auto;
+            padding: 10px 20px 15px 20px; 
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Adjust the button corners on hover/active state */
+        .link-item:hover .link-btn,
+        .link-item.active .link-btn {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #888;
+        }
     </style>
-  </head>
+</head>
 <body>
 
-<!-- // Old Code
-<h1>what's a porfir.io?</h1>
-<p>He's hosted with GitHub Pages.</p>
-  <p>And posts stuff on Instagram...</p>
-  
-  <div id="wrapper">
-  
-<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/porfitron/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-   <div style="padding:16px;">
-      <a href="https://www.instagram.com/porfitron/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
-         <div style=" display: flex; flex-direction: row; align-items: center;">
-            <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
-            <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
-               <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div>
-               <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
-            </div>
-         </div>
-         <div style="padding: 19% 0;"></div>
-         <div style="display:block; height:50px; margin:0 auto 12px; width:50px;">
-            <svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-511.000000, -20.000000)" fill="#000000">
-                     <g>
-                        <path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path>
-                     </g>
-                  </g>
-               </g>
-            </svg>
-         </div>
-         <div style="padding-top: 8px;">
-            <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
-         </div>
-         <div style="padding: 12.5% 0;"></div>
-         <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
-            <div>
-               <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div>
-               <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div>
-               <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div>
-            </div>
-            <div style="margin-left: 8px;">
-               <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div>
-               <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div>
-            </div>
-            <div style="margin-left: auto;">
-               <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div>
-               <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>
-               <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
-            </div>
-         </div>
-         <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
-            <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>
-            <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
-         </div>
-      </a>
-      <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/porfitron/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Porfirio Landeros</a> (@<a href="https://www.instagram.com/porfitron/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">porfitron</a>) • Instagram photos and videos</p>
-   </div>
-</blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
+    <div class="visual-stack">
+        <img src="/images/header_porfirio.jpg" alt="Header: Sell your art, not your soul." class="header-img">
+        <img src="/images/bio_porfirio.jpg" alt="Porfirio José Landeros" class="profile-img">
+    </div>
     
-  </div>
+    <div class="profile-text-info">
+        <h1 class="profile-username">@porfitron</h1>
+        <p class="profile-title">Product Marketing Executive</p>
+    </div>
 
-End old Code //-->
-  
+    <div class="links-container">
+        <div class="link-item">
+            <a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" class="link-btn">
+                Book Time with Me
+            </a>
+            <p class="link-description">Grab time from my Google Calendar</p>
+        </div>
+
+        <div class="link-item">
+            <a href="https://www.linkedin.com/in/porfirio" target="_blank" class="link-btn">
+                Connect on LinkedIn
+            </a>
+            <p class="link-description">See my resume and reach me on LinkedIn</p>
+        </div>
+
+        <div class="link-item">
+            <a href="http://instagram.com/porfitron" target="_blank" class="link-btn">
+                Follow on Instagram
+            </a>
+            <p class="link-description">Learn a bit about me through my photos</p>
+        </div>
+
+        <div class="link-item">
+            <a href="https://www.strava.com/athletes/395414" target="_blank" class="link-btn">
+                Chase Me on Strava
+            </a>
+            <p class="link-description">See how I spend my time outside</p>
+        </div>
+        
+        <div class="link-item">
+            <a href="https://patents.google.com/patent/US20100250532A1/en" target="_blank" class="link-btn">
+                Patent: Singular, Collective Media...
+            </a>
+            <p class="link-description">Something from my time in streaming media</p>
+        </div>
+
+        <div class="link-item">
+            <a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
+                Co-Creator: Learn to Ballroom, Latin and Swing
+            </a>
+            <p class="link-description">If you want to learn to ballroom dance on-line</p>
+        </div>
+
+        <div class="link-item">
+            <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
+                Co-Creator: DIY Wedding Dance
+            </a>
+            <p class="link-description">If you want to have a great wedding dance on-line</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Porfirio José Landeros © 2025</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const linkItems = document.querySelectorAll('.link-item');
+
+            linkItems.forEach(item => {
+                const linkButton = item.querySelector('.link-btn');
+                
+                // Add click listener for mobile/touch devices
+                item.addEventListener('click', (event) => {
+                    const isActive = item.classList.contains('active');
+
+                    // If the item is already active, allow the link to follow through
+                    if (isActive) {
+                        return; // Let the browser handle the navigation in the link-btn
+                    }
+
+                    // Prevent default action (navigation)
+                    event.preventDefault();
+                    
+                    // First, remove the 'active' class from all other link items
+                    linkItems.forEach(i => {
+                        if (i !== item) {
+                            i.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle the 'active' class on the clicked item
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Optional: Hide description if user clicks anywhere else on the page
+            document.addEventListener('click', (event) => {
+                let isLinkItemClick = false;
+                event.path.forEach(el => {
+                    if (el.classList && el.classList.contains('link-item')) {
+                        isLinkItemClick = true;
+                    }
+                });
+
+                if (!isLinkItemClick) {
+                    linkItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>
