@@ -30,7 +30,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            /* INCREASED TOP PADDING: Ensures the profile image (pulled up 90px) is not cut off. */
+            /* Padding ensures the full image is visible */
             padding: 100px 20px 40px 20px; 
         }
 
@@ -53,18 +53,63 @@
             object-fit: cover;
             z-index: 1; 
         }
-
-        .profile-img {
+        
+        /* Container for 3D flip effect and positioning */
+        .profile-img-container {
             position: absolute;
-            /* Profile image is pulled up 90px to reduce overlap */
-            top: -90px; 
+            top: -90px; /* Reduces overlap and ensures image is not clipped by body padding */
+            left: 50%;
+            transform: translateX(-50%); /* Centers the absolute element */
             width: 120px;
             height: 120px;
+            perspective: 1000px; /* Establishes the 3D context for flip */
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        /* Flipper Element */
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d; /* Key for 3D rotation */
+        }
+        
+        /* === NEW COMBINED FLIP STATE (CSS Hover and JS controlled 'flipped' class) === */
+        /* CSS Hover: Flips when the mouse is over the container */
+        .profile-img-container:hover .flipper,
+        /* JS Control: Flips when 'flipped' class is applied for auto-flip or click */
+        .flipper.flipped {
+            transform: rotateY(180deg);
+        }
+        /* ======================================================================= */
+
+        /* Front and Back Faces of the Coin */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hides the reverse side of the element */
             border-radius: 50%;
-            object-fit: cover;
             border: 4px solid #ffffff;
-            z-index: 2; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .front {
+            object-fit: cover;
+        }
+
+        .back {
+            /* "BIO" text styles */
+            background-color: #39e09b; 
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            transform: rotateY(180deg); /* Starts rotated so it's visible after flip */
         }
 
         /* --- Text Info Section --- */
@@ -73,7 +118,6 @@
             text-align: center;
             width: 100%;
             max-width: 680px;
-            /* Adjust margin-top to align text visually below the header image */
             margin-top: -40px; 
             margin-bottom: 32px; 
             position: relative;
@@ -183,13 +227,81 @@
             font-size: 12px;
             color: #888;
         }
+        
+        /* Modal Styles */
+        .bio-modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 100; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.9); 
+            padding-top: 60px;
+        }
+
+        .bio-modal.open {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: #383838;
+            margin: 5% auto; 
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%; 
+            max-width: 500px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            color: #e0e0e0;
+        }
+
+        .modal-content h2 {
+            color: #39e09b;
+            margin-bottom: 5px;
+        }
+
+        .modal-content h3 {
+            font-weight: normal;
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
     <div class="visual-stack">
         <img src="/images/header_porfirio.jpg" alt="Header: Sell your art, not your soul." class="header-img">
-        <img src="/images/bio_porfirio.jpg" alt="Porfirio José Landeros" class="profile-img">
+        
+        <div id="bio-image-flipper" class="profile-img-container">
+            <div class="flipper">
+                <img src="/images/bio_porfirio.jpg" alt="Porfirio José Landeros" class="front">
+                <div class="back">BIO</div>
+            </div>
+        </div>
     </div>
     
     <div class="profile-text-info">
@@ -252,10 +364,49 @@
         <p>Porfirio José Landeros © 2025</p>
     </footer>
 
+    <div id="bio-modal" class="bio-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Porfirio José Landeros</h2>
+            <h3>Product Marketing Executive</h3>
+            <p>Porfirio is a seasoned Product Marketing Executive with a track record of driving growth and innovation in social media and digital content spaces. He is passionate about bridging the gap between product development and market success, leveraging data-driven strategies to connect with audiences.</p>
+            <p>When not immersed in product strategy, Porfirio volunteers as a Disaster Service Worker with the NERT/SFFD. He is a retired, nationally ranked ballroom dance champion, who now enjoys long walks with his wife and two dogs, and gravel cycling Bay Area trails.</p>
+            <p>He is also available for Advisory and Consulting roles in areas he holds dear, including health &amp; wellness, streaming media, and content delivery platforms (including AR/VR and wearables).</p>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const linkItems = document.querySelectorAll('.link-item');
 
+            // Find elements for the flip effect
+            const flipperContainer = document.getElementById('bio-image-flipper');
+            const flipper = flipperContainer.querySelector('.flipper');
+            const modal = document.getElementById('bio-modal');
+            const closeModalBtn = modal.querySelector('.close-btn');
+
+            // === LOGIC FOR AUTO FLIP ON LOAD (Reintroduced) ===
+            const autoFlipBioImage = () => {
+                // Wait for 2.5 seconds after load
+                setTimeout(() => {
+                    // Flip to "BIO"
+                    flipper.classList.add('flipped');
+
+                    // Wait for 1.2 seconds (0.6s animation + 0.6s display) then flip back
+                    setTimeout(() => {
+                        // Flip back to image
+                        flipper.classList.remove('flipped');
+                    }, 1200); 
+                }, 2500); // Initial delay of 2.5 seconds
+            };
+            
+            // Start the automatic flip when the page is ready
+            autoFlipBioImage();
+            // =================================================
+
+            // === Existing Logic for Links and Modal ===
+            
+            // Logic for expanding descriptions on link items
             linkItems.forEach(item => {
                 item.addEventListener('click', (event) => {
                     const isActive = item.classList.contains('active');
@@ -286,6 +437,31 @@
                     linkItems.forEach(item => {
                         item.classList.remove('active');
                     });
+                }
+            });
+            
+            // LOGIC FOR MANUAL BIO IMAGE CLICK (Opens Modal)
+            flipperContainer.addEventListener('click', () => {
+                // Manually apply 'flipped' class for immediate feedback on click
+                flipper.classList.add('flipped');
+
+                // Open the modal after a short delay (shorter than the flip transition)
+                setTimeout(() => {
+                    modal.classList.add('open');
+                    // Reset the flip immediately after the modal opens, so it's ready for the next hover or load
+                    flipper.classList.remove('flipped');
+                }, 100); // Small delay to ensure flip starts before modal appears
+            });
+
+            // 3. Close the modal when the close button is clicked
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
+            });
+
+            // 4. Close the modal if the user clicks anywhere outside the modal content
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.remove('open');
                 }
             });
 
