@@ -208,19 +208,11 @@
             line-height: 1.5;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
-            /* Added cursor style to indicate it's clickable */
             cursor: pointer;
         }
         
-        /* DESKTOP Hover effect to reveal the description */
-        .link-item:hover .link-description {
-            height: auto;
-            padding: 10px 20px 15px 20px; 
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* MOBILE / ACTIVE state to reveal the description */
+        /* DESKTOP HOVER and MOBILE/ACTIVE state to reveal the description */
+        .link-item:hover .link-description,
         .link-item.active .link-description {
             height: auto;
             padding: 10px 20px 15px 20px; 
@@ -392,6 +384,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const linkItems = document.querySelectorAll('.link-item');
+            
+            // Touch Detection: Simple check for touch support
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
             // Find elements for the flip effect
             const flipperContainer = document.getElementById('bio-image-flipper');
@@ -401,60 +396,57 @@
 
             // === LOGIC FOR AUTO FLIP ON LOAD ===
             const autoFlipBioImage = () => {
-                // Wait for 2.5 seconds after load
                 setTimeout(() => {
-                    // Flip to "BIO"
                     flipper.classList.add('flipped');
-
-                    // Wait for 1.2 seconds (0.6s animation + 0.6s display) then flip back
                     setTimeout(() => {
-                        // Flip back to image
                         flipper.classList.remove('flipped');
                     }, 1200); 
-                }, 2500); // Initial delay of 2.5 seconds
+                }, 2500); 
             };
             
-            // Start the automatic flip when the page is ready
             autoFlipBioImage();
             // ===================================
 
-            // === LOGIC FOR LINKS (Includes clickable description text) ===
+            // === LOGIC FOR LINKS (Conditional Behavior) ===
             
             linkItems.forEach(item => {
                 const linkBtn = item.querySelector('.link-btn');
                 const linkDescription = item.querySelector('.link-description');
 
-                // Add a click listener to the description text to follow the link.
+                // 1. Description Click Handler: Always navigates if clicked.
                 linkDescription.addEventListener('click', (event) => {
-                    // Only act if the description is visible (i.e., item is active)
-                    if (item.classList.contains('active')) {
-                        // Stop propagation so the parent item's listener doesn't interfere
-                        event.stopPropagation(); 
-                        
-                        // Follow the link using the link button's href and target
-                        window.open(linkBtn.href, linkBtn.target); 
-                    }
+                    event.stopPropagation(); 
+                    event.preventDefault(); // Prevent text selection on mobile
+                    window.open(linkBtn.href, linkBtn.target);
+                    // Close the expanded state after navigation
+                    item.classList.remove('active');
                 });
 
-                // Main link item click logic
+                // 2. Main Item Click Handler
                 item.addEventListener('click', (event) => {
-                    const isActive = item.classList.contains('active');
+                    if (isTouchDevice) {
+                        // MOBILE LOGIC: 1-Click Expand, 2-Click Navigate
+                        const isActive = item.classList.contains('active');
 
-                    if (!isActive) {
-                        // First click: Prevent link from being followed and show the description
-                        event.preventDefault();
-                        
-                        // Close other open links
-                        linkItems.forEach(i => {
-                            if (i !== item) {
-                                i.classList.remove('active');
-                            }
-                        });
-
-                        item.classList.add('active');
+                        if (!isActive) {
+                            // FIRST CLICK: Expand the item. Prevent the default navigation.
+                            event.preventDefault();
+                            
+                            // Close all other active links
+                            linkItems.forEach(i => {
+                                if (i !== item) {
+                                    i.classList.remove('active');
+                                }
+                            });
+                            item.classList.add('active');
+                        }
+                        // SECOND CLICK: isActive is true. We don't call preventDefault, so the click on <a> navigates.
+                    } else {
+                        // DESKTOP LOGIC: Hover Expands, 1-Click Navigate
+                        // We remove the active class on click to ensure it doesn't get "stuck"
+                        // if the user clicks while hovering. Navigation is handled natively by the <a> tag.
+                        item.classList.remove('active');
                     }
-                    // If the item is active, a click on the <a> will follow the link, 
-                    // and a click on the <p> is handled by the event listener above.
                 });
             });
             
@@ -474,15 +466,11 @@
             
             // LOGIC FOR MANUAL BIO IMAGE CLICK (Opens Modal)
             flipperContainer.addEventListener('click', () => {
-                // Manually apply 'flipped' class for immediate feedback on click
                 flipper.classList.add('flipped');
-
-                // Open the modal after a short delay (shorter than the flip transition)
                 setTimeout(() => {
                     modal.classList.add('open');
-                    // Reset the flip immediately after the modal opens, so it's ready for the next hover or load
                     flipper.classList.remove('flipped');
-                }, 100); // Small delay to ensure flip starts before modal appears
+                }, 100); 
             });
 
             // 3. Close the modal when the close button is clicked
