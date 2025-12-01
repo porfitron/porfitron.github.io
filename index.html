@@ -196,6 +196,8 @@
             line-height: 1.5;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
+            /* Added cursor style to indicate it's clickable */
+            cursor: pointer;
         }
         
         /* DESKTOP Hover effect to reveal the description */
@@ -369,7 +371,7 @@
             <span class="close-btn">&times;</span>
             <h2>Porfirio José Landeros</h2>
             <h3>Product Marketing Executive</h3>
-            <p>Porfirio is a seasoned Product Marketing Executive with a track record of driving growth and innovation in social media and digital content spaces. He is passionate about bridging the gap between product development and market success, leveraging data-driven strategies to connect with audiences.</p>
+            <p>Porfirio is a seasoned Product Marketing Executive with a track record of driving growth and innovation in streaming media and digital content spaces. He is passionate about bridging the gap between product development and market success, leveraging data-driven strategies to connect with audiences.</p>
             <p>When not immersed in product strategy, Porfirio volunteers as a Disaster Service Worker with the NERT/SFFD. He is a retired, nationally ranked ballroom dance champion, who now enjoys long walks with his wife and two dogs, and gravel cycling Bay Area trails.</p>
             <p>He is also available for Advisory and Consulting roles in areas he holds dear, including health &amp; wellness, streaming media, and content delivery platforms (including AR/VR and wearables).</p>
         </div>
@@ -385,7 +387,7 @@
             const modal = document.getElementById('bio-modal');
             const closeModalBtn = modal.querySelector('.close-btn');
 
-            // === LOGIC FOR AUTO FLIP ON LOAD (Reintroduced) ===
+            // === LOGIC FOR AUTO FLIP ON LOAD ===
             const autoFlipBioImage = () => {
                 // Wait for 2.5 seconds after load
                 setTimeout(() => {
@@ -402,31 +404,49 @@
             
             // Start the automatic flip when the page is ready
             autoFlipBioImage();
-            // =================================================
+            // ===================================
 
-            // === Existing Logic for Links and Modal ===
+            // === LOGIC FOR LINKS ===
             
-            // Logic for expanding descriptions on link items
             linkItems.forEach(item => {
+                const linkBtn = item.querySelector('.link-btn');
+                const linkDescription = item.querySelector('.link-description');
+
+                // NEW: Add a click listener to the description text to follow the link.
+                linkDescription.addEventListener('click', (event) => {
+                    // Only act if the description is visible (i.e., item is active)
+                    if (item.classList.contains('active')) {
+                        // Stop propagation so the parent item's listener doesn't interfere
+                        event.stopPropagation(); 
+                        
+                        // Follow the link using the link button's href and target
+                        window.open(linkBtn.href, linkBtn.target); 
+                    }
+                });
+
+                // Main link item click logic
                 item.addEventListener('click', (event) => {
                     const isActive = item.classList.contains('active');
 
-                    if (isActive) {
-                        return;
+                    if (!isActive) {
+                        // First click: Prevent link from being followed and show the description
+                        event.preventDefault();
+                        
+                        // Close other open links
+                        linkItems.forEach(i => {
+                            if (i !== item) {
+                                i.classList.remove('active');
+                            }
+                        });
+
+                        item.classList.add('active');
                     }
-
-                    event.preventDefault();
-                    
-                    linkItems.forEach(i => {
-                        if (i !== item) {
-                            i.classList.remove('active');
-                        }
-                    });
-
-                    item.classList.toggle('active');
+                    // If the item is active, the click on the <a> will follow the link, 
+                    // and the click on the <p> is handled by the new listener above.
                 });
             });
             
+            // Global click handler to close descriptions when clicking elsewhere
             document.addEventListener('click', (event) => {
                 let isLinkItemClick = false;
                 if (event.target.closest('.link-item')) {
