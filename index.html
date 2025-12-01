@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porfirio Jose Landeros | Product Marketing Executive</title>
 
+    <meta name="description" content="Porfirio Jose Landeros, a Product Marketing Executive in San Francisco, CA, specializing in streaming media and digital content. Experienced at 23andMe, Instagram, Mozilla (Firefox), BitTorrent (uTorrent), and DivX.">
+    <meta name="keywords" content="Porfirio Jose Landeros, Product Marketing Executive, San Francisco, California, 23andMe, Instagram, Mozilla, Firefox, BitTorrent, uTorrent, DivX, PMM, streaming media, digital content, tech executive">
+    
+    <meta property="og:title" content="Porfirio Jose Landeros | Product Marketing Executive">
+    <meta property="og:description" content="Porfirio Jose Landeros, a Product Marketing Executive in San Francisco, CA, specializing in streaming media and digital content. Experienced at 23andMe, Instagram, Mozilla (Firefox), BitTorrent (uTorrent), and DivX.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://porfir.io"> 
+    <meta property="og:image" content="/images/bio_porfirio.jpg"> 
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Porfirio Jose Landeros | Product Marketing Executive">
+    <meta name="twitter:description" content="Product Marketing Executive in San Francisco, CA. Experienced at 23andMe, Instagram, Mozilla, BitTorrent, and DivX.">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -406,13 +418,13 @@
             autoFlipBioImage();
             // ===================================
 
-            // === LOGIC FOR LINKS ===
+            // === LOGIC FOR LINKS (Includes clickable description text) ===
             
             linkItems.forEach(item => {
                 const linkBtn = item.querySelector('.link-btn');
                 const linkDescription = item.querySelector('.link-description');
 
-                // NEW: Add a click listener to the description text to follow the link.
+                // Add a click listener to the description text to follow the link.
                 linkDescription.addEventListener('click', (event) => {
                     // Only act if the description is visible (i.e., item is active)
                     if (item.classList.contains('active')) {
@@ -441,8 +453,8 @@
 
                         item.classList.add('active');
                     }
-                    // If the item is active, the click on the <a> will follow the link, 
-                    // and the click on the <p> is handled by the new listener above.
+                    // If the item is active, a click on the <a> will follow the link, 
+                    // and a click on the <p> is handled by the event listener above.
                 });
             });
             
