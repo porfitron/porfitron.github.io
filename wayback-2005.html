@@ -3,7 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porfirio's Official PorfLand Profile</title>
+    <title>Porfirio Jose Landeros | Product Marketing Executive</title>
+
+    <meta name="description" content="Porfirio Jose Landeros, a Product Marketing Executive in San Francisco, CA, specializing in streaming media and digital content. Experienced at 23andMe, Instagram, Mozilla (Firefox), BitTorrent (uTorrent), and DivX.">
+    <meta name="keywords" content="Porfirio Jose Landeros, Product Marketing Executive, San Francisco, California, 23andMe, Instagram, Mozilla, Firefox, BitTorrent, uTorrent, DivX, PMM, streaming media, digital content, tech executive">
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <meta property="og:title" content="Porfirio Jose Landeros | Product Marketing Executive">
+    <meta property="og:description" content="Porfirio Jose Landeros, a Product Marketing Executive in San Francisco, CA, specializing in streaming media and digital content. Experienced at 23andMe, Instagram, Mozilla (Firefox), BitTorrent (uTorrent), and DivX.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://porfir.io"> 
+    <meta property="og:image" content="/images/bio_porfirio.jpg"> 
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Porfirio Jose Landeros | Product Marketing Executive">
+    <meta name="twitter:description" content="Product Marketing Executive in San Francisco, CA. Experienced at 23andMe, Instagram, Mozilla, BitTorrent, and DivX.">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
     <style>
         /* ================================================= */
         /* BASE STYLES & LAYOUT                               */
@@ -55,6 +78,8 @@
         .header {
             border-bottom: 1px solid var(--main-border-color, #000000);
             transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+            /* Added min-width to ensure desktop view doesn't break on small screens */
+            min-width: 950px; 
         }
         .header-main {
             background-color: var(--nav-bg-1, #4682B4);
@@ -84,14 +109,45 @@
             font-weight: bold;
         }
         
-        /* Layout Structure (Non-color CSS) */
-        .header-inner { width: 950px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .page-content-container { width: 950px; margin: 0 auto; padding-top: 15px; display: flex; flex-wrap: nowrap; }
-        .profile-sidebar { width: 200px; margin-right: 15px; }
-        .main-content-column { width: 735px; background-color: var(--content-bg, #FFFFFF); }
-        .profile-pic { width: 180px; height: 180px; }
+        /* ================================================= */
+        /* DESKTOP LAYOUT STRUCTURE (Base for 950px)         */
+        /* ================================================= */
+        .header-inner { 
+            width: 950px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .page-content-container { 
+            width: 950px; 
+            margin: 0 auto; 
+            padding-top: 15px; 
+            display: flex; 
+            flex-wrap: nowrap; 
+        }
+        .profile-sidebar { 
+            width: 200px; 
+            margin-right: 15px; 
+        }
+        .main-content-column { 
+            width: 735px; 
+            background-color: var(--content-bg, #FFFFFF); 
+        }
+        .profile-pic { 
+            width: 180px; 
+            height: 180px; 
+        }
         .contact-box { background-color: var(--content-bg, #FFFFFF); }
-        .contact-box-links a { width: 50%; }
+        .contact-box-links { 
+            display: flex; 
+            flex-wrap: wrap;
+        }
+        .contact-box-links a { 
+            width: 50%; 
+            display: block; 
+            padding: 2px 0;
+        }
         .sidebar-table th { background-color: var(--table-header-bg, #F0F0F0); }
         .sidebar-table td { background-color: var(--content-bg, #FFFFFF); }
         .friend-list { display: flex; flex-wrap: wrap; justify-content: space-between; padding: 5px 0; }
@@ -133,6 +189,94 @@
             transition: opacity 1.2s, transform 1.2s;
             z-index: 9999;
         }
+
+        /* ================================================= */
+        /* MEDIA QUERY: MOBILE RESPONSIVENESS                */
+        /* ================================================= */
+        @media (max-width: 990px) {
+            
+            /* General Structure Reset */
+            .header, .header-inner, .page-content-container {
+                width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box;
+            }
+            .page-content-container {
+                flex-direction: column; /* Stack columns vertically */
+                padding: 10px;
+            }
+            
+            /* Navigation Bar Adjustments */
+            .header-main .header-inner {
+                flex-direction: column;
+                padding: 10px;
+                text-align: center;
+            }
+            .header-main .header-inner div {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header-main .header-inner div a {
+                margin: 0 5px;
+            }
+
+            .header-second .header-inner {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 5px 0;
+            }
+            .header-second .header-inner a {
+                padding: 0 5px;
+                line-height: normal;
+            }
+            
+            /* Main Content Area */
+            .profile-sidebar, .main-content-column {
+                width: 100% !important;
+                margin-right: 0;
+            }
+            /* *** CHANGE HERE: PROFILE SIDEBAR (left side) is now order 1 *** */
+            .profile-sidebar {
+                order: 1; 
+            }
+            /* *** CHANGE HERE: MAIN CONTENT COLUMN (right side) is now order 2 *** */
+            .main-content-column {
+                order: 2; 
+                margin-bottom: 15px;
+            }
+            
+            /* Profile Details Adjustment */
+            .profile-picture-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+            .personal-details, .personal-msg {
+                text-align: center;
+                padding: 5px 0;
+            }
+            .contact-box-links {
+                flex-direction: column; /* Stack links vertically */
+            }
+            .contact-box-links a {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Friend list: Show fewer friends per row */
+            .friend-box {
+                width: 30%; /* 3 friends per row */
+            }
+            .friend-box:nth-child(4n) { /* Remove desktop margin fix */
+                margin-right: 0;
+            }
+        }
+
 
         /* ================================================= */
         /* THEME DEFINITIONS (CSS Variables)                  */
