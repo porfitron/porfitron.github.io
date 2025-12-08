@@ -234,6 +234,14 @@
             color: #888;
         }
         
+        /* STYLING for the secret footer link */
+        .footer-secret-link {
+            text-decoration: none;
+            color: inherit; /* Inherits the #888 color from the footer p tag */
+            cursor: default; /* Prevents the pointer icon from showing, hiding its link nature */
+        }
+        /* END NEW STYLING */
+
         /* Modal Styles */
         .bio-modal {
             display: none; /* Hidden by default */
@@ -272,21 +280,19 @@
             font-weight: normal;
             font-size: 16px;
             color: #999;
-            margin-bottom: 10px; /* Reduced margin to bring "Previously at" closer */
+            margin-bottom: 10px; 
         }
         
-        /* NEW STYLING FOR FORMER EMPLOYERS LIST */
+        /* STYLING FOR FORMER EMPLOYERS LIST */
         .modal-alumni {
             font-size: 13px;
-            color: #b0b0b0; /* Lighter color to make it subtle */
+            color: #b0b0b0; 
             margin-bottom: 20px; 
             line-height: 1.4;
             font-weight: 500;
-            /* Ensures it doesn't get standard paragraph styling */
             margin-top: 0; 
             padding: 0;
         }
-        /* END NEW STYLING */
 
         .modal-content p {
             margin-bottom: 15px;
@@ -380,7 +386,7 @@
     </div>
 
     <footer>
-        <p>Porfirio José Landeros © 2025</p>
+        <p>Porfirio José Landeros © <a href="wayback-2005.html" class="footer-secret-link" id="current-year">2025</a></p>
     </footer>
 
     <div id="bio-modal" class="bio-modal">
@@ -390,6 +396,7 @@
             <h3>Product Marketing Executive</h3>
             
             <p class="modal-alumni">Previously at: 23andMe, Meta/Instagram, Mozilla/Firefox, BitTorrent/uTorrent, DivX/Tivo</p>
+
             <p>Porfirio is a seasoned Product Marketing Executive with a track record of driving growth and innovation in streaming media and digital content spaces. He is passionate about bridging the gap between product development and market success, leveraging data-driven strategies to connect with audiences.</p>
             <p>Outside of work, Porfirio is a Disaster Service Worker Volunteer with the NERT/SFFD. He is a retired, nationally ranked ballroom dance champion, who now enjoys beach time with family, and gravel cycling Bay Area trails.</p>
             <p>He is currently available for Advisory and Consulting roles in areas he holds dear, like health &amp; wellness, streaming media, and new innovations in consumer experiences (including AI, AR/VR and wearables).</p>
@@ -499,6 +506,13 @@
                     modal.classList.remove('open');
                 }
             });
+            
+            // === NEW LOGIC TO AUTOMATICALLY UPDATE COPYRIGHT YEAR ===
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+            // ========================================================
 
         });
     </script>
