@@ -250,9 +250,9 @@
             margin: -1px;
             padding: 0;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+            /* Using clip-path is the modern and preferred way for accessibility */
+            clip-path: inset(50%); 
             border: 0;
-            white-space: nowrap; 
         }
         /* END NEW STYLING */
 
@@ -331,139 +331,139 @@
     </style>
 </head>
 <body>
-
-    <div class="visual-stack">
-        <img src="/images/header_porfirio.jpg" alt="Header: Sell your art, not your soul." class="header-img">
-        
-        <div id="bio-image-flipper" class="profile-img-container">
-            <div class="flipper">
-                <img src="/images/bio_porfirio.jpg" alt="Porfirio José Landeros" class="front">
-                <div class="back">BIO</div>
+    
+    <main>
+        <div class="visual-stack">
+            <img src="/images/header_porfirio.jpg" alt="Header: Sell your art, not your soul." class="header-img">
+            
+            <div id="bio-image-flipper" class="profile-img-container">
+                <div class="flipper">
+                    <img src="/images/bio_porfirio.jpg" alt="Porfirio José Landeros" class="front">
+                    <div class="back">BIO</div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="profile-text-info">
-        <h1 class="profile-username">Porfirio José Landeros</h1>
-        <p class="profile-title">Product Marketing Executive</p>
-    </div>
-
-    <div class="links-container">
-        <div class="link-item">
-            <a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" class="link-btn">
-                Book Time with Me
-            </a>
-            <p class="link-description">Grab time from my Google Calendar</p>
-        </div>
-
-        <div class="link-item">
-            <a href="https://www.linkedin.com/in/porfirio" target="_blank" class="link-btn">
-                Connect on LinkedIn
-            </a>
-            <p class="link-description">See my resume and reach me on LinkedIn</p>
-        </div>
-
-        <div class="link-item">
-            <a href="http://instagram.com/porfitron" target="_blank" class="link-btn">
-                Follow on Instagram
-            </a>
-            <p class="link-description">Learn a bit about me through my photos</p>
-        </div>
-
-        <div class="link-item">
-            <a href="https://www.strava.com/athletes/395414" target="_blank" class="link-btn">
-                Chase Me on Strava
-            </a>
-            <p class="link-description">See how I spend my time outside</p>
-        </div>
         
-        <div class="link-item">
-            <a href="https://patents.google.com/patent/US20100250532A1/en" target="_blank" class="link-btn">
-                Patent: Singular, Collective Media...
-            </a>
-            <p class="link-description">Something from my time in streaming media</p>
+        <div class="profile-text-info">
+            <h1 class="profile-username">Porfirio José Landeros</h1>
+            <p class="profile-title">Product Marketing Executive</p>
         </div>
 
-        <div class="link-item">
-            <a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
-                Co-Creator: Learn Ballroom, Latin &amp; Swing
-            </a>
-            <p class="link-description">If you want to learn to ballroom dance on-line</p>
-        </div>
+        <div class="links-container">
+            <div class="link-item">
+                <a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" class="link-btn">
+                    Book Time with Me
+                </a>
+                <p class="link-description">Grab time from my Google Calendar</p>
+            </div>
 
-        <div class="link-item">
-            <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
-                Co-Creator: DIY Wedding Dance
-            </a>
-            <p class="link-description">If you want to build a great wedding dance on-line</p>
+            <div class="link-item">
+                <a href="https://www.linkedin.com/in/porfirio" target="_blank" class="link-btn">
+                    Connect on LinkedIn
+                </a>
+                <p class="link-description">See my resume and reach me on LinkedIn</p>
+            </div>
+
+            <div class="link-item">
+                <a href="http://instagram.com/porfitron" target="_blank" class="link-btn">
+                    Follow on Instagram
+                </a>
+                <p class="link-description">Learn a bit about me through my photos</p>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.strava.com/athletes/395414" target="_blank" class="link-btn">
+                    Chase Me on Strava
+                </a>
+                <p class="link-description">See how I spend my time outside</p>
+            </div>
+            
+            <div class="link-item">
+                <a href="https://patents.google.com/patent/US20100250532A1/en" target="_blank" class="link-btn">
+                    Patent: Singular, Collective Media...
+                </a>
+                <p class="link-description">Something from my time in streaming media</p>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
+                    Co-Creator: Learn Ballroom, Latin &amp; Swing
+                </a>
+                <p class="link-description">If you want to learn to ballroom dance on-line</p>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r" target="_blank" class="link-btn">
+                    Co-Creator: DIY Wedding Dance
+                </a>
+                <p class="link-description">If you want to build a great wedding dance on-line</p>
+            </div>
         </div>
-    </div>
+    </main>
 
     <article class="reader-mode-resume" role="document" aria-label="Porfirio José Landeros Full Resume">
         <h1>Porfirio Landeros | Product Marketing Executive Resume</h1>
         
         <section>
             <h2>Contact</h2>
-            [cite_start]<p>Phone: (858) 999-5222 [cite: 2]</p>
-            [cite_start]<p>Email: porfitron@icloud.com [cite: 2]</p>
-            [cite_start]<p>Website: https://porfir.io [cite: 2]</p>
+            <p>Website: https://porfir.io</p>
         </section>
         
         <section>
             <h2>Summary</h2>
-            [cite_start]<p>Highly accomplished product marketing leader with two decades of experience specializing in consumer mobile, monetization, and product-led growth for platforms with massive scale (Instagram's 2B+ users)[cite: 4]. [cite_start]Proven expert in defining and executing PMM strategy that drives product adoption, engagement, and retention for a highly creative audience[cite: 5]. [cite_start]Exceptional track record in establishing PMM functions, influencing C-suite strategy, and leading Go-to-Market (GTM) excellence across complex, multi-product portfolios[cite: 6]. [cite_start]Deep expertise in subscription funnels and translating user insights into clear, differentiated positioning and messaging[cite: 7].</p>
+            <p>Highly accomplished product marketing leader with two decades of experience specializing in consumer mobile, monetization, and product-led growth for platforms with massive scale (Instagram's 2B+ users). Proven expert in defining and executing PMM strategy that drives product adoption, engagement, and retention for a highly creative audience. Exceptional track record in establishing PMM functions, influencing C-suite strategy, and leading Go-to-Market (GTM) excellence across complex, multi-product portfolios. Deep expertise in subscription funnels and translating user insights into clear, differentiated positioning and messaging.</p>
         </section>
 
         <section>
-            [cite_start]<h2>PROFESSIONAL EXPERIENCE [cite: 8]</h2>
+            <h2>PROFESSIONAL EXPERIENCE</h2>
             
-            [cite_start]<h3>Product Marketing Consultant and Advisor (January 2024 - Present) [cite: 9]</h3>
+            <h3>Product Marketing Consultant and Advisor (January 2024 - Present)</h3>
             <ul>
-                [cite_start]<li>Provide expert guidance on product strategy, customer-centric growth, and competitive analysis for B2B and B2C clients[cite: 10].</li>
-                [cite_start]<li>Specialize in optimizing product planning, pricing, messaging/positioning, and Go-to-Market (GTM) execution to achieve measurable business KPIs[cite: 11].</li>
+                <li>Provide expert guidance on product strategy, customer-centric growth, and competitive analysis for B2B and B2C clients.</li>
+                <li>Specialize in optimizing product planning, pricing, messaging/positioning, and Go-to-Market (GTM) execution to achieve measurable business KPIs.</li>
             </ul>
 
-            <h3>Director of Product Marketing | [cite_start]23andMe (April 2023 - October 2023) [cite: 12]</h3>
-            [cite_start]<p><em>Consumer Products: Premium Subscriptions and New Products</em> [cite: 12]</p>
+            <h3>Director of Product Marketing | 23andMe (April 2023 - October 2023)</h3>
+            <p><em>Consumer Products: Premium Subscriptions and New Products</em></p>
             <ul>
-                [cite_start]<li>Established the Product Marketing function from scratch, defining launch tiering, prioritization frameworks, and templating messaging matrixes to standardize GTM execution[cite: 13].</li>
-                [cite_start]<li>Drove significant subscription growth and retention by identifying and defining opportunities for new bundles and offerings in partnership with Product Management, informed by deep market analysis[cite: 14].</li>
+                <li>Established the Product Marketing function from scratch, defining launch tiering, prioritization frameworks, and templating messaging matrixes to standardize GTM execution.</li>
+                <li>Drove significant subscription growth and retention by identifying and defining opportunities for new bundles and offerings in partnership with Product Management, informed by deep market analysis.</li>
             </ul>
             
-            <h3>Global Director of Consumer Product Marketing | [cite_start]Instagram (January 2021 - April 2023) [cite: 15]</h3>
-            [cite_start]<p><em>Instagram Communities: Platform Growth, Well-Being, Safety, and Equity (2+ Billion Users)</em> [cite: 15]</p>
+            <h3>Global Director of Consumer Product Marketing | Instagram (January 2021 - April 2023)</h3>
+            <p><em>Instagram Communities: Platform Growth, Well-Being, Safety, and Equity (2+ Billion Users)</em></p>
             <ul>
-                [cite_start]<li>Led the PMM team responsible for strategic initiatives impacting over 2 billion global users, demonstrating expertise in segmentation and messaging at extreme scale[cite: 16].</li>
-                [cite_start]<li>Maximized high-profile launch impact by driving cross-functional alignment across Meta business units and external partners to ensure coordinated, high-reach GTM campaigns[cite: 17].</li>
-                [cite_start]<li>Influenced C-suite strategy to mitigate risk and ensure age-appropriate user experiences[cite: 18].</li>
+                <li>Led the PMM team responsible for strategic initiatives impacting over 2 billion global users, demonstrating expertise in segmentation and messaging at extreme scale.</li>
+                <li>Maximized high-profile launch impact by driving cross-functional alignment across Meta business units and external partners to ensure coordinated, high-reach GTM campaigns.</li>
+                <li>Influenced C-suite strategy to mitigate risk and ensure age-appropriate user experiences.</li>
             </ul>
 
-            <h3>Senior Director of Product Marketing | [cite_start]Mozilla Corporation (December 2015 - September 2020) [cite: 19]</h3>
-            [cite_start]<p><em>Firefox Applications and Services: Mobile, Desktop, and Premium Subscriptions (250M+ MAU)</em> [cite: 19]</p>
+            <h3>Senior Director of Product Marketing | Mozilla Corporation (December 2015 - September 2020)</h3>
+            <p><em>Firefox Applications and Services: Mobile, Desktop, and Premium Subscriptions (250M+ MAU)</em></p>
             <ul>
-                [cite_start]<li>Positioning &amp; GTM Excellence: Owned the full GTM strategy and execution for the Firefox product portfolio, translating fundamental technical changes into compelling market narratives (e.g., "Fast for Good")[cite: 20].</li>
-                [cite_start]<li>Monetization &amp; PLG: Achieved a 2% freemium-to-paid conversion rate in 4 weeks on the Firefox Relay™ privacy suite market test by defining the acquisition strategy and optimizing in-product funnels[cite: 21].</li>
-                [cite_start]<li>Product Adoption: Increased Daily Active Users (DAU) up to 10x for in-market features by prioritizing in-product integrations, demonstrating mastery of driving engagement and retention[cite: 22].</li>
+                <li>Positioning & GTM Excellence: Owned the full GTM strategy and execution for the Firefox product portfolio, translating fundamental technical changes into compelling market narratives (e.g., "Fast for Good").</li>
+                <li>Monetization & PLG: Achieved a 2% freemium-to-paid conversion rate in 4 weeks on the Firefox Relay™ privacy suite market test by defining the acquisition strategy and optimizing in-product funnels.</li>
+                <li>Product Adoption: Increased Daily Active Users (DAU) up to 10x for in-market features by prioritizing in-product integrations, demonstrating mastery of driving engagement and retention.</li>
             </ul>
 
-            <h3>Director of Product Marketing | [cite_start]BitTorrent, Inc. (October 2011 - December 2015) [cite: 23]</h3>
-            [cite_start]<p><em>BitTorrent Media and Platforms (170M+ MAU)</em> [cite: 23]</p>
+            <h3>Director of Product Marketing | BitTorrent, Inc. (October 2011 - December 2015)</h3>
+            <p><em>BitTorrent Media and Platforms (170M+ MAU)</em></p>
             <ul>
-                [cite_start]<li>Creator Ecosystems: Led GTM, strategy, and customer acquisition for core product lines, driving monetization for a content-sharing and creator/fan exchange platform[cite: 24].</li>
-                [cite_start]<li>Brand Narrative: Successfully changed platform perception from piracy to a creator/fan exchange through strategic positioning and the "Sell your art, not your soul" manifesto brand campaign[cite: 25].</li>
+                <li>Creator Ecosystems: Led GTM, strategy, and customer acquisition for core product lines, driving monetization for a content-sharing and creator/fan exchange platform.</li>
+                <li>Brand Narrative: Successfully changed platform perception from piracy to a creator/fan exchange through strategic positioning and the "Sell your art, not your soul" manifesto brand campaign.</li>
             </ul>
 
-            <h3>Product Marketing Manager | [cite_start]DivX / Tivo (July 2007 - October 2011) [cite: 26]</h3>
-            [cite_start]<p><em>Consumer Applications and Portals: DivX Software and Developer Tools</em> [cite: 26]</p>
+            <h3>Product Marketing Manager | DivX / Tivo (July 2007 - October 2011)</h3>
+            <p><em>Consumer Applications and Portals: DivX Software and Developer Tools</em></p>
             <ul>
-                [cite_start]<li>Increased developer adoption through community strategy, including the launch of a successful bounty program for public APIs and management of a technical web portal with SDKs[cite: 27].</li>
-                [cite_start]<li>Directly relevant experience with technical tools and a prosumer audience[cite: 28].</li>
+                <li>Increased developer adoption through community strategy, including the launch of a successful bounty program for public APIs and management of a technical web portal with SDKs.</li>
+                <li>Directly relevant experience with technical tools and a prosumer audience.</li>
             </ul>
         </section>
 
         <section>
-            [cite_start]<h2>EDUCATION [cite: 29]</h2>
-            <p>Bachelor of Science in Business Administration, High-Tech Management | [cite_start]Cal State San Marcos [cite: 30]</p>
+            <h2>EDUCATION</h2>
+            <p>Bachelor of Science in Business Administration, High-Tech Management | Cal State San Marcos</p>
         </section>
     </article>
     <footer>
