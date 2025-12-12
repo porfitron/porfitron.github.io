@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porfirio Landeros & Laetitia Santore - Dance Career Memorial</title>
+    <style>
+        /*
+        TOP HAT POSTER PALETTE:
+        - Background/Text: Black (#111), Off-White (#F0F0F0)
+        - Primary Accent: Golden Yellow/Amber (#FFCC00)
+        - Secondary Accent: Deep Orange/Red (#D9534F)
+        - Font: Serif for classic elegance
+        */
+        body {
+            font-family: 'Times New Roman', Times, serif; /* Formal, classic font */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #111111; /* Black background */
+            color: #f0f0f0; /* Off-white text */
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #222222; /* Deep Charcoal inner background */
+            padding: 20px 40px;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ffcc00; /* Golden Yellow for main titles */
+            text-shadow: 1px 1px 2px #000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .header-info {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #555555;
+            padding-bottom: 10px;
+        }
+        .header-info p {
+            font-style: italic;
+            color: #d9534f; /* Deep Orange/Red for retired status */
+            font-weight: bold;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-top: 10px;
+        }
+        section h3 {
+            border-bottom: 2px solid #d9534f; /* Deep Orange/Red accent line */
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            color: #ffcc00; /* Golden Yellow for section headers */
+            font-size: 1.4em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        ul {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        ul li:before {
+            content: "\2022"; /* Custom bullet point (large dot) */
+            color: #d9534f; /* Deep Orange/Red bullet color */
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        /* Block Text/Quote Styling */
+        .dedication-block {
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 5px solid #d9534f;
+            background-color: #333333;
+            font-style: italic;
+            text-align: center;
+            font-size: 1.1em;
+            color: #e0e0e0;
+        }
+        /* Our Story paragraph style */
+        .our-story p {
+            text-indent: 1.5em;
+            margin-bottom: 1em;
+        }
+        /* Link color for readability against dark background */
+        .our-story a {
+            color: #ffcc00; /* Golden yellow link color */
+            text-decoration: none;
+            font-style: italic;
+        }
+        .our-story a:hover {
+            text-decoration: underline;
+        }
+
+        /* Photo Gallery Container & Image Wrapper (Responsive) */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; /* ALIGNS IMAGES VERTICALLY IN THE MIDDLE */
+            gap: 25px;
+            padding: 20px 0;
+            border-top: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+        }
+        .image-wrapper {
+            position: relative;
+            max-width: 250px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+        .image-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Dance Overlay Styling */
+        .dance-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #ffcc00;
+            text-align: center;
+            padding: 10px 0;
+            height: 40px;
+            line-height: 20px;
+            font-weight: bold;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .image-wrapper:hover .dance-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Responsive Table/Divs Styling */
+        .responsive-table {
+            margin-top: 10px;
+        }
+        .table-header, .table-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #444444;
+        }
+        .table-header {
+            background-color: #444444;
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        .table-row:nth-child(even) {
+            background-color: #333333;
+        }
+        .col {
+            flex-grow: 1;
+            flex-basis: 0;
+            padding: 0 10px;
+        }
+        .table-header { display: none; }
+        .table-row { flex-direction: column; border: 1px solid #444444; margin-bottom: 15px; }
+        .col { flex-basis: 100%; padding: 8px 10px; }
+        .col:before { content: attr(data-label) ": "; font-weight: bold; color: #ffcc00; display: block; margin-bottom: 2px; }
+
+        @media screen and (min-width: 600px) {
+            .table-header { display: flex; }
+            .table-row { flex-direction: row; border: none; margin-bottom: 0; }
+            .col { padding: 10px; }
+            .col:before { content: none; }
+            .table-header .col:nth-child(1), .table-row .col:nth-child(1) { flex-basis: 40%; }
+            .table-header .col:nth-child(2), .table-row .col:nth-child(2) { flex-basis: 35%; }
+            .table-header .col:nth-child(3), .table-row .col:nth-child(3) { flex-basis: 25%; }
+        }
+
+        /* Footer Styling */
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #555555; /* Dark grey for subtle footer text */
+            padding: 20px 0 10px;
+            margin-top: 20px;
+            border-top: 1px solid #333333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Porfirio Landeros & Laetitia Santore</h1>
+        <h2>Championship Ballroom Dance Competitors</h2>
+        <div class="header-info">
+            <p><strong>Retired as Competitive Dancers</strong></p>
+        </div>
+    </header>
+
+    <div class="dedication-block">
+        <p>
+            "A lifetime of memories forged on the floor—from the flash of the spotlight to the quiet hours of practice. 
+            We dedicate this space to the beautiful art of ballroom, the stages we graced, 
+            and the partnership that made every dance a victory."
+        </p>
+    </div>
+
+    <section>
+        <h3>Photo Gallery</h3>
+        <div class="photo-gallery">
+            
+            <div class="image-wrapper">
+                <img src="/images/ballroom-01.jpg" alt="Ballroom Dancers in action, American Foxtrot">
+                <div class="dance-overlay">American Foxtrot</div>
+            </div>
+            
+            <div class="image-wrapper">
+                <img src="/images/ballroom-02.jpg" alt="Ballroom Dancers in action, American Waltz">
+                <div class="dance-overlay">American Waltz</div>
+            </div>
+
+            <div class="image-wrapper">
+                <img src="/images/ballroom-03.jpg" alt="Ballroom Dancers in action, American Tango">
+                <div class="dance-overlay">American Tango</div>
+            </div>
+
+        </div>
+    </section>
+    
+    <section class="our-story">
+        <h3>Our Story</h3>
+        <p>
+            The couple’s journey together began on the campus of UCSB in a ballroom dance class, where Laetitia met Porfirio, the teaching assistant. This initial connection quickly blossomed into a shared competitive ambition: to reach the pinnacle of ballroom dance. They dedicated themselves to the demanding <strong>American Style</strong>—Waltz, Tango, Foxtrot, and Viennese Waltz—seeking out world-class coaches to hone their craft.
+        </p>
+        <p>
+            Despite maintaining professional careers in the fast-paced tech industry as product marketers, Porfirio and Laetitia became a dominant force on the competitive circuit. They achieved four consecutive appearances in the <strong>National Final (Top 6)</strong> at the USA Dance Nationals, culminating in a National Silver Medal in 2005. Driven by the desire for greater challenge and opportunity, the pair transitioned to the Professional category, which offered a deeper field of competitors and the chance to earn prize purses.
+        </p>
+        <p>
+            Having achieved their goals as competitors, their focus shifted to educating the next generation of dancers. They partnered with their coaches to create widely successful on-line instructional resources: <a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/ref=atv_dp_share_cu_r"><em>The Quick Start Guide to Ballroom Dancing</em></a> (covering Waltz, Tango, Salsa, and Swing) and the specialized <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r"><em>Forget the Feet Wedding Dance Program</em></a>. Although retired from competitive life, they remain passionate about dance and are available for private bookings, consulting, and choreography for stage, film, and television.
+        </p>
+    </section>
+
+    <section>
+        <h3>Competitive Achievements</h3>
+        <ul>
+            <li>2006 Professional Rising Star Champions (Pacific DanceSport Championships)</li>
+            <li>4-Time National Finalists, 2003-2006 (USA Dance National Ballroom Championships)</li>
+            <li>2006 World Class Smooth Champions (Southwestern Regional Championships)</li>
+            <li>2005 American Smooth Silver Medalists (USA Dance National Ballroom Championships)</li>
+            <li>2005 American Smooth Champions (Southwestern Regional Championships)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Industrials & Stage Performances</h3>
+        <div class="responsive-table">
+            <div class="table-header">
+                <div class="col">Performance</div>
+                <div class="col">Role/Style</div>
+                <div class="col">Producer/Venue</div>
+            </div>
+            
+            <div class="table-row">
+                <div class="col" data-label="Performance">Dancing Through the Decades</div>
+                <div class="col" data-label="Role/Style">Swing Dancers, Salsa Dancers</div>
+                <div class="col" data-label="Producer/Venue">NRG Productions</div>
+            </div>
+            <div class="table-row">
+                <div class="col" data-label="Performance">A Night in Vienna</div>
+                <div class="col" data-label="Role/Style">Ballroom/Foxtrot Dancers</div>
+                <div class="col" data-label="Producer/Venue">San Diego Symphony</div>
+            </div>
+            <div class="table-row">
+                <div class="col" data-label="Performance">Twas the Night Before Christmas</div>
+                <div class="col" data-label="Role/Style">Viennese Waltz Dancers</div>
+                <div class="col" data-label="Producer/Venue">Poway Ctr for the Creative Arts</div>
+            </div>
+            <div class="table-row">
+                <div class="col" data-label="Performance">A Tribute to Richard Rogers</div>
+                <div class="col" data-label="Role/Style">Ballroom Dancers</div>
+                <div class="col" data-label="Producer/Venue">Grand Prix Productions</div>
+            </div>
+            <div class="table-row">
+                <div class="col" data-label="Performance">Noches de Ronda</div>
+                <div class="col" data-label="Role/Style">Latin Dancers</div>
+                <div class="col" data-label="Producer/Venue">Santa Barbara Spanish Days</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Film & Television</h3>
+        <ul>
+            <li>Point Pleasant: Last Dance (20th Century Fox Television)</li>
+            <li>Antwone Fisher (Fox Searchlight Pictures)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Training</h3>
+        <p>Trained by Mary Murphy, Michael Mead, and Toni Redpath.</p>
+        <p>Trained at UCSB and Champion Ballroom Academy.</p>
+        <p>Styles included:</p>
+        <ul>
+            <li>Competitive Smooth Ballroom Dancing (Waltz, Tango, Foxtrot, Viennese Waltz)</li>
+            <li>Latin, Rhythm, Salsa and Swing Dancing</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Special Skills</h3>
+        <ul>
+            <li><strong>Porfirio:</strong> Black Belt Martial Artist (Aikido), Spanish, Collegiate Wrestling, Cycling and Snowboarding.</li>
+            <li><strong>Laetitia:</strong> Costume Designer, Zumba Instructor, Fluent in French, Spanish, also speaks some German, Italian &amp; Portuguese.</li>
+        </ul>
+    </section>
+
+    <footer class="footer">
+        <p>
+            Copyright © 2006–<span id="currentYear"></span> Porfirio Landeros
+        </p>
+    </footer>
+
+</div> <script>
+    // JavaScript to calculate the current year and insert it into the copyright notice
+    document.addEventListener('DOMContentLoaded', function() {
+        const yearSpan = document.getElementById('currentYear');
+        // This will be 2025 based on the current context.
+        const currentYear = new Date().getFullYear();
+        if (yearSpan) {
+            yearSpan.textContent = currentYear;
+        }
+    });
+</script>
+
+</body>
+</html>
