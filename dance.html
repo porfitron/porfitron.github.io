@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porfirio Landeros & Laetitia Santore - Ballroom Dancers</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+
+    <meta name="description" content="Championship ballroom dance career resume for Porfirio Landeros & Laetitia Santore, featuring competitive achievements, stage performances, and links to their instructional dance programs.">
+    <meta name="keywords" content="ballroom dancers, Porfirio Landeros, Laetitia Santore, USA Dance Nationals, American Smooth, Foxtrot, Waltz, Tango, Viennese Waltz, professional dance, instructional videos, Zumba">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="/">
     <style>
         /*
         TOP HAT POSTER PALETTE:
@@ -19,11 +33,6 @@
             padding: 0;
             background-color: #111111; /* Black background */
             color: #f0f0f0; /* Off-white text */
-        }
-        a {
-            color: #ffcc00; /* Golden yellow link color */
-            text-decoration: none;
-            font-style: italic;
         }
         .container {
             max-width: 900px;
@@ -97,12 +106,15 @@
             margin-bottom: 1em;
         }
         /* Link color for readability against dark background */
-        .our-story a {
+        /* Combined link style for Our Story and all <ul> list items (like Special Skills) */
+        .our-story a,
+        .container ul a {
             color: #ffcc00; /* Golden yellow link color */
             text-decoration: none;
             font-style: italic;
         }
-        .our-story a:hover {
+        .our-story a:hover,
+        .container ul a:hover {
             text-decoration: underline;
         }
 
@@ -156,7 +168,7 @@
             transform: translateY(0);
         }
         
-        /* Responsive Table/Divs Styling */
+        /* Responsive Table/Divs Styling (Used for Industrials) */
         .responsive-table {
             margin-top: 10px;
         }
@@ -178,6 +190,7 @@
             flex-basis: 0;
             padding: 0 10px;
         }
+        /* Mobile/Small Screen Overrides for Tables */
         .table-header { display: none; }
         .table-row { flex-direction: column; border: 1px solid #444444; margin-bottom: 15px; }
         .col { flex-basis: 100%; padding: 8px 10px; }
@@ -193,6 +206,41 @@
             .table-header .col:nth-child(3), .table-row .col:nth-child(3) { flex-basis: 25%; }
         }
 
+        /* Film & TV Card Layout */
+        .film-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* Center cards if one breaks to next line */
+            margin-top: 15px;
+        }
+        .film-card {
+            flex: 1 1 calc(50% - 10px); /* Takes 50% width minus half the gap */
+            padding: 15px;
+            background-color: #333333;
+            border-left: 3px solid #ffcc00; /* Gold accent bar */
+            min-width: 300px; 
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        .film-card h4 {
+            margin-top: 0;
+            color: #d9534f;
+            text-transform: uppercase;
+            font-size: 1.1em;
+            border-bottom: 1px dashed #555;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .film-card p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        @media screen and (max-width: 650px) {
+            .film-card {
+                flex: 1 1 100%; /* Full width on smaller screens */
+                min-width: unset;
+            }
+        }
         /* Footer Styling */
         .footer {
             text-align: center;
@@ -202,14 +250,17 @@
             margin-top: 20px;
             border-top: 1px solid #333333;
         }
+        /* Style for the clickable copyright link */
+        .footer a {
+            color: #555555; /* Match the footer text color */
+            text-decoration: none;
+            font-style: normal;
+        }
+        .footer a:hover {
+            color: #f0f0f0; /* Lighter color on hover for feedback */
+            text-decoration: underline;
+        }
     </style>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-YN76XZSY41');
-    </script>
 </head>
 <body>
 
@@ -288,17 +339,17 @@
             
             <div class="table-row">
                 <div class="col" data-label="Performance">Dancing Through the Decades</div>
-                <div class="col" data-label="Role/Style">Swing Dancers, Salsa Dancers</div>
+                <div class="col" data-label="Role/Style">Ballroom/Foxtrot Dancers</div>
                 <div class="col" data-label="Producer/Venue">NRG Productions</div>
             </div>
             <div class="table-row">
                 <div class="col" data-label="Performance">A Night in Vienna</div>
-                <div class="col" data-label="Role/Style">Ballroom/Foxtrot Dancers</div>
+                <div class="col" data-label="Role/Style">Viennese Waltz Dancers</div>
                 <div class="col" data-label="Producer/Venue">San Diego Symphony</div>
             </div>
             <div class="table-row">
                 <div class="col" data-label="Performance">Twas the Night Before Christmas</div>
-                <div class="col" data-label="Role/Style">Viennese Waltz Dancers</div>
+                <div class="col" data-label="Role/Style">Ballroom Dancers</div>
                 <div class="col" data-label="Producer/Venue">Poway Ctr for the Creative Arts</div>
             </div>
             <div class="table-row">
@@ -316,10 +367,18 @@
 
     <section>
         <h3>Film & Television</h3>
-        <ul>
-            <li>Point Pleasant: Last Dance (20th Century Fox Television)</li>
-            <li>Antwone Fisher (Fox Searchlight Pictures)</li>
-        </ul>
+        <div class="film-container">
+            <div class="film-card">
+                <h4>Point Pleasant: Last Dance</h4>
+                <p><strong>Role:</strong> Swing Dancers</p>
+                <p>20th Century Fox Television</p>
+            </div>
+            <div class="film-card">
+                <h4>Antwone Fisher</h4>
+                <p><strong>Role:</strong> Salsa Dancers</p>
+                <p>Fox Searchlight Pictures</p>
+            </div>
+        </div>
     </section>
 
     <section>
@@ -337,7 +396,7 @@
         <h3>Special Skills</h3>
         <ul>
             <li><strong>Porfirio:</strong> Black Belt Martial Artist (Aikido), Spanish, Collegiate Wrestling, Cycling and Snowboarding.</li>
-            <li><strong>Laetitia:</strong> Costume Designer, Zumba Instructor, Fluent in French, Spanish, also speaks some German, Italian &amp; Portuguese.</li>
+            <li><strong>Laetitia:</strong> Costume Designer, <a href="https://www.youtube.com/playlist?list=PLE4A408122983EC7D">Zumba Instructor</a>, Fluent in French, Spanish, also speaks some German, Italian &amp; Portuguese.</li>
         </ul>
     </section>
 
@@ -351,7 +410,6 @@
     // JavaScript to calculate the current year and insert it into the copyright notice
     document.addEventListener('DOMContentLoaded', function() {
         const yearSpan = document.getElementById('currentYear');
-        // This will be 2025 based on the current context.
         const currentYear = new Date().getFullYear();
         if (yearSpan) {
             yearSpan.textContent = currentYear;
