@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction Listing: 1934 Ford Model 40 Deluxe Cabriolet Hot Rod</title>
+    
+    <!-- Prevent indexing and following -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -46,6 +60,38 @@
         .gallery-grid img:hover {
             opacity: 0.9;
         }
+        /* Modal Styles */
+        #modal, #inquiryModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        #modal.active, #inquiryModal.active {
+            display: flex;
+        }
+        .modal-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background 0.2s;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -70,11 +116,11 @@
         <section class="mb-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <div class="md:col-span-3">
-                    <img src="/1934/IMG_9175.jpeg" alt="Primary Front View" class="w-full h-[500px] object-cover rounded-sm shadow-sm" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
+                    <img src="1934/IMG_9179.jpeg" alt="Primary Front View" class="w-full h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(4)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
                 </div>
                 <div class="hidden md:flex flex-col gap-2">
-                    <img src="/1934/IMG_9176.jpeg" alt="Side View" class="w-full h-[246px] object-cover rounded-sm shadow-sm" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+1'">
-                    <img src="/1934/IMG_9177.jpeg" alt="Interior View" class="w-full h-[246px] object-cover rounded-sm shadow-sm" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+2'">
+                    <img src="1934/IMG_9196.jpeg" alt="Side View" class="w-full h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(21)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+1'">
+                    <img src="1934/IMG_9201.jpeg" alt="Interior View" class="w-full h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(26)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+2'">
                 </div>
             </div>
         </section>
@@ -108,7 +154,7 @@
                 <section class="mt-16">
                     <h3 class="text-xl font-bold mb-6 border-b pb-2 uppercase tracking-wide">Photo Gallery</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 gallery-grid" id="imageContainer">
-                        <!-- Images will be populated here -->
+                        <!-- Images will be populated here by JS -->
                     </div>
                 </section>
             </article>
@@ -156,7 +202,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition">
+                        <button onclick="openInquiryModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition">
                             Inquire for Details
                         </button>
                     </div>
@@ -164,13 +210,32 @@
             </aside>
         </div>
 
-        <footer class="mt-20 border-t pt-8 text-center text-gray-400 text-sm pb-12">
-            &copy; 2024 Private Collector Listing. All images are the property of the seller.
+        <footer class="mt-20 border-t pt-8 text-center text-gray-500 text-sm pb-12">
+            &copy; <span id="currentYear"></span> <a href="/" class="hover:underline text-gray-700 font-semibold">Porfirio José Landeros</a>. All images are the property of seller.
         </footer>
     </main>
 
+    <!-- Photo Modal Lightbox -->
+    <div id="modal" onclick="closeModal(event)">
+        <button class="modal-btn absolute top-6 right-6 z-50" onclick="closeModal(event)">&times;</button>
+        <button class="modal-btn absolute left-6 z-50 hidden md:flex" onclick="prevImg(event)">&#10094;</button>
+        <div class="max-w-5xl max-h-[90vh] flex flex-col items-center">
+            <img id="modalImg" src="" class="max-w-full max-h-[85vh] object-contain shadow-2xl">
+            <div id="modalCaption" class="text-white mt-4 font-medium text-sm"></div>
+        </div>
+        <button class="modal-btn absolute right-6 z-50 hidden md:flex" onclick="nextImg(event)">&#10095;</button>
+    </div>
+
+    <!-- Inquiry Modal -->
+    <div id="inquiryModal" onclick="closeInquiryModal(event)">
+        <div class="bg-white p-12 rounded-sm shadow-2xl text-center max-w-md mx-4 relative">
+            <button class="absolute top-2 right-4 text-2xl text-gray-400 hover:text-black" onclick="closeInquiryModal(event)">&times;</button>
+            <h2 class="text-3xl font-black uppercase tracking-tighter mb-4">Coming Soon</h2>
+            <p class="text-gray-600">Our contact system is currently being updated. Please check back shortly for full inquiry details.</p>
+        </div>
+    </div>
+
     <script>
-        // Generate the gallery grid from your list of photos
         const photos = [
             "IMG_9175.jpeg", "IMG_9176.jpeg", "IMG_9177.jpeg", "IMG_9178.jpeg", "IMG_9179.jpeg",
             "IMG_9180.jpeg", "IMG_9181.jpeg", "IMG_9182.jpeg", "IMG_9183.jpeg", "IMG_9184.jpeg",
@@ -182,19 +247,90 @@
             "IMG_9210.jpeg", "IMG_9211.jpeg", "IMG_9212.jpeg", "IMG_9213.jpeg", "IMG_9214.jpeg"
         ];
 
+        // Set Copyright Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        let currentIndex = 0;
+        const modal = document.getElementById('modal');
+        const inquiryModal = document.getElementById('inquiryModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
         const container = document.getElementById('imageContainer');
-        photos.forEach(filename => {
+
+        // Inquiry Modal Logic
+        function openInquiryModal() {
+            inquiryModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInquiryModal(e) {
+            if (e.target === inquiryModal || e.target.innerText === '×' || e.target.closest('button')) {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Photo Gallery Logic
+        photos.forEach((filename, index) => {
             const div = document.createElement('div');
             const img = document.createElement('img');
-            img.src = `/1934/${filename}`;
-            img.alt = `Photo ${filename}`;
+            img.src = `1934/${filename}`;
+            img.alt = `Photo ${index + 1}`;
             img.loading = "lazy";
             img.className = "rounded-sm shadow-sm";
+            img.onclick = () => openModal(index);
             img.onerror = function() {
-                this.parentElement.style.display = 'none'; // Hide if file missing
+                this.parentElement.style.display = 'none';
             };
             div.appendChild(img);
             container.appendChild(div);
+        });
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (e.target === modal || e.target.innerText === '×') {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function nextImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex + 1) % photos.length;
+            updateModal();
+        }
+
+        function prevImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = `1934/${photos[currentIndex]}`;
+            modalCaption.innerText = `Image ${currentIndex + 1} of ${photos.length}`;
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('active')) {
+                if (e.key === "ArrowRight") nextImg();
+                if (e.key === "ArrowLeft") prevImg();
+                if (e.key === "Escape") {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+            if (inquiryModal.classList.contains('active') && e.key === "Escape") {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
     </script>
 </body>
