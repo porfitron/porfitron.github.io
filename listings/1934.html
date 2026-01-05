@@ -25,6 +25,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8f9fa;
             color: #1a1a1a;
+            overflow-x: hidden;
         }
         .serif-text {
             font-family: 'Lora', serif;
@@ -33,6 +34,10 @@
         }
         .listing-header {
             border-bottom: 4px solid #000;
+        }
+        /* Prevents awkward title wrapping */
+        .title-balance {
+            text-wrap: balance;
         }
         .sidebar-item {
             border-bottom: 1px solid #e5e7eb;
@@ -83,11 +88,17 @@
             font-size: 2rem;
             transition: background 0.2s;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .modal-btn {
+                width: 60px;
+                height: 60px;
+            }
         }
         .modal-btn:hover {
             background: rgba(255, 255, 255, 0.2);
@@ -99,13 +110,15 @@
     <main class="max-w-6xl mx-auto">
         <!-- Auction Header -->
         <header class="listing-header pb-6 mb-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">1934 Ford Model 40 Deluxe Cabriolet Hot Rod</h1>
-                    <p class="text-xl text-gray-600 font-medium italic">Custom Build by Scotts Hot Rod Shop</p>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div class="max-w-4xl">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 title-balance">
+                        1934 Ford Model 40 Deluxe Cabriolet Hot Rod
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 font-medium italic">Custom Build by Scotts Hot Rod Shop</p>
                 </div>
-                <div class="text-right">
-                    <div class="bg-black text-white px-4 py-2 text-sm font-bold uppercase tracking-widest inline-block">
+                <div class="text-left lg:text-right">
+                    <div class="bg-black text-white px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-widest inline-block whitespace-nowrap">
                         Private Listing
                     </div>
                 </div>
@@ -116,18 +129,18 @@
         <section class="mb-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <div class="md:col-span-3">
-                    <img src="1934/IMG_9179.jpeg" alt="Primary Front View" class="w-full h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(4)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
+                    <img src="1934/IMG_9179.jpeg" alt="Primary Front View" class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(4)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
                 </div>
                 <div class="hidden md:flex flex-col gap-2">
-                    <img src="1934/IMG_9196.jpeg" alt="Side View" class="w-full h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(21)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+1'">
-                    <img src="1934/IMG_9201.jpeg" alt="Interior View" class="w-full h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(26)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+2'">
+                    <img src="1934/IMG_9196.jpeg" alt="Side View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(21)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+1'">
+                    <img src="1934/IMG_9201.jpeg" alt="Interior View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(26)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+2'">
                 </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <!-- Main Content Area -->
-            <article class="lg:col-span-8">
+            <article class="lg:col-span-8 order-2 lg:order-1">
                 
                 <div class="serif-text space-y-6">
                     <p>
@@ -153,16 +166,16 @@
                 <!-- Full Photo Grid -->
                 <section class="mt-16">
                     <h3 class="text-xl font-bold mb-6 border-b pb-2 uppercase tracking-wide">Photo Gallery</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 gallery-grid" id="imageContainer">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 gallery-grid" id="imageContainer">
                         <!-- Images will be populated here by JS -->
                     </div>
                 </section>
             </article>
 
             <!-- Sidebar Statistics -->
-            <aside class="lg:col-span-4">
-                <div class="sticky top-8 bg-white p-6 border border-gray-200 shadow-sm rounded-sm">
-                    <h3 class="text-lg font-bold mb-4 border-b pb-2">Listing Details</h3>
+            <aside class="lg:col-span-4 order-1 lg:order-2 mb-8 lg:mb-0">
+                <div class="lg:sticky lg:top-8 bg-white p-6 border border-gray-200 shadow-sm rounded-sm">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2 uppercase text-xs tracking-widest text-gray-500">Listing Details</h3>
                     
                     <div class="sidebar-item">
                         <div class="sidebar-label">Chassis</div>
@@ -202,7 +215,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <button onclick="openInquiryModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition">
+                        <button onclick="openInquiryModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded transition text-sm uppercase tracking-widest">
                             Inquire for Details
                         </button>
                     </div>
@@ -217,21 +230,21 @@
 
     <!-- Photo Modal Lightbox -->
     <div id="modal" onclick="closeModal(event)">
-        <button class="modal-btn absolute top-6 right-6 z-50" onclick="closeModal(event)">&times;</button>
-        <button class="modal-btn absolute left-6 z-50 hidden md:flex" onclick="prevImg(event)">&#10094;</button>
-        <div class="max-w-5xl max-h-[90vh] flex flex-col items-center">
-            <img id="modalImg" src="" class="max-w-full max-h-[85vh] object-contain shadow-2xl">
-            <div id="modalCaption" class="text-white mt-4 font-medium text-sm"></div>
+        <button class="modal-btn absolute top-4 right-4 sm:top-6 sm:right-6 z-50" onclick="closeModal(event)">&times;</button>
+        <button class="modal-btn absolute left-2 sm:left-6 z-50" onclick="prevImg(event)">&#10094;</button>
+        <div class="max-w-[95vw] sm:max-w-5xl max-h-[90vh] flex flex-col items-center">
+            <img id="modalImg" src="" class="max-w-full max-h-[80vh] sm:max-h-[85vh] object-contain shadow-2xl">
+            <div id="modalCaption" class="text-white mt-4 font-medium text-xs sm:text-sm"></div>
         </div>
-        <button class="modal-btn absolute right-6 z-50 hidden md:flex" onclick="nextImg(event)">&#10095;</button>
+        <button class="modal-btn absolute right-2 sm:right-6 z-50" onclick="nextImg(event)">&#10095;</button>
     </div>
 
     <!-- Inquiry Modal -->
     <div id="inquiryModal" onclick="closeInquiryModal(event)">
-        <div class="bg-white p-12 rounded-sm shadow-2xl text-center max-w-md mx-4 relative">
+        <div class="bg-white p-8 sm:p-12 rounded-sm shadow-2xl text-center max-w-sm sm:max-w-md mx-4 relative">
             <button class="absolute top-2 right-4 text-2xl text-gray-400 hover:text-black" onclick="closeInquiryModal(event)">&times;</button>
-            <h2 class="text-3xl font-black uppercase tracking-tighter mb-4">Coming Soon</h2>
-            <p class="text-gray-600">Our contact system is currently being updated. Please check back shortly for full inquiry details.</p>
+            <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-4">Coming Soon</h2>
+            <p class="text-sm sm:text-base text-gray-600">Our contact system is currently being updated. Please check back shortly for full inquiry details.</p>
         </div>
     </div>
 
