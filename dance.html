@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porfirio Landeros & Laetitia Santore - Ballroom Dancers</title>
     
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -14,10 +15,13 @@
       gtag('config', 'G-YN76XZSY41');
     </script>
 
+    <!-- SEO Meta Tags -->
     <meta name="description" content="Championship ballroom dance career resume for Porfirio Landeros & Laetitia Santore, featuring competitive achievements, stage performances, and links to their instructional dance programs.">
     <meta name="keywords" content="ballroom dancers, Porfirio Landeros, Laetitia Santore, USA Dance Nationals, American Smooth, Foxtrot, Waltz, Tango, Viennese Waltz, professional dance, instructional videos, Zumba">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="/">
+    <!-- End SEO Meta Tags -->
+
     <style>
         /*
         TOP HAT POSTER PALETTE:
@@ -106,15 +110,17 @@
             margin-bottom: 1em;
         }
         /* Link color for readability against dark background */
-        /* Combined link style for Our Story and all <ul> list items (like Special Skills) */
+        /* Combined link style for Our Story, all <ul> list items, and paragraph links */
         .our-story a,
-        .container ul a {
+        .container ul a,
+        .container p a {
             color: #ffcc00; /* Golden yellow link color */
             text-decoration: none;
             font-style: italic;
         }
         .our-story a:hover,
-        .container ul a:hover {
+        .container ul a:hover,
+        .container p a:hover {
             text-decoration: underline;
         }
 
@@ -166,6 +172,95 @@
         }
         .image-wrapper:hover .dance-overlay {
             transform: translateY(0);
+        }
+
+        /* Play Icon Overlay for Videos */
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            border: 2px solid #ffcc00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Let clicks pass through to the wrapper */
+            transition: background-color 0.3s ease;
+        }
+        .play-icon:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 15px solid #ffcc00;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            margin-left: 5px; /* Visual centering adjustment */
+        }
+        .image-wrapper:hover .play-icon {
+            background-color: rgba(217, 83, 79, 0.8); /* Red accent on hover */
+            border-color: #fff;
+        }
+        .image-wrapper:hover .play-icon:after {
+            border-left-color: #fff;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); 
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            background-color: #000;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+        }
+        /* Aspect ratio wrapper for responsive iframe */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            line-height: 30px;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #ffcc00;
+            text-decoration: none;
+            cursor: pointer;
         }
         
         /* Responsive Table/Divs Styling (Used for Industrials) */
@@ -283,9 +378,10 @@
     </div>
 
     <section>
-        <h3>Photo Gallery</h3>
+        <h3>Photo & Video Gallery</h3>
         <div class="photo-gallery">
             
+            <!-- Existing Photos -->
             <div class="image-wrapper">
                 <img src="/images/ballroom-01.jpg" alt="Ballroom Dancers in action, American Foxtrot">
                 <div class="dance-overlay">American Foxtrot</div>
@@ -299,6 +395,25 @@
             <div class="image-wrapper">
                 <img src="/images/ballroom-03.jpg" alt="Ballroom Dancers in action, American Tango">
                 <div class="dance-overlay">American Tango</div>
+            </div>
+
+            <!-- New Video Thumbnails -->
+            <div class="image-wrapper video-link" data-video-src="https://www.youtube.com/embed/D3qszdFtgcQ?autoplay=1">
+                <img src="https://img.youtube.com/vi/D3qszdFtgcQ/hqdefault.jpg" alt="Performance Video 1">
+                <div class="play-icon"></div>
+                <div class="dance-overlay">Porfirio in Jr. Cotillion</div>
+            </div>
+
+            <div class="image-wrapper video-link" data-video-src="https://www.youtube.com/embed/P45TSoO92nc?autoplay=1">
+                <img src="https://img.youtube.com/vi/P45TSoO92nc/hqdefault.jpg" alt="Performance Video 2">
+                <div class="play-icon"></div>
+                <div class="dance-overlay">UCSB Cotillion</div>
+            </div>
+
+            <div class="image-wrapper video-link" data-video-src="https://www.youtube.com/embed/X9gUqQAaCGc?autoplay=1">
+                <img src="https://img.youtube.com/vi/X9gUqQAaCGc/hqdefault.jpg" alt="Performance Video 3">
+                <div class="play-icon"></div>
+                <div class="dance-overlay">Porfirio & Laetitia Competition</div>
             </div>
 
         </div>
@@ -383,8 +498,8 @@
 
     <section>
         <h3>Training</h3>
-        <p>Trained by Mary Murphy, Michael Mead, and Toni Redpath.</p>
-        <p>Trained at UCSB and Champion Ballroom Academy.</p>
+        <p>Trained by <a href="https://en.wikipedia.org/wiki/Mary_Murphy_(choreographer)" target="_blank" rel="noopener noreferrer">Mary Murphy</a>, <a href="https://en.wikipedia.org/wiki/Michael_Mead" target="_blank" rel="noopener noreferrer">Michael Mead</a>, and <a href="https://en.wikipedia.org/wiki/Toni_Redpath" target="_blank" rel="noopener noreferrer">Toni Redpath</a>.</p>
+        <p>Trained at UCSB, <a href="https://en.wikipedia.org/wiki/Ken_and_Miye_Ota" target="_blank" rel="noopener noreferrer">Ken and Miye Ota</a>, and Champion Ballroom Academy.</p>
         <p>Styles included:</p>
         <ul>
             <li>Competitive Smooth Ballroom Dancing (Waltz, Tango, Foxtrot, Viennese Waltz)</li>
@@ -406,14 +521,57 @@
         </p>
     </footer>
 
-</div> <script>
-    // JavaScript to calculate the current year and insert it into the copyright notice
+</div> <!-- End of .container -->
+
+<!-- Video Modal -->
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="video-container">
+            <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Current Year Logic
         const yearSpan = document.getElementById('currentYear');
         const currentYear = new Date().getFullYear();
         if (yearSpan) {
             yearSpan.textContent = currentYear;
         }
+
+        // Modal Logic
+        const modal = document.getElementById('videoModal');
+        const videoFrame = document.getElementById('videoFrame');
+        const closeBtn = document.querySelector('.close-modal');
+        const videoLinks = document.querySelectorAll('.video-link');
+
+        // Open modal on click
+        videoLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const videoSrc = this.getAttribute('data-video-src');
+                videoFrame.src = videoSrc;
+                modal.style.display = 'flex'; // Use flex to center content
+            });
+        });
+
+        // Close modal function
+        function closeModal() {
+            modal.style.display = 'none';
+            videoFrame.src = ''; // Stop video playback
+        }
+
+        // Close on X click
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close on outside click
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        });
     });
 </script>
 
