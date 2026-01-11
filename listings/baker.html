@@ -329,6 +329,7 @@
                         <div class="map-container bg-gray-200">
                             <!-- Embedded Google Map centered on 2709 Baker Street, SF -->
                             <iframe 
+                                title="Google Map of 2709 Baker Street Location"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.116896791244!2d-122.4468646846816!3d37.796338979756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085872d82555555%3A0xabcdef1234567890!2s2709%20Baker%20St%2C%20San%20Francisco%2C%20CA%2094123!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
                                 width="600" 
                                 height="450" 
@@ -386,7 +387,8 @@
                 <button onclick="closeModal()" class="text-white text-3xl font-bold hover:text-gray-300">&times;</button>
             </div>
             <div class="mt-2 text-center">
-                <img id="modalImage" src="" class="mx-auto max-h-[75vh] object-contain rounded-lg shadow-2xl">
+                <!-- Fixed src invalid value error by adding a transparent placeholder -->
+                <img id="modalImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Gallery Image" class="mx-auto max-h-[75vh] object-contain rounded-lg shadow-2xl">
                 <p id="modalCaption" class="text-white mt-4 text-lg font-medium tracking-wide"></p>
                 <div class="mt-4 flex justify-between items-center px-4">
                      <button onclick="changeImage(-1)" class="bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition"><i class="fas fa-chevron-left"></i></button>
