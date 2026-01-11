@@ -98,7 +98,7 @@
     <!-- Image Gallery -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 h-96 md:h-[500px]">
-            <!-- Main large image: Drone Shot -->
+            <!-- Main large image: Drone Shot (Index 0) -->
             <div class="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(0)">
                 <img src="baker/2709-2711-drone.jpg" 
                      alt="Property Aerial View" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
@@ -106,19 +106,21 @@
                     <span class="text-white font-medium"><i class="fas fa-camera mr-2"></i>Premier Corner Location</span>
                 </div>
             </div>
-            <!-- Smaller side images -->
-            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(1)">
+            <!-- Exterior Shot (Index 3 - Start of Exterior Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(3)">
                 <img src="baker/2709-2711-exterior_1817.jpeg" 
                      alt="Building Exterior" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                      <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent w-full p-2">
                         <span class="text-white text-xs font-medium ml-2">Building Exterior</span>
                     </div>
             </div>
-            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(2)">
+            <!-- 2709 Shot (Index 10 - Start of 2709 Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(10)">
                 <img src="baker/2709-livingroom.jpg" 
                      alt="Lower Unit Living Room" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
             </div>
-            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(3)">
+            <!-- 2711 Penthouse Shot (Index 22 - Start of Penthouse Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(22)">
                 <img src="baker/2711-penthouse_8283.jpeg" 
                      alt="Penthouse Interior" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
             </div>
@@ -192,7 +194,7 @@
                         <li><strong>Climate Control:</strong> New vented HVAC heatpump system for heating and cooling.</li>
                         <li><strong>Efficiency:</strong> New heatpump water heaters installed.</li>
                         <li><strong>Windows & Treatments:</strong> New double-paned windows throughout, fitted with custom shades. The top floor features <strong>electric smart shades</strong> that operate on command or programmable schedules.</li>
-                        <li><strong>Security:</strong> New security gate, doorbell, security cameras, and updated exterior lighting.</li>
+                        <li><strong>Security:</strong> New security gate, <strong>keyless entry with smart locks</strong>, doorbell, security cameras, and updated exterior lighting.</li>
                         <li><strong>Ambiance:</strong> Electric fireplace inserts with remote controls installed in each unit.</li>
                     </ul>
 
@@ -235,7 +237,7 @@
                                 <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
                                 <div>
                                     <strong class="block text-gray-900">Security</strong>
-                                    <span class="text-sm">Cameras, Gate & New Lighting</span>
+                                    <span class="text-sm">Keyless Entry, Cameras, Gate</span>
                                 </div>
                             </div>
                             <div class="flex items-start">
@@ -387,7 +389,6 @@
                 <button onclick="closeModal()" class="text-white text-3xl font-bold hover:text-gray-300">&times;</button>
             </div>
             <div class="mt-2 text-center">
-                <!-- Fixed src invalid value error by adding a transparent placeholder -->
                 <img id="modalImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Gallery Image" class="mx-auto max-h-[75vh] object-contain rounded-lg shadow-2xl">
                 <p id="modalCaption" class="text-white mt-4 text-lg font-medium tracking-wide"></p>
                 <div class="mt-4 flex justify-between items-center px-4">
@@ -400,43 +401,43 @@
     </div>
 
     <script>
-        // Updated images array with captions based strictly on filenames
+        // Updated images array with tour flow: Drone -> Exterior -> 2709 -> 2711 Main -> 2711 Penthouse
         const images = [
-            // Featured Images (Indices 0-3)
+            // --- DRONE SHOTS (Indices 0-2) ---
             { src: 'baker/2709-2711-drone.jpg', caption: '2709-2711 Drone View' },
-            { src: 'baker/2709-2711-exterior_1817.jpeg', caption: '2709-2711 Exterior' },
-            { src: 'baker/2709-livingroom.jpg', caption: '2709 Living Room' },
-            { src: 'baker/2711-penthouse_8283.jpeg', caption: '2711 Penthouse' },
-
-            // Aerials & Exterior
             { src: 'baker/2709-2711-drone_0634.jpeg', caption: '2709-2711 Drone View 0634' },
             { src: 'baker/2709-2711-drone_0635.jpeg', caption: '2709-2711 Drone View 0635' },
-            { src: 'baker/2709-2711-entry-gate_7889.jpg', caption: '2709-2711 Entry Gate' },
-            { src: 'baker/2709-2711-entryway_9771.jpg', caption: '2709-2711 Entryway' },
+
+            // --- EXTERIOR SHOTS (Indices 3-9) ---
+            { src: 'baker/2709-2711-exterior_1817.jpeg', caption: '2709-2711 Exterior' },
             { src: 'baker/2709-2711-exterior_7846.jpg', caption: '2709-2711 Exterior' },
             { src: 'baker/2709-2711-exterior_9332.jpg', caption: '2709-2711 Exterior' },
-            { src: 'baker/2709-2711-garages_9153.jpg', caption: '2709-2711 Garages' },
             { src: 'baker/2709-2711-night_1138.jpg', caption: '2709-2711 Night View' },
+            { src: 'baker/2709-2711-entry-gate_7889.jpg', caption: '2709-2711 Entry Gate' },
+            { src: 'baker/2709-2711-entryway_9771.jpg', caption: '2709-2711 Entryway' },
+            { src: 'baker/2709-2711-garages_9153.jpg', caption: '2709-2711 Garages' },
 
-            // Unit 2709 (Lower)
-            { src: 'baker/2709-bedroom_2061.jpeg', caption: '2709 Bedroom' },
-            { src: 'baker/2709-living-room-lamp_2355.jpeg', caption: '2709 Living Room Lamp' },
+            // --- UNIT 2709 (LOWER) (Indices 10-14) ---
+            { src: 'baker/2709-livingroom.jpg', caption: '2709 Living Room' },
             { src: 'baker/2709-livingroom_8223.jpg', caption: '2709 Living Room' },
+            { src: 'baker/2709-living-room-lamp_2355.jpeg', caption: '2709 Living Room Lamp' },
+            { src: 'baker/2709-bedroom_2061.jpeg', caption: '2709 Bedroom' },
             { src: 'baker/2709-primary_2060.jpeg', caption: '2709 Primary' },
 
-            // Unit 2711 (Upper/Penthouse)
-            { src: 'baker/2711-bedroom-office_8827.jpg', caption: '2711 Bedroom Office' },
-            { src: 'baker/2711-diningroom_9872.jpg', caption: '2711 Dining Room' },
-            { src: 'baker/2711-kitchen-livingroom_9870.jpg', caption: '2711 Kitchen Living Room' },
+            // --- UNIT 2711 (UPPER - MAIN LEVEL) (Indices 15-21) ---
             { src: 'baker/2711-livingroom_9013.jpeg', caption: '2711 Living Room' },
             { src: 'baker/2711-livingroom_9871.jpg', caption: '2711 Living Room' },
+            { src: 'baker/2711-diningroom_9872.jpg', caption: '2711 Dining Room' },
+            { src: 'baker/2711-kitchen-livingroom_9870.jpg', caption: '2711 Kitchen Living Room' },
+            { src: 'baker/2711-bedroom-office_8827.jpg', caption: '2711 Bedroom Office' },
+            { src: 'baker/2711-primary-juliet_7246.jpg', caption: '2711 Primary Juliet' },
+            { src: 'baker/2711-primary-juliet_7915.jpg', caption: '2711 Primary Juliet' },
+
+            // --- UNIT 2711 (UPPER - PENTHOUSE LEVEL) (Indices 22-25) ---
+            { src: 'baker/2711-penthouse_8283.jpeg', caption: '2711 Penthouse' },
             { src: 'baker/2711-penthouse_6482.jpeg', caption: '2711 Penthouse' },
             { src: 'baker/2711-penthouse_8231.jpeg', caption: '2711 Penthouse' },
-            { src: 'baker/2711-penthouse_8285.jpeg', caption: '2711 Penthouse' },
-            
-            // Primary Juliet (Skipped 9088, 0463, 2338 as requested previously)
-            { src: 'baker/2711-primary-juliet_7246.jpg', caption: '2711 Primary Juliet' },
-            { src: 'baker/2711-primary-juliet_7915.jpg', caption: '2711 Primary Juliet' }
+            { src: 'baker/2711-penthouse_8285.jpeg', caption: '2711 Penthouse' }
         ];
         
         let currentIndex = 0;
