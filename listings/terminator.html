@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Listing: 2003 Toyota Tundra SR5 "Terminator 3" Special Edition</title>
+    
+    <!-- Prevent indexing and following -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+        .serif-text {
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        .listing-header {
+            border-bottom: 4px solid #000;
+        }
+        .title-balance {
+            text-wrap: balance;
+        }
+        .sidebar-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 0;
+        }
+        .sidebar-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+        .sidebar-value {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #111827;
+        }
+        .gallery-grid img {
+            aspect-ratio: 3/2;
+            object-fit: cover;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .gallery-grid img:hover {
+            opacity: 0.9;
+        }
+        #modal, #inquiryModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        #modal.active, #inquiryModal.active {
+            display: flex;
+        }
+        .modal-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background 0.2s;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .modal-btn {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <main class="max-w-6xl mx-auto">
+        <!-- Auction Header -->
+        <header class="listing-header pb-6 mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div class="max-w-4xl">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 title-balance">
+                        2003 Toyota Tundra SR5 "Terminator 3" Special Edition
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 font-medium italic">~1 of 800 Built to Commemorate <i>Rise of the Machines</i></p>
+                </div>
+                <div class="text-left lg:text-right">
+                    <div class="bg-black text-white px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-widest inline-block whitespace-nowrap">
+                        Private Listing
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Gallery -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                <div class="md:col-span-3">
+                    <img src="terminator/t3-tundra_00_9677.jpeg" alt="Primary Front View" class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(0)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
+                </div>
+                <div class="hidden md:flex flex-col gap-2">
+                    <img src="terminator/t3-tundra_hawk-hill.jpeg" alt="Action View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(15)" onerror="this.src='https://via.placeholder.com/400x300?text=Exterior+1'">
+                    <img src="terminator/t3-tundra-poster.JPG" alt="Terminator 3 Poster" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(21)" onerror="this.src='https://via.placeholder.com/400x300?text=Poster+Image'">
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <!-- Main Content Area -->
+            <article class="lg:col-span-8 order-2 lg:order-1">
+                
+                <div class="serif-text space-y-6">
+                    <p>
+                        This 2003 Toyota Tundra SR5 is one of a limited number of "Terminator 3" Special Edition models produced to commemorate the truck's feature in <i>Terminator 3: Rise of the Machines</i>. Total production was limited to approximately 800 units, making it a rare survivor among first-generation Tundras. This monochromatic black example is a two-owner California truck that has been garaged since new and meticulously maintained. Originally purchased by the seller's stepfather, this vehicle boasts a continuous family history and a lifetime of documented care.
+                    </p>
+                    
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">T3 Edition Features</h2>
+                    <p>
+                        The Terminator 3 package transformed the Tundra into a street-performance icon. Key factory upgrades include a T3-specific grille, monochromatic black paint, unique 17-inch alloy wheels, and specialized T3 badging. Performance is enhanced by a factory TRD dual exhaust system. The exterior has been protected since day one by a custom full leather bra commissioned by the first owner, which remains included in the sale. Additionally, the bed is in impeccable condition thanks to a fiberglass Tonneau cover and Bedrug installed upon delivery.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">Interior and Tech Upgrades</h2>
+                    <p>
+                        The cabin features the exclusive T3 dark leather upholstery, which is in exceptional condition with no tears or significant wear. Recent modernization includes an Android Auto and Apple CarPlay compatible touchscreen head unit and a tailgate handle-mounted backup camera. While the HVAC knobs and audio system have been updated for modern use, the original OEM stereo, HVAC knobs, and factory tailgate handle have all been saved and are included. The door keyholes have been deleted for a sleek aesthetic, and the truck now features a modern keyless entry system, WeatherTech floor mats, and an interior LED lighting upgrade.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">Condition and Recent Maintenance</h2>
+                    <p>
+                        Showing approximately 83,000 miles, this Tundra has been preserved as a collector-grade example. In August 2025, a fresh set of Goodyear Workhorse A/T tires was installed. As a California vehicle, the chassis remains remarkably clean with no rust. The truck has been garaged throughout its life, preserving the depth of the monochromatic black finish. The 4.7L i-Force V8 remains strong, and the seller has acquired a full set of replacement/back-up T3 bed decals to ensure the truck's unique branding can be maintained for years to come.
+                    </p>
+                </div>
+
+                <!-- Full Photo Grid -->
+                <section class="mt-16">
+                    <h3 class="text-xl font-bold mb-6 border-b pb-2 uppercase tracking-wide">Photo Gallery</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 gallery-grid" id="imageContainer">
+                        <!-- Images populated by JS -->
+                    </div>
+                </section>
+            </article>
+
+            <!-- Sidebar Statistics -->
+            <aside class="lg:col-span-4 order-1 lg:order-2 mb-8 lg:mb-0">
+                <div class="lg:sticky lg:top-8 bg-white p-6 border border-gray-200 shadow-sm rounded-sm">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2 uppercase text-xs tracking-widest text-gray-500">Listing Details</h3>
+                    
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Model Year</div>
+                        <div class="sidebar-value">2003</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Mileage</div>
+                        <div class="sidebar-value">~83,000 Miles</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Engine</div>
+                        <div class="sidebar-value">4.7L i-Force V8</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Drivetrain</div>
+                        <div class="sidebar-value">2WD / SR5</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Upholstery</div>
+                        <div class="sidebar-value">T3 Dark Leather (No Tears)</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Tires</div>
+                        <div class="sidebar-value">Goodyear Workhorse A/T</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Production</div>
+                        <div class="sidebar-value">~1 of 800 Built</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Extras</div>
+                        <div class="sidebar-value">OEM Parts & Leather Bra</div>
+                    </div>
+                    <div class="sidebar-item border-none">
+                        <div class="sidebar-label">Location</div>
+                        <div class="sidebar-value">California</div>
+                    </div>
+
+                    <div class="mt-8">
+                        <button onclick="openInquiryModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded transition text-sm uppercase tracking-widest">
+                            Inquire for Details
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="mt-20 border-t pt-8 text-center text-gray-500 text-sm pb-12">
+            &copy; <span id="currentYear"></span> <a href="/" class="hover:underline text-gray-700 font-semibold">Porfirio José Landeros</a>. All images are the property of seller.
+        </footer>
+    </main>
+
+    <!-- Photo Modal -->
+    <div id="modal" onclick="closeModal(event)">
+        <button class="modal-btn absolute top-4 right-4 sm:top-6 sm:right-6 z-50" onclick="closeModal(event)">&times;</button>
+        <button class="modal-btn absolute left-2 sm:left-6 z-50" onclick="prevImg(event)">&#10094;</button>
+        <div class="max-w-[95vw] sm:max-w-5xl max-h-[90vh] flex flex-col items-center">
+            <img id="modalImg" src="" class="max-w-full max-h-[80vh] sm:max-h-[85vh] object-contain shadow-2xl">
+            <div id="modalCaption" class="text-white mt-4 font-medium text-xs sm:text-sm text-center px-4"></div>
+        </div>
+        <button class="modal-btn absolute right-2 sm:right-6 z-50" onclick="nextImg(event)">&#10095;</button>
+    </div>
+
+    <!-- Inquiry Modal -->
+    <div id="inquiryModal" onclick="closeInquiryModal(event)">
+        <div class="bg-white p-8 sm:p-12 rounded-sm shadow-2xl text-center max-w-sm sm:max-w-md mx-4 relative">
+            <button class="absolute top-2 right-4 text-2xl text-gray-400 hover:text-black" onclick="closeInquiryModal(event)">&times;</button>
+            <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-4">Coming Soon</h2>
+            <p class="text-sm sm:text-base text-gray-600">Our contact system is currently being updated. Please check back shortly for full inquiry details.</p>
+        </div>
+    </div>
+
+    <script>
+        const photoData = [
+            { file: "t3-tundra_00_9677.jpeg", caption: "Front Three-Quarter View" },
+            { file: "t3-tundra_0378.jpeg", caption: "Rear Three-Quarter View" },
+            { file: "t3-tundra_0654.jpeg", caption: "Terminator 3 Specific Grille Detail" },
+            { file: "t3-tundra_0655.jpeg", caption: "Front Fascia and Headlight Profile" },
+            { file: "t3-tundra_0907.jpeg", caption: "4.7L i-Force V8 Engine Bay - View 1" },
+            { file: "t3-tundra_engine_8573.jpg", caption: "4.7L i-Force V8 Engine Bay - View 2" },
+            { file: "t3-tundra_1259.jpeg", caption: "Interior Dashboard and Center Stack" },
+            { file: "t3-tundra_2144.jpeg", caption: "Driver Side Exterior Profile" },
+            { file: "t3-tundra_7393.JPG", caption: "Underbody and Suspension Condition" },
+            { file: "t3-tundra_7819.jpeg", caption: "17-inch Alloy Wheel - T3 Edition Specific" },
+            { file: "t3-tundra_7820.jpeg", caption: "New Goodyear Workhorse A/T Tires (Aug 2025)" },
+            { file: "t3-tundra_7821.jpeg", caption: "Truck Bed with Protective Bedrug and Tonneau" },
+            { file: "t3-tundra_7836.jpeg", caption: "T3 Dark Leather Interior - Rear Bench View" },
+            { file: "t3-tundra_7838.jpeg", caption: "Android Auto / Apple CarPlay Touchscreen Head Unit" },
+            { file: "t3-tundra_8295.jpeg", caption: "Rear View and Tailgate Condition" },
+            { file: "t3-tundra_9397.jpeg", caption: "Terminator 3 Exterior Badging Detail" },
+            { file: "t3-tundra_hawk-hill.jpeg", caption: "Tundra T3 at Hawk Hill" },
+            { file: "t3-tundra_movie-prop_9059.JPG", caption: "Terminator 3 Movie Promotional Material" },
+            { file: "t3-tundra_plaque_1296.jpg", caption: "Interior Commemorative T3 Production Plaque" },
+            { file: "t3-tundra_red-carpet_9705.JPG", caption: "Tundra T3 Red Carpet Premiere Event" },
+            { file: "t3-tundra_red-carpet_9707.JPG", caption: "Toyota Promotional Release Coverage" },
+            { file: "t3-tundra_sticker_7753.JPG", caption: "Manufacturer Door Jamb Build Sticker" },
+            { file: "t3-tundra-poster.JPG", caption: "Terminator 3: Rise of the Machines Original Poster" },
+            { file: "t3-tundra_interior_front.jpeg", caption: "Front Dark Leather Seats - Pristine Condition" },
+            { file: "t3-tundra_interior_detail.jpeg", caption: "Interior Trim and Leather Detail" }
+        ];
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        let currentIndex = 0;
+        const modal = document.getElementById('modal');
+        const inquiryModal = document.getElementById('inquiryModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const container = document.getElementById('imageContainer');
+
+        function openInquiryModal() {
+            inquiryModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInquiryModal(e) {
+            if (e.target === inquiryModal || e.target.innerText === '×' || e.target.closest('button')) {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        photoData.forEach((data, index) => {
+            const div = document.createElement('div');
+            const img = document.createElement('img');
+            img.src = `terminator/${data.file}`;
+            img.alt = data.caption;
+            img.loading = "lazy";
+            img.className = "rounded-sm shadow-sm";
+            img.onclick = () => openModal(index);
+            img.onerror = function() {
+                this.parentElement.style.display = 'none';
+            };
+            div.appendChild(img);
+            container.appendChild(div);
+        });
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (e.target === modal || e.target.innerText === '×') {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function nextImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex + 1) % photoData.length;
+            updateModal();
+        }
+
+        function prevImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex - 1 + photoData.length) % photoData.length;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = `terminator/${photoData[currentIndex].file}`;
+            modalCaption.innerText = `${photoData[currentIndex].caption} (Image ${currentIndex + 1} of ${photoData.length})`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('active')) {
+                if (e.key === "ArrowRight") nextImg();
+                if (e.key === "ArrowLeft") prevImg();
+                if (e.key === "Escape") {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+            if (inquiryModal.classList.contains('active') && e.key === "Escape") {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
