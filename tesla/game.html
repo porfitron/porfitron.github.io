@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tesla Turbo - 16-Bit Edition</title>
+    <title>Total E-Racer - 16-Bit Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -64,32 +64,61 @@
             text-shadow: 4px 4px 0px var(--neon-pink);
         }
 
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            width: 60%; 
+        }
+
         .btn {
             background: var(--neon-pink);
             color: #fff;
             border: 4px solid #fff;
-            padding: 15px 30px;
-            font-size: 1.5vw;
+            padding: 15px 10px; 
+            font-size: 1.0vw;   
             font-family: 'Press Start 2P', cursive;
             cursor: pointer;
-            margin-top: 20px;
             box-shadow: 4px 4px 0px #800080;
+            transition: transform 0.1s;
+            width: 100%;
         }
 
-        .btn:hover { background: #ff40ff; }
+        #replay-btn {
+            width: auto;
+            margin-top: 30px;
+            padding: 20px 40px;
+            font-size: 1.5vw;
+        }
+
+        .btn:hover { background: #ff40ff; transform: scale(1.05); }
         .hidden { display: none !important; }
         
         .msg-box {
             background: #000;
             border: 4px solid white;
             padding: 2vw;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            font-size: 1.2vw;
+            margin-bottom: 10px;
+            line-height: 1.8;
+            font-size: 1.0vw;
+            max-width: 60%;
         }
 
         .victory-mode .msg-box {
             background: rgba(0,0,0,0.8);
+        }
+
+        .credits {
+            margin-top: 20px;
+            font-size: 0.8vw;
+            color: #aaa;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .credits:hover {
+            color: #fff;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -99,16 +128,28 @@
         <canvas id="gameCanvas" width="400" height="300"></canvas>
 
         <div id="overlay">
-            <h1 id="overlay-title">TESLA TURBO</h1>
+            <h1 id="overlay-title">TOTAL E-RACER</h1>
             <div class="msg-box" id="msg-content">
-                <p>LAP 1: &lt; 75 SECONDS</p>
-                <p>LAP 2: &lt; 70 SECONDS</p>
-                <p style="font-size: 0.8em; color: #aaa; margin-top: 10px;">
-                    LOW GEAR: 0-80 MPH (WATCH HEAT)<br>
-                    HIGH GEAR: 50+ MPH (SLOW START)
+                <p>CONTROLS</p>
+                <p style="color: #aaa; font-size: 0.8em;">
+                    [X] ACCELERATE | [Z] BRAKE<br>
+                    ARROWS: STEER (IF APPLICABLE)<br>
+                    ARROWS UP/DOWN: GEARS (MANUAL ONLY)<br>
+                    [SPACE] HORN / FIRE<br>
+                    [R] TOGGLE MUSIC
                 </p>
             </div>
-            <button class="btn" id="start-btn">INSERT COIN</button>
+            
+            <div class="btn-group" id="mode-buttons">
+                <button class="btn" onclick="startGame('AUTOMATIC')">AUTOMATIC</button>
+                <button class="btn" onclick="startGame('MANUAL')">MANUAL</button>
+                <button class="btn" onclick="startGame('AUTOPILOT')">AUTO-PILOT</button>
+                <button class="btn" onclick="startGame('SELFDRIVE')">SELF-DRIVING</button>
+            </div>
+            
+            <button class="btn hidden" id="replay-btn" onclick="resetGameMenu()">MAIN MENU</button>
+            
+            <a href="/" class="credits">@porfitron</a>
         </div>
     </div>
 
@@ -118,7 +159,8 @@
         const overlay = document.getElementById('overlay');
         const overlayTitle = document.getElementById('overlay-title');
         const msgContent = document.getElementById('msg-content');
-        const startBtn = document.getElementById('start-btn');
+        const modeButtons = document.getElementById('mode-buttons');
+        const replayBtn = document.getElementById('replay-btn');
 
         const width = 400;
         const height = 300;
@@ -142,14 +184,15 @@
         
         const breaking = -15000;
         const decel = -2000;
-        const downshiftDecel = -1500; // Slower deceleration for smoother downshifts
+        const downshiftDecel = -1500; 
         const offRoadDecel = -12000; 
         const offRoadLimit = 4000;    
 
-        let player = { x: 0, z: 0, speed: 0, gear: 'LOW', score: 0, maxSpeed: 8000 };
+        let player = { x: 0, z: 0, speed: 0, gear: 'LOW', score: 0, maxSpeed: 8000, collisionCooldown: 0 };
         let keys = {};
         let segments = [];
         let cars = [];
+        let projectiles = [];
         let trackMap = []; 
         let mapBounds = { minX: 0, maxX: 0, minY: 0, maxY: 0 };
         let trackLength = 0;
@@ -162,10 +205,29 @@
         let penaltyLabel = ""; 
 
         let raceState = 'MENU'; 
+        let gameMode = 'MANUAL'; 
         let raceStartTime = 0;
         let countdownStep = 0;
         let victoryPhase = 0; 
         let crowdSprites = [];
+        
+        // Self Driving Logic
+        let selfDriveCruise = false;
+        let xKeyDownTime = 0;
+
+        // Audio System
+        let audioRadio = new Audio('game/radio.mp3');
+        let audioSelfDrive = new Audio('game/self-driving.mp3');
+        let currentAudio = null;
+        let isMusicPlaying = false;
+        
+        // Web Audio Context for SFX
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        audioRadio.loop = true;
+        audioSelfDrive.loop = true;
+
         let currentLap = 1;
         let lapStartTime = 0;
         const LAP1_LIMIT = 75; 
@@ -173,10 +235,134 @@
         let totalLaps = 2;
 
         window.addEventListener('keydown', e => {
+            if (!keys[e.code]) {
+                if (e.code === 'KeyX') {
+                    xKeyDownTime = performance.now();
+                }
+                if (e.code === 'Space') {
+                    handleSpaceAction();
+                }
+            }
             keys[e.code] = true;
-            if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyX","KeyZ"].includes(e.code)) e.preventDefault();
+            
+            if(e.code === 'KeyR') toggleMusic();
+            
+            if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyX","KeyZ","Space"].includes(e.code)) e.preventDefault();
         });
-        window.addEventListener('keyup', e => keys[e.code] = false);
+        
+        window.addEventListener('keyup', e => {
+            keys[e.code] = false;
+            
+            if (gameMode === 'SELFDRIVE' && raceState === 'RACING') {
+                if (e.code === 'KeyX') {
+                    if (performance.now() - xKeyDownTime < 200) {
+                        selfDriveCruise = true; 
+                    }
+                }
+                if (e.code === 'KeyZ') {
+                    selfDriveCruise = false; 
+                }
+            }
+        });
+
+        function handleSpaceAction() {
+            if (raceState !== 'RACING') return;
+
+            if (gameMode === 'SELFDRIVE') {
+                playSynthSound('LASER');
+                let spawnZ = player.z + 250; 
+                projectiles.push({
+                    x: player.x,
+                    z: spawnZ, 
+                    speed: player.speed + 15000, 
+                    life: 100 
+                });
+            } else {
+                playSynthSound('HORN');
+                cars.forEach(car => {
+                    if (car.crashed) return;
+
+                    let distZ = car.z - player.z;
+                    if (distZ < 0) distZ += trackLength; 
+                    
+                    if (distZ > 0 && distZ < 3000) {
+                        let diffX = car.offset - player.x;
+                        if (Math.abs(diffX) < 0.8) {
+                            let dir = diffX >= 0 ? 1 : -1;
+                            car.avoidanceDir = dir;
+                            car.avoidanceTimer = 40; 
+                        }
+                    }
+                });
+            }
+        }
+
+        function playSynthSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            const now = audioCtx.currentTime;
+            
+            if (type === 'HORN') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.linearRampToValueAtTime(440, now + 0.1);
+                gainNode.gain.setValueAtTime(0.3, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'LASER') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+                
+                const bufferSize = audioCtx.sampleRate * 0.2;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(0.5, now);
+                noiseGain.gain.linearRampToValueAtTime(0, now + 0.2);
+                noise.connect(noiseGain);
+                noiseGain.connect(audioCtx.destination);
+                noise.start(now);
+                
+                gainNode.gain.setValueAtTime(0.3, now);
+                gainNode.gain.linearRampToValueAtTime(0, now + 0.2);
+                
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+        }
+
+        function toggleMusic() {
+            if (!currentAudio) {
+                currentAudio = audioRadio; 
+            }
+
+            if (isMusicPlaying) {
+                currentAudio.pause();
+                isMusicPlaying = false;
+            } else {
+                let playPromise = currentAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        isMusicPlaying = true;
+                    }).catch(error => {
+                        console.log("Audio play blocked. User interaction needed.");
+                    });
+                }
+            }
+        }
 
         function project(p, cameraX, cameraY, cameraZ) {
             p.camera.x = (p.world.x || 0) - cameraX;
@@ -194,7 +380,6 @@
 
         const findSegment = (z) => {
             const index = Math.floor(z / segmentLength) % segments.length;
-            // Handle negative index wrap-around correctly
             return segments[(index + segments.length) % segments.length];
         };
 
@@ -207,6 +392,7 @@
                 curve: curve,
                 cars: [],
                 sprites: [],
+                projectiles: [],
                 color: Math.floor(n / 3) % 2 ? 
                     { road: '#444', grass: '#109110', rumble: '#fff', lane: '#fff' } : 
                     { road: '#333', grass: '#007000', rumble: '#f00', lane: '#333' }
@@ -229,7 +415,6 @@
             let x = 0, y = 0, angle = 0;
             let minX = 0, maxX = 0, minY = 0, maxY = 0;
 
-            // Optimization: sample every 20th
             for(let i=0; i<segments.length; i+=20) {
                 let seg = segments[i];
                 for(let k=0; k<20; k++) {
@@ -244,7 +429,6 @@
                 if(y > maxY) maxY = y;
             }
             
-            // Loop Closure Correction
             if (trackMap.length > 0) {
                 let lastP = trackMap[trackMap.length - 1];
                 let startX = 0, startY = 0;
@@ -268,7 +452,6 @@
 
         function resetTrack() {
             segments = [];
-            // TOP GEAR TEST TRACK LAYOUT
             addRoad(100, 100, 100, 0, 0);       
             addRoad(80, 80, 80, 2, 0);          
             addRoad(50, 80, 50, -4, 0);         
@@ -308,9 +491,13 @@
 
         function resetCars() {
             cars = [];
-            for (let n = 0; n < 30; n++) {
+            for (let n = 0; n < 20; n++) {
                 let offset = Math.random() * 0.8 * (Math.random() > 0.5 ? 1 : -1);
-                let z = Math.floor(Math.random() * (segments.length - 100) + 50) * segmentLength;
+                
+                let chunk = (segments.length - 200) / 20; 
+                let baseZ = 200 + n * chunk; 
+                let z = (baseZ + Math.floor(Math.random() * chunk)) * segmentLength;
+
                 let isFast = Math.random() < 0.2; 
                 let carMaxSpeed = isFast ? (13000 + Math.random() * 9000) : (5000 + Math.random() * 5000);
                 let car = { 
@@ -318,7 +505,10 @@
                     z, 
                     speed: carMaxSpeed * 0.8, 
                     maxSpeed: carMaxSpeed,
-                    baseSpeed: carMaxSpeed 
+                    baseSpeed: carMaxSpeed,
+                    crashed: false,
+                    avoidanceTimer: 0,
+                    avoidanceDir: 0
                 };
                 findSegment(z).cars.push(car);
                 cars.push(car);
@@ -410,6 +600,11 @@
             let h = 40 * scale;
             ctx.save();
             ctx.translate(x, y);
+            
+            if (color === '#888') {
+                ctx.rotate(0.2); 
+            }
+
             ctx.fillStyle = color;
             ctx.beginPath();
             ctx.moveTo(-w/2, 0); ctx.lineTo(-w/2, -h*0.4);
@@ -424,13 +619,21 @@
             ctx.restore();
         }
 
+        function drawProjectile(x, y, scale) {
+            if (scale <= 0) return;
+            let w = 10 * scale;
+            let h = 40 * scale;
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(x - w/2, y - h, w, h);
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(x - w/4, y - h*0.8, w/2, h*0.6);
+        }
+
         function drawStartLights() {
-            // Draw lights if we are in countdown OR first 1.5s of race
             if (currentLap === 1 && (raceState === 'COUNTDOWN' || (raceState === 'RACING' && performance.now() - lapStartTime < 1500))) {
                 let y = height / 3;
                 let startX = width / 2 - 60;
                 
-                // Draw Housing
                 ctx.fillStyle = '#000'; 
                 ctx.fillRect(startX - 50, y - 40, 220, 80);
                 ctx.strokeStyle = '#555';
@@ -439,7 +642,7 @@
 
                 for (let i = 0; i < 3; i++) {
                     let lx = startX + (i * 60);
-                    let color = '#330000'; // Dim Red
+                    let color = '#330000'; 
                     
                     if (countdownStep < 4) { 
                         if (i < countdownStep) color = '#ff0000'; 
@@ -539,8 +742,11 @@
             let leftCenter = frameX / 2;
             ctx.fillStyle = '#00f2ff';
             ctx.fillText(Math.round(player.speed/100) + " MPH", leftCenter, height - 22);
+            
+            let gearText = gameMode === 'MANUAL' ? player.gear : 'AUTO';
+            
             ctx.fillStyle = player.gear === 'HIGH' ? '#ff00ff' : '#aaa';
-            ctx.fillText(player.gear, leftCenter, height - 8);
+            ctx.fillText(gearText, leftCenter, height - 8);
 
             let rightStart = frameX + frameW;
             let rightCenter = rightStart + (width - rightStart) / 2;
@@ -597,7 +803,7 @@
                     
                     if (carY < my + mh/2) carY = my + mh/2;
 
-                    ctx.fillStyle = '#111'; 
+                    ctx.fillStyle = car.crashed ? '#888' : '#111'; // Grey if crashed
                     ctx.fillRect(carX - carW/2, carY - carH, carW, carH);
                     ctx.fillStyle = '#ff0000';
                     ctx.fillRect(carX - carW*0.4, carY - carH*0.5, carW*0.2, carH*0.2);
@@ -647,6 +853,42 @@
                 return; 
             }
 
+            // Handle Collision Cooldown
+            if (player.collisionCooldown > 0) {
+                player.collisionCooldown -= dt;
+            }
+
+            // Update Projectiles (Self-Driving Mode)
+            if (gameMode === 'SELFDRIVE') {
+                for(let i = projectiles.length - 1; i >= 0; i--) {
+                    let p = projectiles[i];
+                    p.z += p.speed * dt;
+                    p.life -= 1;
+                    if (p.life <= 0 || p.z > player.z + 30000) { 
+                        projectiles.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // Check collision with cars
+                    let hit = false;
+                    for(let k = 0; k < cars.length; k++) {
+                        let c = cars[k];
+                        if (c.crashed) continue;
+
+                        let distZ = p.z - c.z;
+                        if (distZ > trackLength / 2) distZ -= trackLength;
+                        if (distZ < -trackLength / 2) distZ += trackLength;
+                        
+                        if (Math.abs(distZ) < 300 && Math.abs(p.x - c.offset) < 0.5) {
+                            c.crashed = true; // CRASH!
+                            hit = true;
+                            break;
+                        }
+                    }
+                    if (hit) projectiles.splice(i, 1);
+                }
+            }
+
             if (raceState === 'FINISHED') {
                 player.speed += decel * dt * 2; 
                 if (player.speed <= 0) {
@@ -656,7 +898,10 @@
                         overlay.classList.remove('hidden');
                         overlay.classList.add('victory-mode');
                         overlayTitle.innerText = "VICTORY!";
-                        startBtn.innerText = "PLAY AGAIN";
+                        replayBtn.classList.remove('hidden');
+                        replayBtn.innerText = "PLAY AGAIN";
+                        modeButtons.classList.add('hidden'); 
+                        
                         msgContent.innerHTML = "<p>GREAT DRIVING!</p><p>SCORE: " + player.score + "</p>";
 
                         crowdSprites = [];
@@ -675,7 +920,6 @@
             }
             else if (raceState === 'COUNTDOWN') {
                 let elapsed = (performance.now() - raceStartTime) / 1000;
-                // Immediate Red (Step 1)
                 if (elapsed < 1) countdownStep = 1;
                 else if (elapsed < 2) countdownStep = 2;
                 else if (elapsed < 3) countdownStep = 3;
@@ -697,29 +941,45 @@
                     overlay.classList.remove('victory-mode');
                     overlayTitle.innerText = "TOO SLOW";
                     msgContent.innerHTML = "<p>YOU RAN OUT OF TIME</p>";
-                    startBtn.innerText = "TRY AGAIN";
+                    modeButtons.classList.add('hidden');
+                    replayBtn.classList.remove('hidden');
+                    replayBtn.innerText = "TRY AGAIN";
                     return;
                 }
                 
-                // --- ACCELERATION & GEAR LOGIC ---
-                if (keys['KeyX']) {
+                // Auto gear shifting
+                if (gameMode !== 'MANUAL') {
+                    if (player.speed > 7500) player.gear = 'HIGH';
+                    else player.gear = 'LOW';
+                }
+
+                // Throttle Input Logic
+                let throttle = false;
+                
+                if (gameMode === 'SELFDRIVE') {
+                    throttle = selfDriveCruise;
+                    if (keys['KeyX'] && (performance.now() - xKeyDownTime > 200)) {
+                         throttle = false; // Hold X -> Stop (effectively Brake)
+                    }
+                } else {
+                    throttle = keys['KeyX'];
+                }
+
+                if (throttle) {
                     if (player.gear === 'LOW') {
-                        // Overheat only accumulates if at top speed (with small buffer)
-                        if (player.speed >= SPEED_LOW_CAP - 100) {
+                        if (gameMode === 'MANUAL' && player.speed >= SPEED_LOW_CAP - 100) {
                             lowGearTimer += dt;
                         } else {
-                            // Cool down if accelerating but not at top speed yet
                             lowGearTimer = Math.max(0, lowGearTimer - dt);
                         }
 
-                        if (lowGearTimer > 8) {
+                        if (gameMode === 'MANUAL' && lowGearTimer > 8) {
                             penaltyTimer = 2; 
                             penaltyLabel = "COOLING";
                             lowGearTimer = 0;
                             player.speed = 0;
                         } else {
                             if (player.speed < SPEED_LOW_CAP) {
-                                // Dynamic Low Gear Accel Curve
                                 let pct = player.speed / SPEED_LOW_CAP;
                                 let curveAccel = 800 + 1700 * Math.sin(Math.PI * pct);
                                 player.speed += curveAccel * dt;
@@ -729,9 +989,8 @@
                         }
                     } else {
                         // High Gear
-                        lowGearTimer = Math.max(0, lowGearTimer - dt * 2); // Cool down rapidly
+                        lowGearTimer = Math.max(0, lowGearTimer - dt * 2);
                         
-                        // Modified High Gear: No stall, just very slow start
                         if (player.speed < SPEED_HIGH_THRESHOLD) {
                             let ramp = player.speed / SPEED_HIGH_THRESHOLD;
                             let curveAccel = 200 + 800 * ramp;
@@ -745,12 +1004,26 @@
                             player.speed += curveAccel * dt;
                         }
                     }
-                } else if (keys['KeyZ']) {
-                    player.speed += breaking * dt;
-                    lowGearTimer = Math.max(0, lowGearTimer - dt * 2); 
                 } else {
-                    player.speed += decel * dt;
-                    lowGearTimer = Math.max(0, lowGearTimer - dt * 2);
+                    // Not throttling
+                    let brakingInput = false;
+                    
+                    if (gameMode === 'SELFDRIVE') {
+                        if (keys['KeyX'] && (performance.now() - xKeyDownTime > 200)) {
+                            brakingInput = true;
+                        }
+                        if (keys['KeyZ']) brakingInput = true;
+                    } else {
+                        brakingInput = keys['KeyZ'];
+                    }
+
+                    if (brakingInput) {
+                        player.speed += breaking * dt;
+                        lowGearTimer = Math.max(0, lowGearTimer - dt * 2); 
+                    } else {
+                        player.speed += decel * dt;
+                        lowGearTimer = Math.max(0, lowGearTimer - dt * 2);
+                    }
                 }
             }
 
@@ -759,42 +1032,63 @@
             player.speed = Math.max(player.speed, 0);
 
             // --- GEAR UPDATES MAX SPEED FOR CLAMPING ---
-            // This ensures logic uses current gear caps for final clamp
-            if (player.gear === 'LOW') player.maxSpeed = SPEED_LOW_CAP;
-            else player.maxSpeed = SPEED_HIGH_CAP;
+            if (gameMode === 'MANUAL') {
+               if (player.gear === 'LOW') player.maxSpeed = SPEED_LOW_CAP;
+               else player.maxSpeed = SPEED_HIGH_CAP;
+            } else {
+                player.maxSpeed = SPEED_HIGH_CAP; 
+            }
 
             let playerSegment = findSegment(player.z);
-            // Use SPEED_HIGH_CAP for physics ratio to keep handling consistent at speed
             let speedRatio = player.speed / SPEED_HIGH_CAP;
             
             worldHeading += playerSegment.curve * (player.speed/20000) * dt;
 
-            // Centrifugal Force
-            // Pushes car outward based on speed squared
-            let centrifugalForce = (speedRatio * speedRatio) * playerSegment.curve * 4.0 * dt; // Define it here!
-            // Reduce force in low gear to allow cornering
+            let centrifugalForce = (speedRatio * speedRatio) * playerSegment.curve * 4.0 * dt;
             if (player.gear === 'LOW') centrifugalForce *= 0.2; 
 
-            player.x -= centrifugalForce;
+            // SELF DRIVING / AUTO PILOT STEERING
+            if (gameMode === 'SELFDRIVE') {
+                let sway = Math.sin(performance.now() / 500) * 0.05;
+                player.x = sway; 
+            } 
+            else if (gameMode === 'AUTOPILOT') {
+                player.x -= centrifugalForce;
+                
+                let steerSaturation = 6000;
+                let steerFactor = Math.min(1.0, player.speed / steerSaturation);
+                let baseSteer = 2.2; 
+                if (player.gear === 'LOW') baseSteer = 4.0; 
+                let steerInput = dt * baseSteer * steerFactor;
 
-            // Steer (Reduced sensitivity to stop twitchiness)
-            let steerSaturation = 6000;
-            let steerFactor = Math.min(1.0, player.speed / steerSaturation);
-            
-            let baseSteer = 1.1; // Reduced from 1.8
-            if (player.gear === 'LOW') baseSteer = 2.0; // Reduced from 3.0
-
-            let steerInput = dt * baseSteer * steerFactor;
-
-            if (raceState !== 'FINISHED') {
                 if (keys['ArrowLeft']) player.x -= steerInput; 
-                if (keys['ArrowRight']) player.x += steerInput; 
-                if (keys['ArrowUp']) player.gear = 'HIGH'; 
-                if (keys['ArrowDown']) player.gear = 'LOW'; 
-            }
+                if (keys['ArrowRight']) player.x += steerInput;
+                
+                player.x = Math.max(-0.9, Math.min(0.9, player.x));
+            } 
+            else {
+                // MANUAL & AUTOMATIC
+                player.x -= centrifugalForce;
+                
+                let steerSaturation = 6000;
+                let steerFactor = Math.min(1.0, player.speed / steerSaturation);
+                let baseSteer = 1.1; 
+                if (player.gear === 'LOW') baseSteer = 2.0; 
+                let steerInput = dt * baseSteer * steerFactor;
 
-            if ((player.x < -1 || player.x > 1) && player.speed > offRoadLimit) {
-                 player.speed += offRoadDecel * dt;
+                if (raceState !== 'FINISHED') {
+                    if (keys['ArrowLeft']) player.x -= steerInput; 
+                    if (keys['ArrowRight']) player.x += steerInput; 
+                    
+                    if (gameMode === 'MANUAL') {
+                        if (keys['ArrowUp']) player.gear = 'HIGH'; 
+                        if (keys['ArrowDown']) player.gear = 'LOW'; 
+                    }
+                }
+                
+                if ((player.x < -1 || player.x > 1) && player.speed > offRoadLimit) {
+                     player.speed += offRoadDecel * dt;
+                }
             }
 
             player.z += player.speed * dt;
@@ -811,13 +1105,15 @@
                 }
             }
             
-            player.x = Math.min(Math.max(player.x, -3), 3);
+            if (gameMode !== 'SELFDRIVE' && gameMode !== 'AUTOPILOT') {
+                player.x = Math.min(Math.max(player.x, -3), 3);
+            }
 
             if (playerSegment.sprites && raceState === 'RACING') {
                 playerSegment.sprites.forEach(sprite => {
                     if (!sprite.hit && Math.abs(player.x - sprite.offset) < 0.3) {
-                        player.speed *= 0.5; // Reduced penalty (was 0)
-                        sprite.hit = true;   // Mark as hit so we don't collide again this lap
+                        player.speed *= 0.5; 
+                        sprite.hit = true;   
                     } 
                 });
             }
@@ -825,24 +1121,54 @@
             cars.forEach(car => {
                 if (raceState !== 'RACING') return; 
 
-                let oldS = findSegment(car.z);
-                let curveSeverity = Math.abs(oldS.curve);
-                let targetSpeed = car.baseSpeed;
-                
-                if (curveSeverity > 0) {
-                    targetSpeed = car.baseSpeed / (1 + curveSeverity * 4);
+                let oldS = findSegment(car.z); // Defined here now
+
+                // Handle Avoidance Logic (Horn)
+                if (car.avoidanceTimer > 0) {
+                    car.avoidanceTimer--;
+                    car.offset += car.avoidanceDir * 0.05; 
+                    car.offset = Math.max(-1, Math.min(1, car.offset));
                 }
 
-                if (car.speed > targetSpeed) car.speed -= 2000 * dt;
-                else if (car.speed < targetSpeed) car.speed += 1000 * dt;
+                // Handle Crashed State
+                if (car.crashed) {
+                    car.offset += 0.1 * (car.offset > 0 ? 1 : -1); // Slide to edge
+                    car.speed *= 0.95; // Slow down rapidly
+                } else {
+                    let curveSeverity = Math.abs(oldS.curve);
+                    let targetSpeed = car.baseSpeed;
+                    if (curveSeverity > 0) {
+                        targetSpeed = car.baseSpeed / (1 + curveSeverity * 4);
+                    }
+                    if (car.speed > targetSpeed) car.speed -= 2000 * dt;
+                    else if (car.speed < targetSpeed) car.speed += 1000 * dt;
+                }
 
                 car.z += car.speed * dt;
                 
                 if (car.z > trackLength) car.z -= trackLength;
                 let newS = findSegment(car.z);
                 if (oldS !== newS) {
-                    oldS.cars.splice(oldS.cars.indexOf(car), 1);
-                    newS.cars.push(car);
+                    let index = oldS.cars.indexOf(car);
+                    if (index !== -1) {
+                        oldS.cars.splice(index, 1);
+                        newS.cars.push(car);
+                    }
+                }
+
+                // HIT DETECTION WITH PLAYER
+                if (!car.crashed) {
+                    let distZ = player.z - car.z;
+                    if (distZ > trackLength / 2) distZ -= trackLength;
+                    if (distZ < -trackLength / 2) distZ += trackLength;
+
+                    if (Math.abs(distZ) < 200 && Math.abs(player.x - car.offset) < 0.6) {
+                        if (player.speed > car.speed && player.collisionCooldown <= 0) {
+                            player.speed = car.speed * 0.9;
+                            if (player.speed < 2000) player.speed = 2000;
+                            player.collisionCooldown = 1.0; 
+                        }
+                    }
                 }
             });
 
@@ -885,10 +1211,17 @@
                 let cY = segment.p1.screen.y;
 
                 if (cY > height/2 && cY < height && scale > 0) {
+                    
                     segment.cars.forEach(car => {
                         let cX = segment.p1.screen.x + (scale * car.offset * roadWidth * width / 2);
-                        drawTesla(cX, cY, scale * 2500, '#111');
+                        
+                        // Change color if crashed
+                        let carColor = car.crashed ? '#888' : '#111';
+                        if (gameMode === 'SELFDRIVE' && !car.crashed) carColor = '#fff';
+                        
+                        drawTesla(cX, cY, scale * 2500, carColor);
                     });
+                    
                     segment.sprites.forEach(sprite => {
                          let sX = segment.p1.screen.x + (scale * sprite.offset * roadWidth * width / 2);
                          if (sprite.type === 'SIGN') drawSign(sX, cY, scale * 2500);
@@ -896,8 +1229,28 @@
                     });
                 }
             }
+            
+            // Draw Projectiles
+            if (gameMode === 'SELFDRIVE') {
+                projectiles.forEach(p => {
+                     let dist = p.z - player.z;
+                     // Handle wrapping for visual
+                     if (dist < 0) dist += trackLength;
+                     
+                     if (dist > 0 && dist < drawDistance * segmentLength) {
+                         let scaling = cameraDepth / Math.max(1, (dist + cameraZOffset)); // Approximate projection
+                         let screenX = (width/2) + (scaling * (p.x - player.x) * roadWidth * width/2);
+                         let pY = (height/2) + (cameraHeight * scaling * height/2); 
+                         
+                         drawProjectile(screenX, pY, scaling * 100);
+                     }
+                });
+            }
 
-            drawTesla(width / 2, height - 50, 1.7, '#fff', true); 
+            let playerColor = '#fff';
+            if (gameMode === 'SELFDRIVE') playerColor = '#111';
+
+            drawTesla(width / 2, height - 50, 1.7, playerColor, true); 
 
             if (raceState === 'FINISHED' && player.speed === 0) {
                  crowdSprites.forEach(p => {
@@ -955,7 +1308,8 @@
             requestAnimationFrame(frame);
         }
 
-        startBtn.onclick = () => {
+        function startGame(mode) {
+            gameMode = mode;
             overlay.classList.add('hidden');
             overlay.classList.remove('victory-mode');
             paused = false;
@@ -973,12 +1327,52 @@
             lowGearTimer = 0;
             penaltyTimer = 0;
             penaltyLabel = "";
+            player.collisionCooldown = 0;
+            selfDriveCruise = false;
+            
+            projectiles = []; 
+
+            if (isMusicPlaying) {
+               if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+            }
+            
+            if (mode === 'SELFDRIVE') {
+                currentAudio = audioSelfDrive;
+                isMusicPlaying = true;
+                currentAudio.play().catch(e => console.log("Audio auto-play blocked", e));
+            } else {
+                currentAudio = audioRadio;
+                isMusicPlaying = false; 
+            }
             
             resetTrack(); 
             addFinishLineDetails(); 
-            
             lastTime = performance.now();
-        };
+        }
+
+        function resetGameMenu() {
+            paused = true;
+            raceState = 'MENU';
+            overlay.classList.remove('hidden');
+            overlay.classList.remove('victory-mode');
+            modeButtons.classList.remove('hidden');
+            replayBtn.classList.add('hidden');
+            overlayTitle.innerText = "TOTAL E-RACER";
+            msgContent.innerHTML = `<p>CONTROLS</p>
+                <p style="color: #aaa; font-size: 0.8em;">
+                    [X] ACCELERATE | [Z] BRAKE<br>
+                    ARROWS: STEER (IF APPLICABLE)<br>
+                    ARROWS UP/DOWN: GEARS (MANUAL ONLY)<br>
+                    [SPACE] HORN / FIRE<br>
+                    [R] TOGGLE MUSIC
+                </p>`;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                isMusicPlaying = false;
+            }
+        }
 
         resetTrack();
         addFinishLineDetails();
