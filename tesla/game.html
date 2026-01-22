@@ -216,13 +216,13 @@
         let xKeyDownTime = 0;
 
         // Audio System
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
         let audioRadio = new Audio('game/radio.mp3');
         let audioSelfDrive = new Audio('game/self-driving.mp3');
         let currentAudio = null;
         let isMusicPlaying = false;
-        
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const audioCtx = new AudioContext();
 
         audioRadio.loop = true;
         audioSelfDrive.loop = true;
@@ -1074,13 +1074,12 @@
                 player.x = Math.max(-0.9, Math.min(0.9, player.x));
             } 
             else {
-                // MANUAL & AUTOMATIC - Arcade Feel (Increased responsiveness)
+                // MANUAL & AUTOMATIC
                 player.x -= centrifugalForce;
                 
                 let steerSaturation = 4000;
                 let steerFactor = Math.min(1.0, player.speed / steerSaturation);
                 
-                // Increased base steering response
                 let baseSteer = 1.2; 
                 if (player.gear === 'LOW') baseSteer = 2.0; 
                 
