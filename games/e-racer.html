@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Total E-Racer - 16-Bit Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
@@ -23,6 +32,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: none;
         }
 
         #game-container {
@@ -219,8 +229,8 @@
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
 
-        let audioRadio = new Audio('game/radio.mp3');
-        let audioSelfDrive = new Audio('game/self-driving.mp3');
+        let audioRadio = new Audio('assets/radio.mp3');
+        let audioSelfDrive = new Audio('assets/self-driving.mp3');
         let currentAudio = null;
         let isMusicPlaying = false;
 
@@ -286,17 +296,17 @@
                     let distZ = car.z - player.z;
                     if (distZ < 0) distZ += trackLength; // Handle wrap
                     
-                    // Check if car is ahead within range (e.g. 3000 units)
-                    if (distZ > 0 && distZ < 3000) {
-                        // Check if in same lane (roughly)
+                    // Increased range to 10000 units so cars ahead react sooner
+                    if (distZ > 0 && distZ < 10000) {
                         let diffX = car.offset - player.x;
-                        if (Math.abs(diffX) < 0.8) {
+                        // Increased width check to 1.5 so cars in adjacent lanes also move
+                        if (Math.abs(diffX) < 1.5) {
                             // Determine direction to move (away from player)
                             let dir = diffX >= 0 ? 1 : -1;
                             
                             // Trigger avoidance
                             car.avoidanceDir = dir;
-                            car.avoidanceTimer = 60; 
+                            car.avoidanceTimer = 60; // Move for 1 second
                         }
                     }
                 });
@@ -513,6 +523,7 @@
                     maxSpeed: carMaxSpeed,
                     baseSpeed: carMaxSpeed,
                     crashed: false,
+                    crashDir: 0, // Added crash direction
                     avoidanceTimer: 0,
                     avoidanceDir: 0
                 };
@@ -691,15 +702,18 @@
             let mapW = Math.max(1, mapBounds.maxX - mapBounds.minX); 
             let mapH = Math.max(1, mapBounds.maxY - mapBounds.minY);
             
-            let scaleX = mapDispW / mapW;
-            let scaleY = mapDispH / mapH;
+            let scaleX = (mapDispW * 0.95) / mapW;
+            let scaleY = (mapDispH * 0.95) / mapH;
             let mapScale = Math.min(scaleX, scaleY);
             
             let mapCenterX = frameX + frameW/2;
             let mapCenterY = frameY + frameH/2;
             
-            let offsetX = mapCenterX - (mapBounds.minX + mapW/2) * mapScale;
-            let offsetY = mapCenterY - (mapBounds.minY + mapH/2) * mapScale;
+            let contentCenterX = (mapBounds.minX + mapBounds.maxX) / 2;
+            let contentCenterY = (mapBounds.minY + mapBounds.maxY) / 2;
+
+            let offsetX = mapCenterX - contentCenterX * mapScale;
+            let offsetY = mapCenterY - contentCenterY * mapScale;
 
             ctx.strokeStyle = '#555';
             ctx.lineWidth = 1.5;
@@ -887,6 +901,10 @@
                         
                         if (Math.abs(distZ) < 300 && Math.abs(p.x - c.offset) < 0.5) {
                             c.crashed = true; // CRASH!
+                            // Determine crash direction
+                            c.crashDir = c.offset > 0 ? 1 : -1;
+                            if(c.offset === 0) c.crashDir = Math.random() > 0.5 ? 1 : -1;
+                            
                             hit = true;
                             break;
                         }
@@ -896,7 +914,7 @@
             }
 
             if (raceState === 'FINISHED') {
-                player.speed += decel * dt * 2; 
+                player.speed += breaking * dt; // Hard braking for skid
                 if (player.speed <= 0) {
                     player.speed = 0;
                     if (victoryPhase === 0) {
@@ -1062,6 +1080,7 @@
             else if (gameMode === 'AUTOPILOT') {
                 player.x -= centrifugalForce;
                 
+                // Steering Saturation lowered to 4000 for better low-speed control
                 let steerSaturation = 4000;
                 let steerFactor = Math.min(1.0, player.speed / steerSaturation);
                 let baseSteer = 2.5; 
@@ -1074,14 +1093,15 @@
                 player.x = Math.max(-0.9, Math.min(0.9, player.x));
             } 
             else {
-                // MANUAL & AUTOMATIC
+                // MANUAL & AUTOMATIC - Arcade Feel (Increased responsiveness)
                 player.x -= centrifugalForce;
                 
                 let steerSaturation = 4000;
                 let steerFactor = Math.min(1.0, player.speed / steerSaturation);
                 
-                let baseSteer = 1.2; 
-                if (player.gear === 'LOW') baseSteer = 2.0; 
+                // Increased base steering response
+                let baseSteer = 1.2; // was 0.9
+                if (player.gear === 'LOW') baseSteer = 2.0; // was 1.6
                 
                 let steerInput = dt * baseSteer * steerFactor;
 
@@ -1129,31 +1149,31 @@
 
             cars.forEach(car => {
                 if (raceState !== 'RACING') return; 
-
-                // HIT DETECTION
-                let distZ = player.z - car.z;
-                if (distZ > trackLength / 2) distZ -= trackLength;
-                if (distZ < -trackLength / 2) distZ += trackLength;
-
-                if (Math.abs(distZ) < 200 && Math.abs(player.x - car.offset) < 0.6) {
-                    if (player.speed > car.speed && player.collisionCooldown <= 0) {
-                        // Temporary slow down, not cripple
-                        player.speed = car.speed * 0.9;
-                        if (player.speed < 2000) player.speed = 2000;
-                        player.collisionCooldown = 1.0; 
-                    }
-                }
-
-                let oldS = findSegment(car.z);
-                let curveSeverity = Math.abs(oldS.curve);
-                let targetSpeed = car.baseSpeed;
                 
-                if (curveSeverity > 0) {
-                    targetSpeed = car.baseSpeed / (1 + curveSeverity * 4);
+                let oldS = findSegment(car.z);
+
+                // Handle Avoidance Logic (Horn)
+                if (car.avoidanceTimer > 0) {
+                    car.avoidanceTimer--;
+                    // Increased speed from 0.05 to 0.15 for immediate reaction
+                    car.offset += car.avoidanceDir * 0.15; 
+                    car.offset = Math.max(-1.5, Math.min(1.5, car.offset)); // Allow moving onto shoulder
                 }
 
-                if (car.speed > targetSpeed) car.speed -= 2000 * dt;
-                else if (car.speed < targetSpeed) car.speed += 1000 * dt;
+                // Handle Crashed State
+                if (car.crashed) {
+                    // Fly off road rapidly
+                    car.offset += car.crashDir * 0.25; 
+                    car.speed *= 0.90; // Decelerate hard
+                } else {
+                    let curveSeverity = Math.abs(oldS.curve);
+                    let targetSpeed = car.baseSpeed;
+                    if (curveSeverity > 0) {
+                        targetSpeed = car.baseSpeed / (1 + curveSeverity * 4);
+                    }
+                    if (car.speed > targetSpeed) car.speed -= 2000 * dt;
+                    else if (car.speed < targetSpeed) car.speed += 1000 * dt;
+                }
 
                 car.z += car.speed * dt;
                 
@@ -1164,6 +1184,21 @@
                     if (index !== -1) {
                         oldS.cars.splice(index, 1);
                         newS.cars.push(car);
+                    }
+                }
+
+                // HIT DETECTION WITH PLAYER
+                if (!car.crashed) {
+                    let distZ = player.z - car.z;
+                    if (distZ > trackLength / 2) distZ -= trackLength;
+                    if (distZ < -trackLength / 2) distZ += trackLength;
+
+                    if (Math.abs(distZ) < 200 && Math.abs(player.x - car.offset) < 0.6) {
+                        if (player.speed > car.speed && player.collisionCooldown <= 0) {
+                            player.speed = car.speed * 0.9;
+                            if (player.speed < 2000) player.speed = 2000;
+                            player.collisionCooldown = 1.0; 
+                        }
                     }
                 }
             });
