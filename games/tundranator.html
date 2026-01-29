@@ -31,10 +31,10 @@
             font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
             user-select: none;
-            touch-action: none; /* Prevent browser scrolling on mobile */
+            touch-action: none; 
         }
         canvas {
-            border: 4px solid #ff00ff; /* Neon border */
+            border: 4px solid #ff00ff; 
             background-color: #050010;
             box-shadow: 0 0 40px rgba(255, 0, 255, 0.4);
             image-rendering: pixelated; 
@@ -47,9 +47,9 @@
             left: 20px;
             pointer-events: none;
             text-shadow: 2px 2px 0 #000;
-            z-index: 10;
+            z-index: 100;
             font-weight: bold;
-            color: #00ffff; /* Cyan text */
+            color: #00ffff; 
         }
         .bar-container {
             width: 200px;
@@ -63,29 +63,55 @@
         #hpBar {
             width: 100%;
             height: 100%;
-            background: #ff0055; /* Neon red */
+            background: #ff0055; 
             transition: width 0.2s;
             box-shadow: 0 0 10px #ff0055;
         }
-        #tiltStatus {
-            display: none;
-            color: #00ff00;
+        #debugInfo {
+            margin-top: 10px;
             font-size: 12px;
-            margin-top: 5px;
+            color: #ffff00;
+            white-space: pre;
         }
-        .hidden { display: none; }
+        /* Mobile Start Overlay */
+        #mobileStart {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 0, 255, 0.2);
+            border: 2px solid #00ffff;
+            color: white;
+            padding: 20px 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 5px #ff00ff;
+            cursor: pointer;
+            z-index: 200;
+            display: none; /* Shown via JS */
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        #mobileStart:active {
+            background: rgba(255, 0, 255, 0.5);
+        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
+<!-- HUD -->
 <div id="ui" class="hidden">
     <div style="margin-bottom: 10px;">
         <span style="text-shadow: 0 0 5px #00ffff;">HP:</span>
         <div class="bar-container"><div id="hpBar"></div></div>
     </div>
     <div style="font-size: 18px; text-shadow: 0 0 5px #00ffff;">SCORE: <span id="scoreVal">0</span></div>
-    <div id="tiltStatus">TILT SENSOR: ACTIVE</div>
+    <div id="debugInfo">SENSORS: WAITING...</div>
 </div>
+
+<!-- Mobile Start Button -->
+<div id="mobileStart">TAP TO START</div>
 
 <canvas id="gameCanvas" width="600" height="800"></canvas>
 
@@ -94,7 +120,8 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const uiDiv = document.getElementById('ui');
 const hpBar = document.getElementById('hpBar');
-const tiltStatus = document.getElementById('tiltStatus');
+const debugInfo = document.getElementById('debugInfo');
+const mobileStartBtn = document.getElementById('mobileStart');
 
 // --- Game Constants ---
 const SEGMENT_HEIGHT = 5;
@@ -123,9 +150,8 @@ const keys = { ArrowUp:false, ArrowDown:false, ArrowLeft:false, ArrowRight:false
 const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 const mobileInput = {
     active: false,
-    beta: 0,  // Front/Back tilt
-    gamma: 0, // Left/Right tilt
-    fire: false,
+    beta: 0,  
+    gamma: 0, 
     permissionGranted: false
 };
 
@@ -158,60 +184,74 @@ let decorators = [];
 // --- MOBILE CONTROLS SETUP ---
 
 function handleOrientation(e) {
-    // Only update if we have valid data
     if (e.gamma !== null) {
         mobileInput.active = true;
         mobileInput.gamma = e.gamma; 
         mobileInput.beta = e.beta;
         
-        // Show status on first success
-        if (tiltStatus.style.display !== 'block') {
-            tiltStatus.style.display = 'block';
+        // Debug Feedback
+        if (uiDiv.classList.contains('hidden') === false) {
+            debugInfo.innerText = `TILT: ON\nG: ${Math.round(e.gamma)} B: ${Math.round(e.beta)}`;
         }
     }
 }
 
-function setupMobileControls() {
+function initMobileControls() {
     if (!isMobile) return;
 
-    // Try adding listener immediately (for Android/older iOS)
-    if (window.DeviceOrientationEvent) {
+    // Show Start Button logic
+    if (gameState === 'title') {
+        mobileStartBtn.style.display = 'block';
+    }
+
+    // Android/Non-iOS immediately listen
+    if (window.DeviceOrientationEvent && !('requestPermission' in DeviceOrientationEvent)) {
         window.addEventListener('deviceorientation', handleOrientation);
     }
 
-    // Touch Handler (Fire / Start / Permission)
-    window.addEventListener('touchstart', (e) => {
-        // e.preventDefault(); 
-        
-        // iOS 13+ Permission Request
+    // Bind Start Button for Permission Request (iOS 13+)
+    mobileStartBtn.addEventListener('click', () => {
         if (typeof DeviceOrientationEvent !== 'undefined' && 
-            typeof DeviceOrientationEvent.requestPermission === 'function' &&
-            !mobileInput.permissionGranted) {
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
                 
-                DeviceOrientationEvent.requestPermission()
-                    .then(response => {
-                        if (response === 'granted') {
-                            mobileInput.permissionGranted = true;
-                            window.addEventListener('deviceorientation', handleOrientation);
-                        }
-                    })
-                    .catch(console.error);
-        }
-
-        // Logic
-        if (gameState === 'title' || gameState === 'gameover') {
-            resetGame();
+            DeviceOrientationEvent.requestPermission()
+                .then(response => {
+                    if (response === 'granted') {
+                        mobileInput.permissionGranted = true;
+                        window.addEventListener('deviceorientation', handleOrientation);
+                        startGameFromMobile();
+                    } else {
+                        alert("Permission denied. Tilt controls disabled.");
+                        startGameFromMobile();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    startGameFromMobile(); // Fallback start
+                });
         } else {
-            keys.Space = true; 
+            // Non-iOS or older
+            startGameFromMobile();
         }
-    }, {passive: false});
+    });
 
-    window.addEventListener('touchend', () => {
+    // Touch to Fire (during gameplay)
+    canvas.addEventListener('touchstart', (e) => {
+        if (gameState === 'playing') keys.Space = true;
+        // e.preventDefault();
+    }, {passive: false});
+    
+    canvas.addEventListener('touchend', () => {
         keys.Space = false;
     });
 }
 
-setupMobileControls();
+function startGameFromMobile() {
+    mobileStartBtn.style.display = 'none';
+    resetGame();
+}
+
+initMobileControls();
 
 // --- ROAD GENERATION SYSTEM ---
 
@@ -272,7 +312,6 @@ function addRoadSegment(y, initialFill = false) {
     roadGen.timer++;
     roadGen.segmentCounter++;
 
-    // --- State Machine ---
     if (roadGen.state === 'STRAIGHT') {
         roadGen.targetGap = 0;
         roadGen.targetLeftWidth = 150;
@@ -413,8 +452,19 @@ function resetGame() {
     
     initRoad();
     uiDiv.classList.remove('hidden');
+    
+    // Hide start button if game restarted via keyboard
+    mobileStartBtn.style.display = 'none';
+    
     updateHealthUI();
     document.getElementById('scoreVal').innerText = 0;
+    
+    // Check sensors
+    if(mobileInput.active) {
+        debugInfo.innerText = "TILT: ACTIVE";
+    } else {
+        debugInfo.innerText = "TILT: WAITING...";
+    }
 }
 
 function updateHealthUI() {
@@ -459,7 +509,6 @@ function spawnEnemies() {
     
     let laneCenters = [];
 
-    // Valid Spawning
     if (!topSeg.isTunnelLeft) {
         const leftMid = topSeg.leftInner - topSeg.leftW/2;
         laneCenters.push(leftMid - topSeg.leftW/4);
@@ -886,8 +935,8 @@ function drawTitleScreen() {
         ctx.fillStyle = 'white';
         ctx.font = '24px "Courier New"';
         ctx.textAlign = 'center';
-        const prompt = isMobile ? "TAP TO START" : "SPACEBAR/FIRE TO START";
-        ctx.fillText(prompt, canvas.width/2, 700);
+        const prompt = isMobile ? "" : "SPACEBAR/FIRE TO START";
+        if (prompt) ctx.fillText(prompt, canvas.width/2, 700);
     }
     
     ctx.fillStyle = '#aaa';
