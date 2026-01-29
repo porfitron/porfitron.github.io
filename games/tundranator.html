@@ -67,6 +67,12 @@
             transition: width 0.2s;
             box-shadow: 0 0 10px #ff0055;
         }
+        #tiltStatus {
+            display: none;
+            color: #00ff00;
+            font-size: 12px;
+            margin-top: 5px;
+        }
         .hidden { display: none; }
     </style>
 </head>
@@ -78,6 +84,7 @@
         <div class="bar-container"><div id="hpBar"></div></div>
     </div>
     <div style="font-size: 18px; text-shadow: 0 0 5px #00ffff;">SCORE: <span id="scoreVal">0</span></div>
+    <div id="tiltStatus">TILT SENSOR: ACTIVE</div>
 </div>
 
 <canvas id="gameCanvas" width="600" height="800"></canvas>
@@ -87,6 +94,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const uiDiv = document.getElementById('ui');
 const hpBar = document.getElementById('hpBar');
+const tiltStatus = document.getElementById('tiltStatus');
 
 // --- Game Constants ---
 const SEGMENT_HEIGHT = 5;
@@ -117,7 +125,8 @@ const mobileInput = {
     active: false,
     beta: 0,  // Front/Back tilt
     gamma: 0, // Left/Right tilt
-    fire: false
+    fire: false,
+    permissionGranted: false
 };
 
 // Player
@@ -148,29 +157,42 @@ let decorators = [];
 
 // --- MOBILE CONTROLS SETUP ---
 
+function handleOrientation(e) {
+    // Only update if we have valid data
+    if (e.gamma !== null) {
+        mobileInput.active = true;
+        mobileInput.gamma = e.gamma; 
+        mobileInput.beta = e.beta;
+        
+        // Show status on first success
+        if (tiltStatus.style.display !== 'block') {
+            tiltStatus.style.display = 'block';
+        }
+    }
+}
+
 function setupMobileControls() {
     if (!isMobile) return;
 
-    // Orientation Handler
-    window.addEventListener('deviceorientation', (e) => {
-        mobileInput.active = true;
-        // Clamp values roughly
-        mobileInput.gamma = e.gamma; // Left/Right (-90 to 90)
-        mobileInput.beta = e.beta;   // Front/Back (-180 to 180)
-    });
+    // Try adding listener immediately (for Android/older iOS)
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', handleOrientation);
+    }
 
-    // Touch Handler (Fire / Start)
+    // Touch Handler (Fire / Start / Permission)
     window.addEventListener('touchstart', (e) => {
-        // e.preventDefault(); // Optional: prevent scrolling
+        // e.preventDefault(); 
         
-        // Handle iOS Permission on first tap if needed
+        // iOS 13+ Permission Request
         if (typeof DeviceOrientationEvent !== 'undefined' && 
             typeof DeviceOrientationEvent.requestPermission === 'function' &&
-            !mobileInput.active) {
+            !mobileInput.permissionGranted) {
+                
                 DeviceOrientationEvent.requestPermission()
                     .then(response => {
                         if (response === 'granted') {
-                            mobileInput.active = true;
+                            mobileInput.permissionGranted = true;
+                            window.addEventListener('deviceorientation', handleOrientation);
                         }
                     })
                     .catch(console.error);
@@ -180,7 +202,7 @@ function setupMobileControls() {
         if (gameState === 'title' || gameState === 'gameover') {
             resetGame();
         } else {
-            keys.Space = true; // Map touch to spacebar logic
+            keys.Space = true; 
         }
     }, {passive: false});
 
