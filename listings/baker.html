@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rare Cow Hollow Gem - 2709-2711 Baker Street</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .text-brand {
+            color: #2c5282;
+        }
+        .bg-brand {
+            background-color: #2c5282;
+        }
+        .bg-brand:hover {
+            background-color: #2a4365;
+        }
+        /* Custom map aspect ratio */
+        .map-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        /* Hide scrollbar for gallery modal */
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+</head>
+<body class="text-gray-700">
+
+    <!-- Navigation / Top Bar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-gray-900 tracking-tight">Union and Baker, LLC</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="openInquiryModal()" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand shadow-sm hover:bg-blue-800 focus:outline-none transition">
+                        <i class="fas fa-envelope mr-2"></i> Contact Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="bg-white border-b border-gray-200 pb-8 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-sm font-semibold text-blue-600 uppercase tracking-wide">Property Prospectus</h2>
+                    <h1 class="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:truncate mt-1">
+                        Rare Cow Hollow Gem
+                    </h1>
+                    <p class="mt-2 text-lg text-gray-500">
+                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i> 2709-2711 Baker Street, San Francisco, CA 94123
+                    </p>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4">
+                    <span class="text-3xl font-bold text-gray-900">Inquire for Price</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 h-96 md:h-[500px]">
+            <!-- Main large image: Drone Shot (Index 0) -->
+            <div class="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(0)">
+                <img src="baker/2709-2711-drone.jpg" 
+                     alt="Property Aerial View" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent w-full p-4">
+                    <span class="text-white font-medium"><i class="fas fa-camera mr-2"></i>Premier Corner Location</span>
+                </div>
+            </div>
+            <!-- Exterior Shot (Index 3 - Start of Exterior Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(3)">
+                <img src="baker/2709-2711-exterior_1817.jpeg" 
+                     alt="Building Exterior" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                     <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent w-full p-2">
+                        <span class="text-white text-xs font-medium ml-2">Building Exterior</span>
+                    </div>
+            </div>
+            <!-- 2709 Shot (Index 10 - Start of 2709 Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(10)">
+                <img src="baker/2709-livingroom.jpg" 
+                     alt="Lower Unit Living Room" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+            </div>
+            <!-- 2711 Penthouse Shot (Index 22 - Start of Penthouse Group) -->
+            <div class="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(22)">
+                <img src="baker/2711-penthouse_8283.jpeg" 
+                     alt="Penthouse Interior" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+            </div>
+            <div class="relative bg-gray-200 flex items-center justify-center rounded-lg shadow-md cursor-pointer hover:bg-gray-300 transition" onclick="openModal(0)">
+                <div class="text-center p-4">
+                    <i class="fas fa-images text-3xl text-gray-500 mb-2"></i>
+                    <p class="text-gray-600 font-medium">View All Photos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-16">
+        <div class="md:grid md:grid-cols-3 md:gap-8">
+            
+            <!-- Left Column: Details -->
+            <div class="md:col-span-2">
+                
+                <!-- Key Features Icons -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-wrap justify-between items-center text-center mb-8">
+                    <div class="w-1/2 md:w-auto p-2">
+                        <i class="fas fa-building text-2xl text-blue-600 mb-2"></i>
+                        <div class="font-bold text-gray-900">2 Units</div>
+                    </div>
+                    <div class="w-1/2 md:w-auto p-2">
+                        <i class="fas fa-bed text-2xl text-blue-600 mb-2"></i>
+                        <div class="font-bold text-gray-900">5 Bed Total</div>
+                    </div>
+                    <div class="w-1/2 md:w-auto p-2">
+                        <i class="fas fa-bath text-2xl text-blue-600 mb-2"></i>
+                        <div class="font-bold text-gray-900">5 Bath Total</div>
+                    </div>
+                    <div class="w-1/2 md:w-auto p-2">
+                        <i class="fas fa-car text-2xl text-blue-600 mb-2"></i>
+                        <div class="font-bold text-gray-900">3 Garages</div>
+                    </div>
+                    <div class="w-1/2 md:w-auto p-2">
+                        <i class="fas fa-check-circle text-2xl text-blue-600 mb-2"></i>
+                        <div class="font-bold text-gray-900">Renovated</div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="prose max-w-none mb-8 text-gray-600">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Investment Opportunity</h3>
+                    <p class="mb-4 font-semibold text-lg text-gray-800">
+                        Ideally situated in Cow Hollow, bordering Pacific Heights and the Presidio Edge.
+                    </p>
+                    <p class="mb-4">
+                        Prominently sitting on the corner of Baker and Union Streets, this trophy building has been extensively renovated. 
+                        The location offers unmatched walkability to iconic San Francisco landmarks including the <strong>Lyon Street Steps, Palace of Fine Arts, Lucas Arts Letterman Campus, and East Beach</strong>.
+                    </p>
+                    
+                    <h4 class="text-xl font-bold text-gray-900 mt-6 mb-3">Total Building Configuration</h4>
+                    <p class="mb-4">
+                        The property consists of two distinct units comprising a total of <strong>5 bedrooms, 5 bathrooms, 2 full kitchens, and 2 laundry rooms</strong>. 
+                        Parking is exceptional for the area, featuring <strong>3 individual garage spaces</strong>, each with its own separate door.
+                    </p>
+
+                    <h4 class="text-xl font-bold text-gray-900 mt-6 mb-3">Unit Breakdown</h4>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Unit 1 (Upper Penthouse):</strong> A stunning 2-level, 3-bedroom, 3-bath flat. This Penthouse features a walk-out deck offering breathtaking views of the <strong>San Francisco Bay, Angel Island, Alcatraz, Tiburon, the Marina, and Billionaires Row</strong>.</li>
+                        <li><strong>Unit 2 (Lower):</strong> A full-floor 2-bedroom, 2-bath flat featuring a great room and plenty of San Francisco charm and modern luxury.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-bold text-gray-900 mt-6 mb-3">Extensive Modern Upgrades</h4>
+                    <p class="mb-4">Significant capital improvements have been made to modernize the building's efficiency, security, and aesthetics:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Exterior:</strong> New Roof (2021) and completely re-surfaced exterior stucco.</li>
+                        <li><strong>Climate Control:</strong> New vented HVAC heatpump system for heating and cooling.</li>
+                        <li><strong>Efficiency:</strong> New heatpump water heaters installed.</li>
+                        <li><strong>Windows & Treatments:</strong> New double-paned windows throughout, fitted with custom shades. The top floor features <strong>electric smart shades</strong> that operate on command or programmable schedules.</li>
+                        <li><strong>Security:</strong> New security gate, <strong>keyless entry with smart locks</strong>, doorbell, security cameras, and updated exterior lighting.</li>
+                        <li><strong>Ambiance:</strong> Electric fireplace inserts with remote controls installed in each unit.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-bold text-gray-900 mt-6 mb-3">ADU Opportunity</h4>
+                    <p class="mb-4">
+                        The largest opportunity for further customization is the <strong>ADU/bonus room</strong>. This space already features fittings for its own full bathroom and installed composite wood-style flooring. 
+                        Completing this space would bring the total building count to <strong>6 Bedrooms and 6 Bathrooms</strong>.
+                    </p>
+                </div>
+
+                <!-- Amenities Grid -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                        <h3 class="text-lg font-semibold text-gray-900">Property Highlights</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Views</strong>
+                                    <span class="text-sm">Bay, Alcatraz, Marina & Billionaires Row</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Parking</strong>
+                                    <span class="text-sm">3 Independent Garage Stalls</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Location</strong>
+                                    <span class="text-sm">Cow Hollow / Pacific Heights / Presidio</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Security</strong>
+                                    <span class="text-sm">Keyless Entry, Cameras, Gate</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Structure</strong>
+                                    <span class="text-sm">New Roof (2021) & Resurfaced Stucco</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="block text-gray-900">Windows</strong>
+                                    <span class="text-sm">Double-Paned + Smart Shades</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Things to Know -->
+                <div class="bg-blue-50 rounded-xl border border-blue-100 p-6 mb-8">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-walking text-blue-600 mr-2"></i> Walkability Score
+                    </h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-tree text-green-600 w-6 text-center mr-2"></i>
+                            <span><strong>Recreation:</strong> Lyon Street Steps, East Beach, Presidio Trails.</span>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-bus text-blue-500 w-6 text-center mr-2"></i>
+                            <span><strong>Transit:</strong> Steps to Muni & Free Presidio Go Shuttle.</span>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-landmark text-blue-500 w-6 text-center mr-2"></i>
+                            <span><strong>Culture:</strong> Palace of Fine Arts, Lucas Arts Letterman Campus.</span>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-coffee text-orange-500 w-6 text-center mr-2"></i>
+                            <span><strong>Lifestyle:</strong> Union Street & Chestnut Street Dining.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Sidebar (Sticky) -->
+            <div class="md:col-span-1">
+                <div class="sticky top-24 space-y-6">
+                    
+                    <!-- Contact Card -->
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                        <div class="p-6 bg-brand text-white text-center">
+                            <h3 class="text-xl font-bold">Investment Profile</h3>
+                            <p class="text-blue-200 text-sm mt-1">Cow Hollow / Pacific Heights</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="text-center mb-6">
+                                <p class="text-sm text-gray-500 mb-1">Status</p>
+                                <p class="text-3xl font-bold text-gray-900">Prospectus</p>
+                                <p class="text-xs text-gray-500 mt-1">(Not Currently Available)</p>
+                            </div>
+                            
+                            <div class="border-t border-b border-gray-100 py-4 mb-6 space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Total Composition</span>
+                                    <span class="font-medium text-gray-900">5 Bed / 5 Bath</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Potential</span>
+                                    <span class="font-medium text-gray-900">6 Bed / 6 Bath</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Year Built</span>
+                                    <span class="font-medium text-gray-900">1940</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openInquiryModal()" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md mb-3">
+                                Request Information
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Map Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b border-gray-200">
+                            <h3 class="font-bold text-gray-900">Location</h3>
+                        </div>
+                        <div class="map-container bg-gray-200">
+                            <!-- Embedded Google Map centered on 2709 Baker Street, SF -->
+                            <iframe 
+                                title="Google Map of 2709 Baker Street Location"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.116896791244!2d-122.4468646846816!3d37.796338979756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085872d82555555%3A0xabcdef1234567890!2s2709%20Baker%20St%2C%20San%20Francisco%2C%20CA%2094123!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
+                                width="600" 
+                                height="450" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                        <div class="p-4 bg-gray-50 text-sm text-gray-500">
+                            <i class="fas fa-map-pin mr-1"></i> Baker & Union Streets
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left md:flex justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <h4 class="font-bold text-lg">Union and Baker, LLC</h4>
+                <p class="text-gray-400 text-sm">Premier Properties in San Francisco.</p>
+            </div>
+            <div class="text-sm text-gray-400">
+                &copy; <script>document.write(new Date().getFullYear())</script> Union and Baker, LLC. Listing ID: BAKER-2709
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inquiry Modal (Coming Soon) -->
+    <div id="inquiryModal" class="fixed inset-0 z-[110] hidden bg-black bg-opacity-75 overflow-y-auto h-full w-full flex items-center justify-center">
+        <div class="relative p-8 border w-96 shadow-xl rounded-xl bg-white text-center transform transition-all scale-100">
+            <div class="mb-4">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+                    <i class="fas fa-clock text-blue-600 text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Coming Soon</h3>
+            <p class="text-gray-500 mb-6">Our online inquiry system is currently under construction.</p>
+            
+            <button onclick="closeInquiryModal()" class="text-gray-500 hover:text-gray-700 font-medium text-sm">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="fixed inset-0 z-[100] hidden bg-black bg-opacity-95 overflow-y-auto h-full w-full" onclick="if(event.target === this) closeModal()">
+        <div class="relative top-10 mx-auto p-5 border w-full max-w-5xl shadow-lg rounded-md bg-transparent">
+            <div class="flex justify-between items-center pb-3 text-white">
+                <h3 class="text-xl font-bold" id="modalTitle">Gallery</h3>
+                <button onclick="closeModal()" class="text-white text-3xl font-bold hover:text-gray-300">&times;</button>
+            </div>
+            <div class="mt-2 text-center">
+                <img id="modalImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Gallery Image" class="mx-auto max-h-[75vh] object-contain rounded-lg shadow-2xl">
+                <p id="modalCaption" class="text-white mt-4 text-lg font-medium tracking-wide"></p>
+                <div class="mt-4 flex justify-between items-center px-4">
+                     <button onclick="changeImage(-1)" class="bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition"><i class="fas fa-chevron-left"></i></button>
+                     <p class="text-gray-300 text-sm" id="imageCounter">1 / 30</p>
+                     <button onclick="changeImage(1)" class="bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Updated images array with tour flow: Drone -> Exterior -> 2709 -> 2711 Main -> 2711 Penthouse
+        const images = [
+            // --- DRONE SHOTS (Indices 0-2) ---
+            { src: 'baker/2709-2711-drone.jpg', caption: '2709-2711 Drone View' },
+            { src: 'baker/2709-2711-drone_0634.jpeg', caption: '2709-2711 Drone View 0634' },
+            { src: 'baker/2709-2711-drone_0635.jpeg', caption: '2709-2711 Drone View 0635' },
+
+            // --- EXTERIOR SHOTS (Indices 3-9) ---
+            { src: 'baker/2709-2711-exterior_1817.jpeg', caption: '2709-2711 Exterior' },
+            { src: 'baker/2709-2711-exterior_7846.jpg', caption: '2709-2711 Exterior' },
+            { src: 'baker/2709-2711-exterior_9332.jpg', caption: '2709-2711 Exterior' },
+            { src: 'baker/2709-2711-night_1138.jpg', caption: '2709-2711 Night View' },
+            { src: 'baker/2709-2711-entry-gate_7889.jpg', caption: '2709-2711 Entry Gate' },
+            { src: 'baker/2709-2711-entryway_9771.jpg', caption: '2709-2711 Entryway' },
+            { src: 'baker/2709-2711-garages_9153.jpg', caption: '2709-2711 Garages' },
+
+            // --- UNIT 2709 (LOWER) (Indices 10-14) ---
+            { src: 'baker/2709-livingroom.jpg', caption: '2709 Living Room' },
+            { src: 'baker/2709-livingroom_8223.jpg', caption: '2709 Living Room' },
+            { src: 'baker/2709-living-room-lamp_2355.jpeg', caption: '2709 Living Room Lamp' },
+            { src: 'baker/2709-bedroom_2061.jpeg', caption: '2709 Bedroom' },
+            { src: 'baker/2709-primary_2060.jpeg', caption: '2709 Primary' },
+
+            // --- UNIT 2711 (UPPER - MAIN LEVEL) (Indices 15-21) ---
+            { src: 'baker/2711-livingroom_9013.jpeg', caption: '2711 Living Room' },
+            { src: 'baker/2711-livingroom_9871.jpg', caption: '2711 Living Room' },
+            { src: 'baker/2711-diningroom_9872.jpg', caption: '2711 Dining Room' },
+            { src: 'baker/2711-kitchen-livingroom_9870.jpg', caption: '2711 Kitchen Living Room' },
+            { src: 'baker/2711-bedroom-office_8827.jpg', caption: '2711 Bedroom Office' },
+            { src: 'baker/2711-primary-juliet_7246.jpg', caption: '2711 Primary Juliet' },
+            { src: 'baker/2711-primary-juliet_7915.jpg', caption: '2711 Primary Juliet' },
+
+            // --- UNIT 2711 (UPPER - PENTHOUSE LEVEL) (Indices 22-25) ---
+            { src: 'baker/2711-penthouse_8283.jpeg', caption: '2711 Penthouse' },
+            { src: 'baker/2711-penthouse_6482.jpeg', caption: '2711 Penthouse' },
+            { src: 'baker/2711-penthouse_8231.jpeg', caption: '2711 Penthouse' },
+            { src: 'baker/2711-penthouse_8285.jpeg', caption: '2711 Penthouse' }
+        ];
+        
+        let currentIndex = 0;
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const counter = document.getElementById('imageCounter');
+
+        // Inquiry Modal Logic
+        const inquiryModal = document.getElementById('inquiryModal');
+
+        function openInquiryModal() {
+            inquiryModal.classList.remove('hidden');
+        }
+
+        function closeInquiryModal() {
+            inquiryModal.classList.add('hidden');
+        }
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.remove('hidden');
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.classList.remove('no-scroll');
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex >= images.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = images.length - 1;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = images[currentIndex].src;
+            modalCaption.innerText = images[currentIndex].caption;
+            counter.innerText = (currentIndex + 1) + ' / ' + images.length;
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeInquiryModal();
+            }
+            if (!modal.classList.contains('hidden')) {
+                if (event.key === 'ArrowLeft') changeImage(-1);
+                if (event.key === 'ArrowRight') changeImage(1);
+            }
+        });
+    </script>
+</body>
+</html>

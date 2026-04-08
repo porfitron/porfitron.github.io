@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Listing: 1934 Ford Model 40 Deluxe Cabriolet Hot Rod</title>
+    
+    <!-- Prevent indexing and following -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+        .serif-text {
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        .listing-header {
+            border-bottom: 4px solid #000;
+        }
+        /* Prevents awkward title wrapping */
+        .title-balance {
+            text-wrap: balance;
+        }
+        .sidebar-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 0;
+        }
+        .sidebar-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+        .sidebar-value {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #111827;
+        }
+        .gallery-grid img {
+            aspect-ratio: 3/2;
+            object-fit: cover;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .gallery-grid img:hover {
+            opacity: 0.9;
+        }
+        /* Modal Styles */
+        #modal, #inquiryModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        #modal.active, #inquiryModal.active {
+            display: flex;
+        }
+        .modal-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background 0.2s;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .modal-btn {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <main class="max-w-6xl mx-auto">
+        <!-- Auction Header -->
+        <header class="listing-header pb-6 mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                <div class="max-w-4xl">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 title-balance">
+                        1934 Ford Model 40 Deluxe Cabriolet Hot Rod
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 font-medium italic">Custom Build by Scotts Hot Rod Shop</p>
+                </div>
+                <div class="text-left lg:text-right">
+                    <div class="bg-black text-white px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-widest inline-block whitespace-nowrap">
+                        Private Listing
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Gallery -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                <div class="md:col-span-3">
+                    <img src="1934/IMG_9179.jpeg" alt="Primary Front View" class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(4)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
+                </div>
+                <div class="hidden md:flex flex-col gap-2">
+                    <img src="1934/IMG_9196.jpeg" alt="Side View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(21)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+1'">
+                    <img src="1934/IMG_9201.jpeg" alt="Interior View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(26)" onerror="this.src='https://via.placeholder.com/400x300?text=Detail+2'">
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <!-- Main Content Area -->
+            <article class="lg:col-span-8 order-2 lg:order-1">
+                
+                <div class="serif-text space-y-6">
+                    <p>
+                        This 1934 Ford Model 40 Deluxe Cabriolet is a custom-built hot rod that was fabricated by Scotts Hot Rod Shop, formerly of Ventura, California. Finished in Vermillion Red over gray leather upholstery, the car is powered by a ZZ4 350ci V8 paired with a 700-R4 four-speed automatic transmission and a Currie Positraction 9-inch rear end. 
+                    </p>
+                    
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">Body and Exterior</h2>
+                    <p>
+                        The steel body is finished in Vermillion Red and features a black canvas soft top with a powder-coated frame and a matching boot cover. The paint displays a deep, mirror-like finish consistent with its "Show Quality" designation in recent appraisals. Brightwork includes chrome front and rear bumpers, a chrome grille, 9" headlights, dual chrome horns, and chrome cowl lights. The car is equipped with suicide doors, rubber-tread running boards, a tinted windshield, and chrome side mirrors. Painted steel wheels feature chrome hubcaps and trim rings and are currently mounted with Coker classic whitewall tires.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">Interior</h2>
+                    <p>
+                        The cabin features a bench seat upholstered in gray leather with matching door panels and gray closed-loop wool carpeting. The car is equipped with a functional rumble seat also trimmed in gray leather. Comfort is managed by a Vintage Air climate control system providing both air conditioning and heat, along with power windows and cruise control. The dashboard houses Classic Instruments antique-face gauges, including a 120-mph speedometer and a six-digit mechanical odometer showing approximately 4,466 miles.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-black pt-4 font-sans">Mechanicals</h2>
+                    <p>
+                        The ZZ4 350ci V8 engine is equipped with high-performance cylinder heads and an Edelbrock four-barrel carburetor. The engine bay is highly detailed and features a polished intake manifold, valve covers, air cleaner, alternator, and A/C compressor. Cooling is handled by a polished aluminum radiator with dual electric fans, polished water pipes, and a billet overflow reservoir. Power is sent to the rear wheels through a 700-R4 four-speed automatic transmission and a Ford 9-inch rear end with Currie Positraction gears.
+                    </p>
+                </div>
+
+                <!-- Full Photo Grid -->
+                <section class="mt-16">
+                    <h3 class="text-xl font-bold mb-6 border-b pb-2 uppercase tracking-wide">Photo Gallery</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 gallery-grid" id="imageContainer">
+                        <!-- Images will be populated here by JS -->
+                    </div>
+                </section>
+            </article>
+
+            <!-- Sidebar Statistics -->
+            <aside class="lg:col-span-4 order-1 lg:order-2 mb-8 lg:mb-0">
+                <div class="lg:sticky lg:top-8 bg-white p-6 border border-gray-200 shadow-sm rounded-sm">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2 uppercase text-xs tracking-widest text-gray-500">Listing Details</h3>
+                    
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Chassis</div>
+                        <div class="sidebar-value">1037610</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Mileage</div>
+                        <div class="sidebar-value">4,466 Miles Shown</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Engine</div>
+                        <div class="sidebar-value">ZZ4 350ci V8</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Transmission</div>
+                        <div class="sidebar-value">700-R4 Automatic</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Drivetrain</div>
+                        <div class="sidebar-value">Ford 9" w/ Positraction</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Suspension</div>
+                        <div class="sidebar-value">Scotts Hot Rods IFS</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Brakes</div>
+                        <div class="sidebar-value">Wilwood Power Disc</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Exterior Color</div>
+                        <div class="sidebar-value">Vermillion Red</div>
+                    </div>
+                    <div class="sidebar-item border-none">
+                        <div class="sidebar-label">Location</div>
+                        <div class="sidebar-value">Paso Robles, CA</div>
+                    </div>
+
+                    <div class="mt-8">
+                        <button onclick="openInquiryModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded transition text-sm uppercase tracking-widest">
+                            Inquire for Details
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="mt-20 border-t pt-8 text-center text-gray-500 text-sm pb-12">
+            &copy; <span id="currentYear"></span> <a href="/" class="hover:underline text-gray-700 font-semibold">Porfirio José Landeros</a>. All images are the property of seller.
+        </footer>
+    </main>
+
+    <!-- Photo Modal Lightbox -->
+    <div id="modal" onclick="closeModal(event)">
+        <button class="modal-btn absolute top-4 right-4 sm:top-6 sm:right-6 z-50" onclick="closeModal(event)">&times;</button>
+        <button class="modal-btn absolute left-2 sm:left-6 z-50" onclick="prevImg(event)">&#10094;</button>
+        <div class="max-w-[95vw] sm:max-w-5xl max-h-[90vh] flex flex-col items-center">
+            <img id="modalImg" src="" class="max-w-full max-h-[80vh] sm:max-h-[85vh] object-contain shadow-2xl">
+            <div id="modalCaption" class="text-white mt-4 font-medium text-xs sm:text-sm"></div>
+        </div>
+        <button class="modal-btn absolute right-2 sm:right-6 z-50" onclick="nextImg(event)">&#10095;</button>
+    </div>
+
+    <!-- Inquiry Modal -->
+    <div id="inquiryModal" onclick="closeInquiryModal(event)">
+        <div class="bg-white p-8 sm:p-12 rounded-sm shadow-2xl text-center max-w-sm sm:max-w-md mx-4 relative">
+            <button class="absolute top-2 right-4 text-2xl text-gray-400 hover:text-black" onclick="closeInquiryModal(event)">&times;</button>
+            <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-4">Coming Soon</h2>
+            <p class="text-sm sm:text-base text-gray-600">Our contact system is currently being updated. Please check back shortly for full inquiry details.</p>
+        </div>
+    </div>
+
+    <script>
+        const photos = [
+            "IMG_9175.jpeg", "IMG_9176.jpeg", "IMG_9177.jpeg", "IMG_9178.jpeg", "IMG_9179.jpeg",
+            "IMG_9180.jpeg", "IMG_9181.jpeg", "IMG_9182.jpeg", "IMG_9183.jpeg", "IMG_9184.jpeg",
+            "IMG_9185.jpeg", "IMG_9186.jpeg", "IMG_9187.jpeg", "IMG_9188.jpeg", "IMG_9189.jpeg",
+            "IMG_9190.jpeg", "IMG_9191.jpeg", "IMG_9192.jpeg", "IMG_9193.jpeg", "IMG_9194.jpeg",
+            "IMG_9195.jpeg", "IMG_9196.jpeg", "IMG_9197.jpeg", "IMG_9198.jpeg", "IMG_9199.jpeg",
+            "IMG_9200.jpeg", "IMG_9201.jpeg", "IMG_9202.jpeg", "IMG_9203.jpeg", "IMG_9204.jpeg",
+            "IMG_9205.jpeg", "IMG_9206.jpeg", "IMG_9207.jpeg", "IMG_9208.jpeg", "IMG_9209.jpeg",
+            "IMG_9210.jpeg", "IMG_9211.jpeg", "IMG_9212.jpeg", "IMG_9213.jpeg", "IMG_9214.jpeg"
+        ];
+
+        // Set Copyright Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        let currentIndex = 0;
+        const modal = document.getElementById('modal');
+        const inquiryModal = document.getElementById('inquiryModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const container = document.getElementById('imageContainer');
+
+        // Inquiry Modal Logic
+        function openInquiryModal() {
+            inquiryModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInquiryModal(e) {
+            if (e.target === inquiryModal || e.target.innerText === '×' || e.target.closest('button')) {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Photo Gallery Logic
+        photos.forEach((filename, index) => {
+            const div = document.createElement('div');
+            const img = document.createElement('img');
+            img.src = `1934/${filename}`;
+            img.alt = `Photo ${index + 1}`;
+            img.loading = "lazy";
+            img.className = "rounded-sm shadow-sm";
+            img.onclick = () => openModal(index);
+            img.onerror = function() {
+                this.parentElement.style.display = 'none';
+            };
+            div.appendChild(img);
+            container.appendChild(div);
+        });
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (e.target === modal || e.target.innerText === '×') {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function nextImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex + 1) % photos.length;
+            updateModal();
+        }
+
+        function prevImg(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = `1934/${photos[currentIndex]}`;
+            modalCaption.innerText = `Image ${currentIndex + 1} of ${photos.length}`;
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('active')) {
+                if (e.key === "ArrowRight") nextImg();
+                if (e.key === "ArrowLeft") prevImg();
+                if (e.key === "Escape") {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+            if (inquiryModal.classList.contains('active') && e.key === "Escape") {
+                inquiryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
