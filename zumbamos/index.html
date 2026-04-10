@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zumbamos Video Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <div
+    x-data="videoGallery()"
+    class="min-h-screen"
+  >
+    <header class="sticky top-0 z-30 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <h1 class="text-lg font-semibold tracking-wide sm:text-xl">Zumbamos Video Homepage</h1>
+        <p class="text-xs text-slate-400 sm:text-sm">Curated playlist</p>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <section class="mb-8">
+        <h2 class="text-2xl font-bold sm:text-3xl">Playlist</h2>
+        <p class="mt-2 max-w-3xl text-sm text-slate-300 sm:text-base">
+          Choose a video to watch. Clicking any card opens a responsive modal player.
+        </p>
+      </section>
+
+      <section class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <template x-for="video in videos" :key="video.id">
+          <article
+            class="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-slate-600"
+          >
+            <button
+              type="button"
+              class="block w-full text-left"
+              @click="openModal(video.youtubeId)"
+              :aria-label="`Play ${video.title}`"
+            >
+              <div class="relative aspect-video overflow-hidden bg-slate-800">
+                <img
+                  class="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:opacity-80"
+                  :src="thumbnailFor(video.youtubeId)"
+                  :alt="`${video.title} thumbnail`"
+                  loading="lazy"
+                />
+                <div class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20 transition group-hover:bg-black/35">
+                  <div class="rounded-full border border-white/60 bg-white/20 p-4 backdrop-blur-sm">
+                    <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2 p-4">
+                <h3 class="line-clamp-2 text-lg font-semibold" x-text="video.title"></h3>
+                <p class="text-sm text-slate-300" x-text="video.description"></p>
+              </div>
+            </button>
+          </article>
+        </template>
+      </section>
+    </main>
+
+    <div
+      x-show="isOpen"
+      x-transition.opacity
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 p-4"
+      @click.self="closeModal"
+      @keydown.escape.window="closeModal"
+      style="display: none;"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Video player"
+    >
+      <div
+        x-show="isOpen"
+        x-transition.scale
+        class="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl shadow-black/50"
+      >
+        <button
+          type="button"
+          class="absolute right-3 top-3 z-10 rounded-full bg-black/70 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-black"
+          @click="closeModal"
+          aria-label="Close modal"
+        >
+          X
+        </button>
+        <div class="aspect-video w-full bg-black">
+          <iframe
+            class="h-full w-full"
+            :src="activeVideoId ? embedUrl(activeVideoId) : ''"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function videoGallery() {
+      return {
+        isOpen: false,
+        activeVideoId: "",
+        videos: [
+          {
+            id: "v1",
+            title: "Dance Fitness Warm Up",
+            youtubeId: "spgRTsyZny8",
+            description: "'Alena 9-min 130bpm' Warm Up by DJ Baddmixx."
+          },
+          {
+            id: "v2",
+            title: "Tango Dance Workout",
+            youtubeId: "JyUJOmcbTz8",
+            description: "'Pa' Bailar' by Bajofondo ft. Julieta Venegas."
+          },
+          {
+            id: "v3",
+            title: "Mambo Salsa Workout",
+            youtubeId: "IW9OkPQrIlQ",
+            description: "'Mambo Salsa' by BIP"
+          },
+          {
+            id: "v4",
+            title: "Cumbia Dance Workout",
+            youtubeId: "QqCJfl7acY4",
+            description: "'La Camisa Negra' by Juanes"
+          },
+          {
+            id: "v5",
+            title: "Vallenato Cumbia Workout",
+            youtubeId: "QxHCIUNV_Wg",
+            description: "'La Fantastica' by Zumba Fitness."
+          },
+          {
+            id: "v6",
+            title: "Tango Dance Workout",
+            youtubeId: "yXlzI9tJwWM",
+            description: "'Tango Electronico' by Zumba Fitness."
+          }
+        ],
+        openModal(videoId) {
+          this.activeVideoId = videoId;
+          this.isOpen = true;
+        },
+        closeModal() {
+          this.isOpen = false;
+          this.activeVideoId = "";
+        },
+        thumbnailFor(videoId) {
+          return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        },
+        embedUrl(videoId) {
+          const params = new URLSearchParams({
+            autoplay: "1",
+            rel: "0",
+            playsinline: "1",
+            modestbranding: "1"
+          });
+
+          // YouTube can reject embeds without an origin in some contexts.
+          if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+            params.set("origin", window.location.origin);
+          }
+
+          return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+        }
+      };
+    }
+  </script>
+</body>
+</html>
