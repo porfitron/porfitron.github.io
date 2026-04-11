@@ -495,35 +495,35 @@
                         aria-label="Close photo gallery">&times;</button>
             </div>
             <p id="galleryKeyboardHint" class="sr-only">Use the previous and next buttons or the left and right arrow keys to move between photos.</p>
-            <div class="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 sm:gap-4">
-                <figure class="flex w-full min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-2 sm:gap-3">
-                    <img id="modalImage"
-                         src=""
-                         alt=""
-                         class="lightbox-stage mx-auto h-auto w-full max-w-full object-contain rounded-lg shadow-2xl">
+            <div class="flex min-h-0 flex-1 flex-col items-stretch justify-center gap-3 sm:gap-4">
+                <figure class="flex w-full min-h-0 min-w-0 flex-1 flex-col gap-2 sm:gap-3">
+                    <div class="lightbox-image-wrap relative flex min-h-0 w-full flex-1 items-center justify-center px-12 sm:px-14 md:px-16">
+                        <button type="button"
+                                id="galleryPrevBtn"
+                                onclick="changeImage(-1)"
+                                class="absolute left-0 top-1/2 z-10 inline-flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white shadow-lg backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:min-h-12 sm:min-w-12"
+                                aria-label="Previous photo">
+                            <i class="fas fa-chevron-left text-lg sm:text-xl" aria-hidden="true"></i>
+                        </button>
+                        <img id="modalImage"
+                             src=""
+                             alt=""
+                             class="lightbox-stage relative z-0 mx-auto h-auto w-full max-w-full object-contain rounded-lg shadow-2xl">
+                        <button type="button"
+                                id="galleryNextBtn"
+                                onclick="changeImage(1)"
+                                class="absolute right-0 top-1/2 z-10 inline-flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white shadow-lg backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:min-h-12 sm:min-w-12"
+                                aria-label="Next photo">
+                            <i class="fas fa-chevron-right text-lg sm:text-xl" aria-hidden="true"></i>
+                        </button>
+                    </div>
                     <figcaption id="modalCaption"
-                                class="max-w-2xl px-2 text-center text-sm leading-snug text-gray-300 sm:max-w-3xl sm:text-base sm:leading-relaxed">
+                                class="mx-auto w-full max-w-3xl shrink-0 px-3 text-center text-sm leading-snug text-gray-300 sm:px-4 sm:text-base sm:leading-relaxed">
                     </figcaption>
                 </figure>
-                <div class="lightbox-nav flex w-full max-w-xl shrink-0 items-center justify-between gap-2 px-1 sm:px-2">
-                    <button type="button"
-                            id="galleryPrevBtn"
-                            onclick="changeImage(-1)"
-                            class="inline-flex min-h-11 min-w-11 sm:min-h-12 sm:min-w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                            aria-label="Previous photo">
-                        <i class="fas fa-chevron-left text-lg sm:text-xl" aria-hidden="true"></i>
-                    </button>
-                    <div class="min-w-0 flex-1 text-center">
-                        <p class="text-sm text-gray-300 tabular-nums sm:text-base" id="imageCounter">1 / 15</p>
-                        <span id="imageCounterLive" class="sr-only" aria-live="polite" aria-atomic="true"></span>
-                    </div>
-                    <button type="button"
-                            id="galleryNextBtn"
-                            onclick="changeImage(1)"
-                            class="inline-flex min-h-11 min-w-11 sm:min-h-12 sm:min-w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                            aria-label="Next photo">
-                        <i class="fas fa-chevron-right text-lg sm:text-xl" aria-hidden="true"></i>
-                    </button>
+                <div class="lightbox-nav flex w-full shrink-0 justify-center px-2">
+                    <p class="text-sm text-gray-300 tabular-nums sm:text-base" id="imageCounter">1 / 15</p>
+                    <span id="imageCounterLive" class="sr-only" aria-live="polite" aria-atomic="true"></span>
                 </div>
             </div>
         </div>
