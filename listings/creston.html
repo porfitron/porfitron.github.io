@@ -104,12 +104,13 @@
         .no-scroll {
             overflow: hidden;
         }
+        /* Cap image height to viewport and to the flex slot so it cannot overflow onto the caption */
         #imageModal .lightbox-stage {
-            max-height: min(82dvh, 85vh);
+            max-height: min(82dvh, 85vh, 100%);
         }
         @supports not (height: 1dvh) {
             #imageModal .lightbox-stage {
-                max-height: min(82vh, 900px);
+                max-height: min(82vh, 900px, 100%);
             }
         }
         #imageModal .lightbox-nav {
@@ -497,7 +498,7 @@
             <p id="galleryKeyboardHint" class="sr-only">Use the previous and next buttons or the left and right arrow keys to move between photos.</p>
             <div class="flex min-h-0 flex-1 flex-col items-stretch justify-center gap-3 sm:gap-4">
                 <figure class="flex w-full min-h-0 min-w-0 flex-1 flex-col gap-2 sm:gap-3">
-                    <div class="lightbox-image-wrap relative flex min-h-0 w-full flex-1 items-center justify-center px-12 sm:px-14 md:px-16">
+                    <div class="lightbox-image-wrap relative flex min-h-0 w-full min-w-0 flex-1 items-center justify-center overflow-hidden px-12 sm:px-14 md:px-16">
                         <button type="button"
                                 id="galleryPrevBtn"
                                 onclick="changeImage(-1)"
@@ -508,7 +509,7 @@
                         <img id="modalImage"
                              src=""
                              alt=""
-                             class="lightbox-stage relative z-0 mx-auto h-auto w-full max-w-full object-contain rounded-lg shadow-2xl">
+                             class="lightbox-stage relative z-0 mx-auto h-auto max-h-full w-full min-h-0 max-w-full object-contain rounded-lg shadow-2xl">
                         <button type="button"
                                 id="galleryNextBtn"
                                 onclick="changeImage(1)"
@@ -518,7 +519,7 @@
                         </button>
                     </div>
                     <figcaption id="modalCaption"
-                                class="mx-auto w-full max-w-3xl shrink-0 px-3 text-center text-sm leading-snug text-gray-300 sm:px-4 sm:text-base sm:leading-relaxed">
+                                class="relative z-[1] mx-auto w-full max-w-3xl shrink-0 px-3 text-center text-sm leading-snug text-gray-300 sm:px-4 sm:text-base sm:leading-relaxed">
                     </figcaption>
                 </figure>
                 <div class="lightbox-nav flex w-full shrink-0 justify-center px-2">
