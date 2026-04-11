@@ -176,6 +176,22 @@
             font-weight: 400;
             letter-spacing: 0.02em;
         }
+
+        .profile-at-a-glance {
+            font-size: 0.9375rem;
+            color: #c4c4c4;
+            line-height: 1.45;
+            max-width: 28rem;
+            margin: 16px auto 0;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .profile-at-a-glance strong {
+            color: #f0f0f0;
+            font-weight: 600;
+        }
         
         /* --- Links Section --- */
 
@@ -308,22 +324,30 @@
             height: 100%;
             overflow: auto; 
             background-color: rgba(0, 0, 0, 0.9); 
-            padding-top: 60px;
+            box-sizing: border-box;
+            /* Equal inset on all sides; safe-area keeps content clear of notches/home indicator on mobile */
+            padding: max(16px, env(safe-area-inset-top, 0px))
+                     max(16px, env(safe-area-inset-right, 0px))
+                     max(16px, env(safe-area-inset-bottom, 0px))
+                     max(16px, env(safe-area-inset-left, 0px));
         }
 
         .bio-modal.open {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
             background-color: #383838;
-            margin: 5% auto; 
+            margin: 0;
             padding: 30px;
             border-radius: 10px;
             width: 90%; 
             max-width: 500px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             color: #e0e0e0;
+            flex-shrink: 0;
         }
 
         .modal-content h2 {
@@ -433,56 +457,41 @@
         <div class="profile-text-info">
             <h1 class="profile-username">Porfirio José Landeros</h1>
             <p class="profile-title">Product Marketing Executive</p>
+            <p class="profile-at-a-glance">
+                <strong>Ex–Meta / Instagram</strong> Director of PMM, <strong>2B+ users</strong>
+                · Built PMM at <strong>23andMe</strong>
+                · <strong>Mozilla</strong>, BitTorrent
+                · SF Bay Area · Founder &amp; Advisor
+            </p>
         </div>
 
         <div class="links-container">
-            <div class="link-item">
+            <div class="link-item" data-ga-id="book_time">
                 <a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" rel="noopener noreferrer" class="link-btn">
                     Book Time with Me
                 </a>
                 <p class="link-description">Grab time from my Google Calendar</p>
             </div>
 
-            <div class="link-item">
+            <div class="link-item" data-ga-id="linkedin">
                 <a href="https://www.linkedin.com/in/porfirio" target="_blank" rel="noopener noreferrer" class="link-btn">
                     Connect on LinkedIn
                 </a>
                 <p class="link-description">See my resume and reach me on LinkedIn</p>
             </div>
 
-            <div class="link-item">
+            <div class="link-item" data-ga-id="instagram">
                 <a href="https://www.instagram.com/porfitron" target="_blank" rel="noopener noreferrer" class="link-btn">
                     Follow on Instagram
                 </a>
                 <p class="link-description">Learn a bit about me through my photos</p>
             </div>
 
-            <div class="link-item">
+            <div class="link-item" data-ga-id="strava">
                 <a href="https://www.strava.com/athletes/395414" target="_blank" rel="noopener noreferrer" class="link-btn">
                     Chase Me on Strava
                 </a>
                 <p class="link-description">See how I spend my time outside</p>
-            </div>
-            
-            <div class="link-item">
-                <a href="https://patents.google.com/patent/US20100250532A1/en" target="_blank" rel="noopener noreferrer" class="link-btn">
-                    Patent: Singular, Collective Media...
-                </a>
-                <p class="link-description">Something from my time in streaming media</p>
-            </div>
-
-            <div class="link-item">
-                <a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/ref=atv_dp_share_cu_r" target="_blank" rel="noopener noreferrer" class="link-btn">
-                    Co-Creator: Learn Ballroom, Latin &amp; Swing
-                </a>
-                <p class="link-description">If you want to learn to ballroom dance on-line</p>
-            </div>
-
-            <div class="link-item">
-                <a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/ref=atv_dp_share_cu_r" target="_blank" rel="noopener noreferrer" class="link-btn">
-                    Co-Creator: DIY Wedding Dance
-                </a>
-                <p class="link-description">If you want to build a great wedding dance on-line</p>
             </div>
         </div>
     </main>
@@ -573,6 +582,11 @@
     </div>
 
     <script>
+        function gaEvent(name, params) {
+            if (typeof gtag !== 'function') return;
+            gtag('event', name, params || {});
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const linkItems = document.querySelectorAll('.link-item');
             const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
@@ -597,6 +611,7 @@
                 if (modal.classList.contains('open')) {
                     return;
                 }
+                gaEvent('easter_egg', { egg_id: 'bio', interaction: 'open' });
                 bioModalPreviousFocus = document.activeElement;
                 modal.classList.add('open');
                 modal.setAttribute('aria-hidden', 'false');
@@ -630,13 +645,34 @@
                 autoFlipBioImage();
             }
 
+            const ctaHovered = new WeakSet();
             linkItems.forEach((item) => {
                 const linkBtn = item.querySelector('.link-btn');
                 const linkDescription = item.querySelector('.link-description');
+                const ctaId = item.getAttribute('data-ga-id') || 'unknown';
+
+                item.addEventListener('mouseenter', () => {
+                    if (ctaHovered.has(item)) return;
+                    ctaHovered.add(item);
+                    gaEvent('cta_hover', { cta_id: ctaId });
+                });
+
+                linkBtn.addEventListener('click', () => {
+                    gaEvent('cta_click', {
+                        cta_id: ctaId,
+                        click_target: 'button',
+                        outbound_url: linkBtn.href,
+                    });
+                });
 
                 linkDescription.addEventListener('click', (event) => {
                     event.stopPropagation();
                     event.preventDefault();
+                    gaEvent('cta_click', {
+                        cta_id: ctaId,
+                        click_target: 'description',
+                        outbound_url: linkBtn.href,
+                    });
                     const target = linkBtn.target || '_blank';
                     window.open(linkBtn.href, target, 'noopener,noreferrer');
                     item.classList.remove('active');
@@ -682,6 +718,13 @@
                 }, 100);
             };
 
+            let bioEggHovered = false;
+            flipperContainer.addEventListener('mouseenter', () => {
+                if (bioEggHovered) return;
+                bioEggHovered = true;
+                gaEvent('easter_egg', { egg_id: 'bio', interaction: 'hover' });
+            });
+
             flipperContainer.addEventListener('click', openBioFromProfile);
 
             flipperContainer.addEventListener('keydown', (event) => {
@@ -692,11 +735,13 @@
             });
 
             closeModalBtn.addEventListener('click', () => {
+                gaEvent('easter_egg', { egg_id: 'bio', interaction: 'close' });
                 closeBioModal();
             });
 
             window.addEventListener('click', (event) => {
                 if (event.target === modal) {
+                    gaEvent('easter_egg', { egg_id: 'bio', interaction: 'close' });
                     closeBioModal();
                 }
             });
@@ -725,6 +770,7 @@
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && modal.classList.contains('open')) {
                     event.preventDefault();
+                    gaEvent('easter_egg', { egg_id: 'bio', interaction: 'close' });
                     closeBioModal();
                 }
             });
@@ -732,6 +778,15 @@
             const yearElement = document.getElementById('current-year');
             if (yearElement) {
                 yearElement.textContent = new Date().getFullYear();
+                let waybackHovered = false;
+                yearElement.addEventListener('mouseenter', () => {
+                    if (waybackHovered) return;
+                    waybackHovered = true;
+                    gaEvent('easter_egg', { egg_id: 'wayback', interaction: 'hover' });
+                });
+                yearElement.addEventListener('click', () => {
+                    gaEvent('easter_egg', { egg_id: 'wayback', interaction: 'click' });
+                });
             }
         });
     </script>
