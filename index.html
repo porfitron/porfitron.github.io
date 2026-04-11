@@ -348,6 +348,19 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             color: #e0e0e0;
             flex-shrink: 0;
+            /* Cap height to padded overlay (matches .bio-modal padding + safe areas); scroll inside the card */
+            min-height: 0;
+            max-height: calc(100vh - max(16px, env(safe-area-inset-top, 0px)) - max(16px, env(safe-area-inset-bottom, 0px)));
+            max-height: calc(100dvh - max(16px, env(safe-area-inset-top, 0px)) - max(16px, env(safe-area-inset-bottom, 0px)));
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 20px 18px;
+            }
         }
 
         .modal-content h2 {
