@@ -46,6 +46,17 @@
         .no-scroll {
             overflow: hidden;
         }
+        #imageModal .lightbox-stage {
+            max-height: min(82dvh, 85vh);
+        }
+        @supports not (height: 1dvh) {
+            #imageModal .lightbox-stage {
+                max-height: min(82vh, 900px);
+            }
+        }
+        #imageModal .lightbox-nav {
+            padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+        }
     </style>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
@@ -153,7 +164,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 md:h-[500px]">
             <!-- Main large image -->
-            <div class="md:col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(0)">
+            <div class="md:col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(4)">
                 <img src="creston/Apartment-1_living-room.jpg" 
                      alt="Living Room" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105">
                 <div class="absolute bottom-0 left-0 z-10 bg-gradient-to-t from-black/70 to-transparent w-full p-4">
@@ -161,15 +172,15 @@
                 </div>
             </div>
             <!-- Smaller side images -->
-            <div class="relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(1)">
+            <div class="relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(5)">
                 <img src="creston/Apartment-2_dining-kitchen.jpg" 
                      alt="Kitchen/Dining" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105">
             </div>
             <div class="relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(13)">
                 <img src="creston/Bed_A_1200.jpg" 
-                     alt="Bedroom" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                     alt="Bedroom A" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105">
             </div>
-            <div class="relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(3)">
+            <div class="relative aspect-[4/3] md:aspect-auto md:h-full min-h-0 overflow-hidden rounded-lg shadow-md group cursor-pointer" onclick="openModal(1)">
                 <img src="creston/Apartment_patio.jpeg" 
                      alt="Patio" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105">
             </div>
@@ -408,48 +419,147 @@
     </div>
 
     <!-- Lightbox Modal -->
-    <div id="imageModal" class="fixed inset-0 z-[100] hidden bg-black bg-opacity-95 overflow-y-auto h-full w-full" onclick="if(event.target === this) closeModal()">
-        <div class="relative top-10 mx-auto p-5 border w-full max-w-5xl shadow-lg rounded-md bg-transparent">
-            <div class="flex justify-between items-center pb-3 text-white">
-                <h3 class="text-xl font-bold" id="modalTitle">Gallery</h3>
-                <button onclick="closeModal()" class="text-white text-3xl font-bold hover:text-gray-300">&times;</button>
+    <div id="imageModal"
+         class="fixed inset-0 z-[100] hidden bg-black bg-opacity-95 h-full w-full flex flex-col p-3 sm:p-5 md:p-6"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modalTitle"
+         aria-describedby="galleryKeyboardHint"
+         aria-hidden="true"
+         onclick="if(event.target === this) closeModal()">
+        <div class="mx-auto flex w-full max-w-6xl flex-1 min-h-0 flex-col">
+            <div class="flex shrink-0 justify-between items-center gap-3 pb-3 text-white">
+                <h3 class="text-lg sm:text-xl font-bold truncate pr-2" id="modalTitle">Gallery</h3>
+                <button type="button"
+                        id="modalCloseBtn"
+                        onclick="closeModal()"
+                        class="shrink-0 rounded-lg p-2 text-3xl font-bold leading-none text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                        aria-label="Close photo gallery">&times;</button>
             </div>
-            <div class="mt-2 text-center">
-                <img id="modalImage" src="" class="mx-auto max-h-[80vh] object-contain rounded-lg shadow-2xl">
-                <div class="mt-4 flex justify-between items-center px-4">
-                     <button onclick="changeImage(-1)" class="bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition"><i class="fas fa-chevron-left"></i></button>
-                     <p class="text-gray-300 text-sm" id="imageCounter">1 / 15</p>
-                     <button onclick="changeImage(1)" class="bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition"><i class="fas fa-chevron-right"></i></button>
+            <p id="galleryKeyboardHint" class="sr-only">Use the previous and next buttons or the left and right arrow keys to move between photos.</p>
+            <div class="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 sm:gap-4">
+                <figure class="flex w-full min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-2 sm:gap-3">
+                    <img id="modalImage"
+                         src=""
+                         alt=""
+                         class="lightbox-stage mx-auto h-auto w-full max-w-full object-contain rounded-lg shadow-2xl">
+                    <figcaption id="modalCaption"
+                                class="max-w-2xl px-2 text-center text-sm leading-snug text-gray-300 sm:max-w-3xl sm:text-base sm:leading-relaxed">
+                    </figcaption>
+                </figure>
+                <div class="lightbox-nav flex w-full max-w-xl shrink-0 items-center justify-between gap-2 px-1 sm:px-2">
+                    <button type="button"
+                            id="galleryPrevBtn"
+                            onclick="changeImage(-1)"
+                            class="inline-flex min-h-11 min-w-11 sm:min-h-12 sm:min-w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            aria-label="Previous photo">
+                        <i class="fas fa-chevron-left text-lg sm:text-xl" aria-hidden="true"></i>
+                    </button>
+                    <div class="min-w-0 flex-1 text-center">
+                        <p class="text-sm text-gray-300 tabular-nums sm:text-base" id="imageCounter">1 / 15</p>
+                        <span id="imageCounterLive" class="sr-only" aria-live="polite" aria-atomic="true"></span>
+                    </div>
+                    <button type="button"
+                            id="galleryNextBtn"
+                            onclick="changeImage(1)"
+                            class="inline-flex min-h-11 min-w-11 sm:min-h-12 sm:min-w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            aria-label="Next photo">
+                        <i class="fas fa-chevron-right text-lg sm:text-xl" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const images = [
-            'creston/Apartment-1_living-room.jpg',
-            'creston/Apartment-2_dining-kitchen.jpg',
-            'creston/Apartment-2_Kit_A_1200.jpg',
-            'creston/Apartment_patio.jpeg',
-            'creston/Apartment_building.jpeg',
-            'creston/Apartment_side.jpg',
-            'creston/Apartment_yard.jpeg',
-            'creston/Apartment-2_Kit_B_1200.jpg',
-            'creston/Apartment-2_Kit_HighWindow_1200.jpg',
-            'creston/Apartment-3_half-bath.jpg',
-            'creston/Apartment-3_stairs.jpg',
-            'creston/Apartment-4_full-bath.jpg',
-            'creston/Apartment-4_sink.jpg',
-            'creston/Bed_A_1200.jpg',
-            'creston/Bed_B_1200.jpg'
+        /** Order: exterior (719, then patio → yard view → other unit yard) → main level → stairs → upstairs. Kitchen angles grouped. */
+        const galleryPhotos = [
+            {
+                src: 'creston/Apartment_building.jpeg',
+                title: '719 Creston Road',
+                caption: '719 Creston Road—this building includes four of the community\'s eight townhome units, with covered parking.'
+            },
+            {
+                src: 'creston/Apartment_patio.jpeg',
+                title: 'Patio and yard',
+                caption: 'Private fenced yard with patio—low-maintenance outdoor space off the home.'
+            },
+            {
+                src: 'creston/Apartment_yard.jpeg',
+                title: 'Private yard (another view)',
+                caption: 'Another view of a private yard at a community unit. Layout and finishes may vary by unit.'
+            },
+            {
+                src: 'creston/Apartment_side.jpg',
+                title: 'Private yard (another unit)',
+                caption: 'Private yard at another unit in the community. Your unit\'s outdoor space may look similar but can vary.'
+            },
+            {
+                src: 'creston/Apartment-1_living-room.jpg',
+                title: 'Living room',
+                caption: 'Main living space on the ground floor—fresh paint and flooring as part of the recent refresh.'
+            },
+            {
+                src: 'creston/Apartment-2_dining-kitchen.jpg',
+                title: 'Kitchen and dining area',
+                caption: 'Open dining area connected to the kitchen—practical layout for day-to-day living.'
+            },
+            {
+                src: 'creston/Apartment-2_Kit_A_1200.jpg',
+                title: 'Kitchen: dishwasher and sink',
+                caption: 'Kitchen with dishwasher and sink.'
+            },
+            {
+                src: 'creston/Apartment-2_Kit_B_1200.jpg',
+                title: 'Kitchen: stove and refrigerator space',
+                caption: 'Kitchen view showing the gas stove and oven plus dedicated space for a refrigerator.'
+            },
+            {
+                src: 'creston/Apartment-2_Kit_HighWindow_1200.jpg',
+                title: 'Full kitchen',
+                caption: 'Wide view of the whole kitchen—layout, cabinetry, and natural light from the high window.'
+            },
+            {
+                src: 'creston/Apartment-3_half-bath.jpg',
+                title: 'Half bath',
+                caption: 'Updated vanity in a main-floor half bath. Fixtures and finishes may vary slightly by unit.'
+            },
+            {
+                src: 'creston/Apartment-3_stairs.jpg',
+                title: 'Stairs and storage',
+                caption: 'Stairs to the upstairs bedrooms and full bath, with a storage closet on the landing.'
+            },
+            {
+                src: 'creston/Apartment-4_full-bath.jpg',
+                title: 'Full bathroom',
+                caption: 'Upstairs full-size bathroom.'
+            },
+            {
+                src: 'creston/Apartment-4_sink.jpg',
+                title: 'Upstairs bath vanity',
+                caption: 'Upstairs bathroom vanity and sink. Fixtures and finishes may vary slightly by unit.'
+            },
+            {
+                src: 'creston/Bed_A_1200.jpg',
+                title: 'Bedroom A',
+                caption: 'Bedroom A on the upper level.'
+            },
+            {
+                src: 'creston/Bed_B_1200.jpg',
+                title: 'Bedroom B',
+                caption: 'Bedroom B on the upper level.'
+            }
         ];
-        
+
         let currentIndex = 0;
+        let lastFocusedBeforeModal = null;
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
+        const modalTitleEl = document.getElementById('modalTitle');
+        const modalCaptionEl = document.getElementById('modalCaption');
         const counter = document.getElementById('imageCounter');
+        const counterLive = document.getElementById('imageCounterLive');
 
-        // Inquiry Modal Logic
         const inquiryModal = document.getElementById('inquiryModal');
 
         function openInquiryModal() {
@@ -465,11 +575,17 @@
         }
 
         function openModal(index) {
+            lastFocusedBeforeModal = document.activeElement;
             currentIndex = index;
             updateModal();
             modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('no-scroll');
-            gaListingEvent('listing_gallery_open', { photo_index: index, photo_total: images.length });
+            requestAnimationFrame(function () {
+                var closeBtn = document.getElementById('modalCloseBtn');
+                if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+            });
+            gaListingEvent('listing_gallery_open', { photo_index: index, photo_total: galleryPhotos.length });
         }
 
         function closeModal() {
@@ -477,22 +593,70 @@
                 gaListingEvent('listing_gallery_close', { photo_index: currentIndex });
             }
             modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('no-scroll');
+            if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+                lastFocusedBeforeModal.focus();
+            }
+            lastFocusedBeforeModal = null;
         }
 
         function changeImage(direction) {
             currentIndex += direction;
-            if (currentIndex >= images.length) currentIndex = 0;
-            if (currentIndex < 0) currentIndex = images.length - 1;
+            if (currentIndex >= galleryPhotos.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = galleryPhotos.length - 1;
             updateModal();
             gaListingEvent('listing_gallery_nav', { direction: direction > 0 ? 'next' : 'prev', photo_index: currentIndex });
         }
 
         function updateModal() {
-            modalImg.src = images[currentIndex];
-            counter.innerText = (currentIndex + 1) + ' / ' + images.length;
+            var photo = galleryPhotos[currentIndex];
+            if (!photo) return;
+            var title = photo.title || 'Photo';
+            var caption = photo.caption || '';
+            modalImg.src = photo.src;
+            modalImg.alt = caption ? title + ': ' + caption : title;
+            modalTitleEl.textContent = title;
+            if (modalCaptionEl) {
+                modalCaptionEl.textContent = caption;
+                modalCaptionEl.classList.toggle('hidden', !caption);
+            }
+            if (caption) {
+                modalImg.setAttribute('aria-describedby', 'modalCaption');
+            } else {
+                modalImg.removeAttribute('aria-describedby');
+            }
+            counter.textContent = (currentIndex + 1) + ' / ' + galleryPhotos.length;
+            if (counterLive) {
+                counterLive.textContent = 'Photo ' + (currentIndex + 1) + ' of ' + galleryPhotos.length + '. ' + title + '. ' + (caption || '');
+            }
         }
-        
+
+        function getLightboxFocusables() {
+            return [
+                document.getElementById('modalCloseBtn'),
+                document.getElementById('galleryPrevBtn'),
+                document.getElementById('galleryNextBtn')
+            ].filter(function (el) { return el && typeof el.focus === 'function'; });
+        }
+
+        modal.addEventListener('keydown', function (event) {
+            if (modal.classList.contains('hidden') || event.key !== 'Tab') return;
+            var items = getLightboxFocusables();
+            if (items.length === 0) return;
+            var first = items[0];
+            var last = items[items.length - 1];
+            if (event.shiftKey) {
+                if (document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                }
+            } else if (document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        });
+
         document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
             a.addEventListener('click', function () {
                 gaListingEvent('listing_phone_click', {
@@ -501,8 +665,7 @@
             });
         });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeModal();
                 closeInquiryModal();
