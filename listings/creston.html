@@ -56,6 +56,14 @@
 
       gtag('config', 'G-YN76XZSY41');
     </script>
+    <script>
+      /** GA4: all events from this page carry listing_page_id for cross-page reporting */
+      const LISTING_PAGE_ID = 'listing_creston_road';
+      function gaListingEvent(eventName, params) {
+        if (typeof gtag !== 'function') return;
+        gtag('event', eventName, Object.assign({ listing_page_id: LISTING_PAGE_ID }, params || {}));
+      }
+    </script>
 </head>
 <body class="text-gray-700">
 
@@ -68,7 +76,7 @@
                     <span class="hidden sm:inline text-sm font-normal text-gray-500 ml-2">· San Luis Obispo County</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="tel:8054414116" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand shadow-sm hover:bg-blue-800 focus:outline-none transition">
+                    <a href="tel:8054414116" data-ga-phone-location="nav" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand shadow-sm hover:bg-blue-800 focus:outline-none transition">
                         <i class="fas fa-phone-alt mr-2"></i> Call Now
                     </a>
                 </div>
@@ -329,7 +337,7 @@
                                 Inquire now
                             </button>
 
-                            <a href="tel:8054414116" class="block w-full text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-3 px-4 rounded-lg transition duration-200 shadow-sm mb-3">
+                            <a href="tel:8054414116" data-ga-phone-location="sidebar" class="block w-full text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-3 px-4 rounded-lg transition duration-200 shadow-sm mb-3">
                                 <i class="fas fa-phone mr-2"></i> (805) 441-4116
                             </a>
                             <p class="text-xs text-center text-gray-400">Call between 8am - 5pm</p>
@@ -390,7 +398,7 @@
             <h3 class="text-2xl font-bold text-gray-900 mb-2">Coming Soon</h3>
             <p class="text-gray-500 mb-6">Our online inquiry system is currently under construction. Please call us directly for more information.</p>
             
-            <a href="tel:8054414116" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3 transition">
+            <a href="tel:8054414116" data-ga-phone-location="inquiry_modal" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3 transition">
                 <i class="fas fa-phone mr-2"></i> Call (805) 441-4116
             </a>
             <button onclick="closeInquiryModal()" class="text-gray-500 hover:text-gray-700 font-medium text-sm">
@@ -445,10 +453,14 @@
         const inquiryModal = document.getElementById('inquiryModal');
 
         function openInquiryModal() {
+            gaListingEvent('listing_inquiry_modal_open', {});
             inquiryModal.classList.remove('hidden');
         }
 
         function closeInquiryModal() {
+            if (!inquiryModal.classList.contains('hidden')) {
+                gaListingEvent('listing_inquiry_modal_close', {});
+            }
             inquiryModal.classList.add('hidden');
         }
 
@@ -457,9 +469,13 @@
             updateModal();
             modal.classList.remove('hidden');
             document.body.classList.add('no-scroll');
+            gaListingEvent('listing_gallery_open', { photo_index: index, photo_total: images.length });
         }
 
         function closeModal() {
+            if (!modal.classList.contains('hidden')) {
+                gaListingEvent('listing_gallery_close', { photo_index: currentIndex });
+            }
             modal.classList.add('hidden');
             document.body.classList.remove('no-scroll');
         }
@@ -469,6 +485,7 @@
             if (currentIndex >= images.length) currentIndex = 0;
             if (currentIndex < 0) currentIndex = images.length - 1;
             updateModal();
+            gaListingEvent('listing_gallery_nav', { direction: direction > 0 ? 'next' : 'prev', photo_index: currentIndex });
         }
 
         function updateModal() {
@@ -476,6 +493,14 @@
             counter.innerText = (currentIndex + 1) + ' / ' + images.length;
         }
         
+        document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+            a.addEventListener('click', function () {
+                gaListingEvent('listing_phone_click', {
+                    phone_link_location: a.getAttribute('data-ga-phone-location') || 'unknown'
+                });
+            });
+        });
+
         // Keyboard navigation
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
