@@ -188,7 +188,7 @@
         class="mx-auto flex min-h-[100dvh] max-w-md flex-col gap-5 px-4 py-6 hidden"
         style="
           padding-top: max(1.25rem, env(safe-area-inset-top));
-          padding-bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 4.5rem);
+          padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
           padding-left: max(1rem, env(safe-area-inset-left));
           padding-right: max(1rem, env(safe-area-inset-right));
         "
@@ -206,22 +206,6 @@
             Ambient loops and instant cues for training.
           </p>
         </header>
-
-        <div
-          class="bb-glass rounded-2xl px-4 py-3.5 backdrop-blur-xl"
-          role="status"
-          aria-live="polite"
-        >
-          <p class="text-[0.65rem] font-semibold uppercase tracking-wider text-stone-500">
-            Status
-          </p>
-          <p
-            id="loop-status-label"
-            class="mt-1 text-sm font-medium text-stone-200"
-          >
-            No background loop
-          </p>
-        </div>
 
         <!-- Acclimation Zone (PRD): looping desensitization sounds -->
         <section class="bb-glass rounded-2xl p-4 backdrop-blur-xl" aria-labelledby="acclimation-heading">
@@ -376,20 +360,26 @@
             </button>
           </div>
         </section>
-      </main>
 
-      <!-- IAB 320×50 placeholder (PRD / UI spec) -->
-      <footer
-        id="ad-footer"
-        class="fixed bottom-0 left-0 right-0 z-40 hidden border-t border-white/10 bg-stone-950/92 backdrop-blur-md"
-        style="padding-bottom: env(safe-area-inset-bottom, 0px)"
-      >
-        <div
-          class="mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center text-[0.65rem] font-medium uppercase tracking-wider text-stone-500"
+        <!--
+          IAB / MRC display: smartphone standard banner 320×50 (mobile web leaderboard).
+          Networks (e.g. GAM) typically target this slot with a 320×50 line item or fluid equivalent.
+        -->
+        <aside
+          id="ad-slot-banner"
+          class="mt-auto shrink-0 pt-2"
+          aria-label="Advertisement"
         >
-          Ad · 320×50
-        </div>
-      </footer>
+          <div
+            id="ad-container"
+            class="bb-glass mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center overflow-hidden rounded-xl border border-white/10 backdrop-blur-xl"
+          >
+            <p class="text-[0.65rem] font-medium uppercase tracking-wider text-stone-500">
+              Ad · 320×50
+            </p>
+          </div>
+        </aside>
+      </main>
 
       <!-- Splash overlay -->
       <div

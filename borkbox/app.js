@@ -315,13 +315,7 @@
     }
   }
 
-  function setLoopStatusLabel(text) {
-    var el = document.getElementById("loop-status-label");
-    if (el) el.textContent = text;
-  }
-
-  function clearAcclimationPlayingUI(opts) {
-    var skipStatus = opts && opts.skipStatus;
+  function clearAcclimationPlayingUI() {
     document.querySelectorAll(".sound-acclimation").forEach(function (btn) {
       btn.classList.remove("bb-playing-slate");
       btn.setAttribute("aria-pressed", "false");
@@ -331,12 +325,11 @@
         ring.classList.remove("bb-loop-ring");
       }
     });
-    if (!skipStatus) setLoopStatusLabel("No background loop");
   }
 
   function setAcclimationPlaying(btn, on) {
+    clearAcclimationPlayingUI();
     if (on && btn) {
-      clearAcclimationPlayingUI({ skipStatus: true });
       btn.classList.add("bb-playing-slate");
       btn.setAttribute("aria-pressed", "true");
       var ring = btn.querySelector(".bb-loop-indicator");
@@ -344,10 +337,6 @@
         ring.classList.remove("hidden");
         ring.classList.add("bb-loop-ring");
       }
-      var name = btn.getAttribute("data-display-name");
-      setLoopStatusLabel(name ? "Looping · " + name : "Background loop on");
-    } else {
-      clearAcclimationPlayingUI();
     }
   }
 
@@ -418,7 +407,6 @@
     var boot = $("boot-placeholder");
     var startBtn = $("start-training");
     var themeLabel = $("theme-label");
-    var adFooter = $("ad-footer");
     var root = $("app-root");
 
     var starting = false;
@@ -432,14 +420,12 @@
       setVisible(boot, false);
       setVisible(splash, false);
       setVisible(main, true);
-      if (adFooter) setVisible(adFooter, true);
       applyUI(settings);
     }
 
     function showSplashOverlay() {
       setVisible(boot, false);
       setVisible(main, false);
-      if (adFooter) setVisible(adFooter, false);
       setVisible(splash, true);
     }
 
