@@ -319,11 +319,6 @@
     document.querySelectorAll(".sound-acclimation").forEach(function (btn) {
       btn.classList.remove("bb-playing-slate");
       btn.setAttribute("aria-pressed", "false");
-      var ring = btn.querySelector(".bb-loop-indicator");
-      if (ring) {
-        ring.classList.add("hidden");
-        ring.classList.remove("bb-loop-ring");
-      }
     });
   }
 
@@ -332,11 +327,6 @@
     if (on && btn) {
       btn.classList.add("bb-playing-slate");
       btn.setAttribute("aria-pressed", "true");
-      var ring = btn.querySelector(".bb-loop-indicator");
-      if (ring) {
-        ring.classList.remove("hidden");
-        ring.classList.add("bb-loop-ring");
-      }
     }
   }
 

@@ -146,15 +146,6 @@
       .bb-playing-red {
         animation: bb-pulse-red 0.95s ease-in-out infinite;
       }
-      @keyframes bb-ring-spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .bb-loop-ring {
-        animation: bb-ring-spin 2.4s linear infinite;
-      }
-
       .sound-acclimation {
         transition:
           transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -260,10 +251,6 @@
               aria-pressed="false"
             >
               <span
-                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
-                aria-hidden="true"
-              ></span>
-              <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
                 aria-hidden="true"
               >
@@ -279,10 +266,6 @@
               aria-pressed="false"
             >
               <span
-                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
-                aria-hidden="true"
-              ></span>
-              <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
                 aria-hidden="true"
               >
@@ -297,10 +280,6 @@
               data-display-name="Fireworks"
               aria-pressed="false"
             >
-              <span
-                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
-                aria-hidden="true"
-              ></span>
               <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
                 aria-hidden="true"
