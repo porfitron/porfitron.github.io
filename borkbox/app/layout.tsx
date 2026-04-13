@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BorkBox",
+  title: "BorkBox™",
   description:
     "Mobile-first dog training soundboard for commands and desensitization.",
   appleWebApp: {
     capable: true,
-    title: "BorkBox",
+    title: "BorkBox™",
     statusBarStyle: "default",
   },
 };

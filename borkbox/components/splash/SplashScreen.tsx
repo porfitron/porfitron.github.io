@@ -28,7 +28,7 @@ export function SplashScreen({ onStartTraining, busy }: SplashScreenProps) {
             id="splash-title"
             className="text-3xl font-bold tracking-tight sm:text-4xl"
           >
-            BorkBox
+            BorkBox™
           </h1>
           <p
             id="splash-desc"

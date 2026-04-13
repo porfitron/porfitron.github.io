@@ -386,88 +386,42 @@
     });
   }
 
-  function bindAcclimationInfo() {
-    var openBtn = $("acclimation-info-open");
-    var dlg = $("acclimation-info-dialog");
-    var closeBtn = $("acclimation-info-close");
-    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
+  function bindInfoLightbox(openBtnId, rootId, closeBtnId) {
+    var openBtn = $(openBtnId);
+    var lb = $(rootId);
+    var closeBtn = $(closeBtnId);
+    if (!openBtn || !lb) return;
 
-    openBtn.addEventListener("click", function () {
-      if (dlg.open) return;
-      dlg.showModal();
+    var backdrop = lb.querySelector("[data-bb-lightbox-dismiss]");
+
+    function open() {
+      if (!lb.classList.contains("hidden")) return;
+      setVisible(lb, true);
+      lb.setAttribute("aria-hidden", "false");
       openBtn.setAttribute("aria-expanded", "true");
-    });
-
-    dlg.addEventListener("close", function () {
-      openBtn.setAttribute("aria-expanded", "false");
-      openBtn.focus();
-    });
-
-    dlg.addEventListener("click", function (e) {
-      if (e.target === dlg) dlg.close();
-    });
-
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        dlg.close();
-      });
+      document.body.style.overflow = "hidden";
+      if (closeBtn) closeBtn.focus();
     }
-  }
 
-  function bindCommandsInfo() {
-    var openBtn = $("commands-info-open");
-    var dlg = $("commands-info-dialog");
-    var closeBtn = $("commands-info-close");
-    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
-
-    openBtn.addEventListener("click", function () {
-      if (dlg.open) return;
-      dlg.showModal();
-      openBtn.setAttribute("aria-expanded", "true");
-    });
-
-    dlg.addEventListener("close", function () {
+    function close() {
+      if (lb.classList.contains("hidden")) return;
+      setVisible(lb, false);
+      lb.setAttribute("aria-hidden", "true");
       openBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
       openBtn.focus();
-    });
-
-    dlg.addEventListener("click", function (e) {
-      if (e.target === dlg) dlg.close();
-    });
-
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        dlg.close();
-      });
     }
-  }
 
-  function bindAboutInfo() {
-    var openBtn = $("about-info-open");
-    var dlg = $("about-info-dialog");
-    var closeBtn = $("about-info-close");
-    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
+    openBtn.addEventListener("click", open);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (backdrop) backdrop.addEventListener("click", close);
 
-    openBtn.addEventListener("click", function () {
-      if (dlg.open) return;
-      dlg.showModal();
-      openBtn.setAttribute("aria-expanded", "true");
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (lb.classList.contains("hidden")) return;
+      e.preventDefault();
+      close();
     });
-
-    dlg.addEventListener("close", function () {
-      openBtn.setAttribute("aria-expanded", "false");
-      openBtn.focus();
-    });
-
-    dlg.addEventListener("click", function (e) {
-      if (e.target === dlg) dlg.close();
-    });
-
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        dlg.close();
-      });
-    }
   }
 
   function init() {
@@ -513,9 +467,9 @@
       showSplashOverlay();
     }
 
-    bindAcclimationInfo();
-    bindCommandsInfo();
-    bindAboutInfo();
+    bindInfoLightbox("acclimation-info-open", "acclimation-info-lightbox", "acclimation-info-close");
+    bindInfoLightbox("commands-info-open", "commands-info-lightbox", "commands-info-close");
+    bindInfoLightbox("about-info-open", "about-info-lightbox", "about-info-close");
 
     if (!startBtn) return;
 

@@ -68,7 +68,7 @@ export function HomeClient() {
       >
         <header className="mb-6 text-center">
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            BorkBox
+            BorkBox™
           </p>
           <h1 className="mt-1 text-2xl font-bold">Training mode</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
