@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="BorkBox">
+  <defs>
+    <linearGradient id="bb-bg" x1="18%" y1="12%" x2="82%" y2="92%">
+      <stop offset="0%" stop-color="#1c2822"/>
+      <stop offset="45%" stop-color="#121816"/>
+      <stop offset="100%" stop-color="#0e1512"/>
+    </linearGradient>
+    <radialGradient id="bb-glow" cx="32%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#2dd4bf" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bb-paw" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <linearGradient id="bb-shine" x1="22%" y1="18%" x2="78%" y2="72%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Full-bleed square; iOS applies the home-screen squircle mask -->
+  <rect width="512" height="512" fill="url(#bb-bg)"/>
+  <rect width="512" height="512" fill="url(#bb-glow)"/>
+  <!-- Soft top-left highlight (readable without mix-blend in all engines) -->
+  <rect width="512" height="512" fill="url(#bb-shine)" opacity="0.55"/>
+  <!-- Paw silhouette: centered in safe zone -->
+  <g fill="url(#bb-paw)">
+    <ellipse cx="178" cy="168" rx="52" ry="62" transform="rotate(-22 178 168)"/>
+    <ellipse cx="256" cy="138" rx="48" ry="58"/>
+    <ellipse cx="334" cy="168" rx="52" ry="62" transform="rotate(22 334 168)"/>
+    <ellipse cx="214" cy="218" rx="46" ry="56" transform="rotate(-8 214 218)"/>
+    <ellipse cx="298" cy="218" rx="46" ry="56" transform="rotate(8 298 218)"/>
+    <path d="M256 232c-72 0-118 48-118 108 0 52 44 92 118 92s118-40 118-92c0-60-46-108-118-108z"/>
+  </g>
+  <!-- Specular highlight on main pad -->
+  <ellipse cx="220" cy="300" rx="48" ry="36" fill="#ffffff" opacity="0.12"/>
+</svg>
