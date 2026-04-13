@@ -396,6 +396,90 @@
     });
   }
 
+  function bindAcclimationInfo() {
+    var openBtn = $("acclimation-info-open");
+    var dlg = $("acclimation-info-dialog");
+    var closeBtn = $("acclimation-info-close");
+    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
+
+    openBtn.addEventListener("click", function () {
+      if (dlg.open) return;
+      dlg.showModal();
+      openBtn.setAttribute("aria-expanded", "true");
+    });
+
+    dlg.addEventListener("close", function () {
+      openBtn.setAttribute("aria-expanded", "false");
+      openBtn.focus();
+    });
+
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg) dlg.close();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        dlg.close();
+      });
+    }
+  }
+
+  function bindCommandsInfo() {
+    var openBtn = $("commands-info-open");
+    var dlg = $("commands-info-dialog");
+    var closeBtn = $("commands-info-close");
+    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
+
+    openBtn.addEventListener("click", function () {
+      if (dlg.open) return;
+      dlg.showModal();
+      openBtn.setAttribute("aria-expanded", "true");
+    });
+
+    dlg.addEventListener("close", function () {
+      openBtn.setAttribute("aria-expanded", "false");
+      openBtn.focus();
+    });
+
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg) dlg.close();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        dlg.close();
+      });
+    }
+  }
+
+  function bindAboutInfo() {
+    var openBtn = $("about-info-open");
+    var dlg = $("about-info-dialog");
+    var closeBtn = $("about-info-close");
+    if (!openBtn || !dlg || typeof dlg.showModal !== "function") return;
+
+    openBtn.addEventListener("click", function () {
+      if (dlg.open) return;
+      dlg.showModal();
+      openBtn.setAttribute("aria-expanded", "true");
+    });
+
+    dlg.addEventListener("close", function () {
+      openBtn.setAttribute("aria-expanded", "false");
+      openBtn.focus();
+    });
+
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg) dlg.close();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        dlg.close();
+      });
+    }
+  }
+
   function init() {
     if (typeof Howl === "undefined" || typeof Howler === "undefined") {
       console.error("BorkBox: Howler failed to load. Check vendor/howler.min.js.");
@@ -438,6 +522,10 @@
     } else {
       showSplashOverlay();
     }
+
+    bindAcclimationInfo();
+    bindCommandsInfo();
+    bindAboutInfo();
 
     if (!startBtn) return;
 

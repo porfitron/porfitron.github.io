@@ -177,6 +177,21 @@
           background-color 0.15s ease,
           box-shadow 0.15s ease;
       }
+
+      #acclimation-info-dialog,
+      #commands-info-dialog,
+      #about-info-dialog {
+        margin: auto;
+        max-width: calc(100vw - 2rem);
+        border: none;
+        padding: 0;
+        background: transparent;
+      }
+      #acclimation-info-dialog::backdrop,
+      #commands-info-dialog::backdrop,
+      #about-info-dialog::backdrop {
+        background: rgb(0 0 0 / 0.55);
+      }
     </style>
     <script src="vendor/howler.min.js"></script>
     <script defer src="app.js"></script>
@@ -198,30 +213,42 @@
         "
       >
         <header class="text-center">
-          <p
-            class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-teal-200/85"
-          >
+          <h1 class="text-[1.65rem] font-bold leading-tight tracking-tight text-stone-50">
             BorkBox
-          </p>
-          <h1 class="mt-2 text-[1.65rem] font-bold leading-tight tracking-tight text-stone-50">
-            Soundboard
           </h1>
-          <p class="mx-auto mt-2 max-w-[17rem] text-sm leading-snug text-stone-400">
+          <p
+            class="mx-auto mt-2 whitespace-nowrap text-[clamp(0.6875rem,3.1vw,0.875rem)] leading-snug text-stone-400"
+          >
             Ambient loops and instant cues for training.
           </p>
         </header>
 
         <!-- Acclimation Zone (PRD): looping desensitization sounds -->
         <section class="bb-glass rounded-2xl p-4 backdrop-blur-xl" aria-labelledby="acclimation-heading">
-          <h2
-            id="acclimation-heading"
-            class="text-sm font-semibold text-stone-100"
-          >
-            Acclimation
-          </h2>
-          <p class="mt-1 text-xs leading-relaxed text-stone-400">
-            One ambient loop at a time · tap again to stop
-          </p>
+          <div class="flex items-start gap-3">
+            <div class="min-w-0 flex-1">
+              <h2
+                id="acclimation-heading"
+                class="text-sm font-semibold text-stone-100"
+              >
+                Acclimation
+              </h2>
+              <p class="mt-1 text-xs leading-relaxed text-stone-400">
+                One ambient loop at a time · tap again to stop
+              </p>
+            </div>
+            <button
+              type="button"
+              id="acclimation-info-open"
+              class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[0.8125rem] font-semibold leading-none text-stone-300 shadow-sm transition-colors hover:bg-white/10 active:scale-95"
+              aria-haspopup="dialog"
+              aria-controls="acclimation-info-dialog"
+              aria-expanded="false"
+              aria-label="Tip about playing sound from another room"
+            >
+              <span aria-hidden="true">i</span>
+            </button>
+          </div>
           <div
             class="bb-scroll-mask relative -mx-1 mt-4 flex gap-3 overflow-x-auto overscroll-x-contain pb-1 pl-1 pr-1 pt-0.5 [scrollbar-width:thin]"
           >
@@ -290,15 +317,30 @@
           class="bb-glass flex flex-1 flex-col rounded-2xl p-4 backdrop-blur-xl"
           aria-labelledby="command-heading"
         >
-          <h2
-            id="command-heading"
-            class="text-sm font-semibold text-stone-100"
-          >
-            Commands
-          </h2>
-          <p class="mt-1 text-xs leading-relaxed text-stone-400">
-            Instant sounds · haptic tap where supported
-          </p>
+          <div class="flex items-start gap-3">
+            <div class="min-w-0 flex-1">
+              <h2
+                id="command-heading"
+                class="text-sm font-semibold text-stone-100"
+              >
+                Commands
+              </h2>
+              <p class="mt-1 text-xs leading-relaxed text-stone-400">
+                Instant sounds · haptic tap where supported
+              </p>
+            </div>
+            <button
+              type="button"
+              id="commands-info-open"
+              class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[0.8125rem] font-semibold leading-none text-stone-300 shadow-sm transition-colors hover:bg-white/10 active:scale-95"
+              aria-haspopup="dialog"
+              aria-controls="commands-info-dialog"
+              aria-expanded="false"
+              aria-label="Tip about treats for clicker and whistle"
+            >
+              <span aria-hidden="true">i</span>
+            </button>
+          </div>
           <div class="mt-4 grid flex-1 grid-cols-2 gap-3">
             <button
               type="button"
@@ -372,15 +414,30 @@
         <aside
           id="ad-slot-banner"
           class="mt-auto shrink-0 pt-2"
-          aria-label="Advertisement"
+          aria-label="Advertisement and about BorkBox"
         >
           <div
-            id="ad-container"
-            class="bb-glass mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center overflow-hidden rounded-xl border border-white/10 backdrop-blur-xl"
+            class="mx-auto flex w-full max-w-[calc(320px+2.75rem)] items-center gap-2"
           >
-            <p class="text-[0.65rem] font-medium uppercase tracking-wider text-stone-500">
-              Ad · 320×50
-            </p>
+            <div
+              id="ad-container"
+              class="bb-glass flex h-[50px] min-w-0 flex-1 items-center justify-center overflow-hidden rounded-xl border border-white/10 backdrop-blur-xl"
+            >
+              <p class="text-[0.65rem] font-medium uppercase tracking-wider text-stone-500">
+                Future ad unit · 320×50
+              </p>
+            </div>
+            <button
+              type="button"
+              id="about-info-open"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[0.8125rem] font-semibold leading-none text-stone-300 shadow-sm transition-colors hover:bg-white/10 active:scale-95"
+              aria-haspopup="dialog"
+              aria-controls="about-info-dialog"
+              aria-expanded="false"
+              aria-label="About BorkBox"
+            >
+              <span aria-hidden="true">i</span>
+            </button>
           </div>
         </aside>
       </main>
@@ -469,6 +526,81 @@
         class="min-h-[100dvh] bb-page-bg"
         aria-hidden="true"
       ></div>
+
+      <dialog id="acclimation-info-dialog" aria-labelledby="acclimation-info-title">
+        <div
+          class="bb-glass w-[min(100%,20rem)] rounded-2xl border border-white/10 p-5 text-stone-100 shadow-2xl backdrop-blur-xl"
+        >
+          <h3
+            id="acclimation-info-title"
+            class="text-sm font-semibold text-stone-100"
+          >
+            Sound placement
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-stone-300">
+            Consider pairing a Bluetooth speaker to your phone, so that the sound comes from another part of the house.
+          </p>
+          <button
+            type="button"
+            id="acclimation-info-close"
+            class="mt-5 flex min-h-[2.75rem] w-full items-center justify-center rounded-xl bg-teal-500/90 px-4 text-sm font-semibold text-stone-950 transition-transform active:scale-[0.98]"
+          >
+            Got it
+          </button>
+        </div>
+      </dialog>
+
+      <dialog id="commands-info-dialog" aria-labelledby="commands-info-title">
+        <div
+          class="bb-glass w-[min(100%,20rem)] rounded-2xl border border-white/10 p-5 text-stone-100 shadow-2xl backdrop-blur-xl"
+        >
+          <h3
+            id="commands-info-title"
+            class="text-sm font-semibold text-stone-100"
+          >
+            Treats &amp; cues
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-stone-300">
+            Give different treats/rewards for clicker vs. whistle. The whistle is for recall, so give them their favorite treat.
+          </p>
+          <button
+            type="button"
+            id="commands-info-close"
+            class="mt-5 flex min-h-[2.75rem] w-full items-center justify-center rounded-xl bg-teal-500/90 px-4 text-sm font-semibold text-stone-950 transition-transform active:scale-[0.98]"
+          >
+            Got it
+          </button>
+        </div>
+      </dialog>
+
+      <dialog id="about-info-dialog" aria-labelledby="about-info-title">
+        <div
+          class="bb-glass w-[min(100%,20rem)] rounded-2xl border border-white/10 p-5 text-stone-100 shadow-2xl backdrop-blur-xl"
+        >
+          <h3
+            id="about-info-title"
+            class="text-sm font-semibold text-stone-100"
+          >
+            About BorkBox
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-stone-300">
+            BorkBox was created by Porfirio and Laetitia. Copyright 2026
+            <a
+              href="https://porfir.io"
+              class="font-medium text-teal-300 underline decoration-teal-400/50 underline-offset-2 transition-colors hover:text-teal-200 hover:decoration-teal-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >BorkBox, LLC</a>.
+          </p>
+          <button
+            type="button"
+            id="about-info-close"
+            class="mt-5 flex min-h-[2.75rem] w-full items-center justify-center rounded-xl bg-teal-500/90 px-4 text-sm font-semibold text-stone-950 transition-transform active:scale-[0.98]"
+          >
+            Got it
+          </button>
+        </div>
+      </dialog>
     </div>
   </body>
 </html>
