@@ -20,7 +20,64 @@
     <script>
       tailwind.config = { darkMode: "media" };
     </script>
-    <!-- Howler 2.2.4 (MIT) — local copy so audio works without a third-party script URL -->
+    <style>
+      @keyframes bb-pulse-slate {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgb(100 116 139 / 0.45);
+        }
+        50% {
+          box-shadow: 0 0 0 12px rgb(100 116 139 / 0);
+        }
+      }
+      @keyframes bb-pulse-green {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgb(34 197 94 / 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 14px rgb(34 197 94 / 0);
+        }
+      }
+      @keyframes bb-pulse-yellow {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgb(234 179 8 / 0.55);
+        }
+        50% {
+          box-shadow: 0 0 0 14px rgb(234 179 8 / 0);
+        }
+      }
+      @keyframes bb-pulse-red {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgb(239 68 68 / 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 14px rgb(239 68 68 / 0);
+        }
+      }
+      .bb-playing-slate {
+        animation: bb-pulse-slate 1.25s ease-in-out infinite;
+      }
+      .bb-playing-green {
+        animation: bb-pulse-green 1s ease-in-out infinite;
+      }
+      .bb-playing-yellow {
+        animation: bb-pulse-yellow 1s ease-in-out infinite;
+      }
+      .bb-playing-red {
+        animation: bb-pulse-red 1s ease-in-out infinite;
+      }
+      @keyframes bb-ring-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .bb-loop-ring {
+        animation: bb-ring-spin 2.8s linear infinite;
+      }
+    </style>
     <script src="vendor/howler.min.js"></script>
     <script defer src="app.js"></script>
   </head>
@@ -32,36 +89,126 @@
       class="relative min-h-[100dvh]"
       data-hydrated="false"
     >
-      <!-- Main (post-onboarding) -->
       <main
         id="main-panel"
-        class="mx-auto flex min-h-[100dvh] max-w-lg flex-col px-4 py-6 hidden"
+        class="mx-auto flex min-h-[100dvh] max-w-lg flex-col gap-6 px-4 py-6 hidden"
         style="
-          padding-top: max(1.5rem, env(safe-area-inset-top));
-          padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+          padding-top: max(1.25rem, env(safe-area-inset-top));
+          padding-bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 4.5rem);
           padding-left: max(1rem, env(safe-area-inset-left));
           padding-right: max(1rem, env(safe-area-inset-right));
         "
       >
-        <header class="mb-6 text-center">
+        <header class="text-center">
           <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
             BorkBox
           </p>
-          <h1 class="mt-1 text-2xl font-bold">Training mode</h1>
-          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
-            Soundboard zones will appear here in the next milestone.
+          <h1 class="mt-1 text-2xl font-bold">Soundboard</h1>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            Theme: <span id="theme-label" class="font-medium text-slate-700 dark:text-slate-300">light</span>
           </p>
         </header>
 
-        <section
-          class="flex flex-1 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/50 p-6 dark:border-slate-600 dark:bg-slate-800/30"
-        >
-          <p class="text-center text-sm text-slate-600 dark:text-slate-400">
-            Onboarding complete. Theme preference:
-            <span id="theme-label" class="font-medium text-slate-900 dark:text-slate-100">light</span>.
+        <!-- Acclimation Zone (PRD): looping desensitization sounds -->
+        <section aria-labelledby="acclimation-heading">
+          <h2
+            id="acclimation-heading"
+            class="mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300"
+          >
+            Acclimation
+          </h2>
+          <p class="mb-3 text-xs text-slate-500 dark:text-slate-400">
+            Tap to loop background audio. Tap again to stop. Only one loop plays at a time.
           </p>
+          <div class="-mx-1 flex gap-3 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:thin]">
+            <button
+              type="button"
+              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              data-sound="doorbell"
+              aria-pressed="false"
+            >
+              <span
+                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                aria-hidden="true"
+              ></span>
+              <span>Doorbell</span>
+            </button>
+            <button
+              type="button"
+              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              data-sound="barks"
+              aria-pressed="false"
+            >
+              <span
+                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                aria-hidden="true"
+              ></span>
+              <span>Barks</span>
+            </button>
+            <button
+              type="button"
+              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              data-sound="fireworks"
+              aria-pressed="false"
+            >
+              <span
+                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                aria-hidden="true"
+              ></span>
+              <span>Fireworks</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Command Zone (PRD): instant markers -->
+        <section class="flex-1" aria-labelledby="command-heading">
+          <h2
+            id="command-heading"
+            class="mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300"
+          >
+            Commands
+          </h2>
+          <p class="mb-3 text-xs text-slate-500 dark:text-slate-400">
+            Large buttons for instant sounds (haptic tap on supported phones).
+          </p>
+          <div class="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              class="sound-command flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-green-500 px-3 py-4 text-lg font-bold text-white shadow-md transition-transform active:scale-95 active:bg-green-700"
+              data-sound="clicker"
+            >
+              Clicker
+            </button>
+            <button
+              type="button"
+              class="sound-command flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-yellow-400 px-3 py-4 text-lg font-bold text-slate-900 shadow-md transition-transform active:scale-95 active:bg-yellow-600"
+              data-sound="whistle"
+            >
+              Whistle
+            </button>
+            <button
+              type="button"
+              class="sound-command col-span-2 flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-red-500 px-3 py-4 text-lg font-bold text-white shadow-md transition-transform active:scale-95 active:bg-red-700"
+              data-sound="buzzer"
+            >
+              Buzzer
+            </button>
+          </div>
         </section>
       </main>
+
+      <!-- IAB 320×50 placeholder (PRD / UI spec) -->
+      <footer
+        id="ad-footer"
+        class="fixed bottom-0 left-0 right-0 z-40 hidden border-t border-slate-200 bg-slate-100/95 dark:border-slate-700 dark:bg-slate-800/95"
+        style="padding-bottom: env(safe-area-inset-bottom, 0px)"
+      >
+        <div
+          class="mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center text-xs text-slate-500 dark:text-slate-400"
+        >
+          Ad slot · 320×50
+        </div>
+      </footer>
 
       <!-- Splash overlay -->
       <div
@@ -138,7 +285,6 @@
         </div>
       </div>
 
-      <!-- Pre-hydration placeholder (no flash before localStorage read) -->
       <div
         id="boot-placeholder"
         class="min-h-[100dvh] bg-slate-50 dark:bg-slate-900"
