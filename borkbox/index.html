@@ -6,68 +6,141 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
     />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#121816" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="BorkBox" />
     <title>BorkBox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
     <!--
       Static BorkBox (no build step): upload this folder or at least
       index.html, app.js, and vendor/howler.min.js. Tailwind loads from CDN.
     -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = { darkMode: "media" };
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "DM Sans",
+                "ui-sans-serif",
+                "system-ui",
+                "sans-serif",
+                "Apple Color Emoji",
+                "Segoe UI Emoji",
+              ],
+            },
+          },
+        },
+      };
     </script>
     <style>
+      :root {
+        --bb-page: #121816;
+        --bb-accent: #2dd4bf;
+      }
+
+      .bb-page-bg {
+        background-color: var(--bb-page);
+        background-image:
+          radial-gradient(ellipse 120% 80% at 50% -20%, rgb(45 212 191 / 0.08), transparent 55%),
+          radial-gradient(ellipse 90% 60% at 100% 0%, rgb(251 191 36 / 0.045), transparent 50%);
+      }
+
+      .bb-glass {
+        background: rgb(30 41 35 / 0.58);
+        box-shadow:
+          0 1px 0 rgb(255 255 255 / 0.06) inset,
+          0 0 0 1px rgb(255 255 255 / 0.09),
+          0 16px 48px -16px rgb(0 0 0 / 0.5);
+      }
+
+      .bb-scroll-mask {
+        mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 0.75rem,
+          black calc(100% - 0.75rem),
+          transparent
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 0.75rem,
+          black calc(100% - 0.75rem),
+          transparent
+        );
+      }
+
       @keyframes bb-pulse-slate {
         0%,
         100% {
-          box-shadow: 0 0 0 0 rgb(100 116 139 / 0.45);
+          box-shadow:
+            0 0 0 0 rgb(13 148 136 / 0.35),
+            0 8px 24px -8px rgb(13 148 136 / 0.25);
         }
         50% {
-          box-shadow: 0 0 0 12px rgb(100 116 139 / 0);
+          box-shadow:
+            0 0 0 10px rgb(13 148 136 / 0),
+            0 12px 28px -8px rgb(13 148 136 / 0.2);
         }
       }
       @keyframes bb-pulse-green {
         0%,
         100% {
-          box-shadow: 0 0 0 0 rgb(34 197 94 / 0.5);
+          box-shadow:
+            0 0 0 0 rgb(5 150 105 / 0.45),
+            0 4px 16px -4px rgb(5 150 105 / 0.2);
         }
         50% {
-          box-shadow: 0 0 0 14px rgb(34 197 94 / 0);
+          box-shadow:
+            0 0 0 12px rgb(5 150 105 / 0),
+            0 8px 20px -4px rgb(5 150 105 / 0.25);
         }
       }
       @keyframes bb-pulse-yellow {
         0%,
         100% {
-          box-shadow: 0 0 0 0 rgb(234 179 8 / 0.55);
+          box-shadow:
+            0 0 0 0 rgb(217 119 6 / 0.4),
+            0 4px 16px -4px rgb(217 119 6 / 0.15);
         }
         50% {
-          box-shadow: 0 0 0 14px rgb(234 179 8 / 0);
+          box-shadow:
+            0 0 0 12px rgb(217 119 6 / 0),
+            0 8px 20px -4px rgb(217 119 6 / 0.2);
         }
       }
       @keyframes bb-pulse-red {
         0%,
         100% {
-          box-shadow: 0 0 0 0 rgb(239 68 68 / 0.5);
+          box-shadow:
+            0 0 0 0 rgb(220 38 38 / 0.42),
+            0 4px 16px -4px rgb(220 38 38 / 0.2);
         }
         50% {
-          box-shadow: 0 0 0 14px rgb(239 68 68 / 0);
+          box-shadow:
+            0 0 0 12px rgb(220 38 38 / 0),
+            0 8px 20px -4px rgb(220 38 38 / 0.22);
         }
       }
       .bb-playing-slate {
-        animation: bb-pulse-slate 1.25s ease-in-out infinite;
+        animation: bb-pulse-slate 1.4s ease-in-out infinite;
       }
       .bb-playing-green {
-        animation: bb-pulse-green 1s ease-in-out infinite;
+        animation: bb-pulse-green 0.95s ease-in-out infinite;
       }
       .bb-playing-yellow {
-        animation: bb-pulse-yellow 1s ease-in-out infinite;
+        animation: bb-pulse-yellow 0.95s ease-in-out infinite;
       }
       .bb-playing-red {
-        animation: bb-pulse-red 1s ease-in-out infinite;
+        animation: bb-pulse-red 0.95s ease-in-out infinite;
       }
       @keyframes bb-ring-spin {
         to {
@@ -75,15 +148,36 @@
         }
       }
       .bb-loop-ring {
-        animation: bb-ring-spin 2.8s linear infinite;
+        animation: bb-ring-spin 2.4s linear infinite;
+      }
+
+      .sound-acclimation {
+        transition:
+          transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .sound-acclimation.bb-playing-slate {
+        border-color: rgb(45 212 191 / 0.45);
+        background-image: linear-gradient(
+          165deg,
+          rgb(6 78 59 / 0.5),
+          rgb(15 23 42 / 0.72)
+        );
+      }
+
+      .sound-command {
+        transition:
+          transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.15s ease,
+          box-shadow 0.15s ease;
       }
     </style>
     <script src="vendor/howler.min.js"></script>
     <script defer src="app.js"></script>
   </head>
-  <body
-    class="min-h-[100dvh] bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-50"
-  >
+  <body class="bb-page-bg min-h-[100dvh] font-sans text-stone-100">
     <div
       id="app-root"
       class="relative min-h-[100dvh]"
@@ -91,7 +185,7 @@
     >
       <main
         id="main-panel"
-        class="mx-auto flex min-h-[100dvh] max-w-lg flex-col gap-6 px-4 py-6 hidden"
+        class="mx-auto flex min-h-[100dvh] max-w-md flex-col gap-5 px-4 py-6 hidden"
         style="
           padding-top: max(1.25rem, env(safe-area-inset-top));
           padding-bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 4.5rem);
@@ -100,98 +194,185 @@
         "
       >
         <header class="text-center">
-          <p class="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <p
+            class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-teal-200/85"
+          >
             BorkBox
           </p>
-          <h1 class="mt-1 text-2xl font-bold">Soundboard</h1>
-          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-            Theme: <span id="theme-label" class="font-medium text-slate-700 dark:text-slate-300">light</span>
+          <h1 class="mt-2 text-[1.65rem] font-bold leading-tight tracking-tight text-stone-50">
+            Soundboard
+          </h1>
+          <p class="mx-auto mt-2 max-w-[17rem] text-sm leading-snug text-stone-400">
+            Ambient loops and instant cues for training.
           </p>
         </header>
 
+        <div
+          class="bb-glass rounded-2xl px-4 py-3.5 backdrop-blur-xl"
+          role="status"
+          aria-live="polite"
+        >
+          <p class="text-[0.65rem] font-semibold uppercase tracking-wider text-stone-500">
+            Status
+          </p>
+          <p
+            id="loop-status-label"
+            class="mt-1 text-sm font-medium text-stone-200"
+          >
+            No background loop
+          </p>
+        </div>
+
         <!-- Acclimation Zone (PRD): looping desensitization sounds -->
-        <section aria-labelledby="acclimation-heading">
+        <section class="bb-glass rounded-2xl p-4 backdrop-blur-xl" aria-labelledby="acclimation-heading">
           <h2
             id="acclimation-heading"
-            class="mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300"
+            class="text-sm font-semibold text-stone-100"
           >
             Acclimation
           </h2>
-          <p class="mb-3 text-xs text-slate-500 dark:text-slate-400">
-            Tap to loop background audio. Tap again to stop. Only one loop plays at a time.
+          <p class="mt-1 text-xs leading-relaxed text-stone-400">
+            One ambient loop at a time · tap again to stop
           </p>
-          <div class="-mx-1 flex gap-3 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:thin]">
+          <div
+            class="bb-scroll-mask relative -mx-1 mt-4 flex gap-3 overflow-x-auto overscroll-x-contain pb-1 pl-1 pr-1 pt-0.5 [scrollbar-width:thin]"
+          >
             <button
               type="button"
-              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              class="sound-acclimation group flex min-h-[5.75rem] min-w-[6.75rem] shrink-0 snap-start flex-col items-center justify-center gap-2 rounded-2xl border border-white/10 bg-stone-900/45 px-3 py-3 text-center shadow-sm active:scale-[0.97]"
               data-sound="doorbell"
+              data-display-name="Doorbell"
               aria-pressed="false"
             >
               <span
-                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
                 aria-hidden="true"
               ></span>
-              <span>Doorbell</span>
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              </span>
+              <span class="text-sm font-semibold text-stone-100">Doorbell</span>
             </button>
             <button
               type="button"
-              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              class="sound-acclimation group flex min-h-[5.75rem] min-w-[6.75rem] shrink-0 snap-start flex-col items-center justify-center gap-2 rounded-2xl border border-white/10 bg-stone-900/45 px-3 py-3 text-center shadow-sm active:scale-[0.97]"
               data-sound="barks"
+              data-display-name="Barks"
               aria-pressed="false"
             >
               <span
-                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
                 aria-hidden="true"
               ></span>
-              <span>Barks</span>
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 2 1.261.172 2.61-.195 3.344-1.295"/><path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.18 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 2-1.261.172-2.61-.195-3.344-1.295"/><path d="M8 14v.5"/><path d="M16 14v.5"/><path d="M11.25 16.25h1.5L12 17l-.75-.75Z"/><path d="M4.42 11c1.724-.265 2.922-.983 3.704-2.21a9 9 0 0 1 4.44-2.941"/><path d="M20 11c-1.724-.265-3.073-.983-3.957-2.21a9 9 0 0 0-4.44-2.941"/></svg>
+              </span>
+              <span class="text-sm font-semibold text-stone-100">Barks</span>
             </button>
             <button
               type="button"
-              class="sound-acclimation flex min-h-[88px] min-w-[7.5rem] shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-200/80 px-3 py-3 text-center text-sm font-medium text-slate-800 shadow-sm transition-transform active:scale-95 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-100"
+              class="sound-acclimation group flex min-h-[5.75rem] min-w-[6.75rem] shrink-0 snap-start flex-col items-center justify-center gap-2 rounded-2xl border border-white/10 bg-stone-900/45 px-3 py-3 text-center shadow-sm active:scale-[0.97]"
               data-sound="fireworks"
+              data-display-name="Fireworks"
               aria-pressed="false"
             >
               <span
-                class="bb-loop-indicator pointer-events-none hidden h-6 w-6 rounded-full border-2 border-slate-500 border-t-transparent dark:border-slate-300"
+                class="bb-loop-indicator pointer-events-none hidden h-5 w-5 rounded-full border-2 border-teal-300 border-t-transparent"
                 aria-hidden="true"
               ></span>
-              <span>Fireworks</span>
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-stone-300"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 9 5 12 1.8-5.2L21 14Z"/><path d="m7.2 9.2-3.9 3.9"/><path d="m5 5 3.9 3.9"/><path d="m19 5-3.9 3.9"/></svg>
+              </span>
+              <span class="text-sm font-semibold text-stone-100">Fireworks</span>
             </button>
           </div>
         </section>
 
         <!-- Command Zone (PRD): instant markers -->
-        <section class="flex-1" aria-labelledby="command-heading">
+        <section
+          class="bb-glass flex flex-1 flex-col rounded-2xl p-4 backdrop-blur-xl"
+          aria-labelledby="command-heading"
+        >
           <h2
             id="command-heading"
-            class="mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300"
+            class="text-sm font-semibold text-stone-100"
           >
             Commands
           </h2>
-          <p class="mb-3 text-xs text-slate-500 dark:text-slate-400">
-            Large buttons for instant sounds (haptic tap on supported phones).
+          <p class="mt-1 text-xs leading-relaxed text-stone-400">
+            Instant sounds · haptic tap where supported
           </p>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="mt-4 grid flex-1 grid-cols-2 gap-3">
             <button
               type="button"
-              class="sound-command flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-green-500 px-3 py-4 text-lg font-bold text-white shadow-md transition-transform active:scale-95 active:bg-green-700"
+              class="sound-command relative flex min-h-[6.75rem] flex-col items-start justify-end gap-0.5 overflow-hidden rounded-2xl border border-emerald-800/45 bg-gradient-to-br from-emerald-950/85 to-stone-900/55 px-4 pb-4 pt-12 text-left active:scale-[0.98]"
               data-sound="clicker"
             >
-              Clicker
+              <span
+                class="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-emerald-400"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-300"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+              <span class="text-lg font-bold text-emerald-50">Clicker</span>
+              <span class="text-[0.7rem] font-medium uppercase tracking-wide text-emerald-200/60">
+                Sharp cue
+              </span>
             </button>
             <button
               type="button"
-              class="sound-command flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-yellow-400 px-3 py-4 text-lg font-bold text-slate-900 shadow-md transition-transform active:scale-95 active:bg-yellow-600"
+              class="sound-command relative flex min-h-[6.75rem] flex-col items-start justify-end gap-0.5 overflow-hidden rounded-2xl border border-amber-800/40 bg-gradient-to-br from-amber-950/80 to-stone-900/55 px-4 pb-4 pt-12 text-left active:scale-[0.98]"
               data-sound="whistle"
             >
-              Whistle
+              <span
+                class="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-amber-400"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-amber-400/20 text-amber-200"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/></svg>
+              </span>
+              <span class="text-lg font-bold text-amber-50">Whistle</span>
+              <span class="text-[0.7rem] font-medium uppercase tracking-wide text-amber-200/55">
+                Rising tone
+              </span>
             </button>
             <button
               type="button"
-              class="sound-command col-span-2 flex min-h-[104px] flex-col items-center justify-center rounded-xl bg-red-500 px-3 py-4 text-lg font-bold text-white shadow-md transition-transform active:scale-95 active:bg-red-700"
+              class="sound-command relative col-span-2 flex min-h-[6.25rem] flex-row items-center gap-4 overflow-hidden rounded-2xl border border-red-900/45 bg-gradient-to-r from-red-950/75 via-stone-900/50 to-stone-900/60 px-4 py-4 text-left active:scale-[0.99]"
               data-sound="buzzer"
             >
-              Buzzer
+              <span
+                class="absolute left-0 top-0 h-full w-1.5 rounded-l-2xl bg-red-500"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/25 text-red-200"
+                aria-hidden="true"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+              </span>
+              <div class="min-w-0 flex-1">
+                <span class="block text-lg font-bold text-red-50">Buzzer</span>
+                <span class="mt-0.5 block text-[0.7rem] font-medium uppercase tracking-wide text-red-200/55">
+                  High-attention stop
+                </span>
+              </div>
             </button>
           </div>
         </section>
@@ -200,20 +381,20 @@
       <!-- IAB 320×50 placeholder (PRD / UI spec) -->
       <footer
         id="ad-footer"
-        class="fixed bottom-0 left-0 right-0 z-40 hidden border-t border-slate-200 bg-slate-100/95 dark:border-slate-700 dark:bg-slate-800/95"
+        class="fixed bottom-0 left-0 right-0 z-40 hidden border-t border-white/10 bg-stone-950/92 backdrop-blur-md"
         style="padding-bottom: env(safe-area-inset-bottom, 0px)"
       >
         <div
-          class="mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center text-xs text-slate-500 dark:text-slate-400"
+          class="mx-auto flex h-[50px] w-[320px] max-w-full items-center justify-center text-[0.65rem] font-medium uppercase tracking-wider text-stone-500"
         >
-          Ad slot · 320×50
+          Ad · 320×50
         </div>
       </footer>
 
       <!-- Splash overlay -->
       <div
         id="splash"
-        class="fixed inset-0 z-50 flex min-h-[100dvh] flex-col bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-50 hidden"
+        class="bb-page-bg fixed inset-0 z-50 flex min-h-[100dvh] flex-col text-stone-50 hidden"
         style="
           padding-top: max(1rem, env(safe-area-inset-top));
           padding-bottom: max(1rem, env(safe-area-inset-bottom));
@@ -227,23 +408,28 @@
       >
         <div class="flex flex-1 flex-col items-center justify-center gap-8 px-4">
           <div class="text-center">
-            <h1 id="splash-title" class="text-3xl font-bold tracking-tight sm:text-4xl">
+            <p
+              class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-teal-200/85"
+            >
               BorkBox
+            </p>
+            <h1 id="splash-title" class="mt-3 text-3xl font-bold tracking-tight text-stone-50 sm:text-4xl">
+              Ready when you are
             </h1>
             <p
               id="splash-desc"
-              class="mt-2 max-w-sm text-sm text-slate-600 dark:text-slate-400"
+              class="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-stone-400"
             >
-              Tap below to enable sound and keep your screen awake while training.
+              Enable sound and keep the screen awake for uninterrupted training.
             </p>
           </div>
 
           <div
-            class="flex w-full max-w-sm flex-col gap-3 rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/80"
+            class="bb-glass w-full max-w-sm rounded-2xl p-4 backdrop-blur-xl"
           >
             <div class="flex items-start gap-3">
               <div
-                class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-400/20 text-amber-200"
                 aria-hidden="true"
               >
                 <svg
@@ -261,13 +447,12 @@
                   <line x1="2" x2="22" y1="2" y2="22" />
                 </svg>
               </div>
-              <div class="min-w-0 text-left text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-                <p class="font-medium text-slate-900 dark:text-slate-100">
-                  Check the silent switch (iPhone)
+              <div class="min-w-0 text-left text-sm leading-relaxed text-stone-300">
+                <p class="font-semibold text-stone-100">
+                  Silent switch (iPhone)
                 </p>
-                <p class="mt-1">
-                  If the side mute switch shows orange, training sounds will not play even after you
-                  unlock audio. Flip it off before you start.
+                <p class="mt-1.5 text-stone-400">
+                  If the side switch shows orange, sounds stay muted. Flip it off before you begin.
                 </p>
               </div>
             </div>
@@ -278,16 +463,16 @@
           <button
             type="button"
             id="start-training"
-            class="flex min-h-[52px] w-full items-center justify-center rounded-xl bg-slate-900 px-4 text-base font-semibold text-white shadow-md transition-transform active:scale-95 disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900"
+            class="mx-auto flex min-h-[3.25rem] w-full max-w-sm items-center justify-center rounded-2xl bg-teal-500 px-4 text-base font-semibold text-stone-950 shadow-lg shadow-teal-950/35 transition-transform active:scale-[0.98] disabled:opacity-60"
           >
-            Start Training
+            Start training
           </button>
         </div>
       </div>
 
       <div
         id="boot-placeholder"
-        class="min-h-[100dvh] bg-slate-50 dark:bg-slate-900"
+        class="min-h-[100dvh] bb-page-bg"
         aria-hidden="true"
       ></div>
     </div>

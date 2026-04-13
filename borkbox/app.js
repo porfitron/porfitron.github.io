@@ -315,7 +315,13 @@
     }
   }
 
-  function clearAcclimationPlayingUI() {
+  function setLoopStatusLabel(text) {
+    var el = document.getElementById("loop-status-label");
+    if (el) el.textContent = text;
+  }
+
+  function clearAcclimationPlayingUI(opts) {
+    var skipStatus = opts && opts.skipStatus;
     document.querySelectorAll(".sound-acclimation").forEach(function (btn) {
       btn.classList.remove("bb-playing-slate");
       btn.setAttribute("aria-pressed", "false");
@@ -325,11 +331,12 @@
         ring.classList.remove("bb-loop-ring");
       }
     });
+    if (!skipStatus) setLoopStatusLabel("No background loop");
   }
 
   function setAcclimationPlaying(btn, on) {
-    clearAcclimationPlayingUI();
     if (on && btn) {
+      clearAcclimationPlayingUI({ skipStatus: true });
       btn.classList.add("bb-playing-slate");
       btn.setAttribute("aria-pressed", "true");
       var ring = btn.querySelector(".bb-loop-indicator");
@@ -337,6 +344,10 @@
         ring.classList.remove("hidden");
         ring.classList.add("bb-loop-ring");
       }
+      var name = btn.getAttribute("data-display-name");
+      setLoopStatusLabel(name ? "Looping · " + name : "Background loop on");
+    } else {
+      clearAcclimationPlayingUI();
     }
   }
 
@@ -469,7 +480,7 @@
         .finally(function () {
           starting = false;
           startBtn.disabled = false;
-          startBtn.textContent = "Start Training";
+          startBtn.textContent = "Start training";
         });
     });
   }
