@@ -2,8 +2,6 @@
   "use strict";
 
   var STORAGE_KEY = "borkbox_settings";
-  var SR = 22050;
-
   var defaultSettings = {
     theme: "light",
     volume: 1,
@@ -45,170 +43,41 @@
     }
   }
 
-  function writeAscii(view, offset, str) {
-    for (var i = 0; i < str.length; i += 1) {
-      view.setUint8(offset + i, str.charCodeAt(i));
-    }
-  }
-
-  function buildMonoWavDataUri(numSamples, sampleAt) {
-    var dataSize = numSamples * 2;
-    var buffer = new ArrayBuffer(44 + dataSize);
-    var view = new DataView(buffer);
-
-    writeAscii(view, 0, "RIFF");
-    view.setUint32(4, 36 + dataSize, true);
-    writeAscii(view, 8, "WAVE");
-    writeAscii(view, 12, "fmt ");
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, 1, true);
-    view.setUint32(24, SR, true);
-    view.setUint32(28, SR * 2, true);
-    view.setUint16(32, 2, true);
-    view.setUint16(34, 16, true);
-    writeAscii(view, 36, "data");
-    view.setUint32(40, dataSize, true);
-
-    var o = 44;
-    for (var i = 0; i < numSamples; i += 1) {
-      var s = sampleAt(i, numSamples);
-      var int16 = Math.max(-1, Math.min(1, s)) * 0x7fff;
-      view.setInt16(o, int16, true);
-      o += 2;
-    }
-
-    var bytes = new Uint8Array(buffer);
-    var binary = "";
-    for (var j = 0; j < bytes.byteLength; j += 1) {
-      binary += String.fromCharCode(bytes[j]);
-    }
-    return "data:audio/wav;base64," + btoa(binary);
-  }
-
-  function edgeFade(i, n, samples) {
-    var a = Math.min(i, n - 1 - i) / samples;
-    return a < 1 ? a : 1;
-  }
-
   var soundDefs = {
     calibration: {
       loop: false,
       baseVolume: 1,
-      uri: function () {
-        var n = Math.floor(0.22 * SR);
-        return buildMonoWavDataUri(n, function (i, num) {
-          var t = i / SR;
-          var env = Math.min(1, i / 120) * Math.min(1, (num - i) / 400);
-          return Math.sin((2 * Math.PI * 880 * t) / 1) * 0.35 * env;
-        });
-      },
+      src: ["sounds/calibration.wav"],
     },
     clicker: {
       loop: false,
       baseVolume: 0.95,
-      uri: function () {
-        var n = Math.floor(0.06 * SR);
-        return buildMonoWavDataUri(n, function (i) {
-          var t = i / SR;
-          return (
-            Math.sin(2 * Math.PI * 2600 * t) * Math.exp(-t * 95) * 0.85 +
-            Math.sin(2 * Math.PI * 5200 * t) * Math.exp(-t * 120) * 0.25
-          );
-        });
-      },
+      src: ["sounds/clicker.wav"],
     },
     whistle: {
       loop: false,
       baseVolume: 0.75,
-      uri: function () {
-        var n = Math.floor(0.38 * SR);
-        return buildMonoWavDataUri(n, function (i) {
-          var t = i / SR;
-          var vib = 1 + 0.04 * Math.sin(2 * Math.PI * 11 * t);
-          var env = Math.min(1, i / 80) * Math.min(1, (n - i) / 200);
-          return Math.sin(2 * Math.PI * 2900 * t * vib) * 0.4 * env;
-        });
-      },
+      src: ["sounds/whistle.m4a", "sounds/whistle.mp3"],
     },
     buzzer: {
       loop: false,
       baseVolume: 0.7,
-      uri: function () {
-        var n = Math.floor(0.32 * SR);
-        return buildMonoWavDataUri(n, function (i, num) {
-          var t = i / SR;
-          var sq = Math.sign(Math.sin(2 * Math.PI * 105 * t));
-          var env = Math.min(1, i / 40) * Math.min(1, (num - i) / 120);
-          return sq * 0.38 * env;
-        });
-      },
+      src: ["sounds/buzzer.wav"],
     },
     doorbell: {
       loop: true,
       baseVolume: 0.55,
-      uri: function () {
-        var n = Math.floor(3.2 * SR);
-        return buildMonoWavDataUri(n, function (i, num) {
-          var t = i / SR;
-          var s = 0;
-          if (t < 0.22) {
-            var d = t / 0.22;
-            s += Math.sin(2 * Math.PI * 784 * t) * Math.pow(1 - d, 1.8) * 0.5;
-          }
-          if (t > 0.58 && t < 1.05) {
-            var u = t - 0.58;
-            var w = u / 0.47;
-            s += Math.sin(2 * Math.PI * 523 * u) * Math.pow(1 - w, 1.6) * 0.48;
-          }
-          return s * edgeFade(i, num, 320);
-        });
-      },
+      src: ["sounds/doorbell.mp3"],
     },
     barks: {
       loop: true,
       baseVolume: 0.6,
-      uri: function () {
-        var period = 0.52;
-        var n = Math.floor(period * 4 * SR);
-        return buildMonoWavDataUri(n, function (i, num) {
-          var t = i / SR;
-          var p = t % period;
-          var env = 0;
-          if (p < 0.16) {
-            var u = p / 0.16;
-            env = Math.sin(Math.PI * u) * Math.sin(Math.PI * u);
-          }
-          var gr =
-            0.55 * Math.sin(2 * Math.PI * 190 * t) +
-            0.22 * Math.sin(2 * Math.PI * 380 * t) +
-            0.12 * Math.sin(2 * Math.PI * 95 * t);
-          return gr * env * 0.5 * edgeFade(i, num, 280);
-        });
-      },
+      src: ["sounds/barks.mp3"],
     },
     fireworks: {
       loop: true,
       baseVolume: 0.5,
-      uri: function () {
-        var n = Math.floor(2.4 * SR);
-        return buildMonoWavDataUri(n, function (i, num) {
-          var t = i / SR;
-          var hiss = Math.sin(i * 0.103) * Math.sin(i * 0.0313) * 0.07;
-          var pops = [0.22, 0.55, 0.88, 1.25, 1.72, 2.05];
-          var pop = 0;
-          for (var k = 0; k < pops.length; k += 1) {
-            var dt = t - pops[k];
-            if (dt > 0 && dt < 0.09) {
-              pop +=
-                Math.sin(2 * Math.PI * (140 + k * 20) * dt) *
-                (1 - dt / 0.09) *
-                (0.42 - k * 0.04);
-            }
-          }
-          return (hiss + pop) * edgeFade(i, num, 360);
-        });
-      },
+      src: ["sounds/fireworks.mp3"],
     },
   };
 
@@ -220,9 +89,16 @@
     if (howlCache[id]) return howlCache[id];
     var def = soundDefs[id];
     if (!def) return null;
+    var audioFormat = def.src
+      .map(function (srcPath) {
+        var extMatch = srcPath.match(/\.(\w+)$/);
+        return extMatch ? extMatch[1].toLowerCase() : null;
+      })
+      .filter(Boolean);
+    if (!audioFormat.length) audioFormat = ["wav"];
     var h = new Howl({
-      src: [def.uri()],
-      format: ["wav"],
+      src: def.src,
+      format: audioFormat,
       html5: false,
       preload: true,
       loop: !!def.loop,
@@ -392,10 +268,13 @@
     var closeBtn = $(closeBtnId);
     if (!openBtn || !lb) return;
 
+    openBtn.classList.add("bb-info-hint");
+
     var backdrop = lb.querySelector("[data-bb-lightbox-dismiss]");
 
     function open() {
       if (!lb.classList.contains("hidden")) return;
+      openBtn.classList.remove("bb-info-hint");
       setVisible(lb, true);
       lb.setAttribute("aria-hidden", "false");
       openBtn.setAttribute("aria-expanded", "true");

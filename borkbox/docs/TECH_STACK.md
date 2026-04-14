@@ -1,10 +1,10 @@
 # Technical Specification: BorkBox
 
-## Stack
-- **Framework:** Next.js (App Router) or Vite + React.
-- **Styling:** Tailwind CSS (for rapid utility-first UI).
-- **Audio Engine:** `Howler.js` (Wraps Web Audio API for low-latency and mobile "unlock" handling).
-- **Icons:** Lucide React (for UI elements).
+## Stack (shipped)
+- **App shell:** Static `index.html` + vanilla `app.js` (no bundler).
+- **Styling:** Tailwind CSS via CDN (`index.html`).
+- **Audio:** `Howler.js` from `vendor/howler.min.js` (Web Audio / mobile unlock).
+- **Icons:** Inline SVG in `index.html`.
 
 ## Critical APIs & Implementation Rules
 1. **Web Audio API (via Howler):** Must use `html5: false` to force Web Audio for sub-millisecond precision.

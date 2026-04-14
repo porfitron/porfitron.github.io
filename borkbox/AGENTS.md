@@ -1,5 +1,3 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# BorkBox™ (this folder)
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+This site is **static**: `index.html`, `app.js`, `sounds/*` (`.wav` / `.mp3`), and `vendor/howler.min.js`. There is no bundler or framework here; prefer small, self-contained edits that match the existing vanilla JS style.
