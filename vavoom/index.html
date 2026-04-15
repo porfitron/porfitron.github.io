@@ -619,6 +619,10 @@
       border: 0;
     }
 
+    .video-fallback-link {
+      margin-top: 0.75rem;
+    }
+
     .booking-form {
       margin-top: 1rem;
       display: grid;
@@ -1179,6 +1183,9 @@
           allowfullscreen
         ></iframe>
       </div>
+      <p class="video-fallback-link">
+        <a id="video-player-fallback-link" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open video on YouTube</a>
+      </p>
     </div>
   </div>
 
@@ -1195,6 +1202,7 @@
       var openers = document.querySelectorAll("[data-modal-target]");
       var videoFrame = document.getElementById("video-player-frame");
       var videoTitle = document.getElementById("video-lightbox-title");
+      var videoFallbackLink = document.getElementById("video-player-fallback-link");
       if (!modals.length || !openers.length) return;
 
       function closeAllModals() {
@@ -1203,6 +1211,9 @@
         });
         if (videoFrame) {
           videoFrame.setAttribute("src", "");
+        }
+        if (videoFallbackLink) {
+          videoFallbackLink.setAttribute("href", "#");
         }
       }
 
@@ -1305,7 +1316,14 @@
           videoTitle.textContent = label;
         }
         openModalById("video-lightbox-modal");
-        videoFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0");
+        videoFrame.removeAttribute("loading");
+        videoFrame.setAttribute("src", "about:blank");
+        if (videoFallbackLink) {
+          videoFallbackLink.setAttribute("href", "https://www.youtube.com/watch?v=" + videoId);
+        }
+        window.requestAnimationFrame(function () {
+          videoFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId + "?playsinline=1&rel=0");
+        });
       }
 
       function renderVideoThumbnails(videoUrls) {
