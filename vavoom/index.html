@@ -1174,14 +1174,7 @@
         <button class="modal-close" type="button" aria-label="Close sample player">&times;</button>
       </div>
       <div class="video-frame-wrap">
-        <iframe
-          id="video-player-frame"
-          src=""
-          title="Sandy VaVoom performance sample video"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
+        <div id="video-player-slot" aria-live="polite"></div>
       </div>
       <p class="video-fallback-link">
         <a id="video-player-fallback-link" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open video on YouTube</a>
@@ -1200,7 +1193,7 @@
     (function () {
       var modals = document.querySelectorAll(".modal");
       var openers = document.querySelectorAll("[data-modal-target]");
-      var videoFrame = document.getElementById("video-player-frame");
+      var videoPlayerSlot = document.getElementById("video-player-slot");
       var videoTitle = document.getElementById("video-lightbox-title");
       var videoFallbackLink = document.getElementById("video-player-fallback-link");
       if (!modals.length || !openers.length) return;
@@ -1209,8 +1202,8 @@
         modals.forEach(function (modal) {
           modal.setAttribute("aria-hidden", "true");
         });
-        if (videoFrame) {
-          videoFrame.setAttribute("src", "");
+        if (videoPlayerSlot) {
+          videoPlayerSlot.innerHTML = "";
         }
         if (videoFallbackLink) {
           videoFallbackLink.setAttribute("href", "#");
@@ -1310,20 +1303,36 @@
         return title.slice(0, maxLength - 3).trimEnd() + "...";
       }
 
+      function mountVideoPlayer(videoId, label) {
+        if (!videoPlayerSlot) return;
+        videoPlayerSlot.innerHTML = "";
+        var frame = document.createElement("iframe");
+        frame.title = label || "Sandy VaVoom performance sample video";
+        frame.setAttribute(
+          "src",
+          "https://www.youtube-nocookie.com/embed/" +
+            videoId +
+            "?rel=0&modestbranding=1&playsinline=1"
+        );
+        frame.setAttribute(
+          "allow",
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        );
+        frame.setAttribute("allowfullscreen", "");
+        frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        videoPlayerSlot.appendChild(frame);
+      }
+
       function openVideoLightbox(videoId, label) {
-        if (!videoId || !videoFrame) return;
+        if (!videoId || !videoPlayerSlot) return;
         if (videoTitle && label) {
           videoTitle.textContent = label;
         }
         openModalById("video-lightbox-modal");
-        videoFrame.removeAttribute("loading");
-        videoFrame.setAttribute("src", "about:blank");
         if (videoFallbackLink) {
           videoFallbackLink.setAttribute("href", "https://www.youtube.com/watch?v=" + videoId);
         }
-        window.requestAnimationFrame(function () {
-          videoFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId + "?playsinline=1&rel=0");
-        });
+        mountVideoPlayer(videoId, label);
       }
 
       function renderVideoThumbnails(videoUrls) {
