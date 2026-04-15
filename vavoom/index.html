@@ -6,7 +6,7 @@
   <title>Sandy VaVoom | Music Acts & Wine Driver Services</title>
   <meta
     name="description"
-    content="Sandy VaVoom delivers three bookable music experiences plus GoGirl Wine Driver in Paso Robles. Book Sandy solo, Leopard Lounge Duo with Daniel Moreno, RetroActive Band, or request private wine-country driving."
+    content="Sandy VaVoom delivers four bookable music experiences plus GoGirl Wine Driver in Paso Robles. Book Sandy solo, Pop Up Patsy, Leopard Lounge Duo with Daniel Moreno, RetroActive Band, or request private wine-country driving."
   />
   <meta
     name="keywords"
@@ -870,18 +870,19 @@
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow">Paso Robles · Central Coast California</p>
-        <h1>One voice. Three live experiences. Trusted wine-country driving.</h1>
+        <h1>One voice. Four live experiences. Trusted wine-country driving.</h1>
         <p class="hero-copy">
           Sandy VaVoom blends emotional stage presence with reliable hospitality. Choose the act that fits your room, spread the word about upcoming shows, or
           hire Sandy as your designated wine driver for a safe and memorable day.
         </p>
         <div class="hero-actions">
-          <a class="btn primary" href="#book">Book Music</a>
-          <a class="btn" href="#driver">Request a Wine Driver</a>
+          <a class="btn primary" href="#book">Book Music Act</a>
+          <a class="btn" href="#driver">Request Winery Tour Driver</a>
           <a class="btn" href="#schedule">See Where Sandy's Playing</a>
         </div>
         <div class="chip-row" aria-label="Sub-brand quick links">
           <a class="chip" href="#act-solo">Sandy Vavoom (Solo)</a>
+          <a class="chip" href="#act-patsy">Pop Up Patsy</a>
           <a class="chip" href="#act-duo">Leopard Lounge Duo</a>
           <a class="chip" href="#act-band">RetroActive Band</a>
         </div>
@@ -900,9 +901,6 @@
     <section id="acts">
       <div class="wrap">
         <h2>Choose the Sound</h2>
-        <p class="section-copy">
-          Sandy's master brand includes three distinct performance offerings. Each one is bookable, visually clear, and positioned for the right event format.
-        </p>
         <div class="acts-grid">
           <article class="card" id="act-solo">
             <p class="label">Signature Act</p>
@@ -915,7 +913,23 @@
             </ul>
             <p class="note">Book as Sandy VaVoom when you want a warm, direct artist connection with flexible set pacing.</p>
             <div class="actions">
-              <a class="btn primary" href="#booking-form">Book Solo</a>
+              <a class="btn primary" href="#booking-form">Book Sandy VaVoom</a>
+              <a class="btn" href="#contact-info-modal" data-modal-target="contact-info-modal">Contact Info</a>
+            </div>
+          </article>
+
+          <article class="card" id="act-patsy">
+            <p class="label">Solo Specialty Act</p>
+            <h3>Pop Up Patsy</h3>
+            <p class="fit">Best for country-forward rooms, nostalgic cocktail sets, and events that love 50s and 60s classics.</p>
+            <ul class="tags" aria-label="Pop Up Patsy style tags">
+              <li>Patsy Cline Catalog</li>
+              <li>50s & 60s Popular Hits</li>
+              <li>Country, Ballads, Rock n' Roll, Standards</li>
+            </ul>
+            <p class="note">Book Pop Up Patsy for a timeless, vintage-inspired set with heartfelt vocals and classic crossover energy.</p>
+            <div class="actions">
+              <a class="btn primary" href="#booking-form">Book Pop Up Patsy</a>
               <a class="btn" href="#contact-info-modal" data-modal-target="contact-info-modal">Contact Info</a>
             </div>
           </article>
@@ -958,9 +972,6 @@
     <section id="schedule">
       <div class="wrap">
         <h2>Where Sandy's Playing</h2>
-        <p class="section-copy">
-          Catch Sandy live across the Central Coast and plan your night in seconds with quick directions for each show.
-        </p>
         <div class="schedule-grid">
           <article class="show-item">
             <div>
@@ -996,7 +1007,6 @@
     <section id="samples">
       <div class="wrap">
         <h2>Performance Samples</h2>
-        <p class="section-copy">Preview Sandy VaVoom clips from recent performances. Click any thumbnail to open the lightbox player.</p>
         <div class="samples-wrap">
           <div class="samples-head">
             <p>Swipe on touch devices or use arrows to browse.</p>
@@ -1018,7 +1028,7 @@
             <h3>Booking Priorities</h3>
             <ul class="list">
               <li>Lead with event date, venue, city, and expected audience size.</li>
-              <li>Specify the act: Sandy Solo, Leopard Lounge Duo, or RetroActive Band.</li>
+              <li>Specify the act: Sandy Solo, Pop Up Patsy, Leopard Lounge Duo, or RetroActive Band.</li>
               <li>Include event vibe and sound level preferences for best fit.</li>
               <li>Use the form below for the fastest booking response.</li>
             </ul>
@@ -1029,13 +1039,13 @@
           </article>
           <article class="panel">
             <h3 id="booking-form">Booking Inquiry Form</h3>
-            <form class="booking-form" action="#contact" method="get">
+            <form class="booking-form" action="#" method="get">
               <div class="field-group">
-                <label for="booking-name">Name</label>
+                <label for="booking-name">Your Name</label>
                 <input id="booking-name" name="name" type="text" autocomplete="name" required />
               </div>
               <div class="field-group">
-                <label for="booking-contact">Email or Phone</label>
+                <label for="booking-contact">Your Email or Phone</label>
                 <input id="booking-contact" name="contact" type="text" autocomplete="email" required />
               </div>
               <div class="field-group">
@@ -1043,6 +1053,7 @@
                 <select id="booking-act" name="act" required>
                   <option value="">Select an option</option>
                   <option value="Sandy Solo">Sandy Solo</option>
+                  <option value="Pop Up Patsy">Pop Up Patsy</option>
                   <option value="Leopard Lounge Duo">Leopard Lounge Duo</option>
                   <option value="RetroActive Band">RetroActive Band</option>
                   <option value="Not sure yet">Not sure yet</option>
@@ -1057,9 +1068,11 @@
                   required
                 ></textarea>
               </div>
+              <div class="hero-actions">
+                <button class="btn primary" type="submit">Send Booking Inquiry</button>
+              </div>
             </form>
             <div class="hero-actions">
-              <a class="btn primary" href="#contact">Review Contact Lanes</a>
               <a class="btn" href="#contact-info-modal" data-modal-target="contact-info-modal">Open Contact Info</a>
             </div>
           </article>
@@ -1093,15 +1106,11 @@
       <div class="wrap">
         <h2>The Sandy Experience</h2>
         <p class="section-copy">
-          Sandy's edge is emotional performance paired with practical professionalism. One person, multiple lanes, each with clear expectations and premium care.
+          From intimate rooms to full-band nights, Sandy designs experiences that match the crowd in front of her. Off stage, that same hospitality mindset powers GoGirl Wine Driver with dependable, service-first attention throughout Central Coast wine country.
         </p>
         <div class="about-grid">
           <img src="images/640399701_122166253832615109_1709462631971526688_n.jpg" alt="Portrait of Sandy VaVoom" loading="lazy" />
           <div>
-            <p>
-              From intimate rooms to full-band nights, Sandy designs experiences that match the crowd in front of her. Off stage, that same hospitality mindset
-              powers GoGirl Wine Driver with dependable, service-first attention throughout Central Coast wine country.
-            </p>
             <p class="quote">
               "Whether I am singing your room into its perfect mood or driving your group through wine country, the promise is the same: people feel looked
               after."
@@ -1114,15 +1123,12 @@
     <section id="contact">
       <div class="wrap">
         <h2>Follow & Connect</h2>
-        <p class="section-copy">
-          Follow Sandy on the platform you use most to catch new performances, updates, and behind-the-scenes moments. When you're ready to book, use the matching channel below.
-        </p>
         <div class="social-grid">
           <article class="social-card">
             <h3>Music Booking</h3>
             <p>
               <a href="https://www.facebook.com/sandy.vavoom" target="_blank" rel="noopener noreferrer">Sandy VaVoom on Facebook</a><br />
-              For Sandy Solo, Leopard Lounge Duo, and RetroActive Band inquiries.
+              For Sandy Solo, Pop Up Patsy, Leopard Lounge Duo, and RetroActive Band inquiries.
             </p>
           </article>
           <article class="social-card">
@@ -1184,7 +1190,7 @@
 
   <footer>
     <div class="wrap footer-grid">
-      <div>Sandy VaVoom · Leopard Lounge Duo (with Daniel Moreno) · RetroActive Band · GoGirl Wine Driver · Paso Robles, California</div>
+      <div>Sandy VaVoom · Pop Up Patsy · Leopard Lounge Duo (with Daniel Moreno) · RetroActive Band · GoGirl Wine Driver · Paso Robles, California</div>
       <div><a href="#book">Book Music</a> · <a href="#driver">Request a Ride</a></div>
       <div>&copy; 2026 Sandra Landeros Thomas</div>
     </div>
