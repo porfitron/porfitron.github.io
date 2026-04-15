@@ -1279,8 +1279,8 @@
         if (videoTitle && label) {
           videoTitle.textContent = label;
         }
-        videoFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0");
         openModalById("video-lightbox-modal");
+        videoFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0");
       }
 
       function renderVideoThumbnails(videoUrls) {
