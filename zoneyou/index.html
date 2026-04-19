@@ -2,9 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="ZoneYou&trade; — estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
     <title>ZoneYou&trade;</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="canonical" href="https://porfir.io/zoneyou" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ZoneYou" />
@@ -1115,7 +1129,7 @@
           }
           var z = karvonenZone2(data.rhr, data.mhr);
           var text =
-            "ZoneYou\u2122 — Zone 2 (Karvonen): " + z.low + "–" + z.high + " BPM (RHR " + data.rhr + ", max " + data.mhr + "). Estimate only.";
+            "ZoneYou\u2122 — Zone 2 (Karvonen): " + z.low + "–" + z.high + " BPM (RHR " + data.rhr + ", max " + data.mhr + "). Estimate only. https://porfir.io/zoneyou";
           var shareData = { title: "ZoneYou\u2122", text: text };
 
           if (navigator.share) {
