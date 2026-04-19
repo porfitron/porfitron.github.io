@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ZoneYou&trade; — estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <title>ZoneYou&trade;</title>
+    <link rel="canonical" href="https://porfir.io/zoneyou" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ZoneYou" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://porfir.io/zoneyou" />
+    <meta property="og:title" content="ZoneYou — Zone 2 heart rate range" />
+    <meta property="og:description" content="Estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <meta property="og:image" content="https://porfir.io/zoneyou/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ZoneYou — Zone 2 heart rate calculator" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ZoneYou — Zone 2 heart rate range" />
+    <meta name="twitter:description" content="Estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <meta name="twitter:image" content="https://porfir.io/zoneyou/og-image.png" />
+    <meta name="theme-color" content="#f2f2f7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f2f2f7;
+        --bg-elevated: rgba(255, 255, 255, 0.72);
+        --border-glass: rgba(255, 255, 255, 0.3);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        --text: #000000;
+        --text-secondary: #8e8e93;
+        --accent: #34c759;
+        --accent-muted: rgba(52, 199, 89, 0.12);
+        --danger: #ff3b30;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+        --font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+        --tap-scale: 0.98;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: var(--font);
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.45;
+      }
+
+      .app {
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 24px;
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+      }
+
+      .glass {
+        background: var(--bg-elevated);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
+      .brand-name {
+        font-weight: 700;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-tag {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .icon-btn:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .icon-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .icon-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      main.glass {
+        padding: 22px 20px 20px;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .subtitle {
+        margin: 0 0 22px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      fieldset {
+        margin: 0 0 18px;
+        padding: 0;
+        border: 0;
+      }
+
+      legend {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 4px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: var(--radius-md);
+      }
+
+      .segmented input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .segmented label {
+        text-align: center;
+        padding: 12px 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease, color 0.2s ease;
+        user-select: none;
+      }
+
+      .segmented label:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .segmented input:focus-visible + label {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .segmented input:checked + label {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        color: var(--text);
+      }
+
+      .segmented input:not(:checked) + label {
+        color: var(--text-secondary);
+      }
+
+      .field {
+        margin-bottom: 16px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+
+      .field-label-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .field-label-row label {
+        flex: 1;
+        margin-bottom: 0;
+      }
+
+      .bpm-info-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.04);
+        color: var(--text-secondary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        font-style: italic;
+        font-family: Georgia, "Times New Roman", serif;
+        line-height: 1;
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+      }
+
+      .bpm-info-btn:hover {
+        background: rgba(0, 0, 0, 0.07);
+        color: var(--text);
+      }
+
+      .bpm-info-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .bpm-info-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      .input-wrap input {
+        width: 100%;
+        padding: 18px 16px;
+        font-size: 1.35rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: var(--radius-md);
+        background: #fff;
+        color: var(--text);
+        font-family: inherit;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .input-wrap input::placeholder {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .input-wrap input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-muted);
+      }
+
+      .input-hint {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .field-error {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        color: var(--danger);
+        text-align: center;
+        display: none;
+      }
+
+      .field-error.visible {
+        display: block;
+      }
+
+      .mhr-block.hidden {
+        display: none;
+      }
+
+      .primary-btn {
+        width: 100%;
+        margin-top: 6px;
+        padding: 16px 18px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-family: inherit;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 16px rgba(52, 199, 89, 0.35);
+      }
+
+      .primary-btn:hover {
+        filter: brightness(1.03);
+      }
+
+      .primary-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .primary-btn:focus-visible {
+        outline: 2px solid var(--text);
+        outline-offset: 3px;
+      }
+
+      /* Results live inside full-screen modal only */
+      .results {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .results-label {
+        margin: 0 0 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
+
+      .results-bpm {
+        text-align: center;
+        font-size: clamp(2rem, 9vw, 2.75rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: var(--text);
+      }
+
+      .results-bpm span {
+        color: var(--accent);
+      }
+
+      .results-meta {
+        margin-top: 14px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .disclaimer {
+        margin-top: 16px;
+        padding: 12px 14px;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--text-secondary);
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: var(--radius-sm);
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .secondary-btn {
+        padding: 14px 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        font-family: inherit;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.06);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .secondary-btn:hover {
+        background: rgba(0, 0, 0, 0.09);
+      }
+
+      .secondary-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .secondary-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .secondary-btn svg {
+        flex-shrink: 0;
+        opacity: 0.85;
+      }
+
+      /* Results full-screen lightbox */
+      .results-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 110;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        background: rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        padding: 0;
+      }
+
+      .results-modal-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .results-modal-sheet {
+        width: 100%;
+        max-width: 450px;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.18);
+        transform: translateY(100%);
+        transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+        overflow: hidden;
+      }
+
+      .results-modal-backdrop.open .results-modal-sheet {
+        transform: translateY(0);
+      }
+
+      .results-modal-scroll {
+        flex: 1;
+        overflow: auto;
+        padding: max(28px, env(safe-area-inset-top)) 24px 20px;
+        padding-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .results-modal-scroll .glass {
+        padding: 24px 20px 20px;
+        border-radius: var(--radius-lg);
+      }
+
+      .results-modal-footer {
+        flex-shrink: 0;
+        padding: 12px 24px max(16px, env(safe-area-inset-bottom));
+        background: rgba(242, 242, 247, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      .results-modal-footer .actions {
+        margin-top: 0;
+      }
+
+      .results-modal-ad-slot {
+        margin-bottom: 10px;
+      }
+
+      /* Mount mobile banner / IAP promo ad units here (e.g. AdMob adaptive banner). */
+      .results-mobile-ad-placeholder {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 320px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        border: 1px dashed rgba(0, 0, 0, 0.14);
+        background: rgba(0, 0, 0, 0.04);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+
+      @media (min-width: 520px) {
+        .results-modal-backdrop {
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .results-modal-sheet {
+          min-height: min(88dvh, 640px);
+          max-height: min(88dvh, 640px);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow), 0 24px 80px rgba(0, 0, 0, 0.22);
+          transform: translateY(18px) scale(0.96);
+          opacity: 0;
+          transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.26s ease;
+        }
+
+        .results-modal-backdrop.open .results-modal-sheet {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 16px;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+
+      .modal-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      @media (min-width: 480px) {
+        .modal-backdrop {
+          align-items: center;
+        }
+      }
+
+      .modal {
+        width: 100%;
+        max-width: 400px;
+        max-height: min(85dvh, 560px);
+        overflow: auto;
+        background: #fff;
+        border-radius: var(--radius-lg);
+        padding: 22px 20px 20px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+        transform: translateY(16px);
+        transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      .modal-backdrop.open .modal {
+        transform: translateY(0);
+      }
+
+      .modal h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .modal p {
+        margin: 0 0 12px;
+        font-size: 0.95rem;
+        color: #3c3c43;
+      }
+
+      .modal p:last-of-type {
+        margin-bottom: 18px;
+      }
+
+      .modal a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .modal a:hover {
+        filter: brightness(0.92);
+      }
+
+      #bpmInfoModalBackdrop {
+        z-index: 101;
+      }
+
+      .modal-close {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: inherit;
+        border: none;
+        border-radius: var(--radius-md);
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+      }
+
+      .modal-close:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(12px);
+        padding: 12px 18px;
+        background: rgba(0, 0, 0, 0.88);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-radius: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 200;
+        max-width: calc(100% - 48px);
+        text-align: center;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="brand">
+          <span class="brand-name">ZoneYou&trade;</span>
+          <span class="brand-tag">HR</span>
+        </div>
+        <button type="button" class="icon-btn" id="infoBtn" aria-label="Why Zone 2?">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+        </button>
+      </header>
+
+      <main class="glass">
+        <h1>Zone 2 range</h1>
+        <p class="subtitle">From your age, resting HR, and max HR (measured or estimated).</p>
+
+        <form id="calcForm" novalidate>
+          <fieldset>
+            <legend>Calculation</legend>
+            <div class="segmented" role="group" aria-label="Calculation method">
+              <input type="radio" name="calculationMethod" id="methodKarvonen" value="karvonen" checked />
+              <label for="methodKarvonen">Karvonen</label>
+              <input type="radio" name="calculationMethod" id="methodHunt" value="hunt" />
+              <label for="methodHunt">HUNT max HR</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="age">Age (years)</label>
+            <div class="input-wrap">
+              <input type="number" id="age" name="age" inputmode="numeric" min="1" max="120" placeholder="e.g. 42" autocomplete="bday-year" />
+            </div>
+            <div class="field-error" id="ageError" role="alert"></div>
+          </div>
+
+          <div class="field">
+            <div class="field-label-row">
+              <label for="rhr">Resting heart rate (BPM)</label>
+              <button type="button" class="bpm-info-btn" aria-label="About measuring resting heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+            </div>
+            <div class="input-wrap">
+              <input type="number" id="rhr" name="rhr" inputmode="numeric" min="30" max="120" placeholder="e.g. 58" autocomplete="off" />
+            </div>
+            <p class="input-hint">Morning measurement, seated or lying, is ideal.</p>
+            <div class="field-error" id="rhrError" role="alert"></div>
+          </div>
+
+          <div class="field mhr-block" id="mhrBlock">
+            <div class="field-label-row">
+              <label for="mhr">Max heart rate (BPM)</label>
+              <button type="button" class="bpm-info-btn" aria-label="About measuring max heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+            </div>
+            <div class="input-wrap">
+              <input type="number" id="mhr" name="mhr" inputmode="numeric" min="80" max="230" placeholder="e.g. 178" autocomplete="off" />
+            </div>
+            <p class="input-hint">From a field test, lab test, or your best data.</p>
+            <div class="field-error" id="mhrError" role="alert"></div>
+          </div>
+
+          <button type="submit" class="primary-btn">Calculate Zone 2</button>
+        </form>
+      </main>
+    </div>
+
+    <div class="results-modal-backdrop" id="resultsModalBackdrop" aria-hidden="true">
+      <div
+        class="results-modal-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="resultsHeading"
+        aria-describedby="resultsMeta"
+      >
+        <div class="results-modal-scroll">
+          <section class="results glass" id="results" aria-live="polite">
+            <h2 class="results-label" id="resultsHeading">Your Zone 2 (<strong>Karvonen</strong>)</h2>
+            <div class="results-bpm" id="resultsBpm"></div>
+            <p class="results-meta" id="resultsMeta"></p>
+            <p class="disclaimer">
+              This is a physiological estimate. Consult a professional for clinical stress testing.
+            </p>
+          </section>
+        </div>
+        <div class="results-modal-footer">
+          <aside class="results-modal-ad-slot" id="resultsModalAdSlot" aria-label="Advertisement">
+            <div class="results-mobile-ad-placeholder" id="resultsMobileAdUnit">
+              Mobile ad unit
+            </div>
+          </aside>
+          <div class="actions">
+            <button type="button" class="secondary-btn" id="recalculateBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              Recalculate
+            </button>
+            <button type="button" class="secondary-btn" id="shareBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                <polyline points="16 6 12 2 8 6" />
+                <line x1="12" x2="12" y1="2" y2="15" />
+              </svg>
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">Why Zone 2?</h2>
+        <p>
+          Zone 2 is an aerobic intensity where you can speak in full sentences, build mitochondrial fitness, and improve fat oxidation — without accumulating
+          excessive fatigue.
+        </p>
+        <p>
+          Heart rate zones depend on individual physiology. The <strong>Karvonen</strong> (heart rate reserve) method weights your resting rate so the range reflects your
+          cardiovascular economy more closely than age-only formulas.
+        </p>
+        <p>
+          The <strong>HUNT</strong> option estimates max HR from the HUNT study equation (211 − 0.64 × age, rounded) when you do not have a reliable measured max.
+        </p>
+        <button type="button" class="modal-close" id="modalClose">OK</button>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="bpmInfoModalBackdrop" aria-hidden="true">
+      <div class="modal" id="bpmInfoDialog" role="dialog" aria-modal="true" aria-labelledby="bpmInfoTitle">
+        <h2 id="bpmInfoTitle">Measuring BPM</h2>
+        <p id="bpmInfoBody">
+          Best measured with a chest strap
+          <a id="bpmInfoProductLink" href="#" target="_blank" rel="noopener noreferrer">heart rate monitor</a>.
+        </p>
+        <button type="button" class="modal-close" id="bpmInfoModalClose">OK</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+      (function () {
+        /** HUNT Fitness Study: HRmax ≈ 211 − 0.64 × age (years). */
+        function huntMaxHr(age) {
+          return Math.round(211 - 0.64 * age);
+        }
+
+        /** Karvonen Zone 2: 60–70% of heart rate reserve, integers per spec. */
+        function karvonenZone2(rhr, mhr) {
+          const reserve = mhr - rhr;
+          const low = Math.round(rhr + 0.6 * reserve);
+          const high = Math.round(rhr + 0.7 * reserve);
+          return { low, high };
+        }
+
+        var form = document.getElementById("calcForm");
+        var ageInput = document.getElementById("age");
+        var rhrInput = document.getElementById("rhr");
+        var mhrInput = document.getElementById("mhr");
+        var mhrBlock = document.getElementById("mhrBlock");
+        var methodRadios = form.querySelectorAll('input[name="calculationMethod"]');
+        var resultsBpm = document.getElementById("resultsBpm");
+        var resultsMeta = document.getElementById("resultsMeta");
+        var resultsModalBackdrop = document.getElementById("resultsModalBackdrop");
+        var recalculateBtn = document.getElementById("recalculateBtn");
+        var shareBtn = document.getElementById("shareBtn");
+        var infoBtn = document.getElementById("infoBtn");
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        var modalClose = document.getElementById("modalClose");
+        var bpmInfoModalBackdrop = document.getElementById("bpmInfoModalBackdrop");
+        var bpmInfoModalClose = document.getElementById("bpmInfoModalClose");
+        var bpmInfoProductLink = document.getElementById("bpmInfoProductLink");
+        var bpmInfoButtons = document.querySelectorAll(".bpm-info-btn");
+        var toast = document.getElementById("toast");
+
+        var productUrlsFallback = [
+          "https://a.co/d/0hDD3sVa",
+          "https://a.co/d/02ha7Hgy",
+          "https://a.co/d/0aBPwHDe",
+        ];
+        var productUrlsCache = null;
+        var productUrlsPromise = null;
+        var lastBpmInfoTrigger = null;
+
+        function parseProductUrls(text) {
+          return text
+            .split(/\r?\n/)
+            .map(function (line) {
+              return line.trim();
+            })
+            .filter(function (line) {
+              return /^https?:\/\//i.test(line);
+            });
+        }
+
+        function loadProductUrls() {
+          if (productUrlsCache && productUrlsCache.length) {
+            return Promise.resolve(productUrlsCache);
+          }
+          if (productUrlsPromise) return productUrlsPromise;
+          productUrlsPromise = fetch("products.txt")
+            .then(function (res) {
+              if (!res.ok) throw new Error("bad response");
+              return res.text();
+            })
+            .then(function (text) {
+              var urls = parseProductUrls(text);
+              productUrlsCache = urls.length ? urls : productUrlsFallback.slice();
+              return productUrlsCache;
+            })
+            .catch(function () {
+              productUrlsCache = productUrlsFallback.slice();
+              return productUrlsCache;
+            });
+          return productUrlsPromise;
+        }
+
+        function pickRandomProductUrl(urls) {
+          var i = Math.floor(Math.random() * urls.length);
+          return urls[i];
+        }
+
+        function setBpmInfoModal(open) {
+          bpmInfoModalBackdrop.classList.toggle("open", open);
+          bpmInfoModalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) bpmInfoModalClose.focus();
+          else if (lastBpmInfoTrigger) lastBpmInfoTrigger.focus();
+        }
+
+        var ageError = document.getElementById("ageError");
+        var rhrError = document.getElementById("rhrError");
+        var mhrError = document.getElementById("mhrError");
+
+        function getMethod() {
+          var checked = form.querySelector('input[name="calculationMethod"]:checked');
+          return checked ? checked.value : "karvonen";
+        }
+
+        function syncMhrVisibility() {
+          var hunt = getMethod() === "hunt";
+          mhrBlock.classList.toggle("hidden", hunt);
+          mhrInput.required = !hunt;
+          if (hunt) {
+            mhrInput.removeAttribute("aria-invalid");
+            mhrError.textContent = "";
+            mhrError.classList.remove("visible");
+          }
+        }
+
+        methodRadios.forEach(function (r) {
+          r.addEventListener("change", syncMhrVisibility);
+        });
+        syncMhrVisibility();
+
+        function showError(el, msg) {
+          el.textContent = msg;
+          el.classList.toggle("visible", Boolean(msg));
+        }
+
+        function validate() {
+          var ok = true;
+          showError(ageError, "");
+          showError(rhrError, "");
+          showError(mhrError, "");
+
+          var age = parseInt(ageInput.value, 10);
+          if (!Number.isFinite(age) || age < 1 || age > 120) {
+            showError(ageError, "Enter an age between 1 and 120.");
+            ok = false;
+          }
+
+          var rhr = parseInt(rhrInput.value, 10);
+          if (!Number.isFinite(rhr) || rhr < 30 || rhr > 120) {
+            showError(rhrError, "Enter resting HR between 30 and 120 BPM.");
+            ok = false;
+          }
+
+          var mhr = null;
+          if (getMethod() === "hunt") {
+            if (ok) mhr = huntMaxHr(age);
+          } else {
+            mhr = parseInt(mhrInput.value, 10);
+            if (!Number.isFinite(mhr) || mhr < 80 || mhr > 230) {
+              showError(mhrError, "Enter max HR between 80 and 230 BPM.");
+              ok = false;
+            }
+          }
+
+          if (ok && Number.isFinite(rhr) && Number.isFinite(mhr) && mhr <= rhr + 10) {
+            showError(mhrError, "Max HR should be clearly above resting HR.");
+            ok = false;
+          }
+
+          return ok ? { age: age, rhr: rhr, mhr: mhr } : null;
+        }
+
+        function openResultsModal() {
+          resultsModalBackdrop.classList.add("open");
+          resultsModalBackdrop.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          requestAnimationFrame(function () {
+            recalculateBtn.focus();
+          });
+        }
+
+        function closeResultsModal() {
+          resultsModalBackdrop.classList.remove("open");
+          resultsModalBackdrop.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+
+        function renderResults(data) {
+          var z = karvonenZone2(data.rhr, data.mhr);
+          resultsBpm.innerHTML = '<span>' + z.low + "</span> – <span>" + z.high + "</span> BPM";
+          var methodLine =
+            getMethod() === "hunt"
+              ? "Max HR from HUNT estimate: " + data.mhr + " BPM (rounded)."
+              : "Using your entered max HR: " + data.mhr + " BPM.";
+          resultsMeta.textContent = "";
+          resultsMeta.appendChild(document.createTextNode(methodLine));
+          resultsMeta.appendChild(document.createElement("br"));
+          var karvonenStrong = document.createElement("strong");
+          karvonenStrong.textContent = "Karvonen";
+          resultsMeta.appendChild(karvonenStrong);
+          resultsMeta.appendChild(document.createTextNode(" band: 60–70% of heart rate reserve."));
+          openResultsModal();
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var data = validate();
+          if (data) renderResults(data);
+          else closeResultsModal();
+        });
+
+        recalculateBtn.addEventListener("click", function () {
+          closeResultsModal();
+          ageInput.focus();
+        });
+
+        resultsModalBackdrop.addEventListener("click", function (e) {
+          if (e.target === resultsModalBackdrop) {
+            closeResultsModal();
+            ageInput.focus();
+          }
+        });
+
+        function showToast(msg) {
+          toast.textContent = msg;
+          toast.classList.add("show");
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2200);
+        }
+
+        shareBtn.addEventListener("click", function () {
+          var data = validate();
+          if (!data) return;
+          var z = karvonenZone2(data.rhr, data.mhr);
+          var text =
+            "ZoneYou\u2122 — Zone 2 (Karvonen): " + z.low + "–" + z.high + " BPM (RHR " + data.rhr + ", max " + data.mhr + "). Estimate only.";
+          var shareData = { title: "ZoneYou\u2122", text: text };
+
+          if (navigator.share) {
+            navigator.share(shareData).catch(function () {});
+          } else if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(
+              function () {
+                showToast("Copied to clipboard");
+              },
+              function () {
+                showToast("Could not copy");
+              }
+            );
+          } else {
+            showToast(text);
+          }
+        });
+
+        function setModal(open) {
+          modalBackdrop.classList.toggle("open", open);
+          modalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) modalClose.focus();
+        }
+
+        infoBtn.addEventListener("click", function () {
+          setModal(true);
+        });
+        modalClose.addEventListener("click", function () {
+          setModal(false);
+          infoBtn.focus();
+        });
+        modalBackdrop.addEventListener("click", function (e) {
+          if (e.target === modalBackdrop) {
+            setModal(false);
+            infoBtn.focus();
+          }
+        });
+
+        bpmInfoButtons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            lastBpmInfoTrigger = btn;
+            loadProductUrls().then(function (urls) {
+              bpmInfoProductLink.href = pickRandomProductUrl(urls);
+              setBpmInfoModal(true);
+            });
+          });
+        });
+        bpmInfoModalClose.addEventListener("click", function () {
+          setBpmInfoModal(false);
+        });
+        bpmInfoModalBackdrop.addEventListener("click", function (e) {
+          if (e.target === bpmInfoModalBackdrop) {
+            setBpmInfoModal(false);
+          }
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "Escape") return;
+          if (resultsModalBackdrop.classList.contains("open")) {
+            closeResultsModal();
+            ageInput.focus();
+            return;
+          }
+          if (bpmInfoModalBackdrop.classList.contains("open")) {
+            setBpmInfoModal(false);
+            return;
+          }
+          if (modalBackdrop.classList.contains("open")) {
+            setModal(false);
+            infoBtn.focus();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
