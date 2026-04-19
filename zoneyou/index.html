@@ -1272,7 +1272,7 @@
               mhr: huntMhr,
             });
             resultsHeading.textContent = "Your Zone 2 Results";
-            methodLine = "Comparison of both models based on RHR " + data.rhr + " BPM.";
+            methodLine = "Comparison of models based on RHR " + data.rhr + " BPM.";
           } else {
             models.push({
               label: "HUNT max HR estimate",
@@ -1295,7 +1295,7 @@
           var karvonenStrong = document.createElement("strong");
           karvonenStrong.textContent = "Karvonen";
           resultsMeta.appendChild(karvonenStrong);
-          resultsMeta.appendChild(document.createTextNode(" band shown in green: 60–70% of HR reserve."));
+          resultsMeta.appendChild(document.createTextNode(" band in green: 60–70% of HR reserve."));
           gaEvent("zoneyou_calculate", {
             calculation_method: method,
             zone_low: karvonenZone.low,
