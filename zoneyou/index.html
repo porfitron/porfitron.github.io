@@ -420,6 +420,22 @@
         text-align: center;
       }
 
+      .results-heading--visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .overlap-main-title {
+        margin: 0 0 12px;
+      }
+
       .results-bpm {
         text-align: center;
         font-size: clamp(2rem, 9vw, 2.75rem);
@@ -449,6 +465,22 @@
         padding: 14px 12px 12px;
         border-radius: var(--radius-md);
         background: rgba(0, 0, 0, 0.035);
+      }
+
+      .results-spectrum-row + .results-spectrum-row {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .results-spectrum-row-title {
+        margin: 0 0 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
       }
 
       .results-model-title {
@@ -1021,6 +1053,7 @@
         var resultsModels = document.getElementById("resultsModels");
         var resultsMeta = document.getElementById("resultsMeta");
         var resultsModalBackdrop = document.getElementById("resultsModalBackdrop");
+        var resultsModalSheet = document.querySelector(".results-modal-sheet");
         var recalculateBtn = document.getElementById("recalculateBtn");
         var shareBtn = document.getElementById("shareBtn");
         var infoBtn = document.getElementById("infoBtn");
@@ -1178,23 +1211,19 @@
           resultsModalBackdrop.classList.remove("open");
           resultsModalBackdrop.setAttribute("aria-hidden", "true");
           document.body.style.overflow = "";
+          if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsHeading");
+          resultsHeading.classList.remove("results-heading--visually-hidden");
         }
 
         function clampPercent(value) {
           return Math.max(0, Math.min(100, value));
         }
 
-        function buildSpectrumModelCard(model) {
-          var card = document.createElement("article");
-          card.className = "results-model-card";
+        function appendZoneSpectrumRow(host, rowModel, rowOpts) {
+          var ro = rowOpts || {};
 
-          var title = document.createElement("h3");
-          title.className = "results-model-title";
-          title.textContent = model.label;
-
-          var bpm = document.createElement("p");
-          bpm.className = "results-model-bpm";
-          bpm.innerHTML = '<span>' + model.zone.low + "</span> – <span>" + model.zone.high + "</span> BPM";
+          var row = document.createElement("div");
+          row.className = "results-spectrum-row";
 
           var wrap = document.createElement("div");
           wrap.className = "zone-spectrum-wrap";
@@ -1216,8 +1245,26 @@
           }
 
           var zoneWidthPct = 100 / 6;
-          var lowPct = 2 * zoneWidthPct;
-          var highPct = 3 * zoneWidthPct;
+          var zone2LeftPct = 2 * zoneWidthPct;
+          var zone2RightPct = 3 * zoneWidthPct;
+
+          function mapBpmToPctWithinZone2(bpm, z2Low, z2High) {
+            if (!Number.isFinite(bpm)) return zone2LeftPct;
+            if (!Number.isFinite(z2Low) || !Number.isFinite(z2High) || z2High <= z2Low) return zone2LeftPct;
+            var t = (bpm - z2Low) / (z2High - z2Low);
+            return clampPercent(zone2LeftPct + t * (zone2RightPct - zone2LeftPct));
+          }
+
+          var lowPct = zone2LeftPct;
+          var highPct = zone2RightPct;
+
+          if (ro.narrowWithinZone2 && ro.zone2Reference) {
+            var z2r = ro.zone2Reference;
+            lowPct = mapBpmToPctWithinZone2(rowModel.zone.low, z2r.low, z2r.high);
+            highPct = mapBpmToPctWithinZone2(rowModel.zone.high, z2r.low, z2r.high);
+            lowPct = clampPercent(Math.min(lowPct, highPct));
+            highPct = clampPercent(Math.max(lowPct, highPct));
+          }
 
           var highlight = document.createElement("span");
           highlight.className = "zone2-highlight";
@@ -1231,12 +1278,12 @@
           var lowCallout = document.createElement("span");
           lowCallout.className = "zone2-callout";
           lowCallout.style.left = lowPct + "%";
-          lowCallout.innerHTML = "<b>" + model.zone.low + "</b><small>Bottom</small>";
+          lowCallout.innerHTML = "<b>" + rowModel.zone.low + "</b><small>Bottom</small>";
 
           var highCallout = document.createElement("span");
           highCallout.className = "zone2-callout";
           highCallout.style.left = highPct + "%";
-          highCallout.innerHTML = "<b>" + model.zone.high + "</b><small>Top</small>";
+          highCallout.innerHTML = "<b>" + rowModel.zone.high + "</b><small>Top</small>";
 
           callouts.appendChild(lowCallout);
           callouts.appendChild(highCallout);
@@ -1245,9 +1292,84 @@
           wrap.appendChild(track);
           wrap.appendChild(callouts);
 
-          card.appendChild(title);
-          card.appendChild(bpm);
-          card.appendChild(wrap);
+          if (rowModel.label) {
+            var rowTitle = document.createElement("div");
+            rowTitle.className = "results-spectrum-row-title";
+            rowTitle.textContent = rowModel.label;
+            row.appendChild(rowTitle);
+          }
+          row.appendChild(wrap);
+          host.appendChild(row);
+        }
+
+        function buildDualModelSpectrumCard(cardOptions) {
+          var opts = cardOptions || {};
+          var rows = opts.rows || [];
+
+          var card = document.createElement("article");
+          card.className = "results-model-card";
+
+          if (opts.cardTitle) {
+            var title = document.createElement("h3");
+            title.className = "results-model-title";
+            title.textContent = opts.cardTitle;
+            card.appendChild(title);
+          }
+          rows.forEach(function (row) {
+            appendZoneSpectrumRow(card, row.model, row.rowOpts);
+          });
+          return card;
+        }
+
+        function buildSpectrumModelCard(model, options) {
+          var opts = options || {};
+
+          var card = document.createElement("article");
+          card.className = "results-model-card";
+
+          if (opts.mode === "note") {
+            var noteTitle = document.createElement("h2");
+            noteTitle.className = "results-label overlap-main-title";
+            noteTitle.id = opts.overlapTitleId || "resultsOverlapHeading";
+            noteTitle.innerHTML = opts.overlapTitleHtml || model.label;
+            var note = document.createElement("p");
+            note.className = "results-meta";
+            note.style.marginTop = "10px";
+            note.textContent = opts.noteText || "";
+            card.appendChild(noteTitle);
+            card.appendChild(note);
+            return card;
+          }
+
+          var title = null;
+          if (opts.overlapMainTitle) {
+            title = document.createElement("h2");
+            title.className = "results-label overlap-main-title";
+            title.id = opts.overlapTitleId || "resultsOverlapHeading";
+            title.innerHTML = opts.overlapTitleHtml || model.label;
+          } else {
+            title = document.createElement("h3");
+            title.className = "results-model-title";
+            title.textContent = model.label;
+          }
+
+          if (!opts.hideBpmRangeLine) {
+            var bpm = document.createElement("p");
+            bpm.className = "results-model-bpm";
+            bpm.innerHTML = '<span>' + model.zone.low + "</span> – <span>" + model.zone.high + "</span> BPM";
+            card.appendChild(bpm);
+          }
+
+          appendZoneSpectrumRow(
+            card,
+            { label: "", zone: model.zone },
+            {
+              narrowWithinZone2: opts.narrowWithinZone2,
+              zone2Reference: opts.zone2Reference,
+            }
+          );
+
+          card.insertBefore(title, card.firstChild);
           return card;
         }
 
@@ -1259,19 +1381,50 @@
 
           if (method === "karvonen") {
             var huntMhr = huntMaxHr(data.age);
+            var huntZone = karvonenZone2(data.rhr, huntMhr);
+            var overlapLow = Math.max(karvonenZone.low, huntZone.low);
+            var overlapHigh = Math.min(karvonenZone.high, huntZone.high);
+            var hasOverlap = overlapLow <= overlapHigh;
+
+            if (hasOverlap) {
+              models.push({
+                label: "ZoneYou\u2122 Results (Overlap)",
+                zone: { low: overlapLow, high: overlapHigh },
+                rhr: data.rhr,
+                mhr: data.mhr,
+                cardOptions: {
+                  overlapMainTitle: true,
+                  overlapTitleHtml: "ZoneYou&trade; Results (Overlap)",
+                  overlapTitleId: "resultsOverlapHeading",
+                  narrowWithinZone2: true,
+                  zone2Reference: karvonenZone,
+                },
+              });
+            } else {
+              models.push({
+                label: "ZoneYou\u2122 Results (Overlap)",
+                cardOptions: {
+                  mode: "note",
+                  overlapTitleHtml: "ZoneYou&trade; Results (Overlap)",
+                  overlapTitleId: "resultsOverlapHeading",
+                  noteText:
+                    "No overlap between the Karvonen (entered max HR) and HUNT max HR estimates for these inputs. Treat the two model rows below as separate scenarios.",
+                },
+              });
+            }
+
             models.push({
-              label: "Karvonen (entered max HR)",
-              zone: karvonenZone,
-              rhr: data.rhr,
-              mhr: data.mhr,
+              kind: "dual",
+              cardOptions: {
+                rows: [
+                  { model: { label: "Karvonen (entered max HR)", zone: karvonenZone }, rowOpts: {} },
+                  { model: { label: "HUNT max HR estimate", zone: huntZone }, rowOpts: {} },
+                ],
+              },
             });
-            models.push({
-              label: "HUNT max HR estimate",
-              zone: karvonenZone2(data.rhr, huntMhr),
-              rhr: data.rhr,
-              mhr: huntMhr,
-            });
-            resultsHeading.textContent = "Your Zone 2 Results";
+            resultsHeading.innerHTML = "Results";
+            resultsHeading.classList.add("results-heading--visually-hidden");
+            if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsOverlapHeading");
             methodLine = "Comparison of models based on RHR " + data.rhr + " BPM.";
           } else {
             models.push({
@@ -1279,14 +1432,21 @@
               zone: karvonenZone,
               rhr: data.rhr,
               mhr: data.mhr,
+              cardOptions: { hideBpmRangeLine: true },
             });
             resultsHeading.textContent = "Your Zone 2 (HUNT)";
+            resultsHeading.classList.remove("results-heading--visually-hidden");
+            if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsHeading");
             methodLine = "Max HR from HUNT estimate: " + data.mhr + " BPM (rounded).";
           }
 
           resultsModels.textContent = "";
           models.forEach(function (model) {
-            resultsModels.appendChild(buildSpectrumModelCard(model));
+            if (model.kind === "dual") {
+              resultsModels.appendChild(buildDualModelSpectrumCard(model.cardOptions));
+            } else {
+              resultsModels.appendChild(buildSpectrumModelCard(model, model.cardOptions));
+            }
           });
 
           resultsMeta.textContent = "";
@@ -1343,15 +1503,60 @@
           }, 2200);
         }
 
+        function buildZoneYouShareText(data) {
+          var method = getMethod();
+          if (method === "karvonen") {
+            var enteredMhr = data.mhr;
+            var huntMhr = huntMaxHr(data.age);
+            var karvonenZ = karvonenZone2(data.rhr, enteredMhr);
+            var huntZ = karvonenZone2(data.rhr, huntMhr);
+            var overlapLow = Math.max(karvonenZ.low, huntZ.low);
+            var overlapHigh = Math.min(karvonenZ.high, huntZ.high);
+            if (overlapLow <= overlapHigh) {
+              return (
+                "ZoneYou\u2122 — Zone 2: " +
+                overlapLow +
+                "\u2013" +
+                overlapHigh +
+                " BPM (RHR " +
+                data.rhr +
+                "). Estimate only. https://porfir.io/zoneyou"
+              );
+            }
+            return (
+              "ZoneYou\u2122 — Zone 2: " +
+              karvonenZ.low +
+              "\u2013" +
+              karvonenZ.high +
+              " BPM (RHR " +
+              data.rhr +
+              ", max " +
+              enteredMhr +
+              "). Estimate only. https://porfir.io/zoneyou"
+            );
+          }
+
+          var z = karvonenZone2(data.rhr, data.mhr);
+          return (
+            "ZoneYou\u2122 — Zone 2: " +
+            z.low +
+            "\u2013" +
+            z.high +
+            " BPM (RHR " +
+            data.rhr +
+            ", age " +
+            data.age +
+            "). Estimate only. https://porfir.io/zoneyou"
+          );
+        }
+
         shareBtn.addEventListener("click", function () {
           var data = validate();
           if (!data) {
             gaEvent("zoneyou_share", { outcome: "validation_failed" });
             return;
           }
-          var z = karvonenZone2(data.rhr, data.mhr);
-          var text =
-            "ZoneYou\u2122 — Zone 2 (Karvonen): " + z.low + "–" + z.high + " BPM (RHR " + data.rhr + ", max " + data.mhr + "). Estimate only. https://porfir.io/zoneyou";
+          var text = buildZoneYouShareText(data);
           var shareData = { title: "ZoneYou\u2122", text: text };
 
           if (navigator.share) {
