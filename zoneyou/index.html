@@ -440,6 +440,125 @@
         text-align: center;
       }
 
+      .results-models {
+        display: grid;
+        gap: 16px;
+      }
+
+      .results-model-card {
+        padding: 14px 12px 12px;
+        border-radius: var(--radius-md);
+        background: rgba(0, 0, 0, 0.035);
+      }
+
+      .results-model-title {
+        margin: 0 0 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
+
+      .results-model-bpm {
+        margin: 0 0 14px;
+        text-align: center;
+        font-size: clamp(1.7rem, 7.2vw, 2.25rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+
+      .results-model-bpm span {
+        color: var(--accent);
+      }
+
+      .zone-spectrum-wrap {
+        margin-top: 2px;
+      }
+
+      .zone-spectrum-labels {
+        margin-bottom: 7px;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 2px;
+      }
+
+      .zone-spectrum-labels span {
+        font-size: 0.64rem;
+        color: var(--text-secondary);
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .zone-spectrum-track {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .zone-spectrum-segment {
+        border-right: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .zone-spectrum-segment:last-child {
+        border-right: 0;
+      }
+
+      .zone2-highlight {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+
+      .zone2-callouts {
+        position: relative;
+        height: 34px;
+        margin-top: 8px;
+      }
+
+      .zone2-callout {
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
+        text-align: center;
+        min-width: 54px;
+      }
+
+      .zone2-callout::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 10px;
+        margin: 0 auto 4px;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .zone2-callout b {
+        display: block;
+        font-size: 0.72rem;
+        letter-spacing: 0.02em;
+        color: var(--text);
+        text-transform: none;
+        font-weight: 700;
+      }
+
+      .zone2-callout small {
+        display: block;
+        font-size: 0.62rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
+      }
+
       .disclaimer {
         margin-top: 16px;
         padding: 12px 14px;
@@ -805,8 +924,8 @@
       >
         <div class="results-modal-scroll">
           <section class="results glass" id="results" aria-live="polite">
-            <h2 class="results-label" id="resultsHeading">Your Zone 2 (<strong>Karvonen</strong>)</h2>
-            <div class="results-bpm" id="resultsBpm"></div>
+            <h2 class="results-label" id="resultsHeading">Your Zone 2 Results</h2>
+            <div class="results-models" id="resultsModels"></div>
             <p class="results-meta" id="resultsMeta"></p>
             <p class="disclaimer">
               This is a physiological estimate. Consult a professional for clinical stress testing.
@@ -898,7 +1017,8 @@
         var mhrInput = document.getElementById("mhr");
         var mhrBlock = document.getElementById("mhrBlock");
         var methodRadios = form.querySelectorAll('input[name="calculationMethod"]');
-        var resultsBpm = document.getElementById("resultsBpm");
+        var resultsHeading = document.getElementById("resultsHeading");
+        var resultsModels = document.getElementById("resultsModels");
         var resultsMeta = document.getElementById("resultsMeta");
         var resultsModalBackdrop = document.getElementById("resultsModalBackdrop");
         var recalculateBtn = document.getElementById("recalculateBtn");
@@ -1060,24 +1180,126 @@
           document.body.style.overflow = "";
         }
 
+        function clampPercent(value) {
+          return Math.max(0, Math.min(100, value));
+        }
+
+        function buildSpectrumModelCard(model) {
+          var card = document.createElement("article");
+          card.className = "results-model-card";
+
+          var title = document.createElement("h3");
+          title.className = "results-model-title";
+          title.textContent = model.label;
+
+          var bpm = document.createElement("p");
+          bpm.className = "results-model-bpm";
+          bpm.innerHTML = '<span>' + model.zone.low + "</span> – <span>" + model.zone.high + "</span> BPM";
+
+          var wrap = document.createElement("div");
+          wrap.className = "zone-spectrum-wrap";
+
+          var labels = document.createElement("div");
+          labels.className = "zone-spectrum-labels";
+          for (var i = 0; i <= 5; i += 1) {
+            var zoneLabel = document.createElement("span");
+            zoneLabel.textContent = "Zone " + i;
+            labels.appendChild(zoneLabel);
+          }
+
+          var track = document.createElement("div");
+          track.className = "zone-spectrum-track";
+          for (var j = 0; j <= 5; j += 1) {
+            var segment = document.createElement("span");
+            segment.className = "zone-spectrum-segment";
+            track.appendChild(segment);
+          }
+
+          var zoneWidthPct = 100 / 6;
+          var lowPct = 2 * zoneWidthPct;
+          var highPct = 3 * zoneWidthPct;
+
+          var highlight = document.createElement("span");
+          highlight.className = "zone2-highlight";
+          highlight.style.left = lowPct + "%";
+          highlight.style.width = Math.max(highPct - lowPct, 2) + "%";
+          track.appendChild(highlight);
+
+          var callouts = document.createElement("div");
+          callouts.className = "zone2-callouts";
+
+          var lowCallout = document.createElement("span");
+          lowCallout.className = "zone2-callout";
+          lowCallout.style.left = lowPct + "%";
+          lowCallout.innerHTML = "<b>" + model.zone.low + " BPM</b><small>Bottom</small>";
+
+          var highCallout = document.createElement("span");
+          highCallout.className = "zone2-callout";
+          highCallout.style.left = highPct + "%";
+          highCallout.innerHTML = "<b>" + model.zone.high + " BPM</b><small>Top</small>";
+
+          callouts.appendChild(lowCallout);
+          callouts.appendChild(highCallout);
+
+          wrap.appendChild(labels);
+          wrap.appendChild(track);
+          wrap.appendChild(callouts);
+
+          card.appendChild(title);
+          card.appendChild(bpm);
+          card.appendChild(wrap);
+          return card;
+        }
+
         function renderResults(data) {
-          var z = karvonenZone2(data.rhr, data.mhr);
-          resultsBpm.innerHTML = '<span>' + z.low + "</span> – <span>" + z.high + "</span> BPM";
-          var methodLine =
-            getMethod() === "hunt"
-              ? "Max HR from HUNT estimate: " + data.mhr + " BPM (rounded)."
-              : "Using your entered max HR: " + data.mhr + " BPM.";
+          var method = getMethod();
+          var karvonenZone = karvonenZone2(data.rhr, data.mhr);
+          var models = [];
+          var methodLine = "";
+
+          if (method === "karvonen") {
+            var huntMhr = huntMaxHr(data.age);
+            models.push({
+              label: "Karvonen (entered max HR)",
+              zone: karvonenZone,
+              rhr: data.rhr,
+              mhr: data.mhr,
+            });
+            models.push({
+              label: "HUNT max HR estimate",
+              zone: karvonenZone2(data.rhr, huntMhr),
+              rhr: data.rhr,
+              mhr: huntMhr,
+            });
+            resultsHeading.textContent = "Your Zone 2 Results";
+            methodLine = "Comparison of both models based on RHR " + data.rhr + " BPM.";
+          } else {
+            models.push({
+              label: "HUNT max HR estimate",
+              zone: karvonenZone,
+              rhr: data.rhr,
+              mhr: data.mhr,
+            });
+            resultsHeading.textContent = "Your Zone 2 (HUNT)";
+            methodLine = "Max HR from HUNT estimate: " + data.mhr + " BPM (rounded).";
+          }
+
+          resultsModels.textContent = "";
+          models.forEach(function (model) {
+            resultsModels.appendChild(buildSpectrumModelCard(model));
+          });
+
           resultsMeta.textContent = "";
           resultsMeta.appendChild(document.createTextNode(methodLine));
           resultsMeta.appendChild(document.createElement("br"));
           var karvonenStrong = document.createElement("strong");
           karvonenStrong.textContent = "Karvonen";
           resultsMeta.appendChild(karvonenStrong);
-          resultsMeta.appendChild(document.createTextNode(" band: 60–70% of heart rate reserve."));
+          resultsMeta.appendChild(document.createTextNode(" band shown in green: 60–70% of HR reserve."));
           gaEvent("zoneyou_calculate", {
-            calculation_method: getMethod(),
-            zone_low: z.low,
-            zone_high: z.high,
+            calculation_method: method,
+            zone_low: karvonenZone.low,
+            zone_high: karvonenZone.high,
           });
           openResultsModal();
         }

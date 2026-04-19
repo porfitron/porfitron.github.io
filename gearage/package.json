@@ -1,0 +1,8 @@
+{
+  "name": "gearage",
+  "private": true,
+  "description": "Local static server for GearCheck (Strava OAuth needs http://localhost, not file://)",
+  "scripts": {
+    "dev": "bash ./dev.sh"
+  }
+}

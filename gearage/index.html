@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#F2F2F7" />
+    <title>GearCheck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              iosbg: "#F2F2F7",
+              strava: "#FC4C02",
+              iosblue: "#007AFF",
+              safe: "#34C759",
+              warn: "#FFCC00",
+              crit: "#FF3B30",
+            },
+            fontFamily: {
+              sans: [
+                "system-ui",
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "SF Pro Text",
+                "SF Pro Display",
+                "Segoe UI",
+                "sans-serif",
+              ],
+            },
+            boxShadow: {
+              card: "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --radius-card: 14px;
+        --hairline: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      html,
+      body {
+        height: 100%;
+        background: #f2f2f7;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .glass {
+        background: rgba(242, 242, 247, 0.72);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: var(--hairline);
+      }
+      .pressable:active {
+        transform: scale(0.98);
+        opacity: 0.92;
+      }
+      .pb-safe {
+        padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+      }
+      .pt-safe {
+        padding-top: max(0.5rem, env(safe-area-inset-top));
+      }
+      .health-track {
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+      }
+      .health-fill {
+        height: 100%;
+        border-radius: 999px;
+        transition: width 0.35s ease, background 0.25s ease;
+      }
+    </style>
+  </head>
+  <body class="font-sans text-neutral-900 antialiased">
+    <div id="app" class="mx-auto flex min-h-full max-w-lg flex-col">
+      <header class="glass sticky top-0 z-20 pt-safe">
+        <div class="flex items-center justify-between px-4 py-3">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              GearCheck
+            </p>
+            <h1 id="headerTitle" class="text-lg font-semibold tracking-tight">
+              Dashboard
+            </h1>
+          </div>
+          <div
+            id="athleteChip"
+            class="hidden max-w-[10rem] truncate rounded-full bg-white px-3 py-1 text-xs font-medium shadow-sm ring-1 ring-black/5"
+          ></div>
+        </div>
+      </header>
+
+      <main id="main" class="flex-1 space-y-4 px-4 pb-28 pt-2"></main>
+
+      <nav
+        class="glass fixed bottom-0 left-0 right-0 z-30 pb-safe pt-2"
+        aria-label="Primary"
+      >
+        <div
+          class="mx-auto grid max-w-lg grid-cols-4 gap-1 px-2 text-[11px] font-medium text-neutral-500"
+        >
+          <button
+            type="button"
+            data-tab="dashboard"
+            class="tab-btn pressable flex flex-col items-center gap-1 rounded-xl py-2 text-iosblue"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
+              />
+            </svg>
+            Home
+          </button>
+          <button
+            type="button"
+            data-tab="garage"
+            class="tab-btn pressable flex flex-col items-center gap-1 rounded-xl py-2"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="7.5" cy="15.5" r="3.5" />
+              <circle cx="17" cy="15.5" r="3.5" />
+              <path
+                stroke-linecap="round"
+                d="M5 15.5h-2M21 15.5h-2M7.5 12 5 6h3l2 6M11 6h2l2.5 6M17 12l2-6h-3"
+              />
+            </svg>
+            Garage
+          </button>
+          <button
+            type="button"
+            data-tab="closet"
+            class="tab-btn pressable flex flex-col items-center gap-1 rounded-xl py-2"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 7h10v10a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3V7Z"
+              />
+              <path
+                stroke-linecap="round"
+                d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M9 11h6"
+              />
+            </svg>
+            Closet
+          </button>
+          <button
+            type="button"
+            data-tab="settings"
+            class="tab-btn pressable flex flex-col items-center gap-1 rounded-xl py-2"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 12h2M3 12h2m12.5-5.5 1.4-1.4M5.1 18.9l1.4-1.4m0-11 1.4 1.4M16.5 16.5l1.4 1.4"
+              />
+            </svg>
+            Settings
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <script type="module">
+      const STORAGE = {
+        token: "gearshift_strava_access_token",
+        refresh: "gearshift_strava_refresh_token",
+        expires: "gearshift_strava_expires_at",
+        clientId: "gearshift_strava_client_id",
+        proxy: "gearshift_strava_api_proxy",
+        exchangeUrl: "gearshift_strava_token_exchange_url",
+        units: "gearshift_units",
+        maintenance: "gearshift_maintenance_log_v1",
+      };
+
+      const BIKE_INTERVALS_MI = {
+        chain: 2000,
+        tires: 2500,
+        hydraulics: 5000,
+        bottomBracket: 3000,
+      };
+
+      const SHOE_THRESHOLDS_MI = {
+        rotate: 250,
+        health: 400,
+        replace: 500,
+      };
+
+      const METERS_PER_MI = 1609.344;
+
+      /** @type {{ tab: string, athlete: any | null, detailGear: any | null, detailType: 'bike'|'shoe'|null, loading: boolean, error: string | null }} */
+      const state = {
+        tab: "dashboard",
+        athlete: null,
+        detailGear: null,
+        detailType: null,
+        loading: false,
+        error: null,
+      };
+
+      function loadJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch {
+          return fallback;
+        }
+      }
+
+      function saveJson(key, val) {
+        localStorage.setItem(key, JSON.stringify(val));
+      }
+
+      function metersToMiles(m) {
+        return (Number(m) || 0) / METERS_PER_MI;
+      }
+
+      function metersToKm(m) {
+        return (Number(m) || 0) / 1000;
+      }
+
+      function formatDistanceMeters(m) {
+        const useKm = localStorage.getItem(STORAGE.units) === "km";
+        if (useKm) {
+          const km = metersToKm(m);
+          return `${km.toFixed(km >= 100 ? 0 : 1)} km`;
+        }
+        const mi = metersToMiles(m);
+        return `${mi.toFixed(mi >= 100 ? 0 : 1)} mi`;
+      }
+
+      function milesFromMeters(m) {
+        return metersToMiles(m);
+      }
+
+      function getMaintenanceLog() {
+        return loadJson(STORAGE.maintenance, {});
+      }
+
+      function appendMaintenanceEntry(gearId, entry) {
+        const log = getMaintenanceLog();
+        if (!log[gearId]) log[gearId] = [];
+        log[gearId].push({
+          id: crypto.randomUUID(),
+          ts: Date.now(),
+          ...entry,
+        });
+        saveJson(STORAGE.maintenance, log);
+      }
+
+      function getApiRoot() {
+        const proxy = localStorage.getItem(STORAGE.proxy)?.trim();
+        if (proxy) return proxy.replace(/\/$/, "");
+        return "https://www.strava.com/api/v3";
+      }
+
+      /** Accept raw paste: optional "Bearer ", quotes, or full OAuth JSON with access_token. */
+      function normalizeAccessToken(raw) {
+        if (raw == null) return "";
+        let s = String(raw).trim();
+        if (!s) return "";
+        if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+          s = s.slice(1, -1).trim();
+        }
+        const low = s.toLowerCase();
+        if (low.startsWith("bearer ")) {
+          s = s.slice(7).trim();
+        }
+        if (s.startsWith("{")) {
+          try {
+            const o = JSON.parse(s);
+            if (typeof o.access_token === "string" && o.access_token.trim()) {
+              return o.access_token.trim();
+            }
+          } catch {
+            /* ignore */
+          }
+        }
+        return s.trim();
+      }
+
+      async function stravaFetch(path) {
+        const token = normalizeAccessToken(localStorage.getItem(STORAGE.token));
+        if (!token) throw new Error("Not connected to Strava.");
+        const url = `${getApiRoot()}${path.startsWith("/") ? path : `/${path}`}`;
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || `Strava API error (${res.status})`);
+        }
+        return res.json();
+      }
+
+      function statusColor(pct) {
+        if (pct >= 1) return "#FF3B30";
+        if (pct >= 0.85) return "#FFCC00";
+        return "#34C759";
+      }
+
+      function bikeComponentStatuses(miles) {
+        return [
+          {
+            key: "chain",
+            label: "Chain",
+            pct: miles / BIKE_INTERVALS_MI.chain,
+          },
+          {
+            key: "tires",
+            label: "Tires",
+            pct: miles / BIKE_INTERVALS_MI.tires,
+          },
+          {
+            key: "bottomBracket",
+            label: "Bottom bracket",
+            pct: miles / BIKE_INTERVALS_MI.bottomBracket,
+          },
+          {
+            key: "hydraulics",
+            label: "Cables / hydraulics",
+            pct: miles / BIKE_INTERVALS_MI.hydraulics,
+          },
+        ];
+      }
+
+      function bikeRecommendation(brandLabel, miles) {
+        const parts = [];
+        if (miles >= 2000)
+          parts.push(
+            `Time to inspect your drivetrain and consider a chain check on your ${brandLabel}.`,
+          );
+        if (miles >= 2500)
+          parts.push("Inspect tire tread and refresh sealant if tubeless.");
+        if (miles >= 3000)
+          parts.push("Listen for bottom bracket creaks or play—worth a shop look.");
+        if (miles >= 5000)
+          parts.push("Plan a full cable/hydraulic service and brake bleed.");
+        if (!parts.length)
+          return `${brandLabel} is looking healthy. Keep logging rides.`;
+        return parts.join(" ");
+      }
+
+      function shoeRecommendation(brandLabel, miles) {
+        if (miles >= SHOE_THRESHOLDS_MI.replace)
+          return `${brandLabel}: recommended retirement mileage reached—rotate in a fresh pair.`;
+        if (miles >= SHOE_THRESHOLDS_MI.health)
+          return `${brandLabel}: midsole may be losing responsiveness. Start planning your next shoe.`;
+        if (miles >= SHOE_THRESHOLDS_MI.rotate)
+          return `${brandLabel}: great mileage—ideal time to introduce a second pair in rotation.`;
+        return `${brandLabel} has plenty of cushion life left.`;
+      }
+
+      function shoeMilesRemaining(miles) {
+        return Math.max(0, SHOE_THRESHOLDS_MI.replace - miles);
+      }
+
+      function parseOAuthResponse() {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+        const error = params.get("error");
+        if (error) {
+          state.error = `Strava authorization error: ${error}`;
+          window.history.replaceState({}, "", window.location.pathname);
+          return;
+        }
+        if (code) {
+          void handleOAuthCode(code);
+          window.history.replaceState({}, "", window.location.pathname);
+        }
+      }
+
+      async function handleOAuthCode(code) {
+        const exchangeUrl = localStorage.getItem(STORAGE.exchangeUrl)?.trim();
+        if (!exchangeUrl) {
+          state.error =
+            "Authorization code received. Add a token exchange URL in Settings (serverless relay) or paste an access token.";
+          state.tab = "settings";
+          render();
+          return;
+        }
+        state.loading = true;
+        state.error = null;
+        render();
+        try {
+          const res = await fetch(exchangeUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code }),
+          });
+          const body = await res.json();
+          if (!res.ok) throw new Error(body?.error || "Token exchange failed");
+          if (body.access_token)
+            localStorage.setItem(STORAGE.token, body.access_token);
+          if (body.refresh_token)
+            localStorage.setItem(STORAGE.refresh, body.refresh_token);
+          if (body.expires_at)
+            localStorage.setItem(STORAGE.expires, String(body.expires_at));
+          await refreshAthlete();
+        } catch (e) {
+          state.error = e?.message || String(e);
+        } finally {
+          state.loading = false;
+          render();
+        }
+      }
+
+      async function refreshAthlete() {
+        state.loading = true;
+        state.error = null;
+        render();
+        try {
+          state.athlete = await stravaFetch("/athlete");
+        } catch (e) {
+          state.athlete = null;
+          state.error = e?.message || String(e);
+        } finally {
+          state.loading = false;
+          render();
+        }
+      }
+
+      function disconnect() {
+        localStorage.removeItem(STORAGE.token);
+        localStorage.removeItem(STORAGE.refresh);
+        localStorage.removeItem(STORAGE.expires);
+        state.athlete = null;
+        render();
+      }
+
+      function startStravaOAuth() {
+        const clientId = localStorage.getItem(STORAGE.clientId)?.trim();
+        if (!clientId) {
+          state.error = "Add your Strava application Client ID in Settings.";
+          state.tab = "settings";
+          render();
+          return;
+        }
+        const redirect = encodeURIComponent(`${window.location.origin}${window.location.pathname}`);
+        const scope = encodeURIComponent("read,activity:read,profile:read_all");
+        const url = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirect}&approval_prompt=force&scope=${scope}`;
+        window.location.href = url;
+      }
+
+      function emptyGearHintBlock(kind) {
+        const both = kind === "both";
+        const title = both
+          ? "Connected, but no bikes or shoes from Strava"
+          : kind === "bikes"
+            ? "No bikes in the Strava API response"
+            : "No shoes in the Strava API response";
+        const gearLine = both
+          ? "Add at least one bike and/or running shoe under <strong>My Gear</strong> (profile / settings in Strava). Distance on gear updates as you record activities with that gear selected."
+          : kind === "bikes"
+            ? "Add a bike under <strong>My Gear</strong> in Strava, and tag it on rides so mileage accumulates."
+            : "Add running shoes under <strong>My Gear</strong> in Strava, and tag them on runs.";
+        return `<div class="rounded-[var(--radius-card)] border border-amber-200/80 bg-amber-50/90 p-4 text-sm text-amber-950 shadow-card">
+          <p class="font-semibold">${title}</p>
+          <ul class="mt-2 list-disc space-y-1 pl-4 text-amber-900/90">
+            <li><strong>Gear in Strava:</strong> ${gearLine}</li>
+            <li><strong>Token scope:</strong> The default <strong>Your Access Token</strong> on Strava’s API page is often only <code class="rounded bg-white/60 px-1">read</code>, which can omit <code class="rounded bg-white/60 px-1">bikes</code> / <code class="rounded bg-white/60 px-1">shoes</code>. Use <strong>Authorize</strong> in Settings (requests <code class="rounded bg-white/60 px-1">profile:read_all</code>) and exchange the <code class="rounded bg-white/60 px-1">code</code> for a token, or paste a token issued with <code class="rounded bg-white/60 px-1">profile:read_all</code>.</li>
+          </ul>
+        </div>`;
+      }
+
+      function cardShell(inner, opts = {}) {
+        const { onClick } = opts;
+        const cls =
+          "rounded-[var(--radius-card)] border border-black/5 bg-white p-4 shadow-card pressable text-left w-full";
+        if (onClick) {
+          return `<button type="button" class="${cls}" data-action="${onClick}">${inner}</button>`;
+        }
+        return `<div class="${cls}">${inner}</div>`;
+      }
+
+      function healthBar(label, pct) {
+        const clamped = Math.min(1.2, Math.max(0, pct));
+        const width = Math.min(100, (clamped / 1) * 100);
+        const color = statusColor(clamped);
+        return `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-neutral-500">
+              <span>${label}</span>
+              <span>${Math.round(clamped * 100)}% of interval</span>
+            </div>
+            <div class="health-track">
+              <div class="health-fill" style="width:${width}%;background:${color}"></div>
+            </div>
+          </div>`;
+      }
+
+      function renderHeader() {
+        const titles = {
+          dashboard: "Dashboard",
+          garage: "Garage",
+          closet: "Closet",
+          settings: "Settings",
+        };
+        document.getElementById("headerTitle").textContent =
+          state.detailGear && state.detailType
+            ? "Gear detail"
+            : titles[state.tab] || "GearCheck";
+        const chip = document.getElementById("athleteChip");
+        if (state.athlete?.firstname) {
+          chip.classList.remove("hidden");
+          chip.textContent = `${state.athlete.firstname} ${state.athlete.lastname || ""}`.trim();
+        } else {
+          chip.classList.add("hidden");
+        }
+      }
+
+      function renderTabs() {
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          const t = btn.getAttribute("data-tab");
+          const active = !state.detailGear && state.tab === t;
+          btn.classList.toggle("text-iosblue", active);
+          btn.classList.toggle("text-neutral-500", !active);
+        });
+      }
+
+      function renderDashboard() {
+        const main = document.getElementById("main");
+        if (state.detailGear && state.detailType) {
+          main.innerHTML = renderDetail(state.detailGear, state.detailType);
+          bindDetailHandlers();
+          return;
+        }
+        if (state.loading) {
+          main.innerHTML = `<p class="text-sm text-neutral-500">Loading your gear…</p>`;
+          return;
+        }
+        if (!state.athlete) {
+          main.innerHTML = `
+            <div class="space-y-3">
+              ${cardShell(
+                `<p class="text-sm text-neutral-600">Connect Strava to sync bikes and shoes, then track wear using the maintenance intervals from your spec.</p>
+                 <button type="button" id="connectDash" class="mt-3 w-full rounded-xl bg-strava py-3 text-sm font-semibold text-white pressable">Connect with Strava</button>`,
+              )}
+              <p class="text-xs text-neutral-500 px-1">Strava’s API is not browser-CORS friendly for most origins. Set an API proxy base URL in Settings (for example a Netlify/Vercel relay) if requests fail from this page.</p>
+            </div>`;
+          document.getElementById("connectDash")?.addEventListener("click", startStravaOAuth);
+          return;
+        }
+        const bikes = state.athlete.bikes || [];
+        const shoes = state.athlete.shoes || [];
+        const noGearLists = bikes.length === 0 && shoes.length === 0;
+        const primaryBike = bikes.find((b) => b.primary) || bikes[0];
+        const primaryShoe = shoes.find((s) => s.primary) || shoes[0];
+        const cards = [];
+        if (noGearLists) {
+          cards.push(emptyGearHintBlock("both"));
+        }
+        if (primaryBike) {
+          const mi = milesFromMeters(primaryBike.distance);
+          const tip = bikeRecommendation(primaryBike.name || "Bike", mi);
+          cards.push(
+            cardShell(
+              `<div class="flex items-start justify-between gap-2">
+                 <div>
+                   <p class="text-xs font-semibold uppercase tracking-wide text-strava">Primary bike</p>
+                   <p class="mt-1 text-base font-semibold">${primaryBike.name || "Unnamed bike"}</p>
+                   <p class="text-sm text-neutral-500 mt-1">${formatDistanceMeters(primaryBike.distance)} logged</p>
+                 </div>
+                 <span class="rounded-full bg-iosbg px-2 py-1 text-[11px] font-medium text-neutral-600">Garage</span>
+               </div>
+               <p class="mt-3 text-sm leading-relaxed text-neutral-700">${tip}</p>`,
+              { onClick: `open-detail:bike:${primaryBike.id}` },
+            ),
+          );
+        }
+        if (primaryShoe) {
+          const mi = milesFromMeters(primaryShoe.distance);
+          const remaining = shoeMilesRemaining(mi);
+          const tip = shoeRecommendation(primaryShoe.name || "Shoes", mi);
+          cards.push(
+            cardShell(
+              `<div class="flex items-start justify-between gap-2">
+                 <div>
+                   <p class="text-xs font-semibold uppercase tracking-wide text-iosblue">Primary shoes</p>
+                   <p class="mt-1 text-base font-semibold">${primaryShoe.name || "Unnamed shoes"}</p>
+                   <p class="text-sm text-neutral-500 mt-1">${formatDistanceMeters(primaryShoe.distance)} · ~${remaining.toFixed(0)} mi to ${SHOE_THRESHOLDS_MI.replace} mi guidance</p>
+                 </div>
+                 <span class="rounded-full bg-iosbg px-2 py-1 text-[11px] font-medium text-neutral-600">Closet</span>
+               </div>
+               <p class="mt-3 text-sm leading-relaxed text-neutral-700">${tip}</p>`,
+              { onClick: `open-detail:shoe:${primaryShoe.id}` },
+            ),
+          );
+        }
+        if (!cards.length) {
+          cards.push(
+            cardShell(
+              `<p class="text-sm text-neutral-600">No primary bike or shoes found yet. Add gear in Strava or open Garage / Closet.</p>`,
+            ),
+          );
+        }
+        main.innerHTML = `<div class="space-y-3">${cards.join("")}</div>`;
+        bindCardNav();
+      }
+
+      function renderGarage() {
+        const main = document.getElementById("main");
+        if (state.detailGear && state.detailType === "bike") {
+          main.innerHTML = renderDetail(state.detailGear, "bike");
+          bindDetailHandlers();
+          return;
+        }
+        if (!state.athlete) {
+          main.innerHTML = `<p class="text-sm text-neutral-500">Connect Strava to load bikes.</p>`;
+          return;
+        }
+        const bikes = state.athlete.bikes || [];
+        if (!bikes.length) {
+          main.innerHTML = `<div class="space-y-3">${emptyGearHintBlock("bikes")}</div>`;
+          return;
+        }
+        const list = bikes
+          .map((b) => {
+            const mi = milesFromMeters(b.distance);
+            const statuses = bikeComponentStatuses(mi);
+            const bars = statuses
+              .map((s) => healthBar(s.label, s.pct))
+              .join('<div class="mt-3"></div>');
+            return cardShell(
+              `<div class="flex items-start justify-between gap-2">
+                 <div>
+                   <p class="text-base font-semibold">${b.name || "Bike"}</p>
+                   <p class="text-sm text-neutral-500">${formatDistanceMeters(b.distance)}${b.primary ? " · Primary" : ""}</p>
+                 </div>
+               </div>
+               <div class="mt-4 space-y-3">${bars}</div>`,
+              { onClick: `open-detail:bike:${b.id}` },
+            );
+          })
+          .join("");
+        main.innerHTML = `<div class="space-y-3">${list}</div>`;
+        bindCardNav();
+      }
+
+      function renderCloset() {
+        const main = document.getElementById("main");
+        if (state.detailGear && state.detailType === "shoe") {
+          main.innerHTML = renderDetail(state.detailGear, "shoe");
+          bindDetailHandlers();
+          return;
+        }
+        if (!state.athlete) {
+          main.innerHTML = `<p class="text-sm text-neutral-500">Connect Strava to load shoes.</p>`;
+          return;
+        }
+        const shoes = state.athlete.shoes || [];
+        if (!shoes.length) {
+          main.innerHTML = `<div class="space-y-3">${emptyGearHintBlock("shoes")}</div>`;
+          return;
+        }
+        const list = shoes
+          .map((s) => {
+            const mi = milesFromMeters(s.distance);
+            const remaining = shoeMilesRemaining(mi);
+            let badge = "bg-safe/15 text-emerald-800";
+            if (mi >= SHOE_THRESHOLDS_MI.replace) badge = "bg-crit/15 text-red-700";
+            else if (mi >= SHOE_THRESHOLDS_MI.health) badge = "bg-warn/25 text-amber-900";
+            else if (mi >= SHOE_THRESHOLDS_MI.rotate) badge = "bg-warn/15 text-yellow-900";
+            return cardShell(
+              `<div class="flex items-start justify-between gap-3">
+                 <div>
+                   <p class="text-base font-semibold">${s.name || "Shoes"}</p>
+                   <p class="text-sm text-neutral-500">${formatDistanceMeters(s.distance)}${s.primary ? " · Primary" : ""}</p>
+                 </div>
+                 <span class="rounded-full px-2 py-1 text-[11px] font-semibold ${badge}">${remaining.toFixed(0)} mi left</span>
+               </div>
+               <p class="mt-3 text-sm text-neutral-700">${shoeRecommendation(s.name || "This shoe", mi)}</p>`,
+              { onClick: `open-detail:shoe:${s.id}` },
+            );
+          })
+          .join("");
+        main.innerHTML = `<div class="space-y-3">${list}</div>`;
+        bindCardNav();
+      }
+
+      function renderSettings() {
+        const main = document.getElementById("main");
+        const clientId = localStorage.getItem(STORAGE.clientId) || "";
+        const proxy = localStorage.getItem(STORAGE.proxy) || "";
+        const exchange = localStorage.getItem(STORAGE.exchangeUrl) || "";
+        const token = localStorage.getItem(STORAGE.token) || "";
+        const units = localStorage.getItem(STORAGE.units) === "km" ? "km" : "mi";
+        main.innerHTML = `
+          <div class="space-y-3">
+            ${cardShell(`
+              <p class="text-sm font-semibold">Strava connection</p>
+              <label class="mt-3 block text-xs font-medium text-neutral-500">Client ID</label>
+              <input id="clientId" class="mt-1 w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-iosblue/40" value="${clientId}" autocomplete="off" />
+              <label class="mt-3 block text-xs font-medium text-neutral-500">API proxy base (optional)</label>
+              <input id="proxy" class="mt-1 w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-iosblue/40" placeholder="https://your-site.netlify.app/api/strava" value="${proxy}" />
+              <p class="mt-1 text-[11px] text-neutral-500">Proxy should forward <code class="font-mono">/athlete</code> to Strava with your stored server-side token.</p>
+              <label class="mt-3 block text-xs font-medium text-neutral-500">Token exchange URL (optional)</label>
+              <input id="exchange" class="mt-1 w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-iosblue/40" placeholder="https://your-site.netlify.app/api/strava-token" value="${exchange}" />
+              <label class="mt-3 block text-xs font-medium text-neutral-500">Paste access token (dev / personal)</label>
+              <textarea id="tokenPaste" rows="3" class="mt-1 w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-iosblue/40" placeholder="Bearer token from Strava">${token}</textarea>
+              <div class="mt-3 flex flex-col gap-2 sm:flex-row">
+                <button type="button" id="saveConn" class="flex-1 rounded-xl bg-iosblue py-3 text-sm font-semibold text-white pressable">Save connection</button>
+                <button type="button" id="oauth" class="flex-1 rounded-xl bg-strava py-3 text-sm font-semibold text-white pressable">Authorize</button>
+                <button type="button" id="disconnect" class="flex-1 rounded-xl border border-black/10 bg-white py-3 text-sm font-semibold pressable">Disconnect</button>
+              </div>`)}
+            ${cardShell(`
+              <p class="text-sm font-semibold">Units</p>
+              <div class="mt-3 flex gap-2">
+                <button type="button" data-unit="mi" class="unit-btn flex-1 rounded-xl border py-2 text-sm font-semibold ${units === "mi" ? "border-iosblue text-iosblue" : "border-black/10"}">Miles</button>
+                <button type="button" data-unit="km" class="unit-btn flex-1 rounded-xl border py-2 text-sm font-semibold ${units === "km" ? "border-iosblue text-iosblue" : "border-black/10"}">Kilometers</button>
+              </div>`)}
+            ${cardShell(`
+              <p class="text-sm font-semibold">Data refresh</p>
+              <button type="button" id="refresh" class="mt-3 w-full rounded-xl border border-black/10 bg-white py-3 text-sm font-semibold pressable">Reload athlete & gear</button>`)}
+          </div>`;
+
+        document.getElementById("saveConn")?.addEventListener("click", () => {
+          localStorage.setItem(STORAGE.clientId, document.getElementById("clientId").value.trim());
+          localStorage.setItem(STORAGE.proxy, document.getElementById("proxy").value.trim());
+          localStorage.setItem(STORAGE.exchangeUrl, document.getElementById("exchange").value.trim());
+          const pasted = normalizeAccessToken(document.getElementById("tokenPaste").value);
+          if (pasted) localStorage.setItem(STORAGE.token, pasted);
+          state.error = null;
+          void refreshAthlete();
+        });
+        document.getElementById("oauth")?.addEventListener("click", startStravaOAuth);
+        document.getElementById("disconnect")?.addEventListener("click", disconnect);
+        document.getElementById("refresh")?.addEventListener("click", () => void refreshAthlete());
+        document.querySelectorAll(".unit-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            localStorage.setItem(STORAGE.units, btn.getAttribute("data-unit"));
+            render();
+          });
+        });
+      }
+
+      function renderDetail(gear, type) {
+        const mi = milesFromMeters(gear.distance);
+        const title = gear.name || (type === "bike" ? "Bike" : "Shoes");
+        const brand =
+          gear.brand_name ||
+          (gear.name ? gear.name.split(" ")[0] : type === "bike" ? "Bike" : "Shoe");
+        const model = gear.model_name || "";
+        const subtitle = [brand, model].filter(Boolean).join(" · ");
+        const log = getMaintenanceLog()[String(gear.id)] || [];
+        const logRows = log
+          .slice()
+          .reverse()
+          .map(
+            (e) => `
+            <li class="flex gap-3 border-t border-black/5 py-3 text-sm">
+              <div class="text-xs text-neutral-500 w-28 shrink-0">${new Date(e.ts).toLocaleString()}</div>
+              <div>
+                <p class="font-medium">${escapeHtml(e.title)}</p>
+                ${e.note ? `<p class="text-neutral-600 text-sm mt-1">${escapeHtml(e.note)}</p>` : ""}
+              </div>
+            </li>`,
+          )
+          .join("");
+
+        let body = "";
+        if (type === "bike") {
+          const statuses = bikeComponentStatuses(mi);
+          const bars = statuses
+            .map((s) => healthBar(s.label, s.pct))
+            .join('<div class="mt-3"></div>');
+          body = `
+            <p class="text-sm text-neutral-600">${formatDistanceMeters(gear.distance)} logged</p>
+            ${subtitle ? `<p class="text-xs text-neutral-500 mt-1">${escapeHtml(subtitle)}</p>` : ""}
+            <p class="mt-3 text-sm leading-relaxed">${bikeRecommendation(brand || title, mi)}</p>
+            <div class="mt-4 space-y-3">${bars}</div>`;
+        } else {
+          const remaining = shoeMilesRemaining(mi);
+          body = `
+            <p class="text-sm text-neutral-600">${formatDistanceMeters(gear.distance)} logged</p>
+            ${subtitle ? `<p class="text-xs text-neutral-500 mt-1">${escapeHtml(subtitle)}</p>` : ""}
+            <div class="mt-3 flex items-center justify-between rounded-xl bg-iosbg px-3 py-2 text-sm">
+              <span class="text-neutral-600">Miles to ${SHOE_THRESHOLDS_MI.replace} mi guidance</span>
+              <span class="font-semibold">${remaining.toFixed(0)} mi</span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed">${shoeRecommendation(brand || title, mi)}</p>`;
+        }
+
+        return `
+          <div class="space-y-3">
+            <button type="button" id="backDetail" class="text-sm font-semibold text-iosblue pressable">← Back</button>
+            ${cardShell(`<p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">${type === "bike" ? "Bike" : "Shoes"}</p>
+              <h2 class="mt-1 text-xl font-bold tracking-tight">${escapeHtml(title)}</h2>${body}`)}
+            ${cardShell(`
+              <p class="text-sm font-semibold">Service log</p>
+              <p class="text-xs text-neutral-500 mt-1">Stored locally on this device (${STORAGE.maintenance}).</p>
+              <form id="logForm" class="mt-3 space-y-2">
+                <input name="title" required class="w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-iosblue/40" placeholder="e.g., New chain installed" />
+                <textarea name="note" rows="2" class="w-full rounded-xl border border-black/10 bg-iosbg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-iosblue/40" placeholder="Optional notes"></textarea>
+                <button type="submit" class="w-full rounded-xl bg-iosblue py-3 text-sm font-semibold text-white pressable">Add entry</button>
+              </form>
+              <ul class="mt-2">${logRows || '<p class="text-sm text-neutral-500 py-3">No entries yet.</p>'}</ul>`)}
+          </div>`;
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function bindDetailHandlers() {
+        document.getElementById("backDetail")?.addEventListener("click", () => {
+          state.detailGear = null;
+          state.detailType = null;
+          render();
+        });
+        document.getElementById("logForm")?.addEventListener("submit", (ev) => {
+          ev.preventDefault();
+          const form = ev.target;
+          const title = form.title.value.trim();
+          const note = form.note.value.trim();
+          if (!title || !state.detailGear) return;
+          appendMaintenanceEntry(String(state.detailGear.id), { title, note });
+          form.reset();
+          render();
+        });
+      }
+
+      function bindCardNav() {
+        document.querySelectorAll("[data-action^='open-detail']").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const raw = btn.getAttribute("data-action");
+            const [, kind, id] = raw.split(":");
+            void openDetail(kind, id);
+          });
+        });
+      }
+
+      async function openDetail(kind, id) {
+        if (!state.athlete) return;
+        const list = kind === "bike" ? state.athlete.bikes || [] : state.athlete.shoes || [];
+        const summary = list.find((g) => String(g.id) === String(id));
+        if (!summary) return;
+        state.loading = true;
+        render();
+        try {
+          state.detailGear = await stravaFetch(`/gear/${id}`);
+          state.detailType = kind === "bike" ? "bike" : "shoe";
+        } catch {
+          state.detailGear = summary;
+          state.detailType = kind === "bike" ? "bike" : "shoe";
+        } finally {
+          state.loading = false;
+          render();
+        }
+      }
+
+      function renderErrorBanner() {
+        if (!state.error) return;
+        const main = document.getElementById("main");
+        const banner = document.createElement("div");
+        banner.className =
+          "mb-3 rounded-[var(--radius-card)] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800";
+        banner.textContent = state.error;
+        main.prepend(banner);
+      }
+
+      function render() {
+        renderHeader();
+        renderTabs();
+        if (state.tab === "dashboard") renderDashboard();
+        else if (state.tab === "garage") renderGarage();
+        else if (state.tab === "closet") renderCloset();
+        else renderSettings();
+        renderErrorBanner();
+      }
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.tab = btn.getAttribute("data-tab");
+          state.detailGear = null;
+          state.detailType = null;
+          render();
+        });
+      });
+
+      parseOAuthResponse();
+      if (localStorage.getItem(STORAGE.token)) {
+        void refreshAthlete();
+      } else {
+        render();
+      }
+    </script>
+  </body>
+</html>
