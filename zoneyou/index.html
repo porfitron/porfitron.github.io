@@ -711,6 +711,18 @@
         margin-top: 0;
       }
 
+      .results-modal-footer .actions.actions--share-visitor {
+        grid-template-columns: 1fr;
+      }
+
+      .results-modal-footer .primary-btn {
+        margin-top: 0;
+      }
+
+      .results-modal-backdrop.results-modal--share-visitor .results-modal-footer .secondary-btn {
+        display: none !important;
+      }
+
       .results-modal-ad-slot {
         margin-bottom: 10px;
       }
@@ -970,7 +982,7 @@
               Mobile ad unit
             </div>
           </aside>
-          <div class="actions">
+          <div class="actions" id="resultsModalActions">
             <button type="button" class="secondary-btn" id="recalculateBtn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
@@ -985,6 +997,9 @@
                 <line x1="12" x2="12" y1="2" y2="15" />
               </svg>
               Share
+            </button>
+            <button type="button" class="primary-btn" id="calculateYoursBtn" hidden>
+              Calculate Yours
             </button>
           </div>
         </div>
@@ -1056,6 +1071,8 @@
         var resultsModalSheet = document.querySelector(".results-modal-sheet");
         var recalculateBtn = document.getElementById("recalculateBtn");
         var shareBtn = document.getElementById("shareBtn");
+        var resultsModalActions = document.getElementById("resultsModalActions");
+        var calculateYoursBtn = document.getElementById("calculateYoursBtn");
         var infoBtn = document.getElementById("infoBtn");
         var modalBackdrop = document.getElementById("modalBackdrop");
         var modalClose = document.getElementById("modalClose");
@@ -1197,13 +1214,106 @@
           return ok ? { age: age, rhr: rhr, mhr: mhr } : null;
         }
 
+        var SHARE_REF_PARAM = "ref";
+        var SHARE_REF_VALUE = "share";
+
+        function urlHasShareAttribution() {
+          try {
+            var v = new URLSearchParams(window.location.search).get(SHARE_REF_PARAM);
+            return (v || "").toLowerCase() === SHARE_REF_VALUE;
+          } catch (err) {
+            return false;
+          }
+        }
+
+        /** Same directory as this page, always `index.html`, no query or hash. */
+        function navigateToCalculatorIndexHtml() {
+          try {
+            var u = new URL(window.location.href);
+            var path = u.pathname;
+            if (path.endsWith("/")) {
+              u.pathname = path + "index.html";
+            } else {
+              var last = path.split("/").pop() || "";
+              if (/\.html?$/i.test(last)) {
+                u.pathname = path.replace(/[^/]+$/, "index.html");
+              } else {
+                u.pathname = path.replace(/\/?$/, "/index.html");
+              }
+            }
+            u.search = "";
+            u.hash = "";
+            window.location.assign(u.href);
+          } catch (err) {
+            window.location.assign("index.html");
+          }
+        }
+
+        function buildResultsSearchParams(data, method, urlOpts) {
+          urlOpts = urlOpts || {};
+          var p = new URLSearchParams();
+          var m = method === "hunt" ? "hunt" : "karvonen";
+          p.set("method", m);
+          p.set("age", String(data.age));
+          p.set("rhr", String(data.rhr));
+          if (m === "karvonen") p.set("mhr", String(data.mhr));
+          if (urlOpts.includeShareAttribution) p.set(SHARE_REF_PARAM, SHARE_REF_VALUE);
+          return p;
+        }
+
+        function replaceUrlWithShareableResults(data, method, renderOpts) {
+          renderOpts = renderOpts || {};
+          var includeRef =
+            renderOpts.shareVisitorUi === true ||
+            (urlHasShareAttribution() && renderOpts.fromSharedUrl === true);
+          try {
+            var u = new URL(window.location.href);
+            u.search = buildResultsSearchParams(data, method, {
+              includeShareAttribution: includeRef,
+            }).toString();
+            history.replaceState(null, "", u.pathname + u.search + u.hash);
+          } catch (err) {}
+        }
+
+        function calculatorUrlForShareText(data, method) {
+          try {
+            var u = new URL(window.location.href);
+            u.search = buildResultsSearchParams(data, method, {
+              includeShareAttribution: true,
+            }).toString();
+            return u.toString();
+          } catch (err) {
+            return "https://porfir.io/zoneyou";
+          }
+        }
+
+        function syncResultsModalFooterMode(visitor) {
+          if (!resultsModalActions || !calculateYoursBtn || !resultsModalBackdrop) return;
+          if (visitor === undefined) visitor = urlHasShareAttribution();
+          resultsModalActions.classList.toggle("actions--share-visitor", visitor);
+          resultsModalBackdrop.classList.toggle("results-modal--share-visitor", visitor);
+          recalculateBtn.hidden = visitor;
+          shareBtn.hidden = visitor;
+          calculateYoursBtn.hidden = !visitor;
+        }
+
+        function resetResultsModalFooterToOwner() {
+          if (!resultsModalActions || !calculateYoursBtn || !resultsModalBackdrop) return;
+          resultsModalActions.classList.remove("actions--share-visitor");
+          resultsModalBackdrop.classList.remove("results-modal--share-visitor");
+          recalculateBtn.hidden = false;
+          shareBtn.hidden = false;
+          calculateYoursBtn.hidden = true;
+        }
+
         function openResultsModal() {
           resultsModalBackdrop.classList.add("open");
           resultsModalBackdrop.setAttribute("aria-hidden", "false");
           document.body.style.overflow = "hidden";
           gaEvent("zoneyou_modal_open", { modal: "results" });
           requestAnimationFrame(function () {
-            recalculateBtn.focus();
+            if (calculateYoursBtn && !calculateYoursBtn.hidden) calculateYoursBtn.focus();
+            else recalculateBtn.focus();
           });
         }
 
@@ -1213,6 +1323,7 @@
           document.body.style.overflow = "";
           if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsHeading");
           resultsHeading.classList.remove("results-heading--visually-hidden");
+          resetResultsModalFooterToOwner();
         }
 
         function clampPercent(value) {
@@ -1373,7 +1484,8 @@
           return card;
         }
 
-        function renderResults(data) {
+        function renderResults(data, options) {
+          var opts = options || {};
           var method = getMethod();
           var karvonenZone = karvonenZone2(data.rhr, data.mhr);
           var models = [];
@@ -1456,12 +1568,59 @@
           karvonenStrong.textContent = "Karvonen";
           resultsMeta.appendChild(karvonenStrong);
           resultsMeta.appendChild(document.createTextNode(" band in green: 60–70% of HR reserve."));
-          gaEvent("zoneyou_calculate", {
-            calculation_method: method,
-            zone_low: karvonenZone.low,
-            zone_high: karvonenZone.high,
+          if (opts.fromSharedUrl) {
+            gaEvent("zoneyou_open_shared_link", {
+              calculation_method: method,
+              zone_low: karvonenZone.low,
+              zone_high: karvonenZone.high,
+              visit_attribution: urlHasShareAttribution() ? "share" : "none",
+            });
+          } else {
+            gaEvent("zoneyou_calculate", {
+              calculation_method: method,
+              zone_low: karvonenZone.low,
+              zone_high: karvonenZone.high,
+            });
+          }
+          replaceUrlWithShareableResults(data, method, {
+            fromSharedUrl: opts.fromSharedUrl,
+            shareVisitorUi: opts.shareVisitorUi,
           });
+          var visitorFooter = opts.shareVisitorUi === true || urlHasShareAttribution();
+          syncResultsModalFooterMode(visitorFooter);
           openResultsModal();
+        }
+
+        function tryHydrateResultsFromUrl() {
+          var params;
+          try {
+            params = new URLSearchParams(window.location.search);
+          } catch (e) {
+            return;
+          }
+          if (!params.has("age") || !params.has("rhr")) return;
+
+          var methodParam = (params.get("method") || "").toLowerCase();
+          var method = methodParam === "hunt" ? "hunt" : "karvonen";
+
+          document.getElementById(method === "hunt" ? "methodHunt" : "methodKarvonen").checked = true;
+          syncMhrVisibility();
+
+          ageInput.value = params.get("age") || "";
+          rhrInput.value = params.get("rhr") || "";
+          if (method === "karvonen") {
+            mhrInput.value = params.get("mhr") || "";
+          } else {
+            mhrInput.value = "";
+          }
+
+          var data = validate();
+          if (!data) return;
+
+          var shareVisitorUi =
+            (params.get(SHARE_REF_PARAM) || "").toLowerCase() === SHARE_REF_VALUE;
+
+          renderResults(data, { fromSharedUrl: true, shareVisitorUi: shareVisitorUi });
         }
 
         form.addEventListener("submit", function (e) {
@@ -1485,6 +1644,13 @@
           closeResultsModal();
           ageInput.focus();
         });
+
+        if (calculateYoursBtn) {
+          calculateYoursBtn.addEventListener("click", function () {
+            gaEvent("zoneyou_calculate_yours_cta", { source: "results_modal" });
+            navigateToCalculatorIndexHtml();
+          });
+        }
 
         resultsModalBackdrop.addEventListener("click", function (e) {
           if (e.target === resultsModalBackdrop) {
@@ -1520,7 +1686,8 @@
                 overlapHigh +
                 " BPM (RHR " +
                 data.rhr +
-                "). Estimate only. https://porfir.io/zoneyou"
+                "). Estimate only. " +
+                calculatorUrlForShareText(data, method)
               );
             }
             return (
@@ -1532,7 +1699,8 @@
               data.rhr +
               ", max " +
               enteredMhr +
-              "). Estimate only. https://porfir.io/zoneyou"
+              "). Estimate only. " +
+              calculatorUrlForShareText(data, method)
             );
           }
 
@@ -1546,7 +1714,8 @@
             data.rhr +
             ", age " +
             data.age +
-            "). Estimate only. https://porfir.io/zoneyou"
+            "). Estimate only. " +
+            calculatorUrlForShareText(data, method)
           );
         }
 
@@ -1648,6 +1817,8 @@
             outbound: true,
           });
         });
+
+        tryHydrateResultsFromUrl();
 
         document.addEventListener("keydown", function (e) {
           if (e.key !== "Escape") return;
