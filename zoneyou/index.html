@@ -21,6 +21,16 @@
     <meta name="twitter:description" content="Estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
     <meta name="twitter:image" content="https://porfir.io/zoneyou/og-image.png" />
     <meta name="theme-color" content="#f2f2f7" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-YN76XZSY41");
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -77,11 +87,12 @@
         box-shadow: var(--shadow);
       }
 
-      header {
+      .panel-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 20px;
+        gap: 12px;
+        margin-bottom: 10px;
       }
 
       .brand {
@@ -104,7 +115,41 @@
         letter-spacing: 0.06em;
       }
 
+      .brand--inline .brand-name {
+        font-size: 1.06em;
+        letter-spacing: -0.02em;
+      }
+
+      .brand--inline .brand-tag {
+        font-size: 0.68em;
+      }
+
+      .card-title-line {
+        margin: 0;
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 6px 8px;
+        min-width: 0;
+        flex: 1;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+      }
+
+      .card-title-sep {
+        font-weight: 500;
+        color: var(--text-secondary);
+        user-select: none;
+      }
+
+      .card-title-topic {
+        font-weight: 600;
+      }
+
       .icon-btn {
+        flex-shrink: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -133,13 +178,6 @@
 
       main.glass {
         padding: 22px 20px 20px;
-      }
-
-      h1 {
-        margin: 0 0 6px;
-        font-size: 1.125rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
       }
 
       .subtitle {
@@ -675,22 +713,24 @@
   </head>
   <body>
     <div class="app">
-      <header>
-        <div class="brand">
-          <span class="brand-name">ZoneYou&trade;</span>
-          <span class="brand-tag">HR</span>
-        </div>
-        <button type="button" class="icon-btn" id="infoBtn" aria-label="Why Zone 2?">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 16v-4" />
-            <path d="M12 8h.01" />
-          </svg>
-        </button>
-      </header>
-
       <main class="glass">
-        <h1>Zone 2 range</h1>
+        <header class="panel-head">
+          <h1 class="card-title-line">
+            <span class="brand brand--inline">
+              <span class="brand-name">ZoneYou&trade;</span>
+              <span class="brand-tag">HR</span>
+            </span>
+            <span class="card-title-sep" aria-hidden="true">|</span>
+            <span class="card-title-topic">Zone 2 Range</span>
+          </h1>
+          <button type="button" class="icon-btn" id="infoBtn" aria-label="Why Zone 2?">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+          </button>
+        </header>
         <p class="subtitle">From your age, resting HR, and max HR (measured or estimated).</p>
 
         <form id="calcForm" novalidate>
@@ -715,7 +755,7 @@
           <div class="field">
             <div class="field-label-row">
               <label for="rhr">Resting heart rate (BPM)</label>
-              <button type="button" class="bpm-info-btn" aria-label="About measuring resting heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+              <button type="button" class="bpm-info-btn" data-bpm-hint="rhr" aria-label="About measuring resting heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
             </div>
             <div class="input-wrap">
               <input type="number" id="rhr" name="rhr" inputmode="numeric" min="30" max="120" placeholder="e.g. 58" autocomplete="off" />
@@ -727,7 +767,7 @@
           <div class="field mhr-block" id="mhrBlock">
             <div class="field-label-row">
               <label for="mhr">Max heart rate (BPM)</label>
-              <button type="button" class="bpm-info-btn" aria-label="About measuring max heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+              <button type="button" class="bpm-info-btn" data-bpm-hint="mhr" aria-label="About measuring max heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
             </div>
             <div class="input-wrap">
               <input type="number" id="mhr" name="mhr" inputmode="numeric" min="80" max="230" placeholder="e.g. 178" autocomplete="off" />
@@ -819,6 +859,12 @@
 
     <script>
       (function () {
+        function gaEvent(eventName, eventParams) {
+          if (typeof gtag === "function") {
+            gtag("event", eventName, eventParams || {});
+          }
+        }
+
         /** HUNT Fitness Study: HRmax ≈ 211 − 0.64 × age (years). */
         function huntMaxHr(age) {
           return Math.round(211 - 0.64 * age);
@@ -899,11 +945,16 @@
           return urls[i];
         }
 
-        function setBpmInfoModal(open) {
+        function setBpmInfoModal(open, hintType) {
           bpmInfoModalBackdrop.classList.toggle("open", open);
           bpmInfoModalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
-          if (open) bpmInfoModalClose.focus();
-          else if (lastBpmInfoTrigger) lastBpmInfoTrigger.focus();
+          if (open) {
+            gaEvent("zoneyou_modal_open", {
+              modal: "bpm_info",
+              hint_type: hintType || "unknown",
+            });
+            bpmInfoModalClose.focus();
+          } else if (lastBpmInfoTrigger) lastBpmInfoTrigger.focus();
         }
 
         var ageError = document.getElementById("ageError");
@@ -927,7 +978,13 @@
         }
 
         methodRadios.forEach(function (r) {
-          r.addEventListener("change", syncMhrVisibility);
+          r.addEventListener("change", function () {
+            syncMhrVisibility();
+            gaEvent("select_content", {
+              content_type: "calculation_method",
+              item_id: r.value,
+            });
+          });
         });
         syncMhrVisibility();
 
@@ -977,6 +1034,7 @@
           resultsModalBackdrop.classList.add("open");
           resultsModalBackdrop.setAttribute("aria-hidden", "false");
           document.body.style.overflow = "hidden";
+          gaEvent("zoneyou_modal_open", { modal: "results" });
           requestAnimationFrame(function () {
             recalculateBtn.focus();
           });
@@ -1002,6 +1060,11 @@
           karvonenStrong.textContent = "Karvonen";
           resultsMeta.appendChild(karvonenStrong);
           resultsMeta.appendChild(document.createTextNode(" band: 60–70% of heart rate reserve."));
+          gaEvent("zoneyou_calculate", {
+            calculation_method: getMethod(),
+            zone_low: z.low,
+            zone_high: z.high,
+          });
           openResultsModal();
         }
 
@@ -1009,16 +1072,27 @@
           e.preventDefault();
           var data = validate();
           if (data) renderResults(data);
-          else closeResultsModal();
+          else {
+            var invalidFields = [];
+            if (ageError.classList.contains("visible")) invalidFields.push("age");
+            if (rhrError.classList.contains("visible")) invalidFields.push("rhr");
+            if (mhrError.classList.contains("visible")) invalidFields.push("mhr");
+            gaEvent("zoneyou_validation_error", {
+              fields: invalidFields.join(","),
+            });
+            closeResultsModal();
+          }
         });
 
         recalculateBtn.addEventListener("click", function () {
+          gaEvent("zoneyou_recalculate", { source: "results_modal" });
           closeResultsModal();
           ageInput.focus();
         });
 
         resultsModalBackdrop.addEventListener("click", function (e) {
           if (e.target === resultsModalBackdrop) {
+            gaEvent("zoneyou_results_dismiss", { dismiss_method: "backdrop" });
             closeResultsModal();
             ageInput.focus();
           }
@@ -1035,43 +1109,69 @@
 
         shareBtn.addEventListener("click", function () {
           var data = validate();
-          if (!data) return;
+          if (!data) {
+            gaEvent("zoneyou_share", { outcome: "validation_failed" });
+            return;
+          }
           var z = karvonenZone2(data.rhr, data.mhr);
           var text =
             "ZoneYou\u2122 — Zone 2 (Karvonen): " + z.low + "–" + z.high + " BPM (RHR " + data.rhr + ", max " + data.mhr + "). Estimate only.";
           var shareData = { title: "ZoneYou\u2122", text: text };
 
           if (navigator.share) {
-            navigator.share(shareData).catch(function () {});
+            navigator.share(shareData).then(
+              function () {
+                gaEvent("share", {
+                  method: "Web Share API",
+                  content_type: "calculator_result",
+                  item_id: "zone2_range",
+                });
+              },
+              function () {
+                gaEvent("zoneyou_share", { outcome: "cancelled_or_failed", method: "Web Share API" });
+              }
+            );
           } else if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(
               function () {
                 showToast("Copied to clipboard");
+                gaEvent("share", {
+                  method: "clipboard",
+                  content_type: "calculator_result",
+                  item_id: "zone2_range",
+                });
               },
               function () {
                 showToast("Could not copy");
+                gaEvent("zoneyou_share", { outcome: "clipboard_denied", method: "clipboard" });
               }
             );
           } else {
             showToast(text);
+            gaEvent("zoneyou_share", { outcome: "fallback_toast", method: "none" });
           }
         });
 
         function setModal(open) {
           modalBackdrop.classList.toggle("open", open);
           modalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
-          if (open) modalClose.focus();
+          if (open) {
+            gaEvent("zoneyou_modal_open", { modal: "why_zone2" });
+            modalClose.focus();
+          }
         }
 
         infoBtn.addEventListener("click", function () {
           setModal(true);
         });
         modalClose.addEventListener("click", function () {
+          gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "button" });
           setModal(false);
           infoBtn.focus();
         });
         modalBackdrop.addEventListener("click", function (e) {
           if (e.target === modalBackdrop) {
+            gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "backdrop" });
             setModal(false);
             infoBtn.focus();
           }
@@ -1082,31 +1182,47 @@
             lastBpmInfoTrigger = btn;
             loadProductUrls().then(function (urls) {
               bpmInfoProductLink.href = pickRandomProductUrl(urls);
-              setBpmInfoModal(true);
+              setBpmInfoModal(true, btn.dataset.bpmHint);
             });
           });
         });
         bpmInfoModalClose.addEventListener("click", function () {
+          gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "button" });
           setBpmInfoModal(false);
         });
         bpmInfoModalBackdrop.addEventListener("click", function (e) {
           if (e.target === bpmInfoModalBackdrop) {
+            gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "backdrop" });
             setBpmInfoModal(false);
           }
+        });
+
+        bpmInfoProductLink.addEventListener("click", function () {
+          var hostname = "";
+          try {
+            hostname = new URL(bpmInfoProductLink.href, window.location.href).hostname;
+          } catch (err) {}
+          gaEvent("zoneyou_affiliate_link_click", {
+            link_domain: hostname || undefined,
+            outbound: true,
+          });
         });
 
         document.addEventListener("keydown", function (e) {
           if (e.key !== "Escape") return;
           if (resultsModalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_results_dismiss", { dismiss_method: "escape" });
             closeResultsModal();
             ageInput.focus();
             return;
           }
           if (bpmInfoModalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "escape" });
             setBpmInfoModal(false);
             return;
           }
           if (modalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "escape" });
             setModal(false);
             infoBtn.focus();
           }
