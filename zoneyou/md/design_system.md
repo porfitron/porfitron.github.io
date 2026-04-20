@@ -1,23 +1,21 @@
-# Product Requirements Document: ZoneYou
+# Design System: ZoneYou (Apple Design Language)
 
-## Vision
-ZoneYou is a premium, minimalist web application designed for aspiring runners and cyclists to calculate their physiological Zone 2 training range with precision. It replaces generic "220-age" formulas with the Karvonen Method, establishing immediate trust through scientific accuracy and a "pro" user experience.
+## Visual Principles
+The app must convey **competency, trust, and clarity**. It should feel like a native iOS/watchOS utility.
 
-## Target Audience
-- Aspiring athletes and "weekend warriors" (gravel cyclists, marathon trainers).
-- Users who value data accuracy and professional-grade fitness tools.
-- Fans of the Apple Health/Fitness ecosystem who expect a "native" feel.
+## Typography & Color
+- **Font:** San Francisco (system-ui), fallback to Inter.
+- **Primary Palette:** - Background: System Gray 6 (`#F2F2F7`) or pure white for a clean look.
+  - Accent (Zone 2): A vibrant "Apple Green" (`#34C759`) or "Activity Ring Green".
+  - Text: High-contrast System Black (`#000000`) and System Gray (`#8E8E93`).
+- **Icons:** Use SF Symbols (or Lucide-react equivalent).
 
-## Core Features
-1. **The Precision Calculator:** A tiered input system.
-   - **Tier 1 (Resting Heart Rate):** Users input their waking RHR.
-   - **Tier 2 (Max Heart Rate):** Users can either input a known MHR (from a stress test) or use an advanced age-based estimate (HUNT Formula).
-2. **Dynamic Results:** Real-time calculation of the 60%–70% Karvonen range.
-3. **The "Talk Test" Validator:** A contextual UI element explaining how the numbers should feel (e.g., "You should be able to speak in full sentences").
-4. **Export/Save:** Ability to save the result as a clean image or copy to clipboard for use in training apps (Strava, Garmin, TrainingPeaks).
+## UI Components
+- **The "Glass" Card:** Use subtle backdrops with a 1px border (`rgba(255, 255, 255, 0.3)`) and heavy blur for a glassmorphism effect.
+- **Squircles:** All containers and buttons must use a high border-radius (at least 20px) to mimic Apple’s hardware and software corners.
+- **Input Fields:** Large, centered numeric inputs with a focus on "Fat Finger" accessibility for athletes who might be checking this mid-ride or post-run.
+- **Haptic Feedback (Simulated):** Subtle CSS transitions and scale transforms (e.g., `scale(0.98)`) on button clicks.
 
-## Logic & Formulas (Gold Standard)
-- **Heart Rate Reserve (HRR):** `MHR - RHR`
-- **Zone 2 Floor (60%):** `(HRR * 0.60) + RHR`
-- **Zone 2 Ceiling (70%):** `(HRR * 0.70) + RHR`
-- **HUNT Formula (Default MHR):** `211 - (0.64 * Age)`
+## Layout
+- **Mobile First:** Single column, centered, with generous whitespace (padding: 24px).
+- **Responsive:** On desktop, the card should stay centered at a max-width of 450px.
