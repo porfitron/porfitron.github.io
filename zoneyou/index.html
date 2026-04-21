@@ -2,15 +2,3417 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting…</title>
-    <link rel="canonical" href="https://zone2foryou.com/" />
-    <meta http-equiv="refresh" content="0;url=https://zone2foryou.com/" />
     <script>
-      location.replace("https://zone2foryou.com/");
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
     </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Zone2ForYou&trade; — estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <title>Zone2ForYou&trade;</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="canonical" href="https://zone2foryou.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zone2ForYou" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://zone2foryou.com" />
+    <meta property="og:title" content="Zone2ForYou™ — Zone 2 heart rate range" />
+    <meta property="og:description" content="Estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <meta property="og:image" content="https://zone2foryou.com/icon-512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Zone2ForYou™ — Zone 2 heart rate calculator" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zone2ForYou™ — Zone 2 heart rate range" />
+    <meta name="twitter:description" content="Estimate your Zone 2 heart rate range from age, resting heart rate, and training method." />
+    <meta name="twitter:image" content="https://zone2foryou.com/icon-512.png" />
+    <meta name="theme-color" content="#f4efe6" />
+    <meta name="theme-color" content="#161620" media="(prefers-color-scheme: dark)" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-95GMLXCSTF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-95GMLXCSTF");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --bg-footer-scrim: rgba(244, 239, 230, 0.92);
+        --bg-elevated: rgba(255, 255, 255, 0.72);
+        --border-glass: rgba(255, 255, 255, 0.3);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        --text: #000000;
+        --text-secondary: #8e8e93;
+        --accent: #34c759;
+        --accent-muted: rgba(52, 199, 89, 0.12);
+        --danger: #ff3b30;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+        --font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+        --tap-scale: 0.98;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: var(--font);
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.45;
+      }
+
+      .app {
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 24px;
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+      }
+
+      .site-footer {
+        margin-top: 18px;
+        text-align: center;
+      }
+
+      .site-footer-copy {
+        margin: 0;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        letter-spacing: 0.01em;
+      }
+
+      .glass {
+        background: var(--bg-elevated);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
+      .brand-name {
+        font-weight: 700;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-tag {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .brand--inline .brand-name {
+        font-size: 1.06em;
+        letter-spacing: -0.02em;
+      }
+
+      .brand--inline .brand-tag {
+        font-size: 0.68em;
+      }
+
+      .card-title-line {
+        margin: 0;
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 6px 8px;
+        min-width: 0;
+        flex: 1;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+      }
+
+      .card-title-sep {
+        font-weight: 500;
+        color: var(--text-secondary);
+        user-select: none;
+      }
+
+      .card-title-topic {
+        font-weight: 600;
+      }
+
+      .icon-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .icon-btn:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .icon-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .icon-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      main.glass {
+        padding: 22px 20px 20px;
+      }
+
+      .subtitle {
+        margin: 0 0 22px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .default-dashboard {
+        margin: 0 0 20px;
+      }
+
+      .default-dashboard-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr;
+      }
+
+      /* Mobile IAB-style slot (e.g. MREC / adaptive banner mount) — hidden on larger breakpoints. */
+      .default-dashboard-ad-wrap {
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+      }
+
+      @media (min-width: 768px) {
+        .default-dashboard-ad-wrap {
+          display: none;
+        }
+      }
+
+      .default-dashboard-reset-wrap {
+        margin: 14px 0 0;
+        text-align: center;
+      }
+
+      .default-dashboard-reset-wrap[hidden] {
+        display: none !important;
+      }
+
+      .default-dashboard-reset-link {
+        margin-top: 0;
+      }
+
+      .default-card {
+        padding: 14px;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 255, 0.95));
+      }
+
+      .default-card__eyebrow {
+        margin: 0 0 4px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+
+      .default-card__title {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .default-card__heading-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .default-hint-btn {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        background: rgba(0, 0, 0, 0.03);
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      .default-hint-btn:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .default-hint-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .default-card__body {
+        margin: 0 0 12px;
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+        line-height: 1.45;
+      }
+
+      .default-card__meta {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+      }
+
+      .default-card__cta {
+        width: 100%;
+      }
+
+      .default-plan-cta-wrap {
+        width: 100%;
+      }
+
+      .default-plan-cta-wrap[hidden] {
+        display: none !important;
+      }
+
+      .default-zone-summary {
+        text-align: center;
+      }
+
+      .default-zone-summary[hidden] {
+        display: none;
+      }
+
+      .default-zone-range,
+      .default-plan-launch-link {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 4px 8px;
+        font: inherit;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: inherit;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: var(--radius-md);
+        background: none;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+
+      .default-zone-range:hover,
+      .default-plan-launch-link:hover {
+        background: rgba(52, 199, 89, 0.1);
+      }
+
+      .default-zone-range:focus-visible,
+      .default-plan-launch-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .default-recalc-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 0;
+        border: none;
+        background: none;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #0a7b2f;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .default-recalc-link:hover {
+        filter: brightness(1.05);
+      }
+
+      .default-recalc-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .secondary-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .secondary-btn:disabled:hover {
+        background: rgba(0, 0, 0, 0.06);
+      }
+
+      /* Dashboard Plan CTA when a Zone 2 range is available (matches primary / accent). */
+      .secondary-btn.secondary-btn--zone-ready:not(:disabled) {
+        color: #fff;
+        background: var(--accent);
+        box-shadow: 0 4px 16px rgba(52, 199, 89, 0.35);
+        transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.2s ease, background 0.15s ease;
+      }
+
+      .secondary-btn.secondary-btn--zone-ready:not(:disabled):hover {
+        filter: brightness(1.03);
+      }
+
+      .secondary-btn.secondary-btn--zone-ready:not(:disabled):active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .secondary-btn.secondary-btn--zone-ready:not(:disabled):focus-visible {
+        outline: 2px solid var(--text);
+        outline-offset: 3px;
+      }
+
+      .default-badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .default-pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(52, 199, 89, 0.14);
+        color: #156f33;
+        font-weight: 600;
+        font-size: 0.75rem;
+      }
+
+      .plan-workspace[hidden] {
+        display: none;
+      }
+
+      fieldset {
+        margin: 0 0 18px;
+        padding: 0;
+        border: 0;
+      }
+
+      legend {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 4px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: var(--radius-md);
+      }
+
+      .segmented input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .segmented label {
+        text-align: center;
+        padding: 12px 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease, color 0.2s ease;
+        user-select: none;
+      }
+
+      .segmented label:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .segmented input:focus-visible + label {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .segmented input:checked + label {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        color: var(--text);
+      }
+
+      .segmented input:not(:checked) + label {
+        color: var(--text-secondary);
+      }
+
+      .field {
+        margin-bottom: 16px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+
+      .field-label-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .field-label-row label {
+        flex: 1;
+        margin-bottom: 0;
+      }
+
+      .bpm-info-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.04);
+        color: var(--text-secondary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        font-style: italic;
+        font-family: Georgia, "Times New Roman", serif;
+        line-height: 1;
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+      }
+
+      .bpm-info-btn:hover {
+        background: rgba(0, 0, 0, 0.07);
+        color: var(--text);
+      }
+
+      .bpm-info-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .bpm-info-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      .input-wrap input {
+        width: 100%;
+        padding: 18px 16px;
+        font-size: 1.35rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: var(--radius-md);
+        background: #fff;
+        color: var(--text);
+        font-family: inherit;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      .input-wrap input::-webkit-outer-spin-button,
+      .input-wrap input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .input-wrap input::placeholder {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .input-wrap input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-muted);
+      }
+
+      .input-hint {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .field-error {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        color: var(--danger);
+        text-align: center;
+        display: none;
+      }
+
+      .field-error.visible {
+        display: block;
+      }
+
+      .mhr-block.hidden {
+        display: none;
+      }
+
+      .primary-btn {
+        width: 100%;
+        margin-top: 6px;
+        padding: 16px 18px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-family: inherit;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 16px rgba(52, 199, 89, 0.35);
+      }
+
+      .primary-btn:hover {
+        filter: brightness(1.03);
+      }
+
+      .primary-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .primary-btn:focus-visible {
+        outline: 2px solid var(--text);
+        outline-offset: 3px;
+      }
+
+      .plan-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 6px;
+      }
+
+      .plan-nav.plan-nav--step1-submit {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .plan-nav.plan-nav--step1-submit .primary-btn {
+        width: auto;
+        min-width: 7.5rem;
+        padding-left: 2.25rem;
+        padding-right: 2.25rem;
+      }
+
+      .plan-nav.plan-nav--genre-actions .primary-btn {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .plan-genre-section {
+        margin-bottom: 18px;
+      }
+
+      .plan-genre-section[hidden] {
+        display: none;
+      }
+
+      .plan-genre-fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .plan-genre-legend {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--text);
+      }
+
+      .genre-chip-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .genre-chip {
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(0, 0, 0, 0.04);
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--text);
+        transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .genre-chip:hover {
+        background: rgba(0, 0, 0, 0.07);
+      }
+
+      .genre-chip input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+      }
+
+      .genre-chip:has(input:focus-visible) {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .genre-chip:has(input:checked) {
+        border-color: var(--accent);
+        background: rgba(52, 199, 89, 0.14);
+        color: #156f33;
+        box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.25);
+      }
+
+      .plan-genre-section .field-error {
+        margin-top: 10px;
+      }
+
+      .default-plan-summary {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .default-plan-summary[hidden] {
+        display: none;
+      }
+
+      .default-plan-launch-link[hidden],
+      .default-plan-skip-note[hidden] {
+        display: none;
+      }
+
+      .default-plan-skip-note {
+        margin: 0 0 8px;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        line-height: 1.45;
+      }
+
+      .plan-nav .primary-btn,
+      .plan-nav .secondary-btn {
+        width: 100%;
+        margin-top: 0;
+      }
+
+      .plan-nav .secondary-btn[hidden] {
+        display: none;
+      }
+
+      /* Results live inside full-screen modal only */
+      .results {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .results-label {
+        margin: 0 0 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
+
+      .results-heading--visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .overlap-main-title {
+        margin: 0 0 12px;
+      }
+
+      .results-bpm {
+        text-align: center;
+        font-size: clamp(2rem, 9vw, 2.75rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: var(--text);
+      }
+
+      .results-bpm span {
+        color: var(--accent);
+      }
+
+      .results-meta {
+        margin-top: 14px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .results-models {
+        display: grid;
+        gap: 16px;
+      }
+
+      .results-model-card {
+        padding: 14px 12px 12px;
+        border-radius: var(--radius-md);
+        background: rgba(0, 0, 0, 0.035);
+      }
+
+      @keyframes results-container-glow {
+        0% {
+          box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+        }
+        30% {
+          box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.28), 0 0 24px rgba(34, 197, 94, 0.38);
+        }
+        55% {
+          box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+        }
+        78% {
+          box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.22), 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        100% {
+          box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+        }
+      }
+
+      .results-model-card--final-glow {
+        animation: results-container-glow 1.25s ease-out;
+      }
+
+      .results-spectrum-row + .results-spectrum-row {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .results-spectrum-row-title {
+        margin: 0 0 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
+
+      .results-model-title {
+        margin: 0 0 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
+
+      .results-model-bpm {
+        margin: 0 0 14px;
+        text-align: center;
+        font-size: clamp(1.7rem, 7.2vw, 2.25rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+
+      .results-model-bpm span {
+        color: var(--accent);
+      }
+
+      @keyframes results-reveal-in {
+        0% {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        58% {
+          opacity: 1;
+          transform: translateY(-4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .results-reveal {
+        opacity: 0;
+        animation: results-reveal-in 0.78s cubic-bezier(0.22, 1, 0.45, 1) forwards;
+        animation-delay: calc(var(--results-reveal-i, 0) * 0.19s);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .results-reveal {
+          opacity: 1;
+          animation: none;
+          transform: none;
+        }
+
+        .results-model-card--final-glow {
+          animation: none;
+        }
+      }
+
+      .zone-spectrum-wrap {
+        margin-top: 2px;
+      }
+
+      .zone-spectrum-labels {
+        margin-bottom: 7px;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 2px;
+      }
+
+      .zone-spectrum-labels span {
+        font-size: 0.64rem;
+        color: var(--text-secondary);
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .zone-spectrum-track {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .zone-spectrum-segment {
+        border-right: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .zone-spectrum-segment:last-child {
+        border-right: 0;
+      }
+
+      .zone2-highlight {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+
+      .zone2-callouts {
+        position: relative;
+        height: 34px;
+        margin-top: 8px;
+      }
+
+      .zone2-callout {
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
+        text-align: center;
+        min-width: 54px;
+      }
+
+      .zone2-callout::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 10px;
+        margin: 0 auto 4px;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .zone2-callout b {
+        display: block;
+        font-size: 0.72rem;
+        letter-spacing: 0.02em;
+        color: var(--text);
+        text-transform: none;
+        font-weight: 700;
+      }
+
+      .zone2-callout small {
+        display: block;
+        font-size: 0.62rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
+      }
+
+      .disclaimer {
+        margin-top: 16px;
+        padding: 12px 14px;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--text-secondary);
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: var(--radius-sm);
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .secondary-btn {
+        padding: 14px 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        font-family: inherit;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.06);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .secondary-btn:hover {
+        background: rgba(0, 0, 0, 0.09);
+      }
+
+      .secondary-btn:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .secondary-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .secondary-btn svg {
+        flex-shrink: 0;
+        opacity: 0.85;
+      }
+
+      /* Results full-screen lightbox */
+      .results-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 110;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        background: rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        padding: 0;
+      }
+
+      .results-modal-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .results-modal-sheet {
+        width: 100%;
+        max-width: 450px;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.18);
+        transform: translateY(100%);
+        transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+        overflow: hidden;
+      }
+
+      .results-modal-backdrop.open .results-modal-sheet {
+        transform: translateY(0);
+      }
+
+      .results-modal-scroll {
+        flex: 1;
+        overflow: auto;
+        padding: max(28px, env(safe-area-inset-top)) 24px 20px;
+        padding-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .results-modal-scroll .glass {
+        padding: 24px 20px 20px;
+        border-radius: var(--radius-lg);
+      }
+
+      .results-modal-footer {
+        flex-shrink: 0;
+        padding: 12px 24px max(16px, env(safe-area-inset-bottom));
+        background: var(--bg-footer-scrim);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      .results-modal-footer .actions {
+        margin-top: 0;
+      }
+
+      .results-modal-footer .actions.actions--share-visitor {
+        grid-template-columns: 1fr;
+      }
+
+      .results-modal-footer .primary-btn {
+        margin-top: 0;
+      }
+
+      .results-modal-backdrop.results-modal--share-visitor .results-modal-footer .secondary-btn {
+        display: none !important;
+      }
+
+      .results-modal-ad-slot {
+        margin-bottom: 10px;
+      }
+
+      /* Mount mobile banner / IAP promo ad units here (e.g. AdMob adaptive banner). */
+      .results-mobile-ad-placeholder {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 320px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        border: 1px dashed rgba(0, 0, 0, 0.14);
+        background: rgba(0, 0, 0, 0.04);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+
+      @media (min-width: 520px) {
+        .default-dashboard-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .results-modal-backdrop {
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .results-modal-sheet {
+          min-height: min(88dvh, 640px);
+          max-height: min(88dvh, 640px);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow), 0 24px 80px rgba(0, 0, 0, 0.22);
+          transform: translateY(18px) scale(0.96);
+          opacity: 0;
+          transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.26s ease;
+        }
+
+        .results-modal-backdrop.open .results-modal-sheet {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 16px;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+
+      .modal-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      @media (min-width: 480px) {
+        .modal-backdrop {
+          align-items: center;
+        }
+      }
+
+      .modal {
+        width: 100%;
+        max-width: 400px;
+        max-height: min(85dvh, 560px);
+        overflow: auto;
+        background: #fff;
+        border-radius: var(--radius-lg);
+        padding: 22px 20px 20px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+        transform: translateY(16px);
+        transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      .modal-backdrop.open .modal {
+        transform: translateY(0);
+      }
+
+      .modal h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .modal p {
+        margin: 0 0 12px;
+        font-size: 0.95rem;
+        color: #3c3c43;
+      }
+
+      .modal p:last-of-type {
+        margin-bottom: 18px;
+      }
+
+      .modal a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .modal a:hover {
+        filter: brightness(0.92);
+      }
+
+      #bpmInfoModalBackdrop {
+        z-index: 101;
+      }
+
+      #calendarExportModalBackdrop {
+        z-index: 102;
+      }
+
+      .calendar-export-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0 0 16px;
+      }
+
+      .calendar-export-stack .secondary-btn {
+        width: 100%;
+        margin: 0;
+      }
+
+      .modal-close {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: inherit;
+        border: none;
+        border-radius: var(--radius-md);
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+      }
+
+      .modal-close:active {
+        transform: scale(var(--tap-scale));
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(12px);
+        padding: 12px 18px;
+        background: rgba(0, 0, 0, 0.88);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-radius: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 200;
+        max-width: calc(100% - 48px);
+        text-align: center;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #161620;
+          --bg-footer-scrim: rgba(22, 22, 32, 0.92);
+          --bg-elevated: rgba(34, 34, 44, 0.88);
+          --border-glass: rgba(255, 255, 255, 0.1);
+          --shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+          --text: #ebebf0;
+          --text-secondary: #98989f;
+          --accent-muted: rgba(52, 199, 89, 0.22);
+        }
+
+        .icon-btn {
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .icon-btn:hover {
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        .segmented {
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .segmented input:checked + label {
+          background: rgba(255, 255, 255, 0.14);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        .bpm-info-btn {
+          border-color: rgba(255, 255, 255, 0.18);
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .bpm-info-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .input-wrap input {
+          border-color: rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .results-model-card {
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .results-spectrum-row + .results-spectrum-row {
+          border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .zone-spectrum-track {
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        .zone-spectrum-segment {
+          border-right-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .zone2-highlight {
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        }
+
+        .zone2-callout::before {
+          background: rgba(255, 255, 255, 0.35);
+        }
+
+        .disclaimer {
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .default-card {
+          border-color: rgba(255, 255, 255, 0.12);
+          background: linear-gradient(170deg, rgba(40, 46, 62, 0.88), rgba(26, 31, 42, 0.92));
+        }
+
+        .default-pill {
+          background: rgba(52, 199, 89, 0.2);
+          color: #9feab7;
+        }
+
+        .default-hint-btn {
+          border-color: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-secondary);
+        }
+
+        .default-hint-btn:hover {
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        .default-zone-range,
+        .default-plan-launch-link {
+          color: var(--text);
+        }
+
+        .default-zone-range:hover,
+        .default-plan-launch-link:hover {
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .default-recalc-link {
+          color: #9feab7;
+        }
+
+        .genre-chip {
+          border-color: rgba(255, 255, 255, 0.16);
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .genre-chip:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .genre-chip:has(input:checked) {
+          color: #9feab7;
+          box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.35);
+        }
+
+        .default-plan-skip-note {
+          color: var(--text-secondary);
+        }
+
+        .secondary-btn {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-btn:hover {
+          background: rgba(255, 255, 255, 0.14);
+        }
+
+        .results-modal-footer {
+          border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .results-mobile-ad-placeholder {
+          border-color: rgba(255, 255, 255, 0.16);
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .modal {
+          background: #1e1e28;
+          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+        }
+
+        .modal p {
+          color: var(--text-secondary);
+        }
+
+        .modal a:hover {
+          filter: brightness(1.08);
+        }
+      }
+    </style>
   </head>
   <body>
-    <p>This app has moved. <a href="https://zone2foryou.com/">Continue to zone2foryou.com</a>.</p>
+    <div class="app">
+      <main class="glass">
+        <header class="panel-head">
+          <h1 class="card-title-line">
+            <span class="brand brand--inline">
+              <span class="brand-name">Zone2ForYou&trade;</span>
+            </span>
+            <span class="card-title-sep" aria-hidden="true">|</span>
+            <span class="card-title-topic">Zone 2 Range</span>
+          </h1>
+          <button type="button" class="icon-btn" id="infoBtn" aria-label="Why Zone 2?">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+          </button>
+        </header>
+        <p class="subtitle">From your age, resting and max heart rates.</p>
+        <section class="default-dashboard" id="defaultDashboard">
+          <div class="default-dashboard-grid">
+            <article class="default-card">
+              <div class="default-card__heading-row">
+                <h3 class="default-card__title">Your Zone</h3>
+                <button type="button" class="default-hint-btn default-hint-trigger" data-default-hint="Calculate your personalized Zone 2 range based on your current metrics and training method." aria-label="Results hint">i</button>
+              </div>
+              <button type="button" class="primary-btn default-card__cta" id="defaultCalculateBtn">Calculate</button>
+              <div class="default-zone-summary" id="defaultZoneSummary" hidden aria-live="polite">
+                <button
+                  type="button"
+                  class="default-zone-range"
+                  id="defaultZoneRange"
+                  aria-label="Open full zone comparison results"
+                ></button>
+                <button type="button" class="default-recalc-link" id="defaultRecalculateLink">Re-calculate</button>
+              </div>
+            </article>
+            <article class="default-card">
+              <div class="default-card__heading-row">
+                <h3 class="default-card__title">Plan</h3>
+                <button type="button" class="default-hint-btn default-hint-trigger" data-default-hint="Use BPM-matched playlists and your target range to keep sessions smooth and sustainable." aria-label="Plan hint">i</button>
+              </div>
+              <div class="default-plan-summary" id="defaultPlanSummary" hidden aria-live="polite">
+                <a class="default-plan-launch-link" id="defaultPlanLaunchLink" href="#" hidden>Launch Playlist</a>
+                <p class="default-plan-skip-note" id="defaultPlanSkipNote" hidden></p>
+                <button type="button" class="default-recalc-link" id="defaultPlaylistPrefsLink">Change genre</button>
+              </div>
+              <div class="default-plan-cta-wrap" id="defaultPlanPlaylistWrap">
+                <button type="button" class="secondary-btn default-card__cta" id="defaultPlanPlaylistBtn" disabled>Choose Playlist</button>
+              </div>
+            </article>
+            <article class="default-card">
+              <div class="default-card__heading-row">
+                <h3 class="default-card__title">Log</h3>
+                <button type="button" class="default-hint-btn default-hint-trigger" data-default-hint="Export your latest Results and Plan as a calendar event to keep your Zone 2 session accountable." aria-label="Log hint">i</button>
+              </div>
+              <button type="button" class="secondary-btn default-card__cta" id="defaultLogBtn" disabled>Add to Calendar</button>
+            </article>
+            <article class="default-card">
+              <div class="default-card__heading-row">
+                <h3 class="default-card__title">Share</h3>
+                <button type="button" class="default-hint-btn default-hint-trigger" data-default-hint="Launch mobile share to send your Zone2ForYou results to friends, coach, or your training group." aria-label="Share hint">i</button>
+              </div>
+              <button type="button" class="secondary-btn default-card__cta" id="defaultShareBtn" disabled>Share Results</button>
+            </article>
+          </div>
+          <aside class="default-dashboard-ad-wrap" aria-label="Advertisement">
+            <div class="results-mobile-ad-placeholder" id="defaultDashboardMobileAdUnit">
+              Mobile IAB banner · 320 × 50 (placeholder)
+            </div>
+          </aside>
+          <div class="default-dashboard-reset-wrap" id="defaultDashboardResetWrap" hidden>
+            <button type="button" class="default-recalc-link default-dashboard-reset-link" id="defaultDashboardResetBtn">
+              Reset / Start Over
+            </button>
+          </div>
+        </section>
+
+        <div class="plan-workspace" id="planWorkspace">
+          <form id="calcForm" novalidate>
+            <div id="planInputSection">
+              <div class="field">
+                <label for="age">Age (years)</label>
+                <div class="input-wrap">
+                  <input type="number" id="age" name="age" inputmode="numeric" min="1" max="120" placeholder="e.g. 42" autocomplete="bday-year" />
+                </div>
+                <div class="field-error" id="ageError" role="alert"></div>
+              </div>
+
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="rhr">Resting heart rate (BPM)</label>
+                  <button type="button" class="bpm-info-btn" data-bpm-hint="rhr" aria-label="About measuring resting heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+                </div>
+                <div class="input-wrap">
+                  <input type="number" id="rhr" name="rhr" inputmode="numeric" min="30" max="120" placeholder="e.g. 58" autocomplete="off" />
+                </div>
+                <p class="input-hint">Morning measurement, seated or lying, is ideal.</p>
+                <div class="field-error" id="rhrError" role="alert"></div>
+              </div>
+
+              <div class="field mhr-block" id="mhrBlock">
+                <div class="field-label-row">
+                  <label for="mhr">Max heart rate (BPM)</label>
+                  <button type="button" class="bpm-info-btn" data-bpm-hint="mhr" aria-label="About measuring max heart rate in BPM" aria-haspopup="dialog" aria-controls="bpmInfoDialog" title="Measurement tip">i</button>
+                </div>
+                <div class="input-wrap">
+                  <input type="number" id="mhr" name="mhr" inputmode="numeric" min="80" max="230" placeholder="e.g. 178" autocomplete="off" />
+                </div>
+                <p class="input-hint">Optional. Leave blank for a HUNT max-HR estimate from your age; add your measured max for overlap results.</p>
+                <div class="field-error" id="mhrError" role="alert"></div>
+              </div>
+            </div>
+
+            <div class="plan-genre-section" id="planGenreSection" hidden>
+              <fieldset class="plan-genre-fieldset">
+                <legend class="plan-genre-legend">What genre of music do you like?</legend>
+                <div class="genre-chip-grid" role="radiogroup" aria-label="Music genre">
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="country" /> Country</label>
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="dance" /> Dance</label>
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="hiphop" /> Hip hop</label>
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="latin" /> Latin</label>
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="rock" /> Rock</label>
+                  <label class="genre-chip"><input type="radio" name="planGenre" value="upbeat" /> Upbeat</label>
+                </div>
+                <div class="field-error" id="genreError" role="alert"></div>
+              </fieldset>
+            </div>
+
+            <div class="plan-nav plan-nav--step1-submit" id="planNav">
+              <button type="submit" class="primary-btn" id="planNextBtn">GO</button>
+              <button type="button" class="primary-btn" id="planGenreSubmitBtn" hidden>Submit</button>
+              <button type="button" class="secondary-btn" id="planGenreSkipBtn" hidden>Skip</button>
+            </div>
+          </form>
+        </div>
+      </main>
+      <footer class="site-footer" role="contentinfo">
+        <p class="site-footer-copy">&copy; 2026 HatchAndScale.co</p>
+      </footer>
+    </div>
+
+    <div class="results-modal-backdrop" id="resultsModalBackdrop" aria-hidden="true">
+      <div
+        class="results-modal-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="resultsHeading"
+        aria-describedby="resultsMeta"
+      >
+        <div class="results-modal-scroll">
+          <section class="results glass" id="results" aria-live="polite">
+            <h2 class="results-label" id="resultsHeading">Your Zone 2 Results</h2>
+            <div class="results-models" id="resultsModels"></div>
+            <p class="results-meta" id="resultsMeta"></p>
+            <p class="disclaimer">
+              This is a physiological estimate. Consult a professional for clinical stress testing.
+            </p>
+          </section>
+        </div>
+        <div class="results-modal-footer">
+          <aside class="results-modal-ad-slot" id="resultsModalAdSlot" aria-label="Advertisement">
+            <div class="results-mobile-ad-placeholder" id="resultsMobileAdUnit">
+              Mobile ad unit
+            </div>
+          </aside>
+          <div class="actions" id="resultsModalActions">
+            <button type="button" class="secondary-btn" id="recalculateBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              Recalculate
+            </button>
+            <button type="button" class="primary-btn" id="continuePlanBtn">
+              Continue Plan
+            </button>
+            <button type="button" class="primary-btn" id="calculateYoursBtn" hidden>
+              Calculate Yours
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">Why Zone 2?</h2>
+        <p>
+          Zone 2 is an aerobic intensity where you can speak in full sentences, build mitochondrial fitness, and improve fat oxidation — without accumulating
+          excessive fatigue.
+        </p>
+        <p>
+          Heart rate zones depend on individual physiology. The <strong>Karvonen</strong> (heart rate reserve) method weights your resting rate so the range reflects your
+          cardiovascular economy more closely than age-only formulas.
+        </p>
+        <p>
+          The <strong>HUNT</strong> option estimates max HR from the HUNT study equation (211 − 0.64 × age, rounded) when you do not have a reliable measured max.
+        </p>
+        <button type="button" class="modal-close" id="modalClose">OK</button>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="bpmInfoModalBackdrop" aria-hidden="true">
+      <div class="modal" id="bpmInfoDialog" role="dialog" aria-modal="true" aria-labelledby="bpmInfoTitle">
+        <h2 id="bpmInfoTitle">Measuring BPM</h2>
+        <p id="bpmInfoBody">
+          Best measured with a chest strap
+          <a id="bpmInfoProductLink" href="#" target="_blank" rel="noopener noreferrer">heart rate monitor</a>.
+        </p>
+        <button type="button" class="modal-close" id="bpmInfoModalClose">OK</button>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="calendarExportModalBackdrop" aria-hidden="true">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calendarExportModalTitle"
+      >
+        <h2 id="calendarExportModalTitle">Add to calendar</h2>
+        <p>
+          Send this Zone2ForYou session to your calendar. Your zone results are in the title and description; when you picked a playlist, that page is stored as
+          the event URL (and as the location link in Google Calendar).
+        </p>
+        <div class="calendar-export-stack">
+          <button type="button" class="secondary-btn" id="calendarExportGoogleBtn">Google Calendar</button>
+          <button type="button" class="secondary-btn" id="calendarExportAppleBtn">Apple Calendar (iCloud)</button>
+          <button type="button" class="secondary-btn" id="calendarExportDownloadBtn">Download .ics file</button>
+        </div>
+        <button type="button" class="modal-close" id="calendarExportModalClose">Close</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+      (function () {
+        function gaEvent(eventName, eventParams) {
+          if (typeof gtag === "function") {
+            gtag("event", eventName, eventParams || {});
+          }
+        }
+
+        /** HUNT Fitness Study: HRmax ≈ 211 − 0.64 × age (years). */
+        function huntMaxHr(age) {
+          return Math.round(211 - 0.64 * age);
+        }
+
+        /** Karvonen Zone 2: 60–70% of heart rate reserve, integers per spec. */
+        function karvonenZone2(rhr, mhr) {
+          const reserve = mhr - rhr;
+          const low = Math.round(rhr + 0.6 * reserve);
+          const high = Math.round(rhr + 0.7 * reserve);
+          return { low, high };
+        }
+
+        var form = document.getElementById("calcForm");
+        var ageInput = document.getElementById("age");
+        var rhrInput = document.getElementById("rhr");
+        var mhrInput = document.getElementById("mhr");
+        var mhrBlock = document.getElementById("mhrBlock");
+        var resultsHeading = document.getElementById("resultsHeading");
+        var resultsModels = document.getElementById("resultsModels");
+        var resultsMeta = document.getElementById("resultsMeta");
+        var resultsModalBackdrop = document.getElementById("resultsModalBackdrop");
+        var resultsModalSheet = document.querySelector(".results-modal-sheet");
+        var recalculateBtn = document.getElementById("recalculateBtn");
+        var continuePlanBtn = document.getElementById("continuePlanBtn");
+        var resultsModalActions = document.getElementById("resultsModalActions");
+        var calculateYoursBtn = document.getElementById("calculateYoursBtn");
+        var defaultDashboard = document.getElementById("defaultDashboard");
+        var planWorkspace = document.getElementById("planWorkspace");
+        var defaultCalculateBtn = document.getElementById("defaultCalculateBtn");
+        var defaultZoneSummary = document.getElementById("defaultZoneSummary");
+        var defaultCardZoneRange = document.getElementById("defaultZoneRange");
+        var defaultRecalculateLink = document.getElementById("defaultRecalculateLink");
+        var defaultPlanPlaylistWrap = document.getElementById("defaultPlanPlaylistWrap");
+        var defaultPlanPlaylistBtn = document.getElementById("defaultPlanPlaylistBtn");
+        var defaultLogBtn = document.getElementById("defaultLogBtn");
+        var defaultShareBtn = document.getElementById("defaultShareBtn");
+        var defaultDashboardResetWrap = document.getElementById("defaultDashboardResetWrap");
+        var defaultDashboardResetBtn = document.getElementById("defaultDashboardResetBtn");
+        var defaultHintTriggers = document.querySelectorAll(".default-hint-trigger");
+        var planInputSection = document.getElementById("planInputSection");
+        var planGenreSection = document.getElementById("planGenreSection");
+        var planGenreSubmitBtn = document.getElementById("planGenreSubmitBtn");
+        var planGenreSkipBtn = document.getElementById("planGenreSkipBtn");
+        var planNav = document.getElementById("planNav");
+        var planNextBtn = document.getElementById("planNextBtn");
+        var defaultPlanSummary = document.getElementById("defaultPlanSummary");
+        var defaultPlanLaunchLink = document.getElementById("defaultPlanLaunchLink");
+        var defaultPlanSkipNote = document.getElementById("defaultPlanSkipNote");
+        var defaultPlaylistPrefsLink = document.getElementById("defaultPlaylistPrefsLink");
+        var infoBtn = document.getElementById("infoBtn");
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        var modalClose = document.getElementById("modalClose");
+        var bpmInfoModalBackdrop = document.getElementById("bpmInfoModalBackdrop");
+        var bpmInfoModalClose = document.getElementById("bpmInfoModalClose");
+        var calendarExportModalBackdrop = document.getElementById("calendarExportModalBackdrop");
+        var calendarExportModalClose = document.getElementById("calendarExportModalClose");
+        var calendarExportGoogleBtn = document.getElementById("calendarExportGoogleBtn");
+        var calendarExportAppleBtn = document.getElementById("calendarExportAppleBtn");
+        var calendarExportDownloadBtn = document.getElementById("calendarExportDownloadBtn");
+        var bpmInfoProductLink = document.getElementById("bpmInfoProductLink");
+        var bpmInfoButtons = document.querySelectorAll(".bpm-info-btn");
+        var toast = document.getElementById("toast");
+
+        var productUrlsFallback = [
+          "https://a.co/d/0hDD3sVa",
+          "https://a.co/d/02ha7Hgy",
+          "https://a.co/d/0aBPwHDe",
+        ];
+        var productUrlsCache = null;
+        var productUrlsPromise = null;
+        var lastBpmInfoTrigger = null;
+        var lastCalendarExportTrigger = null;
+        var hasStartedPlan = false;
+        var latestCalculatedSignature = "";
+        var latestCalculatedData = null;
+        var latestCalculatedMethod = "hunt";
+        var defaultDashboardSummaryMode = false;
+        var planFlowMode = "inputs";
+        var lockedPlaylistGenre = null;
+        var playlistPrefsSignature = "";
+
+        var PLAN_GENRE_LABELS = {
+          country: "Country",
+          dance: "Dance",
+          hiphop: "Hip hop",
+          latin: "Latin",
+          rock: "Rock",
+          upbeat: "Upbeat",
+        };
+
+        function isPlaylistPrefsCompleteForCurrentZone() {
+          return (
+            !!latestCalculatedData &&
+            !!latestCalculatedSignature &&
+            playlistPrefsSignature === latestCalculatedSignature
+          );
+        }
+
+        var PLAYLIST_PREFS_STORAGE_KEY = "zone2foryou_playlist_prefs_v1";
+        var ADD_TO_CALENDAR_OPENED_KEY = "zone2foryou_add_to_calendar_opened_v1";
+        var addToCalendarEverOpened = false;
+        try {
+          addToCalendarEverOpened = localStorage.getItem(ADD_TO_CALENDAR_OPENED_KEY) === "1";
+        } catch (err) {
+          addToCalendarEverOpened = false;
+        }
+
+        var SHARE_RESULTS_OPENED_KEY = "zone2foryou_share_results_opened_v1";
+        var shareResultsEverOpened = false;
+        try {
+          shareResultsEverOpened = localStorage.getItem(SHARE_RESULTS_OPENED_KEY) === "1";
+        } catch (err) {
+          shareResultsEverOpened = false;
+        }
+
+        function isValidStoredPlaylistGenre(g) {
+          return g === "skipped" || Boolean(PLAN_GENRE_LABELS[g]);
+        }
+
+        function syncPlaylistPrefsFromStorage() {
+          if (!latestCalculatedSignature || !latestCalculatedData) return;
+          try {
+            var raw = localStorage.getItem(PLAYLIST_PREFS_STORAGE_KEY);
+            if (!raw) return;
+            var o = JSON.parse(raw);
+            if (!o || typeof o.signature !== "string" || o.signature !== latestCalculatedSignature) {
+              return;
+            }
+            if (!isValidStoredPlaylistGenre(o.genre)) {
+              clearPlaylistPrefsStorage();
+              return;
+            }
+            lockedPlaylistGenre = o.genre;
+            playlistPrefsSignature = o.signature;
+          } catch (err) {
+            clearPlaylistPrefsStorage();
+          }
+        }
+
+        function persistPlaylistPrefsToStorage() {
+          try {
+            if (
+              !latestCalculatedSignature ||
+              playlistPrefsSignature !== latestCalculatedSignature ||
+              !lockedPlaylistGenre ||
+              !isValidStoredPlaylistGenre(lockedPlaylistGenre)
+            ) {
+              localStorage.removeItem(PLAYLIST_PREFS_STORAGE_KEY);
+              return;
+            }
+            localStorage.setItem(
+              PLAYLIST_PREFS_STORAGE_KEY,
+              JSON.stringify({ signature: playlistPrefsSignature, genre: lockedPlaylistGenre })
+            );
+          } catch (err) {}
+        }
+
+        function clearPlaylistPrefsStorage() {
+          try {
+            localStorage.removeItem(PLAYLIST_PREFS_STORAGE_KEY);
+          } catch (err) {}
+        }
+
+        function getPlaylistLowHref(genreId) {
+          if (!genreId || genreId === "skipped") return "#";
+          return "playlists/" + genreId + "-low.html";
+        }
+
+        function getInputSignature(method, data) {
+          var m = method === "hunt" ? "hunt" : "karvonen";
+          return [m, data.age, data.rhr, m === "karvonen" ? data.mhr : "auto"].join("|");
+        }
+
+        function getCurrentInputSignature() {
+          var age = parseInt(ageInput.value, 10);
+          var rhr = parseInt(rhrInput.value, 10);
+          var m = getMethod();
+          var mhr = m === "hunt" ? "auto" : parseInt(mhrInput.value, 10);
+          return [m, age, rhr, mhr].join("|");
+        }
+
+        function hasAnyInputValue() {
+          return (
+            String(ageInput.value || "").trim() !== "" ||
+            String(rhrInput.value || "").trim() !== "" ||
+            String(mhrInput.value || "").trim() !== ""
+          );
+        }
+
+        function updateDefaultDashboardZoneSummary(showDefaultDashboard) {
+          if (!defaultZoneSummary || !defaultCardZoneRange || !defaultCalculateBtn) return;
+          if (!showDefaultDashboard) {
+            defaultCalculateBtn.hidden = false;
+            defaultZoneSummary.hidden = true;
+            return;
+          }
+          var summaryMode = defaultDashboardSummaryMode && latestCalculatedData;
+          defaultCalculateBtn.hidden = summaryMode;
+          defaultZoneSummary.hidden = !summaryMode;
+          if (summaryMode) {
+            var s = getPlanSummary(latestCalculatedData, latestCalculatedMethod);
+            var rangeLabel = s.zone.low + " - " + s.zone.high + " BPM";
+            defaultCardZoneRange.textContent = rangeLabel;
+            defaultCardZoneRange.setAttribute(
+              "aria-label",
+              "Open full zone comparison results. Current range: " + rangeLabel + "."
+            );
+          }
+        }
+
+        function updateDefaultDashboardPlanSummary() {
+          if (!defaultPlanSummary || !defaultPlanLaunchLink || !defaultPlanSkipNote) return;
+          var show =
+            defaultDashboardSummaryMode === true &&
+            !!latestCalculatedData &&
+            isPlaylistPrefsCompleteForCurrentZone();
+          defaultPlanSummary.hidden = !show;
+          if (!show) {
+            defaultPlanLaunchLink.hidden = true;
+            defaultPlanSkipNote.hidden = true;
+            defaultPlanLaunchLink.setAttribute("href", "#");
+            return;
+          }
+          if (lockedPlaylistGenre === "skipped") {
+            defaultPlanLaunchLink.hidden = true;
+            defaultPlanSkipNote.hidden = false;
+            defaultPlanSkipNote.textContent =
+              "No genre locked. Tap Change genre when you want a BPM-matched pick.";
+          } else {
+            defaultPlanSkipNote.hidden = true;
+            defaultPlanLaunchLink.hidden = false;
+            var label = PLAN_GENRE_LABELS[lockedPlaylistGenre] || lockedPlaylistGenre || "";
+            defaultPlanLaunchLink.textContent = "Launch " + label + " Playlist";
+            defaultPlanLaunchLink.href = getPlaylistLowHref(lockedPlaylistGenre);
+          }
+        }
+
+        function updateDefaultDashboardPlanActions() {
+          var active = !!latestCalculatedData;
+          var hideChoosePlaylist = isPlaylistPrefsCompleteForCurrentZone();
+          if (defaultPlanPlaylistWrap) {
+            defaultPlanPlaylistWrap.hidden = hideChoosePlaylist;
+          }
+          if (defaultPlanPlaylistBtn) {
+            defaultPlanPlaylistBtn.disabled = !active || hideChoosePlaylist;
+            defaultPlanPlaylistBtn.classList.toggle(
+              "secondary-btn--zone-ready",
+              active && !hideChoosePlaylist
+            );
+          }
+          if (defaultLogBtn) {
+            defaultLogBtn.disabled = !active || !isPlaylistPrefsCompleteForCurrentZone();
+            defaultLogBtn.classList.toggle(
+              "secondary-btn--zone-ready",
+              active && isPlaylistPrefsCompleteForCurrentZone() && !addToCalendarEverOpened
+            );
+          }
+          if (defaultShareBtn) {
+            defaultShareBtn.disabled = !active;
+            defaultShareBtn.classList.toggle(
+              "secondary-btn--zone-ready",
+              active && addToCalendarEverOpened
+            );
+          }
+        }
+
+        function persistAddToCalendarOpened() {
+          if (addToCalendarEverOpened) return;
+          addToCalendarEverOpened = true;
+          try {
+            localStorage.setItem(ADD_TO_CALENDAR_OPENED_KEY, "1");
+          } catch (err) {}
+          updateDefaultDashboardPlanActions();
+        }
+
+        function persistShareResultsOpened() {
+          if (shareResultsEverOpened) return;
+          shareResultsEverOpened = true;
+          try {
+            localStorage.setItem(SHARE_RESULTS_OPENED_KEY, "1");
+          } catch (err) {}
+          updateDefaultDashboardResetLink();
+        }
+
+        function isDefaultDashboardAllStepsComplete() {
+          return (
+            !!latestCalculatedData &&
+            isPlaylistPrefsCompleteForCurrentZone() &&
+            addToCalendarEverOpened &&
+            shareResultsEverOpened
+          );
+        }
+
+        function updateDefaultDashboardResetLink() {
+          if (!defaultDashboardResetWrap) return;
+          defaultDashboardResetWrap.hidden = !isDefaultDashboardAllStepsComplete();
+        }
+
+        function clearResultsFromUrlBar() {
+          try {
+            var u = new URL(window.location.href);
+            u.search = "";
+            history.replaceState(null, "", u.pathname + u.hash);
+          } catch (err) {}
+        }
+
+        function resetStartOverFromDashboard() {
+          closeResultsModal();
+          if (calendarExportModalBackdrop && calendarExportModalBackdrop.classList.contains("open")) {
+            setCalendarExportModal(false);
+          }
+          latestCalculatedSignature = "";
+          latestCalculatedData = null;
+          latestCalculatedMethod = "hunt";
+          lockedPlaylistGenre = null;
+          playlistPrefsSignature = "";
+          clearPlaylistPrefsStorage();
+          addToCalendarEverOpened = false;
+          shareResultsEverOpened = false;
+          try {
+            localStorage.removeItem(ADD_TO_CALENDAR_OPENED_KEY);
+            localStorage.removeItem(SHARE_RESULTS_OPENED_KEY);
+          } catch (err) {}
+          ageInput.value = "";
+          rhrInput.value = "";
+          mhrInput.value = "";
+          showError(ageError, "");
+          showError(rhrError, "");
+          showError(mhrError, "");
+          showError(genreError, "");
+          form.querySelectorAll('input[name="planGenre"]').forEach(function (r) {
+            r.checked = false;
+          });
+          syncMhrVisibility();
+          clearResultsFromUrlBar();
+          defaultDashboardSummaryMode = false;
+          hasStartedPlan = false;
+          planFlowMode = "inputs";
+          syncPlanUi();
+          requestAnimationFrame(function () {
+            if (defaultCalculateBtn) defaultCalculateBtn.focus();
+          });
+        }
+
+        function syncEntryStateUi() {
+          if (!defaultDashboard || !planWorkspace) return;
+          var freshLanding = !hasStartedPlan && !hasAnyInputValue() && !latestCalculatedData;
+          var summaryAtHome = defaultDashboardSummaryMode === true && latestCalculatedData;
+          var showDefault = freshLanding || summaryAtHome;
+          defaultDashboard.hidden = !showDefault;
+          planWorkspace.hidden = showDefault;
+          updateDefaultDashboardZoneSummary(showDefault);
+          updateDefaultDashboardPlanSummary();
+          updateDefaultDashboardPlanActions();
+          updateDefaultDashboardResetLink();
+        }
+
+        function syncPlanWorkspaceMode() {
+          if (!planNav) return;
+          var genre = planFlowMode === "genre";
+          if (planInputSection) planInputSection.hidden = genre;
+          if (planGenreSection) planGenreSection.hidden = !genre;
+          if (genre) {
+            planNav.classList.remove("plan-nav--step1-submit");
+            planNav.classList.add("plan-nav--genre-actions");
+            if (planNextBtn) planNextBtn.hidden = true;
+            if (planGenreSubmitBtn) planGenreSubmitBtn.hidden = false;
+            if (planGenreSkipBtn) planGenreSkipBtn.hidden = false;
+          } else {
+            planNav.classList.add("plan-nav--step1-submit");
+            planNav.classList.remove("plan-nav--genre-actions");
+            if (planNextBtn) planNextBtn.hidden = false;
+            if (planGenreSubmitBtn) planGenreSubmitBtn.hidden = true;
+            if (planGenreSkipBtn) planGenreSkipBtn.hidden = true;
+          }
+        }
+
+        function syncPlanUi() {
+          if (planNextBtn && planFlowMode !== "genre") {
+            planNextBtn.hidden = false;
+            planNextBtn.textContent = "GO";
+          }
+          if (planInputSection && planFlowMode !== "genre") planInputSection.hidden = false;
+          if (planNav && planFlowMode !== "genre") planNav.classList.add("plan-nav--step1-submit");
+          syncPlanWorkspaceMode();
+          syncEntryStateUi();
+        }
+
+        function returnToOnboardingAfterResults() {
+          closeResultsModal();
+          defaultDashboardSummaryMode = true;
+          hasStartedPlan = false;
+          planFlowMode = "inputs";
+          syncPlanUi();
+          requestAnimationFrame(function () {
+            if (defaultRecalculateLink) defaultRecalculateLink.focus();
+          });
+        }
+
+        function enterGenreFlow() {
+          if (!latestCalculatedData) return;
+          defaultDashboardSummaryMode = false;
+          hasStartedPlan = true;
+          planFlowMode = "genre";
+          showError(genreError, "");
+          var radios = form.querySelectorAll('input[name="planGenre"]');
+          var canPreselect =
+            lockedPlaylistGenre &&
+            lockedPlaylistGenre !== "skipped" &&
+            playlistPrefsSignature === latestCalculatedSignature;
+          radios.forEach(function (r) {
+            r.checked = Boolean(canPreselect && r.value === lockedPlaylistGenre);
+          });
+          syncPlanUi();
+          requestAnimationFrame(function () {
+            var first = form.querySelector('input[name="planGenre"]');
+            if (first) first.focus();
+          });
+        }
+
+        function finishGenreFlow(submit, genreId) {
+          if (!latestCalculatedSignature) return;
+          if (submit) {
+            lockedPlaylistGenre = genreId;
+          } else {
+            lockedPlaylistGenre = "skipped";
+          }
+          playlistPrefsSignature = latestCalculatedSignature;
+          planFlowMode = "inputs";
+          defaultDashboardSummaryMode = true;
+          hasStartedPlan = false;
+          showError(genreError, "");
+          persistPlaylistPrefsToStorage();
+          syncPlanUi();
+          requestAnimationFrame(function () {
+            if (submit && genreId && defaultPlanLaunchLink && !defaultPlanLaunchLink.hidden) {
+              defaultPlanLaunchLink.focus();
+            } else if (
+              defaultPlanPlaylistWrap &&
+              !defaultPlanPlaylistWrap.hidden &&
+              defaultPlanPlaylistBtn
+            ) {
+              defaultPlanPlaylistBtn.focus();
+            } else if (defaultPlaylistPrefsLink) {
+              defaultPlaylistPrefsLink.focus();
+            }
+          });
+        }
+
+        function getPlanSummary(data, method) {
+          var m = method === "hunt" ? "hunt" : "karvonen";
+          var baseZone = karvonenZone2(data.rhr, data.mhr);
+          var finalZone = { low: baseZone.low, high: baseZone.high };
+          var summaryText = "Estimated from your current inputs.";
+          if (m === "karvonen") {
+            var huntMhr = huntMaxHr(data.age);
+            var huntZone = karvonenZone2(data.rhr, huntMhr);
+            var overlapLow = Math.max(baseZone.low, huntZone.low);
+            var overlapHigh = Math.min(baseZone.high, huntZone.high);
+            if (overlapLow <= overlapHigh) {
+              finalZone = { low: overlapLow, high: overlapHigh };
+              summaryText = "Overlap band between your entered max HR and HUNT estimate.";
+            } else {
+              summaryText = "Models do not overlap; using your entered-max scenario for this action plan.";
+            }
+          } else {
+            summaryText = "HUNT-estimated max HR with your resting HR.";
+          }
+          return { zone: finalZone, summaryText: summaryText };
+        }
+
+        function icsEscapeText(s) {
+          return String(s)
+            .replace(/\\/g, "\\\\")
+            .replace(/\n/g, "\\n")
+            .replace(/;/g, "\\;")
+            .replace(/,/g, "\\,");
+        }
+
+        function getPlaylistAbsoluteUrlForCalendar() {
+          if (!isPlaylistPrefsCompleteForCurrentZone()) return null;
+          if (lockedPlaylistGenre === "skipped") return null;
+          try {
+            return new URL(getPlaylistLowHref(lockedPlaylistGenre), window.location.href).href;
+          } catch (err) {
+            return null;
+          }
+        }
+
+        function pad2(num) {
+          return String(num).padStart(2, "0");
+        }
+
+        function toIcsUtcDate(d) {
+          return (
+            d.getUTCFullYear() +
+            pad2(d.getUTCMonth() + 1) +
+            pad2(d.getUTCDate()) +
+            "T" +
+            pad2(d.getUTCHours()) +
+            pad2(d.getUTCMinutes()) +
+            pad2(d.getUTCSeconds()) +
+            "Z"
+          );
+        }
+
+        function toGoogleCalendarDateRange(start, end) {
+          return toIcsUtcDate(start) + "/" + toIcsUtcDate(end);
+        }
+
+        function buildCalendarPlanModel() {
+          var summary = getPlanSummary(latestCalculatedData, latestCalculatedMethod);
+          var now = new Date();
+          var end = new Date(now.getTime() + 45 * 60 * 1000);
+          var title = "Zone2ForYou Plan " + summary.zone.low + "-" + summary.zone.high + " BPM";
+          var musicNote = "";
+          if (isPlaylistPrefsCompleteForCurrentZone()) {
+            if (lockedPlaylistGenre === "skipped") {
+              musicNote = " Music: any genre.";
+            } else {
+              musicNote =
+                " Music: " + (PLAN_GENRE_LABELS[lockedPlaylistGenre] || lockedPlaylistGenre) + ".";
+            }
+          }
+          var details =
+            "Zone 2 target: " +
+            summary.zone.low +
+            "-" +
+            summary.zone.high +
+            " BPM. " +
+            summary.summaryText +
+            musicNote;
+          return {
+            summary: summary,
+            start: now,
+            end: end,
+            title: title,
+            details: details,
+            playlistUrl: getPlaylistAbsoluteUrlForCalendar(),
+          };
+        }
+
+        function buildCalendarPlanIcs(model) {
+          var lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Zone2ForYou//EN",
+            "BEGIN:VEVENT",
+            "UID:zone2foryou-" + Date.now() + "@zone2foryou.com",
+            "DTSTAMP:" + toIcsUtcDate(new Date()),
+            "DTSTART:" + toIcsUtcDate(model.start),
+            "DTEND:" + toIcsUtcDate(model.end),
+            "SUMMARY:" + icsEscapeText(model.title),
+            "DESCRIPTION:" + icsEscapeText(model.details),
+          ];
+          if (model.playlistUrl) {
+            lines.push("URL:" + model.playlistUrl);
+          }
+          lines.push("END:VEVENT", "END:VCALENDAR");
+          return lines.join("\r\n") + "\r\n";
+        }
+
+        function openGoogleCalendarForPlan(model) {
+          var params = new URLSearchParams({
+            action: "TEMPLATE",
+            text: model.title,
+            dates: toGoogleCalendarDateRange(model.start, model.end),
+            details: model.details,
+          });
+          if (model.playlistUrl) {
+            params.set("location", model.playlistUrl);
+          }
+          var w = window.open(
+            "https://calendar.google.com/calendar/render?" + params.toString(),
+            "_blank",
+            "noopener,noreferrer"
+          );
+          return Boolean(w);
+        }
+
+        function openIcsBlobInNewWindow(ics) {
+          var blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+          var url = URL.createObjectURL(blob);
+          var opened = window.open(url, "_blank", "noopener,noreferrer");
+          if (!opened) {
+            URL.revokeObjectURL(url);
+            showToast("Pop-up blocked. Use Download .ics instead.");
+            return false;
+          }
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 120000);
+          return true;
+        }
+
+        function downloadIcsFile(ics, filename) {
+          var blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = filename || "zone2foryou-plan.ics";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+
+        function setCalendarExportModal(open) {
+          if (!calendarExportModalBackdrop) return;
+          calendarExportModalBackdrop.classList.toggle("open", open);
+          calendarExportModalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) {
+            gaEvent("zoneyou_modal_open", { modal: "calendar_export" });
+            if (calendarExportGoogleBtn) calendarExportGoogleBtn.focus();
+          } else if (lastCalendarExportTrigger) {
+            lastCalendarExportTrigger.focus();
+            lastCalendarExportTrigger = null;
+          } else if (defaultLogBtn) {
+            defaultLogBtn.focus();
+          }
+        }
+
+        function openCalendarExportModal() {
+          if (!latestCalculatedData) {
+            showToast("Calculate your results before pushing to calendar.");
+            hasStartedPlan = true;
+            syncPlanUi();
+            ageInput.focus();
+            return;
+          }
+          if (!isPlaylistPrefsCompleteForCurrentZone()) {
+            showToast("Choose a playlist genre or skip before adding to your calendar.");
+            return;
+          }
+          lastCalendarExportTrigger = defaultLogBtn;
+          persistAddToCalendarOpened();
+          setCalendarExportModal(true);
+        }
+
+        function exportCalendarPlan(destination) {
+          if (!latestCalculatedData || !isPlaylistPrefsCompleteForCurrentZone()) return;
+          var model = buildCalendarPlanModel();
+          var ics = buildCalendarPlanIcs(model);
+          var keepModalOpen = false;
+          if (destination === "google") {
+            if (openGoogleCalendarForPlan(model)) {
+              showToast("Google Calendar opened in a new tab.");
+            } else {
+              showToast("Pop-up blocked. Allow pop-ups for this site, or use Download .ics.");
+              keepModalOpen = true;
+            }
+          } else if (destination === "apple") {
+            if (openIcsBlobInNewWindow(ics)) {
+              showToast("If nothing opened, use Download .ics.");
+            } else {
+              keepModalOpen = true;
+            }
+          } else if (destination === "download") {
+            downloadIcsFile(ics, "zone2foryou-plan.ics");
+            showToast("Calendar event downloaded.");
+          }
+          gaEvent("zoneyou_calendar_export", {
+            source: "default_dashboard",
+            destination: destination,
+            method: latestCalculatedMethod,
+            zone_low: model.summary.zone.low,
+            zone_high: model.summary.zone.high,
+            has_playlist_url: Boolean(model.playlistUrl),
+            completed: !keepModalOpen,
+          });
+          if (!keepModalOpen) {
+            setCalendarExportModal(false);
+          }
+        }
+
+        function markPlanDirtyIfNeeded() {
+          if (!latestCalculatedSignature) return;
+          if (getCurrentInputSignature() === latestCalculatedSignature) return;
+          latestCalculatedSignature = "";
+          latestCalculatedData = null;
+          latestCalculatedMethod = getMethod();
+          lockedPlaylistGenre = null;
+          playlistPrefsSignature = "";
+          clearPlaylistPrefsStorage();
+          planFlowMode = "inputs";
+          defaultDashboardSummaryMode = false;
+          if (resultsModalBackdrop.classList.contains("open")) {
+            closeResultsModal();
+            showToast("Inputs updated. Tap GO to refresh your results.");
+          }
+          syncPlanUi();
+        }
+
+        function parseProductUrls(text) {
+          return text
+            .split(/\r?\n/)
+            .map(function (line) {
+              return line.trim();
+            })
+            .filter(function (line) {
+              return /^https?:\/\//i.test(line);
+            });
+        }
+
+        function loadProductUrls() {
+          if (productUrlsCache && productUrlsCache.length) {
+            return Promise.resolve(productUrlsCache);
+          }
+          if (productUrlsPromise) return productUrlsPromise;
+          productUrlsPromise = fetch("products.txt")
+            .then(function (res) {
+              if (!res.ok) throw new Error("bad response");
+              return res.text();
+            })
+            .then(function (text) {
+              var urls = parseProductUrls(text);
+              productUrlsCache = urls.length ? urls : productUrlsFallback.slice();
+              return productUrlsCache;
+            })
+            .catch(function () {
+              productUrlsCache = productUrlsFallback.slice();
+              return productUrlsCache;
+            });
+          return productUrlsPromise;
+        }
+
+        function pickRandomProductUrl(urls) {
+          var i = Math.floor(Math.random() * urls.length);
+          return urls[i];
+        }
+
+        function setBpmInfoModal(open, hintType) {
+          bpmInfoModalBackdrop.classList.toggle("open", open);
+          bpmInfoModalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) {
+            gaEvent("zoneyou_modal_open", {
+              modal: "bpm_info",
+              hint_type: hintType || "unknown",
+            });
+            bpmInfoModalClose.focus();
+          } else if (lastBpmInfoTrigger) lastBpmInfoTrigger.focus();
+        }
+
+        var ageError = document.getElementById("ageError");
+        var rhrError = document.getElementById("rhrError");
+        var mhrError = document.getElementById("mhrError");
+        var genreError = document.getElementById("genreError");
+
+        function mhrFieldProvided() {
+          return String(mhrInput.value || "").trim() !== "";
+        }
+
+        /** Hunt-only when max HR is left blank; overlap (Karvonen vs HUNT) when user enters max HR. */
+        function getMethod() {
+          return mhrFieldProvided() ? "karvonen" : "hunt";
+        }
+
+        function syncMhrVisibility() {
+          if (mhrBlock) mhrBlock.classList.remove("hidden");
+          if (mhrInput) mhrInput.removeAttribute("required");
+        }
+
+        syncMhrVisibility();
+        [ageInput, rhrInput, mhrInput].forEach(function (input) {
+          input.addEventListener("input", function () {
+            hasStartedPlan = true;
+            markPlanDirtyIfNeeded();
+            syncEntryStateUi();
+          });
+        });
+
+        function showError(el, msg) {
+          el.textContent = msg;
+          el.classList.toggle("visible", Boolean(msg));
+        }
+
+        function validate() {
+          var ok = true;
+          showError(ageError, "");
+          showError(rhrError, "");
+          showError(mhrError, "");
+
+          var age = parseInt(ageInput.value, 10);
+          if (!Number.isFinite(age) || age < 1 || age > 120) {
+            showError(ageError, "Enter an age between 1 and 120.");
+            ok = false;
+          }
+
+          var rhr = parseInt(rhrInput.value, 10);
+          if (!Number.isFinite(rhr) || rhr < 30 || rhr > 120) {
+            showError(rhrError, "Enter resting HR between 30 and 120 BPM.");
+            ok = false;
+          }
+
+          var mhr = null;
+          if (mhrFieldProvided()) {
+            mhr = parseInt(mhrInput.value, 10);
+            if (!Number.isFinite(mhr) || mhr < 80 || mhr > 230) {
+              showError(mhrError, "Enter max HR between 80 and 230 BPM, or leave blank for HUNT estimate.");
+              ok = false;
+            }
+          } else if (ok) {
+            mhr = huntMaxHr(age);
+          }
+
+          if (ok && Number.isFinite(rhr) && Number.isFinite(mhr) && mhr <= rhr + 10) {
+            showError(mhrError, "Max HR should be clearly above resting HR.");
+            ok = false;
+          }
+
+          return ok ? { age: age, rhr: rhr, mhr: mhr } : null;
+        }
+
+        var SHARE_REF_PARAM = "ref";
+        var SHARE_REF_VALUE = "share";
+
+        function urlHasShareAttribution() {
+          try {
+            var v = new URLSearchParams(window.location.search).get(SHARE_REF_PARAM);
+            return (v || "").toLowerCase() === SHARE_REF_VALUE;
+          } catch (err) {
+            return false;
+          }
+        }
+
+        /** Same directory as this page, always `index.html`, no query or hash. */
+        function navigateToCalculatorIndexHtml() {
+          try {
+            var u = new URL(window.location.href);
+            var path = u.pathname;
+            if (path.endsWith("/")) {
+              u.pathname = path + "index.html";
+            } else {
+              var last = path.split("/").pop() || "";
+              if (/\.html?$/i.test(last)) {
+                u.pathname = path.replace(/[^/]+$/, "index.html");
+              } else {
+                u.pathname = path.replace(/\/?$/, "/index.html");
+              }
+            }
+            u.search = "";
+            u.hash = "";
+            window.location.assign(u.href);
+          } catch (err) {
+            window.location.assign("index.html");
+          }
+        }
+
+        function buildResultsSearchParams(data, method, urlOpts) {
+          urlOpts = urlOpts || {};
+          var p = new URLSearchParams();
+          var m = method === "hunt" ? "hunt" : "karvonen";
+          p.set("method", m);
+          p.set("age", String(data.age));
+          p.set("rhr", String(data.rhr));
+          if (m === "karvonen") p.set("mhr", String(data.mhr));
+          if (urlOpts.includeShareAttribution) p.set(SHARE_REF_PARAM, SHARE_REF_VALUE);
+          return p;
+        }
+
+        function replaceUrlWithShareableResults(data, method, renderOpts) {
+          renderOpts = renderOpts || {};
+          var includeRef =
+            renderOpts.shareVisitorUi === true ||
+            (urlHasShareAttribution() && renderOpts.fromSharedUrl === true);
+          try {
+            var u = new URL(window.location.href);
+            u.search = buildResultsSearchParams(data, method, {
+              includeShareAttribution: includeRef,
+            }).toString();
+            history.replaceState(null, "", u.pathname + u.search + u.hash);
+          } catch (err) {}
+        }
+
+        function calculatorUrlForShareText(data, method) {
+          try {
+            var u = new URL(window.location.href);
+            u.search = buildResultsSearchParams(data, method, {
+              includeShareAttribution: true,
+            }).toString();
+            return u.toString();
+          } catch (err) {
+            return "https://zone2foryou.com";
+          }
+        }
+
+        function syncResultsModalFooterMode(visitor) {
+          if (!resultsModalActions || !calculateYoursBtn || !resultsModalBackdrop) return;
+          if (visitor === undefined) visitor = urlHasShareAttribution();
+          resultsModalActions.classList.toggle("actions--share-visitor", visitor);
+          resultsModalBackdrop.classList.toggle("results-modal--share-visitor", visitor);
+          recalculateBtn.hidden = visitor;
+          if (continuePlanBtn) continuePlanBtn.hidden = visitor;
+          calculateYoursBtn.hidden = !visitor;
+        }
+
+        function resetResultsModalFooterToOwner() {
+          if (!resultsModalActions || !calculateYoursBtn || !resultsModalBackdrop) return;
+          resultsModalActions.classList.remove("actions--share-visitor");
+          resultsModalBackdrop.classList.remove("results-modal--share-visitor");
+          recalculateBtn.hidden = false;
+          if (continuePlanBtn) continuePlanBtn.hidden = false;
+          calculateYoursBtn.hidden = true;
+        }
+
+        function openResultsModal() {
+          resultsModalBackdrop.classList.add("open");
+          resultsModalBackdrop.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          gaEvent("zoneyou_modal_open", { modal: "results" });
+          requestAnimationFrame(function () {
+            if (calculateYoursBtn && !calculateYoursBtn.hidden) calculateYoursBtn.focus();
+            else if (continuePlanBtn && !continuePlanBtn.hidden) continuePlanBtn.focus();
+            else recalculateBtn.focus();
+          });
+        }
+
+        function closeResultsModal() {
+          resultsModalBackdrop.classList.remove("open");
+          resultsModalBackdrop.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsHeading");
+          resultsHeading.classList.remove("results-heading--visually-hidden");
+          resetResultsModalFooterToOwner();
+        }
+
+        function clampPercent(value) {
+          return Math.max(0, Math.min(100, value));
+        }
+
+        /** Stagger fade / soft-bounce for results: BPM line, then each spectrum row (Karvonen, HUNT, etc.). */
+        function applyResultsRevealStagger(container) {
+          if (!container) return;
+          var cards = container.querySelectorAll(".results-model-card");
+          var targets = [];
+          var revealDurationMs = 780;
+          var revealStepDelayMs = 190;
+
+          cards.forEach(function (card) {
+            card.classList.remove("results-model-card--final-glow");
+          });
+
+          if (container._resultsGlowTimer) {
+            clearTimeout(container._resultsGlowTimer);
+            container._resultsGlowTimer = null;
+          }
+
+          cards.forEach(function (card) {
+            var bpm = card.querySelector(".results-model-bpm");
+            var spectrumRows = card.querySelectorAll(".results-spectrum-row");
+            if (bpm) {
+              targets.push(bpm);
+            } else if (spectrumRows.length) {
+              var soloTitle = card.querySelector(".results-model-title");
+              if (soloTitle) targets.push(soloTitle);
+            } else {
+              var noteHeading = card.querySelector(".overlap-main-title");
+              var noteBody = card.querySelector(".results-meta");
+              if (noteHeading) targets.push(noteHeading);
+              if (noteBody) targets.push(noteBody);
+            }
+            spectrumRows.forEach(function (row) {
+              targets.push(row);
+            });
+          });
+          targets.forEach(function (el, i) {
+            el.classList.add("results-reveal");
+            el.style.setProperty("--results-reveal-i", String(i));
+          });
+
+          var zone2Heading = container.querySelector(".overlap-main-title");
+          var glowCard = zone2Heading ? zone2Heading.closest(".results-model-card") : cards[0];
+          if (!glowCard) return;
+
+          var revealTotalMs = revealDurationMs + Math.max(targets.length - 1, 0) * revealStepDelayMs;
+          container._resultsGlowTimer = setTimeout(function () {
+            glowCard.classList.remove("results-model-card--final-glow");
+            void glowCard.offsetWidth;
+            glowCard.classList.add("results-model-card--final-glow");
+          }, revealTotalMs + 80);
+        }
+
+        function appendZoneSpectrumRow(host, rowModel, rowOpts) {
+          var ro = rowOpts || {};
+
+          var row = document.createElement("div");
+          row.className = "results-spectrum-row";
+
+          var wrap = document.createElement("div");
+          wrap.className = "zone-spectrum-wrap";
+
+          var labels = document.createElement("div");
+          labels.className = "zone-spectrum-labels";
+          for (var i = 0; i <= 5; i += 1) {
+            var zoneLabel = document.createElement("span");
+            zoneLabel.textContent = "Zone " + i;
+            labels.appendChild(zoneLabel);
+          }
+
+          var track = document.createElement("div");
+          track.className = "zone-spectrum-track";
+          for (var j = 0; j <= 5; j += 1) {
+            var segment = document.createElement("span");
+            segment.className = "zone-spectrum-segment";
+            track.appendChild(segment);
+          }
+
+          var zoneWidthPct = 100 / 6;
+          var zone2LeftPct = 2 * zoneWidthPct;
+          var zone2RightPct = 3 * zoneWidthPct;
+
+          function mapBpmToPctWithinZone2(bpm, z2Low, z2High) {
+            if (!Number.isFinite(bpm)) return zone2LeftPct;
+            if (!Number.isFinite(z2Low) || !Number.isFinite(z2High) || z2High <= z2Low) return zone2LeftPct;
+            var t = (bpm - z2Low) / (z2High - z2Low);
+            return clampPercent(zone2LeftPct + t * (zone2RightPct - zone2LeftPct));
+          }
+
+          var lowPct = zone2LeftPct;
+          var highPct = zone2RightPct;
+
+          if (ro.narrowWithinZone2 && ro.zone2Reference) {
+            var z2r = ro.zone2Reference;
+            lowPct = mapBpmToPctWithinZone2(rowModel.zone.low, z2r.low, z2r.high);
+            highPct = mapBpmToPctWithinZone2(rowModel.zone.high, z2r.low, z2r.high);
+            lowPct = clampPercent(Math.min(lowPct, highPct));
+            highPct = clampPercent(Math.max(lowPct, highPct));
+          }
+
+          var highlight = document.createElement("span");
+          highlight.className = "zone2-highlight";
+          highlight.style.left = lowPct + "%";
+          highlight.style.width = Math.max(highPct - lowPct, 2) + "%";
+          track.appendChild(highlight);
+
+          var callouts = document.createElement("div");
+          callouts.className = "zone2-callouts";
+
+          var lowCallout = document.createElement("span");
+          lowCallout.className = "zone2-callout";
+          lowCallout.style.left = lowPct + "%";
+          lowCallout.innerHTML = "<b>" + rowModel.zone.low + "</b><small>Bottom</small>";
+
+          var highCallout = document.createElement("span");
+          highCallout.className = "zone2-callout";
+          highCallout.style.left = highPct + "%";
+          highCallout.innerHTML = "<b>" + rowModel.zone.high + "</b><small>Top</small>";
+
+          callouts.appendChild(lowCallout);
+          callouts.appendChild(highCallout);
+
+          wrap.appendChild(labels);
+          wrap.appendChild(track);
+          wrap.appendChild(callouts);
+
+          if (rowModel.label) {
+            var rowTitle = document.createElement("div");
+            rowTitle.className = "results-spectrum-row-title";
+            rowTitle.textContent = rowModel.label;
+            row.appendChild(rowTitle);
+          }
+          row.appendChild(wrap);
+          host.appendChild(row);
+        }
+
+        function buildDualModelSpectrumCard(cardOptions) {
+          var opts = cardOptions || {};
+          var rows = opts.rows || [];
+
+          var card = document.createElement("article");
+          card.className = "results-model-card";
+
+          if (opts.cardTitle) {
+            var title = document.createElement("h3");
+            title.className = "results-model-title";
+            title.textContent = opts.cardTitle;
+            card.appendChild(title);
+          }
+          rows.forEach(function (row) {
+            appendZoneSpectrumRow(card, row.model, row.rowOpts);
+          });
+          return card;
+        }
+
+        function buildSpectrumModelCard(model, options) {
+          var opts = options || {};
+
+          var card = document.createElement("article");
+          card.className = "results-model-card";
+
+          if (opts.mode === "note") {
+            var noteTitle = document.createElement("h2");
+            noteTitle.className = "results-label overlap-main-title";
+            noteTitle.id = opts.overlapTitleId || "resultsOverlapHeading";
+            noteTitle.innerHTML = opts.overlapTitleHtml || model.label;
+            var note = document.createElement("p");
+            note.className = "results-meta";
+            note.style.marginTop = "10px";
+            note.textContent = opts.noteText || "";
+            card.appendChild(noteTitle);
+            card.appendChild(note);
+            return card;
+          }
+
+          var title = null;
+          if (opts.overlapMainTitle) {
+            title = document.createElement("h2");
+            title.className = "results-label overlap-main-title";
+            title.id = opts.overlapTitleId || "resultsOverlapHeading";
+            title.innerHTML = opts.overlapTitleHtml || model.label;
+          } else {
+            title = document.createElement("h3");
+            title.className = "results-model-title";
+            title.textContent = model.label;
+          }
+
+          if (!opts.hideBpmRangeLine) {
+            var bpm = document.createElement("p");
+            bpm.className = "results-model-bpm";
+            bpm.innerHTML = '<span>' + model.zone.low + "</span> – <span>" + model.zone.high + "</span> BPM";
+            card.appendChild(bpm);
+          }
+
+          appendZoneSpectrumRow(
+            card,
+            { label: "", zone: model.zone },
+            {
+              narrowWithinZone2: opts.narrowWithinZone2,
+              zone2Reference: opts.zone2Reference,
+            }
+          );
+
+          card.insertBefore(title, card.firstChild);
+          return card;
+        }
+
+        function renderResults(data, options) {
+          var opts = options || {};
+          var reopenFromDashboard = opts.reopenFromDashboard === true;
+          var method =
+            reopenFromDashboard && (latestCalculatedMethod === "hunt" || latestCalculatedMethod === "karvonen")
+              ? latestCalculatedMethod
+              : getMethod();
+          var karvonenZone = karvonenZone2(data.rhr, data.mhr);
+          var models = [];
+          var methodLine = "";
+
+          if (method === "karvonen") {
+            var huntMhr = huntMaxHr(data.age);
+            var huntZone = karvonenZone2(data.rhr, huntMhr);
+            var overlapLow = Math.max(karvonenZone.low, huntZone.low);
+            var overlapHigh = Math.min(karvonenZone.high, huntZone.high);
+            var hasOverlap = overlapLow <= overlapHigh;
+
+            if (hasOverlap) {
+              models.push({
+                label: "Zone2ForYou\u2122 Results (Overlap)",
+                zone: { low: overlapLow, high: overlapHigh },
+                rhr: data.rhr,
+                mhr: data.mhr,
+                cardOptions: {
+                  overlapMainTitle: true,
+                  overlapTitleHtml: "Zone2ForYou&trade; Results (Overlap)",
+                  overlapTitleId: "resultsOverlapHeading",
+                  narrowWithinZone2: true,
+                  zone2Reference: karvonenZone,
+                },
+              });
+            } else {
+              models.push({
+                label: "Zone2ForYou\u2122 Results (Overlap)",
+                cardOptions: {
+                  mode: "note",
+                  overlapTitleHtml: "Zone2ForYou&trade; Results (Overlap)",
+                  overlapTitleId: "resultsOverlapHeading",
+                  noteText:
+                    "No overlap between the Karvonen (entered max HR) and HUNT max HR estimates for these inputs. Treat the two model rows below as separate scenarios.",
+                },
+              });
+            }
+
+            models.push({
+              kind: "dual",
+              cardOptions: {
+                rows: [
+                  { model: { label: "Karvonen (entered max HR)", zone: karvonenZone }, rowOpts: {} },
+                  { model: { label: "HUNT max HR estimate", zone: huntZone }, rowOpts: {} },
+                ],
+              },
+            });
+            resultsHeading.innerHTML = "Results";
+            resultsHeading.classList.add("results-heading--visually-hidden");
+            if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsOverlapHeading");
+            methodLine = "Comparison of models based on RHR " + data.rhr + " BPM.";
+          } else {
+            models.push({
+              label: "HUNT max HR estimate",
+              zone: karvonenZone,
+              rhr: data.rhr,
+              mhr: data.mhr,
+              cardOptions: { hideBpmRangeLine: true },
+            });
+            resultsHeading.textContent = "Your Zone 2 (HUNT)";
+            resultsHeading.classList.remove("results-heading--visually-hidden");
+            if (resultsModalSheet) resultsModalSheet.setAttribute("aria-labelledby", "resultsHeading");
+            methodLine = "Max HR from HUNT estimate: " + data.mhr + " BPM (rounded).";
+          }
+
+          resultsModels.textContent = "";
+          models.forEach(function (model) {
+            if (model.kind === "dual") {
+              resultsModels.appendChild(buildDualModelSpectrumCard(model.cardOptions));
+            } else {
+              resultsModels.appendChild(buildSpectrumModelCard(model, model.cardOptions));
+            }
+          });
+
+          resultsMeta.textContent = "";
+          resultsMeta.appendChild(document.createTextNode(methodLine));
+          resultsMeta.appendChild(document.createElement("br"));
+          var karvonenStrong = document.createElement("strong");
+          karvonenStrong.textContent = "Karvonen";
+          resultsMeta.appendChild(karvonenStrong);
+          resultsMeta.appendChild(document.createTextNode(" band in green: 60–70% of HR reserve."));
+          var visitorFooter = opts.shareVisitorUi === true || urlHasShareAttribution();
+
+          if (reopenFromDashboard) {
+            gaEvent("zoneyou_results_reopen", {
+              source: "default_dashboard_zone",
+              calculation_method: method,
+            });
+            syncResultsModalFooterMode(visitorFooter);
+            openResultsModal();
+            requestAnimationFrame(function () {
+              applyResultsRevealStagger(resultsModels);
+            });
+            return;
+          }
+
+          if (opts.fromSharedUrl) {
+            gaEvent("zoneyou_open_shared_link", {
+              calculation_method: method,
+              zone_low: karvonenZone.low,
+              zone_high: karvonenZone.high,
+              visit_attribution: urlHasShareAttribution() ? "share" : "none",
+            });
+          } else {
+            gaEvent("zoneyou_calculate", {
+              calculation_method: method,
+              zone_low: karvonenZone.low,
+              zone_high: karvonenZone.high,
+            });
+          }
+          replaceUrlWithShareableResults(data, method, {
+            fromSharedUrl: opts.fromSharedUrl,
+            shareVisitorUi: opts.shareVisitorUi,
+          });
+          hasStartedPlan = true;
+          latestCalculatedData = data;
+          latestCalculatedMethod = method;
+          latestCalculatedSignature = getInputSignature(method, data);
+          lockedPlaylistGenre = null;
+          playlistPrefsSignature = "";
+          syncPlaylistPrefsFromStorage();
+          syncResultsModalFooterMode(visitorFooter);
+          openResultsModal();
+          requestAnimationFrame(function () {
+            applyResultsRevealStagger(resultsModels);
+          });
+        }
+
+        function tryHydrateResultsFromUrl() {
+          var params;
+          try {
+            params = new URLSearchParams(window.location.search);
+          } catch (e) {
+            return;
+          }
+          if (!params.has("age") || !params.has("rhr")) return;
+
+          var methodParam = (params.get("method") || "").toLowerCase();
+          var method = methodParam === "hunt" ? "hunt" : "karvonen";
+
+          ageInput.value = params.get("age") || "";
+          rhrInput.value = params.get("rhr") || "";
+          if (method === "karvonen") {
+            mhrInput.value = params.get("mhr") || "";
+          } else {
+            mhrInput.value = "";
+          }
+
+          syncMhrVisibility();
+
+          var data = validate();
+          if (!data) return;
+
+          var shareVisitorUi =
+            (params.get(SHARE_REF_PARAM) || "").toLowerCase() === SHARE_REF_VALUE;
+
+          renderResults(data, { fromSharedUrl: true, shareVisitorUi: shareVisitorUi });
+          defaultDashboardSummaryMode = true;
+          hasStartedPlan = false;
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (planFlowMode === "genre") return;
+          var data = validate();
+          if (data) {
+            renderResults(data);
+          } else {
+            var invalidFields = [];
+            if (ageError.classList.contains("visible")) invalidFields.push("age");
+            if (rhrError.classList.contains("visible")) invalidFields.push("rhr");
+            if (mhrError.classList.contains("visible")) invalidFields.push("mhr");
+            gaEvent("zoneyou_validation_error", {
+              fields: invalidFields.join(","),
+            });
+            closeResultsModal();
+          }
+        });
+
+        recalculateBtn.addEventListener("click", function () {
+          gaEvent("zoneyou_recalculate", { source: "results_modal" });
+          closeResultsModal();
+          planFlowMode = "inputs";
+          syncPlanUi();
+          ageInput.focus();
+        });
+
+        if (continuePlanBtn) {
+          continuePlanBtn.addEventListener("click", function () {
+            gaEvent("zoneyou_continue_plan", { source: "results_modal", target: "onboarding" });
+            returnToOnboardingAfterResults();
+          });
+        }
+
+        if (calculateYoursBtn) {
+          calculateYoursBtn.addEventListener("click", function () {
+            gaEvent("zoneyou_calculate_yours_cta", { source: "results_modal" });
+            navigateToCalculatorIndexHtml();
+          });
+        }
+
+        resultsModalBackdrop.addEventListener("click", function (e) {
+          if (e.target === resultsModalBackdrop) {
+            gaEvent("zoneyou_results_dismiss", { dismiss_method: "backdrop" });
+            closeResultsModal();
+            ageInput.focus();
+          }
+        });
+
+        function showToast(msg) {
+          toast.textContent = msg;
+          toast.classList.add("show");
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2200);
+        }
+
+        function buildZoneYouShareText(data, forcedMethod) {
+          var method = forcedMethod || getMethod();
+          if (method === "karvonen") {
+            var enteredMhr = data.mhr;
+            var huntMhr = huntMaxHr(data.age);
+            var karvonenZ = karvonenZone2(data.rhr, enteredMhr);
+            var huntZ = karvonenZone2(data.rhr, huntMhr);
+            var overlapLow = Math.max(karvonenZ.low, huntZ.low);
+            var overlapHigh = Math.min(karvonenZ.high, huntZ.high);
+            if (overlapLow <= overlapHigh) {
+              return (
+                "Zone2ForYou\u2122 — Zone 2: " +
+                overlapLow +
+                "\u2013" +
+                overlapHigh +
+                " BPM (RHR " +
+                data.rhr +
+                "). Estimate only. " +
+                calculatorUrlForShareText(data, method)
+              );
+            }
+            return (
+              "Zone2ForYou\u2122 — Zone 2: " +
+              karvonenZ.low +
+              "\u2013" +
+              karvonenZ.high +
+              " BPM (RHR " +
+              data.rhr +
+              ", max " +
+              enteredMhr +
+              "). Estimate only. " +
+              calculatorUrlForShareText(data, method)
+            );
+          }
+
+          var z = karvonenZone2(data.rhr, data.mhr);
+          return (
+            "Zone2ForYou\u2122 — Zone 2: " +
+            z.low +
+            "\u2013" +
+            z.high +
+            " BPM (RHR " +
+            data.rhr +
+            ", age " +
+            data.age +
+            "). Estimate only. " +
+            calculatorUrlForShareText(data, method)
+          );
+        }
+
+        function handleShareAction(source) {
+          var data = latestCalculatedData;
+          if (!data) data = validate();
+          if (!data) {
+            showToast("Calculate your results before sharing.");
+            gaEvent("zoneyou_share", { outcome: "validation_failed" });
+            return;
+          }
+          if (source === "default_share_widget") {
+            persistShareResultsOpened();
+          }
+          var method = latestCalculatedMethod || getMethod();
+          var text = buildZoneYouShareText(data, method);
+          var shareData = { title: "Zone2ForYou\u2122", text: text };
+
+          if (navigator.share) {
+            navigator.share(shareData).then(
+              function () {
+                gaEvent("share", {
+                  method: "Web Share API",
+                  content_type: "calculator_result",
+                  item_id: "zone2_range",
+                  source: source || "results_modal",
+                });
+              },
+              function () {
+                gaEvent("zoneyou_share", { outcome: "cancelled_or_failed", method: "Web Share API" });
+              }
+            );
+          } else if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(
+              function () {
+                showToast("Copied to clipboard");
+                gaEvent("share", {
+                  method: "clipboard",
+                  content_type: "calculator_result",
+                  item_id: "zone2_range",
+                  source: source || "results_modal",
+                });
+              },
+              function () {
+                showToast("Could not copy");
+                gaEvent("zoneyou_share", { outcome: "clipboard_denied", method: "clipboard" });
+              }
+            );
+          } else {
+            showToast(text);
+            gaEvent("zoneyou_share", { outcome: "fallback_toast", method: "none" });
+          }
+        }
+
+        defaultHintTriggers.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            showToast(btn.getAttribute("data-default-hint") || "Hint unavailable.");
+          });
+        });
+
+        if (defaultCalculateBtn) {
+          defaultCalculateBtn.addEventListener("click", function () {
+            defaultDashboardSummaryMode = false;
+            hasStartedPlan = true;
+            planFlowMode = "inputs";
+            syncPlanUi();
+            ageInput.focus();
+            gaEvent("zoneyou_default_dashboard_cta", { cta: "calculate" });
+          });
+        }
+
+        if (defaultRecalculateLink) {
+          defaultRecalculateLink.addEventListener("click", function () {
+            gaEvent("zoneyou_recalculate", { source: "default_dashboard_summary" });
+            defaultDashboardSummaryMode = false;
+            hasStartedPlan = true;
+            planFlowMode = "inputs";
+            syncPlanUi();
+            ageInput.focus();
+          });
+        }
+
+        if (defaultCardZoneRange) {
+          defaultCardZoneRange.addEventListener("click", function () {
+            if (!latestCalculatedData) return;
+            renderResults(latestCalculatedData, { reopenFromDashboard: true });
+          });
+        }
+
+        if (defaultPlaylistPrefsLink) {
+          defaultPlaylistPrefsLink.addEventListener("click", function () {
+            gaEvent("zoneyou_playlist_prefs", { action: "change_genre" });
+            enterGenreFlow();
+          });
+        }
+
+        if (planGenreSubmitBtn) {
+          planGenreSubmitBtn.addEventListener("click", function () {
+            var picked = form.querySelector('input[name="planGenre"]:checked');
+            if (!picked || !picked.value) {
+              showError(genreError, "Choose a genre, or tap Skip.");
+              gaEvent("zoneyou_playlist_prefs", { action: "submit_blocked", reason: "no_selection" });
+              return;
+            }
+            showError(genreError, "");
+            finishGenreFlow(true, picked.value);
+            gaEvent("zoneyou_playlist_prefs", { action: "submit", genre: picked.value });
+          });
+        }
+
+        if (planGenreSkipBtn) {
+          planGenreSkipBtn.addEventListener("click", function () {
+            showError(genreError, "");
+            finishGenreFlow(false, null);
+            gaEvent("zoneyou_playlist_prefs", { action: "skip" });
+          });
+        }
+
+        form.querySelectorAll('input[name="planGenre"]').forEach(function (radio) {
+          radio.addEventListener("change", function () {
+            showError(genreError, "");
+          });
+        });
+
+        if (defaultPlanPlaylistBtn) {
+          defaultPlanPlaylistBtn.addEventListener("click", function () {
+            if (!latestCalculatedData) return;
+            enterGenreFlow();
+            gaEvent("zoneyou_default_dashboard_cta", { cta: "playlist_genre_flow" });
+          });
+        }
+
+        if (defaultLogBtn) {
+          defaultLogBtn.addEventListener("click", function () {
+            openCalendarExportModal();
+          });
+        }
+
+        if (calendarExportModalClose) {
+          calendarExportModalClose.addEventListener("click", function () {
+            gaEvent("zoneyou_modal_close", { modal: "calendar_export", dismiss_method: "button" });
+            setCalendarExportModal(false);
+          });
+        }
+        if (calendarExportModalBackdrop) {
+          calendarExportModalBackdrop.addEventListener("click", function (e) {
+            if (e.target === calendarExportModalBackdrop) {
+              gaEvent("zoneyou_modal_close", { modal: "calendar_export", dismiss_method: "backdrop" });
+              setCalendarExportModal(false);
+            }
+          });
+        }
+        if (calendarExportGoogleBtn) {
+          calendarExportGoogleBtn.addEventListener("click", function () {
+            exportCalendarPlan("google");
+          });
+        }
+        if (calendarExportAppleBtn) {
+          calendarExportAppleBtn.addEventListener("click", function () {
+            exportCalendarPlan("apple");
+          });
+        }
+        if (calendarExportDownloadBtn) {
+          calendarExportDownloadBtn.addEventListener("click", function () {
+            exportCalendarPlan("download");
+          });
+        }
+
+        if (defaultShareBtn) {
+          defaultShareBtn.addEventListener("click", function () {
+            handleShareAction("default_share_widget");
+          });
+        }
+
+        if (defaultDashboardResetBtn) {
+          defaultDashboardResetBtn.addEventListener("click", function () {
+            gaEvent("zoneyou_default_dashboard_cta", { cta: "reset_start_over" });
+            resetStartOverFromDashboard();
+          });
+        }
+
+        function setModal(open) {
+          modalBackdrop.classList.toggle("open", open);
+          modalBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+          if (open) {
+            gaEvent("zoneyou_modal_open", { modal: "why_zone2" });
+            modalClose.focus();
+          }
+        }
+
+        infoBtn.addEventListener("click", function () {
+          setModal(true);
+        });
+        modalClose.addEventListener("click", function () {
+          gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "button" });
+          setModal(false);
+          infoBtn.focus();
+        });
+        modalBackdrop.addEventListener("click", function (e) {
+          if (e.target === modalBackdrop) {
+            gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "backdrop" });
+            setModal(false);
+            infoBtn.focus();
+          }
+        });
+
+        bpmInfoButtons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            lastBpmInfoTrigger = btn;
+            loadProductUrls().then(function (urls) {
+              bpmInfoProductLink.href = pickRandomProductUrl(urls);
+              setBpmInfoModal(true, btn.dataset.bpmHint);
+            });
+          });
+        });
+        bpmInfoModalClose.addEventListener("click", function () {
+          gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "button" });
+          setBpmInfoModal(false);
+        });
+        bpmInfoModalBackdrop.addEventListener("click", function (e) {
+          if (e.target === bpmInfoModalBackdrop) {
+            gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "backdrop" });
+            setBpmInfoModal(false);
+          }
+        });
+
+        bpmInfoProductLink.addEventListener("click", function () {
+          var hostname = "";
+          try {
+            hostname = new URL(bpmInfoProductLink.href, window.location.href).hostname;
+          } catch (err) {}
+          gaEvent("zoneyou_affiliate_link_click", {
+            link_domain: hostname || undefined,
+            outbound: true,
+          });
+        });
+
+        tryHydrateResultsFromUrl();
+        syncPlanUi();
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "Escape") return;
+          if (resultsModalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_results_dismiss", { dismiss_method: "escape" });
+            closeResultsModal();
+            ageInput.focus();
+            return;
+          }
+          if (calendarExportModalBackdrop && calendarExportModalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_modal_close", { modal: "calendar_export", dismiss_method: "escape" });
+            setCalendarExportModal(false);
+            return;
+          }
+          if (bpmInfoModalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_modal_close", { modal: "bpm_info", dismiss_method: "escape" });
+            setBpmInfoModal(false);
+            return;
+          }
+          if (modalBackdrop.classList.contains("open")) {
+            gaEvent("zoneyou_modal_close", { modal: "why_zone2", dismiss_method: "escape" });
+            setModal(false);
+            infoBtn.focus();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
