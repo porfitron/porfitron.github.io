@@ -818,6 +818,11 @@
 
   function onModalsEscape(e) {
     if (e.key !== 'Escape') return;
+    if (splash && !splash.classList.contains('hidden')) {
+      e.preventDefault();
+      hideSplashOrBackdrop();
+      return;
+    }
     if (modalCalendar && !modalCalendar.classList.contains('hidden')) {
       e.preventDefault();
       closeCalendarModal();
@@ -1155,27 +1160,68 @@
     startAnotherListing();
   }
 
+  /**
+   * Close the onboarding overlay without starting the create flow when the
+   * user is viewing a listing or is already in the main app (e.g. from About).
+   * First-visit (splash only) dismiss shows the chooser and marks the app visited.
+   */
+  function hideSplashOrBackdrop() {
+    if (!splash || splash.classList.contains('hidden')) return;
+    hide(splash);
+    if (viewer && !viewer.classList.contains('hidden')) {
+      return;
+    }
+    if (flow && !flow.classList.contains('hidden')) {
+      return;
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY, '1');
+    } catch {
+      /* ignore */
+    }
+    show(flow);
+    show(chooser);
+  }
+
+  function onSplashOverlayClick(e) {
+    if (e.target === splash) {
+      hideSplashOrBackdrop();
+    }
+  }
+
+  function onSplashCtaClick(e) {
+    e.stopPropagation();
+    onSplashContinue();
+  }
+
   function init() {
-    if (tryInitViewer()) return;
+    const inViewer = tryInitViewer();
 
-    const visited = (function () {
-      try {
-        return localStorage.getItem(STORAGE_KEY);
-      } catch {
-        return null;
+    if (!inViewer) {
+      const visited = (function () {
+        try {
+          return localStorage.getItem(STORAGE_KEY);
+        } catch {
+          return null;
+        }
+      })();
+
+      if (visited) {
+        hide(splash);
+        show(flow);
+        show(chooser);
+      } else {
+        show(splash);
+        hide(flow);
       }
-    })();
-
-    if (visited) {
-      hide(splash);
-      show(flow);
-      show(chooser);
-    } else {
-      show(splash);
-      hide(flow);
     }
 
-    splashCta.addEventListener('click', onSplashContinue);
+    if (splash) {
+      splash.addEventListener('click', onSplashOverlayClick);
+    }
+    if (splashCta) {
+      splashCta.addEventListener('click', onSplashCtaClick);
+    }
 
     document.querySelectorAll('.template-row').forEach(function (row) {
       row.addEventListener('click', function () {
