@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sample Settled Bet | Betsie Quick Bet</title>
+    <meta name="description" content="Static settled bet screen matching Betsie Quick Bet UI.">
+    <meta name="theme-color" content="#F36D6F">
+    <style>
+        :root {
+            --betsie-coral: #F36D6F;
+            --canvas-white: #FFFFFF;
+            --surface: #F8F9FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B7280;
+            --emerald: #10B981;
+            --ruby: #EF4444;
+            --shadow-soft: 0 12px 34px rgba(17, 24, 39, 0.12);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: #efefef;
+            color: var(--text-primary);
+            font-family: "Avenir Next", Avenir, "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: max(env(safe-area-inset-top), 20px) 20px max(env(safe-area-inset-bottom), 20px);
+            gap: 14px;
+        }
+
+        .site-header {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 22px;
+        }
+
+        .header-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .logo-button {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 6px;
+            display: inline-flex;
+        }
+
+        .panel-logo {
+            width: min(150px, 35vw);
+            height: auto;
+            border-radius: 0;
+            object-fit: contain;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            z-index: 2;
+        }
+
+        .value-prop {
+            margin: 0;
+            margin-left: auto;
+            font-weight: 700;
+            font-size: clamp(0.95rem, 3.7vw, 1.1rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            text-align: right;
+            white-space: nowrap;
+            color: var(--betsie-coral);
+        }
+
+        .panel {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(14px);
+            padding: 30px 22px 24px;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 12px;
+            background: var(--surface);
+            border-radius: 999px;
+            user-select: none;
+            width: fit-content;
+            margin: 0 auto 18px;
+        }
+
+        .creator-breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 0 26px;
+            flex-wrap: nowrap;
+        }
+
+        .crumb {
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 12px;
+            min-height: auto;
+            min-width: 70px;
+            padding: 0;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            cursor: default;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            line-height: 1;
+        }
+
+        .crumb::before {
+            content: attr(data-step-number);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(243, 109, 111, 0.35);
+            color: var(--betsie-coral);
+            background: rgba(243, 109, 111, 0.06);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: none;
+            box-shadow: 0 0 0 1.5px rgba(243, 109, 111, 0.12);
+        }
+
+        .crumb.is-complete,
+        .crumb.is-current {
+            color: var(--text-primary);
+        }
+
+        .crumb.is-complete::before {
+            color: var(--betsie-coral);
+            border-color: rgba(243, 109, 111, 0.55);
+            background: rgba(243, 109, 111, 0.12);
+            box-shadow: 0 0 0 1.5px rgba(243, 109, 111, 0.16);
+        }
+
+        .crumb.is-current::before {
+            border-color: var(--betsie-coral);
+            color: #FFFFFF;
+            background: var(--betsie-coral);
+            box-shadow:
+                0 0 0 2.5px rgba(243, 109, 111, 0.24),
+                0 6px 16px rgba(243, 109, 111, 0.2);
+        }
+
+        .crumb-sep {
+            width: clamp(14px, 6.4vw, 46px);
+            height: 1.5px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(243, 109, 111, 0.15), rgba(243, 109, 111, 0.58), rgba(243, 109, 111, 0.15));
+            user-select: none;
+            margin-top: -18px;
+        }
+
+        .brand-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--betsie-coral);
+            box-shadow: 0 0 0 4px rgba(243, 109, 111, 0.18);
+        }
+
+        .brand-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.5rem, 5.4vw, 1.9rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin: 16px 0 18px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .countdown {
+            margin: 6px 0 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .matchup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .competitor {
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            background: #FFF;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .competitor.is-winner {
+            border-color: rgba(16, 185, 129, 0.9);
+            box-shadow:
+                0 0 0 2px rgba(16, 185, 129, 0.34),
+                0 0 18px rgba(16, 185, 129, 0.48),
+                0 10px 24px rgba(16, 185, 129, 0.2);
+            animation: winnerPulse 1.8s ease-in-out infinite;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #FFF;
+        }
+
+        .avatar.creator {
+            background: linear-gradient(160deg, #F36D6F, #E75C60);
+        }
+
+        .avatar.challenger {
+            background: linear-gradient(160deg, #64748B, #334155);
+        }
+
+        .competitor-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .competitor-position {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.35;
+            word-break: break-word;
+        }
+
+        .competitor-quote {
+            margin-top: 8px;
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-style: italic;
+            word-break: break-word;
+        }
+
+        .voting-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: -2px 0 12px;
+        }
+
+        .winner-btn {
+            margin-top: 10px;
+            width: 100%;
+            min-height: 38px;
+            border: 1px solid var(--betsie-coral);
+            border-radius: 10px;
+            background: rgba(243, 109, 111, 0.06);
+            color: var(--text-primary);
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: default;
+        }
+
+        .winner-btn.both-right {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: rgba(16, 185, 129, 0.14);
+            color: #0F6B4B;
+        }
+
+        .cta,
+        .ghost {
+            width: 100%;
+            min-height: 48px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: default;
+            user-select: none;
+            margin-top: 10px;
+        }
+
+        .cta {
+            border: 0;
+            color: var(--canvas-white);
+            background: linear-gradient(160deg, #F36D6F, #E75C60);
+            box-shadow: 0 8px 20px rgba(243, 109, 111, 0.34);
+        }
+
+        .ghost {
+            border: 1px solid #E5E7EB;
+            color: var(--text-primary);
+            background: #FFF;
+        }
+
+        .banner {
+            margin-top: 14px;
+            border: 1px dashed #F9A8A8;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 0.86rem;
+            color: #8C2A2B;
+            background: #FFF6F6;
+            text-align: center;
+        }
+
+        .no-contest-link-inline {
+            border: 0;
+            background: transparent;
+            color: inherit;
+            text-decoration: underline;
+            padding: 0;
+            font: inherit;
+            cursor: default;
+        }
+
+        .site-footer {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            font-size: 0.73rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .site-footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        @keyframes winnerPulse {
+            0% {
+                box-shadow:
+                    0 0 0 2px rgba(16, 185, 129, 0.32),
+                    0 0 14px rgba(16, 185, 129, 0.38),
+                    0 8px 20px rgba(16, 185, 129, 0.16);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 4px rgba(16, 185, 129, 0.48),
+                    0 0 28px rgba(16, 185, 129, 0.62),
+                    0 14px 30px rgba(16, 185, 129, 0.28);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(16, 185, 129, 0.32),
+                    0 0 14px rgba(16, 185, 129, 0.38),
+                    0 8px 20px rgba(16, 185, 129, 0.16);
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-brand">
+            <button class="logo-button" type="button" aria-label="Betsie logo">
+                <img src="/Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="panel-logo">
+            </button>
+        </div>
+        <p class="value-prop">Bets with your Besties</p>
+    </header>
+
+    <main class="panel" aria-label="Settled bet sample">
+        <div class="creator-breadcrumb" aria-label="Creator flow progress">
+            <button class="crumb is-complete" type="button" data-step-number="1">Create</button>
+            <span class="crumb-sep" aria-hidden="true"></span>
+            <button class="crumb is-complete" type="button" data-step-number="2">Invite</button>
+            <span class="crumb-sep" aria-hidden="true"></span>
+            <button class="crumb is-current" type="button" data-step-number="3">Settle</button>
+        </div>
+
+        <h1>Greg will interupt this meeting with 'Quick question...'</h1>
+        <div class="countdown">Pick Your Winner</div>
+        <p class="subtitle" style="text-align: center; margin-top: 0; margin-bottom: 2px;">Bet ended: Apr 22, 2026</p>
+
+        <section class="matchup" aria-label="Head to head positions">
+            <article class="competitor">
+                <div class="avatar creator" aria-hidden="true">MS</div>
+                <div class="competitor-label">Miranda S.</div>
+                <div class="competitor-position">Greg will interupt this meeting with 'Quick question...'</div>
+                <div class="competitor-quote">"Prolly in the first 3 minutes"</div>
+            </article>
+            <article class="competitor">
+                <div class="avatar challenger" aria-hidden="true">SL</div>
+                <div class="competitor-label">Sylvia L.</div>
+                <div class="competitor-position">No, I think he learned his lesson after what happened at All Hands!</div>
+                <div class="competitor-quote">"He's too scared now!"</div>
+            </article>
+        </section>
+
+        <div class="voting-actions">
+            <button class="winner-btn" type="button">Miranda S. Won!</button>
+            <button class="winner-btn" type="button">Sylvia L. Won!</button>
+        </div>
+        <p class="subtitle" style="text-align: center;">If no one was right, <button class="no-contest-link-inline" type="button">click here</button>.</p>
+        <p class="subtitle"><strong>Who can see this?</strong><br>Anyone with a link</p>
+        <button class="cta" type="button">Call the bet early</button>
+        <button class="ghost" type="button">Re-share the link to this bet</button>
+        <div class="banner">Unlock history, streaks, and leaderboard with our mobile app.</div>
+    </main>
+
+    <footer class="site-footer">
+        <a href="https://betsie.app" target="_blank" rel="noopener noreferrer">Betsie</a> is a trademark of
+        <a href="https://squeakycheeseinc.com" target="_blank" rel="noopener noreferrer">Squeaky Cheese, Inc.</a>
+    </footer>
+</body>
+</html>

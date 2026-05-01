@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Betsie Quick Bet | Bets with your Besties</title>
+    <meta name="description" content="Betsie Lite lets you create and share a friendly 1-on-1 bet in seconds.">
+    <meta name="keywords" content="betsie, betsie lite, social betting, friendly bets, 1-on-1 bets, prediction challenge, shareable bets, wager app, no account betting, mobile bet app">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <link rel="canonical" href="https://try.betsie.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Betsie Quick Bet">
+    <meta property="og:title" content="Betsie Quick Bet | Bets with your Besties">
+    <meta property="og:description" content="Create and share a friendly 1-on-1 bet in under a minute. No account needed.">
+    <meta property="og:url" content="https://try.betsie.app/">
+    <meta property="og:image" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
+    <meta property="og:image:secure_url" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Betsie Lite social preview with app branding and tagline.">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Betsie Quick Bet | Bets with your Besties">
+    <meta name="twitter:description" content="Create and share a friendly 1-on-1 bet in under a minute. No account needed.">
+    <meta name="twitter:image" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
+    <meta name="twitter:image:alt" content="Betsie Lite social preview with app branding and tagline.">
+    <meta name="theme-color" content="#F36D6F">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Betsie Lite">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3X6CJW5LPY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-3X6CJW5LPY");
+    </script>
+    <script>
+        if (window.location.protocol === "http:" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+            window.location.replace(`https://${window.location.host}${window.location.pathname}${window.location.search}${window.location.hash}`);
+        }
+    </script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            const SW_VERSION = "2026-04-22";
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register(`/sw.js?v=${SW_VERSION}`, { updateViaCache: "none" })
+                    .then((registration) => {
+                        registration.update();
+                    })
+                    .catch(() => {
+                        // Ignore registration errors to avoid disrupting page usage.
+                    });
+            });
+
+            let isReloadingForServiceWorker = false;
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+                if (isReloadingForServiceWorker) {
+                    return;
+                }
+                isReloadingForServiceWorker = true;
+                window.location.reload();
+            });
+        }
+    </script>
+    <style>
+        :root {
+            --betsie-coral: #F36D6F;
+            --canvas-white: #FFFFFF;
+            --surface: #F8F9FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B7280;
+            --emerald: #10B981;
+            --ruby: #EF4444;
+            --shadow-soft: 0 12px 34px rgba(17, 24, 39, 0.12);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: #efefef;
+            color: var(--text-primary);
+            font-family: "Avenir Next", Avenir, "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: max(env(safe-area-inset-top), 20px) 20px max(env(safe-area-inset-bottom), 20px);
+            gap: 14px;
+        }
+
+        .panel {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(14px);
+            padding: 30px 22px 24px;
+        }
+
+        .site-header {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 22px;
+        }
+
+        .panel-logo {
+            width: min(150px, 35vw);
+            height: auto;
+            border-radius: 0;
+            object-fit: contain;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .logo-button {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 6px;
+            display: inline-flex;
+        }
+
+        .header-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .header-brand-label {
+            margin: 0;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .logo-button:focus-visible {
+            outline: 3px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+        }
+
+        .site-footer {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            font-size: 0.73rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .site-footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover,
+        .site-footer a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 12px;
+            background: var(--surface);
+            border-radius: 999px;
+            user-select: none;
+            width: fit-content;
+            margin: 0 auto 18px;
+        }
+
+        .creator-breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 0 26px;
+            flex-wrap: nowrap;
+        }
+
+        .crumb {
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 12px;
+            min-height: auto;
+            min-width: 70px;
+            padding: 0;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            line-height: 1;
+            transition: color 140ms ease;
+        }
+
+        .crumb::before {
+            content: attr(data-step-number);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(243, 109, 111, 0.35);
+            color: var(--betsie-coral);
+            background: rgba(243, 109, 111, 0.06);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: none;
+            box-shadow: 0 0 0 1.5px rgba(243, 109, 111, 0.12);
+            transition:
+                border-color 140ms ease,
+                color 140ms ease,
+                background-color 140ms ease,
+                box-shadow 140ms ease;
+        }
+
+        .crumb.is-current {
+            color: var(--text-primary);
+        }
+
+        .crumb.is-current::before {
+            border-color: var(--betsie-coral);
+            color: #FFFFFF;
+            background: var(--betsie-coral);
+            box-shadow:
+                0 0 0 2.5px rgba(243, 109, 111, 0.24),
+                0 6px 16px rgba(243, 109, 111, 0.2);
+        }
+
+        .crumb.is-complete {
+            color: var(--text-primary);
+        }
+
+        .crumb.is-complete::before {
+            color: var(--betsie-coral);
+            border-color: rgba(243, 109, 111, 0.55);
+            background: rgba(243, 109, 111, 0.12);
+            box-shadow: 0 0 0 1.5px rgba(243, 109, 111, 0.16);
+        }
+
+        .crumb:disabled {
+            opacity: 0.66;
+            cursor: default;
+        }
+
+        .crumb-sep {
+            width: clamp(14px, 6.4vw, 46px);
+            height: 1.5px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(243, 109, 111, 0.15), rgba(243, 109, 111, 0.58), rgba(243, 109, 111, 0.15));
+            user-select: none;
+            margin-top: -18px;
+        }
+
+        .brand-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--betsie-coral);
+            box-shadow: 0 0 0 4px rgba(243, 109, 111, 0.18);
+        }
+
+        .brand-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.5rem, 5.4vw, 1.9rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .value-prop {
+            margin: 0;
+            margin-left: auto;
+            font-family: "Funnel Display", "Avenir Next", Avenir, "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-weight: 700;
+            font-size: clamp(0.95rem, 3.7vw, 1.1rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            text-align: right;
+            max-width: none;
+            white-space: nowrap;
+            color: var(--betsie-coral);
+        }
+
+        .subtitle {
+            margin: 16px 0 18px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .subtitle.bet-timing-line {
+            font-size: calc(1rem - 2pt);
+        }
+
+        .accept-creator-preview {
+            margin: 8px 0 10px;
+        }
+
+        .accept-creator-preview .competitor-quote {
+            color: #002cfc;
+        }
+
+        .accept-creator-preview .competitor-position {
+            font-size: clamp(1.25rem, 5vw, 1.5rem);
+            line-height: 1.25;
+            font-weight: 700;
+        }
+
+        .accept-form-heading {
+            margin: 6px 0 16px;
+            font-size: clamp(1.08rem, 4.2vw, 1.28rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .list {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            color: #31353f;
+        }
+
+        .item .icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--canvas-white);
+            background: linear-gradient(160deg, var(--betsie-coral), #EF4444);
+            flex-shrink: 0;
+        }
+
+        .cta,
+        .ghost {
+            width: 100%;
+            min-height: 48px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
+            margin-top: 10px;
+        }
+
+        .cta {
+            border: 0;
+            color: var(--canvas-white);
+            background: linear-gradient(160deg, #F36D6F, #E75C60);
+            box-shadow: 0 8px 20px rgba(243, 109, 111, 0.34);
+        }
+
+        .ghost {
+            border: 1px solid #E5E7EB;
+            color: var(--text-primary);
+            background: #FFF;
+        }
+
+        .cta:active,
+        .ghost:active {
+            transform: scale(0.98);
+        }
+
+        .cta:disabled,
+        .ghost:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .cta:focus-visible,
+        .ghost:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+        }
+
+        .share-action-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .share-action-icon {
+            width: 1.05em;
+            height: 1.05em;
+            display: inline-block;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .share-action-icon path,
+        .share-action-icon rect,
+        .calendar-action-icon path,
+        .calendar-action-icon rect {
+            stroke: currentColor;
+        }
+
+        .calendar-action-icon {
+            width: 1.05em;
+            height: 1.05em;
+            display: inline-block;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .save-image-action-icon {
+            width: 1.05em;
+            height: 1.05em;
+            display: inline-block;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .save-image-action-icon path,
+        .save-image-action-icon rect {
+            stroke: currentColor;
+        }
+
+        form {
+            display: grid;
+            gap: 12px;
+        }
+
+        label {
+            font-size: 0.83rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: #FFF;
+            padding: 0 12px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        #bet-deadline {
+            font-size: calc(1rem - 2pt);
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0 6px;
+        }
+
+        .choice-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 6px 0 14px;
+        }
+
+        .matchup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .competitor {
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            background: #FFF;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .competitor.is-winner {
+            border-color: #B8860B;
+            background: linear-gradient(180deg, rgba(255, 250, 228, 0.98), rgba(255, 233, 160, 0.95));
+            box-shadow:
+                0 0 0 2px rgba(184, 134, 11, 0.28),
+                0 0 24px rgba(212, 175, 55, 0.35),
+                0 10px 24px rgba(184, 134, 11, 0.24);
+            color: #000;
+        }
+
+        .competitor.is-winner .competitor-label,
+        .competitor.is-winner .competitor-position,
+        .competitor.is-winner .competitor-quote {
+            color: #000;
+        }
+
+        .voting-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: -2px 0 12px;
+        }
+
+        .competitor.is-loser {
+            border-color: rgba(239, 68, 68, 0.9);
+            box-shadow:
+                0 0 0 2px rgba(239, 68, 68, 0.34),
+                0 0 18px rgba(239, 68, 68, 0.48),
+                0 10px 24px rgba(239, 68, 68, 0.2);
+            animation: loserPulse 1.8s ease-in-out infinite;
+        }
+
+        .avatar.flip-coin {
+            position: relative;
+            background: transparent;
+            transform-style: preserve-3d;
+        }
+
+        .avatar.flip-coin .avatar-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .avatar.flip-coin .avatar-face.front.creator {
+            background: linear-gradient(160deg, #F36D6F, #E75C60);
+            color: #FFF;
+        }
+
+        .avatar.flip-coin .avatar-face.front.challenger {
+            background: linear-gradient(160deg, #64748B, #334155);
+            color: #FFF;
+        }
+
+        .avatar.flip-coin .avatar-face.back {
+            background: linear-gradient(160deg, #FDE68A, #F59E0B);
+            color: #78350F;
+            border: 1px solid #B8860B;
+            transform: rotateY(180deg);
+        }
+
+        .avatar.flip-coin .avatar-face.back .winner-icon {
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+
+        .avatar.flip-coin.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .avatar.is-flipping {
+            animation: winnerAvatarFlip 700ms cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: center;
+            backface-visibility: hidden;
+            will-change: transform;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes winnerPulse {
+            0% {
+                box-shadow:
+                    0 0 0 2px rgba(16, 185, 129, 0.32),
+                    0 0 14px rgba(16, 185, 129, 0.38),
+                    0 8px 20px rgba(16, 185, 129, 0.16);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 4px rgba(16, 185, 129, 0.48),
+                    0 0 28px rgba(16, 185, 129, 0.62),
+                    0 14px 30px rgba(16, 185, 129, 0.28);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(16, 185, 129, 0.32),
+                    0 0 14px rgba(16, 185, 129, 0.38),
+                    0 8px 20px rgba(16, 185, 129, 0.16);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes winnerAvatarFlip {
+            0% {
+                transform: perspective(900px) rotateY(0deg) scale(1.01);
+            }
+            50% {
+                transform: perspective(900px) rotateY(90deg) scale(1.03);
+            }
+            100% {
+                transform: perspective(900px) rotateY(180deg) scale(1.01);
+            }
+        }
+
+        @keyframes loserPulse {
+            0% {
+                box-shadow:
+                    0 0 0 2px rgba(239, 68, 68, 0.32),
+                    0 0 14px rgba(239, 68, 68, 0.38),
+                    0 8px 20px rgba(239, 68, 68, 0.16);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 4px rgba(239, 68, 68, 0.48),
+                    0 0 28px rgba(239, 68, 68, 0.62),
+                    0 14px 30px rgba(239, 68, 68, 0.28);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(239, 68, 68, 0.32),
+                    0 0 14px rgba(239, 68, 68, 0.38),
+                    0 8px 20px rgba(239, 68, 68, 0.16);
+                transform: scale(1);
+            }
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #FFF;
+        }
+
+        .avatar.creator {
+            background: linear-gradient(160deg, #F36D6F, #E75C60);
+        }
+
+        .avatar.challenger {
+            background: linear-gradient(160deg, #64748B, #334155);
+        }
+
+        .competitor-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .competitor-position {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.35;
+            word-break: break-word;
+        }
+
+        .competitor-quote {
+            margin-top: 8px;
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-style: italic;
+            word-break: break-word;
+        }
+
+        .winner-btn {
+            margin-top: 10px;
+            width: 100%;
+            min-height: 38px;
+            border: 1px solid var(--betsie-coral);
+            border-radius: 10px;
+            background: rgba(243, 109, 111, 0.06);
+            color: var(--text-primary);
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .winner-btn:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.15);
+            color: #0F6B4B;
+        }
+
+        .winner-btn.both-right {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: rgba(16, 185, 129, 0.14);
+            color: #0F6B4B;
+        }
+
+        .winner-btn:focus-visible {
+            outline: 3px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+        }
+
+        .is-hidden {
+            display: none !important;
+        }
+
+        .pill {
+            border-radius: 999px;
+            background: var(--surface);
+            color: #31353f;
+            font-weight: 600;
+            font-size: 0.84rem;
+            padding: 7px 12px;
+        }
+
+        .pill.yes {
+            color: var(--emerald);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .pill.no {
+            color: var(--ruby);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .call-bet-early-pill {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #166534;
+        }
+
+        .add-calendar-pill {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--betsie-coral);
+        }
+
+        .save-results-pill {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--betsie-coral);
+        }
+
+        .choice {
+            min-height: 42px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: #FFF;
+            color: var(--text-primary);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .choice.active {
+            border: 1px solid var(--betsie-coral);
+            background: rgba(243, 109, 111, 0.06);
+            color: var(--betsie-coral);
+        }
+
+        .countdown {
+            margin: 6px 0 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .meta {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+        }
+
+        .meta .dot {
+            color: #D1D5DB;
+            margin: 0 6px;
+        }
+
+        .meta strong {
+            color: var(--emerald);
+        }
+
+        .banner {
+            margin-top: 14px;
+            border: 1px dashed #F9A8A8;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 0.86rem;
+            color: #8C2A2B;
+            background: #FFF6F6;
+            text-align: center;
+        }
+
+        .banner a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 20;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 380px;
+            background: #FFF;
+            border-radius: 16px;
+            padding: 18px 16px 14px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid #E5E7EB;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.05rem;
+            letter-spacing: -0.01em;
+        }
+
+        .modal-title--share-handoff-confirm {
+            text-align: center;
+            font-size: clamp(1.02rem, 4.2vw, 1.28rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.12;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal-text {
+            margin: 8px 0 14px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .modal-actions {
+            display: grid;
+            gap: 8px;
+        }
+
+        .landing-preview-card {
+            width: min(100%, 620px);
+            max-height: min(86vh, 920px);
+            overflow: auto;
+            border-radius: 24px;
+            padding: 20px 18px 16px;
+        }
+
+        .landing-preview-wordmark {
+            display: block;
+            width: min(150px, 35vw);
+            margin: 0 auto 14px;
+            height: auto;
+        }
+
+        .landing-preview-title {
+            margin: 0;
+            font-size: clamp(1.35rem, 4.6vw, 2.2rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            text-align: center;
+        }
+
+        .landing-preview-subtitle {
+            margin: 14px auto 8px;
+            max-width: 540px;
+            text-align: center;
+            color: #66708c;
+            font-size: clamp(1rem, 3.8vw, 1.15rem);
+            line-height: 1.45;
+        }
+
+        .landing-preview-list {
+            margin-bottom: 18px;
+        }
+
+        .landing-preview-list .item {
+            align-items: flex-start;
+        }
+
+        .landing-preview-list .item .icon {
+            margin-top: 2px;
+        }
+
+
+        .landing-preview-note {
+            margin: 10px 0 0;
+            text-align: center;
+            font-size: clamp(0.9rem, 3.1vw, 1rem);
+            color: #002cfc;
+        }
+
+        .modal-hint {
+            margin: 10px 0 0;
+            padding: 10px 12px;
+            background: var(--surface);
+            border-radius: 12px;
+            font-size: 0.84rem;
+            line-height: 1.45;
+            color: #31353f;
+        }
+
+        .modal-hint strong {
+            color: var(--text-primary);
+        }
+
+        .modal-summary {
+            margin: 0 0 12px;
+            padding: 12px 12px 10px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: #FFF;
+            font-size: 0.86rem;
+            line-height: 1.4;
+        }
+
+        .modal-summary-caption {
+            margin: 0 0 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .modal-summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 0 0 8px;
+        }
+
+        .modal-summary-header .modal-summary-caption {
+            margin: 0;
+        }
+
+        .modal-summary-edit {
+            border: 0;
+            background: none;
+            padding: 0;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--betsie-coral);
+            cursor: pointer;
+            text-decoration: underline;
+            flex-shrink: 0;
+        }
+
+        .modal-summary-edit:hover {
+            color: #d85a5c;
+        }
+
+        .modal-summary-edit:focus-visible {
+            outline: 2px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+        }
+
+        .share-handoff-copy-hidden {
+            display: none;
+        }
+
+        .preview-accept-wrap {
+            margin: 12px 0 0;
+            text-align: center;
+        }
+
+        .preview-accept-link {
+            color: var(--betsie-coral);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .preview-accept-link:hover {
+            color: #d85a5c;
+        }
+
+        .preview-accept-link:focus-visible {
+            outline: 2px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .reshare-confirm-wrap {
+            margin: 8px 0 0;
+            text-align: center;
+        }
+
+        .reshare-confirm-link {
+            display: inline;
+            border: 0;
+            background: none;
+            padding: 0;
+            font: inherit;
+            color: var(--betsie-coral);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .reshare-confirm-link[aria-disabled="true"] {
+            opacity: 0.55;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .reshare-confirm-link:not([aria-disabled="true"]):hover {
+            color: #d85a5c;
+        }
+
+        .reshare-confirm-link:focus-visible {
+            outline: 2px solid rgba(243, 109, 111, 0.35);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .modal-summary-row {
+            display: grid;
+            grid-template-columns: 92px 1fr;
+            gap: 8px 10px;
+            padding: 5px 0;
+            border-top: 1px solid #F3F4F6;
+        }
+
+        .modal-summary-row:first-of-type {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .modal-summary-k {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .modal-summary-v {
+            color: var(--text-primary);
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .label-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .char-count {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+            text-transform: none;
+        }
+
+        .celebration-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            background: rgba(17, 24, 39, 0.78);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .celebration-card {
+            width: min(560px, 100%);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: #111827;
+            color: #F9FAFB;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .celebration-gif {
+            width: 100%;
+            max-height: 110px;
+            object-fit: cover;
+            display: block;
+            background: #0F172A;
+        }
+
+        .celebration-gif--mirrored {
+            transform: scaleX(-1);
+        }
+
+        .celebration-content {
+            padding: 16px 16px 14px;
+            background: #FFF;
+            color: var(--text-primary);
+        }
+
+        .celebration-title {
+            margin: 0;
+            font-size: 1.12rem;
+            letter-spacing: -0.01em;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .celebration-text {
+            margin: 8px 0 12px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            color: #D1D5DB;
+            text-align: center;
+        }
+
+        .celebration-matchup {
+            margin: 12px 0;
+        }
+
+        .celebration-matchup .competitor:not(.is-winner):not(.is-loser) {
+            background: #FFF;
+            border-color: #E5E7EB;
+        }
+
+        .celebration-matchup .competitor-label {
+            color: var(--text-secondary);
+        }
+
+        .celebration-matchup .competitor-position,
+        .celebration-matchup .competitor-quote {
+            color: var(--text-primary);
+        }
+
+        .celebration-date {
+            margin: 8px 0 0;
+            text-align: center;
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .value-prop {
+                text-align: right;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-brand">
+            <button id="logo-button" class="logo-button" type="button" aria-label="Open start fresh options">
+                <img src="/Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="panel-logo">
+            </button>
+        </div>
+        <p class="value-prop">Bets with your Besties</p>
+    </header>
+    <main id="app" class="panel" aria-live="polite"></main>
+    <footer class="site-footer">
+        <a href="https://betsie.app" target="_blank" rel="noopener noreferrer">Betsie</a> is a trademark of
+        <a href="https://squeakycheeseinc.com" target="_blank" rel="noopener noreferrer">Squeaky Cheese, Inc.</a>
+    </footer>
+    <div id="landing-preview-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="landing-preview-title">
+        <div class="modal-card landing-preview-card">
+            <img src="/Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="landing-preview-wordmark">
+            <h2 id="landing-preview-title" class="landing-preview-title">Create a quick bet<br>in under a minute.</h2>
+            <p class="landing-preview-subtitle">Here's how it works:</p>
+            <section class="list landing-preview-list" aria-label="Betsie highlights">
+                <div class="item"><span class="icon" aria-hidden="true">1</span>You enter your bet, set the end date, throw in some optional trash talk, and share with your friend.</div>
+                <div class="item"><span class="icon" aria-hidden="true">2</span>Your friend agrees with your call or makes their own to accept the bet.</div>
+                <div class="item"><span class="icon" aria-hidden="true">3</span>When the bet ends, you vote to settle who called it!</div>
+            </section>
+            <div class="modal-actions">
+                <button id="landing-preview-start" class="cta" type="button">Start a quick bet</button>
+            </div>
+            <p class="landing-preview-note">No account or email needed!</p>
+        </div>
+    </div>
+    <div id="fresh-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="fresh-modal-title">
+        <div class="modal-card">
+            <h2 id="fresh-modal-title" class="modal-title">Start fresh?</h2>
+            <p class="modal-text">This will clear the current bet details and bring you back to the start.</p>
+            <div class="modal-actions">
+                <button id="fresh-confirm" class="cta" type="button">Start fresh</button>
+                <button id="fresh-cancel" class="ghost" type="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="calendar-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title">
+        <div class="modal-card">
+            <h2 id="calendar-modal-title" class="modal-title">Add to calendar</h2>
+            <p class="modal-text">Choose where you want to save this bet reminder.</p>
+            <div class="modal-actions">
+                <button id="calendar-google" class="cta" type="button">Google Calendar</button>
+                <button id="calendar-icloud" class="ghost" type="button">iCloud / Apple Calendar</button>
+                <button id="calendar-ics" class="ghost" type="button">Download ICS file</button>
+                <button id="calendar-cancel" class="ghost" type="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="share-handoff-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="share-handoff-title">
+        <div class="modal-card">
+            <h2 id="share-handoff-title" class="modal-title"></h2>
+            <p id="share-handoff-body" class="modal-text"></p>
+            <div id="share-handoff-summary" class="modal-summary" hidden></div>
+            <div class="modal-actions">
+                <button id="share-handoff-primary" class="cta" type="button"></button>
+                <button id="share-handoff-copy" class="ghost share-handoff-copy-hidden" type="button" tabindex="-1" aria-hidden="true"><span class="share-action-label"><svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3V14M12 3L8.5 6.5M12 3L15.5 6.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="5" y="11" width="14" height="10" rx="2" ry="2" stroke-width="2"/></svg><span>Copy message</span></span></button>
+            </div>
+            <p id="share-handoff-hint" class="modal-hint" aria-live="polite"></p>
+        </div>
+    </div>
+    <div id="early-end-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="early-end-modal-title">
+        <div class="modal-card">
+            <h2 id="early-end-modal-title" class="modal-title">Calling the bet early?</h2>
+            <p class="modal-text">Ending the bet early will stop the countdown and move this bet straight into outcome voting.</p>
+            <div class="modal-actions">
+                <button id="early-end-confirm" class="cta" type="button">End bet and vote</button>
+                <button id="early-end-cancel" class="ghost" type="button">Keep countdown running</button>
+            </div>
+        </div>
+    </div>
+    <div id="celebration-modal" class="celebration-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="celebration-title">
+        <div class="celebration-card">
+            <img
+                class="celebration-gif"
+                src="https://media.giphy.com/media/26tOZ42Mg6pbTUPHW/giphy.gif"
+                alt="Confetti celebration animation">
+            <div class="celebration-content">
+                <h2 id="celebration-title" class="celebration-title">Result locked in</h2>
+                <p id="celebration-date" class="celebration-date"></p>
+                <section id="celebration-matchup" class="matchup celebration-matchup" aria-label="Final head to head"></section>
+                <button id="celebration-close" class="cta" type="button">Share results</button>
+            </div>
+            <img
+                class="celebration-gif celebration-gif--mirrored"
+                src="https://media.giphy.com/media/26tOZ42Mg6pbTUPHW/giphy.gif"
+                alt=""
+                aria-hidden="true">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+    <script>
+        const app = document.getElementById("app");
+        const landingPreviewModal = document.getElementById("landing-preview-modal");
+        const calendarModal = document.getElementById("calendar-modal");
+        const freshModal = document.getElementById("fresh-modal");
+        const shareHandoffModal = document.getElementById("share-handoff-modal");
+        const earlyEndModal = document.getElementById("early-end-modal");
+        const celebrationModal = document.getElementById("celebration-modal");
+        const shareHandoffState = { role: null, url: "" };
+        let settleShareUrlForModal = "";
+        const url = new URL(window.location.href);
+        const HASH_STATE_VERSION = 1;
+        const SHAREABLE_STATE_KEYS = ["mode", "t", "cn", "chn", "p1", "p2", "d", "tt", "ct", "w", "src", "cs", "inv", "cr", "hf", "ev", "ee"];
+        const SEARCH_FALLBACK_KEYS = ["mode", "t", "d", "cn", "chn", "p1", "p2", "tt", "ct", "w", "src", "cr", "ev", "ee"];
+        const FIELD_LIMITS = {
+            name: 20,
+            claim: 70,
+            trashTalk: 45
+        };
+
+        function normalizeSingleLine(value) {
+            return String(value || "")
+                .replace(/[\r\n\t]+/g, " ");
+        }
+
+        function clampText(value, maxLength) {
+            return normalizeSingleLine(value).slice(0, maxLength);
+        }
+
+        function cleanFieldText(value, maxLength) {
+            return clampText(value, maxLength)
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function readStateFromSearchParams(searchParams) {
+            const state = {};
+            SHAREABLE_STATE_KEYS.forEach((key) => {
+                const value = searchParams.get(key);
+                if (value) {
+                    state[key] = value;
+                }
+            });
+            return state;
+        }
+
+        function decodeStateFromHash(hashValue) {
+            if (!hashValue) {
+                return null;
+            }
+            const encoded = hashValue.startsWith("#") ? hashValue.slice(1) : hashValue;
+            if (!encoded || !window.LZString) {
+                return null;
+            }
+            try {
+                const decompressed = window.LZString.decompressFromEncodedURIComponent(encoded);
+                if (!decompressed) {
+                    return null;
+                }
+                const parsed = JSON.parse(decompressed);
+                if (!parsed || parsed.v !== HASH_STATE_VERSION || typeof parsed.state !== "object" || parsed.state === null) {
+                    return null;
+                }
+                return parsed.state;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        function toCompressedHashUrl(urlString) {
+            const shareUrl = new URL(urlString);
+            const decodedHashState = decodeStateFromHash(shareUrl.hash);
+            if (decodedHashState) {
+                SHAREABLE_STATE_KEYS.forEach((key) => shareUrl.searchParams.delete(key));
+                Object.entries(decodedHashState).forEach(([key, value]) => {
+                    if (value) {
+                        shareUrl.searchParams.set(key, value);
+                    }
+                });
+            }
+            shareUrl.hash = "";
+            return shareUrl.toString();
+        }
+
+        function stripHandoffFlashFromUrl(urlString) {
+            const next = new URL(urlString);
+            const decodedHashState = decodeStateFromHash(next.hash);
+            if (decodedHashState) {
+                SHAREABLE_STATE_KEYS.forEach((key) => next.searchParams.delete(key));
+                Object.entries(decodedHashState).forEach(([key, value]) => {
+                    if (value && key !== "hf") {
+                        next.searchParams.set(key, value);
+                    }
+                });
+                next.hash = "";
+                return next.toString();
+            }
+            next.searchParams.delete("hf");
+            return toCompressedHashUrl(next.toString());
+        }
+
+        const params = (() => {
+            const merged = new URLSearchParams(url.search);
+            const decodedHashState = decodeStateFromHash(url.hash);
+            if (decodedHashState) {
+                SHAREABLE_STATE_KEYS.forEach((key) => merged.delete(key));
+                Object.entries(decodedHashState).forEach(([key, value]) => {
+                    if (value) {
+                        merged.set(key, value);
+                    }
+                });
+            }
+            return merged;
+        })();
+        const isConfirmationSharePath = /^\/share\/confirm(?:-agree)?\/?$/i.test(url.pathname);
+        const hasIncomingShareableState = SHAREABLE_STATE_KEYS.some((key) => params.has(key));
+        const mode = params.get("mode");
+        const shouldShowFirstRunModal = !mode && !hasIncomingShareableState;
+        const title = clampText(params.get("t") || "", FIELD_LIMITS.claim);
+        const creatorName = clampText(params.get("cn") || "", FIELD_LIMITS.name);
+        const challengerName = clampText(params.get("chn") || "", FIELD_LIMITS.name);
+        const p1 = params.get("p1") || "For";
+        const p2 = clampText(params.get("p2") || "", FIELD_LIMITS.claim);
+        const deadline = params.get("d") || "";
+        const trashTalk = clampText(params.get("tt") || "", FIELD_LIMITS.trashTalk);
+        const challengerTrashTalk = clampText(params.get("ct") || "", FIELD_LIMITS.trashTalk);
+        const winner = params.get("w") || "";
+        const source = params.get("src") || (isConfirmationSharePath ? "accept" : "");
+        const creatorStep = params.get("cs") || "";
+        const invited = params.get("inv") || "";
+        const challengerResponded = params.get("cr") || (isConfirmationSharePath ? "1" : "");
+        const handoffFlash = params.get("hf") || "";
+        const earlyVote = params.get("ev") || "";
+        const earlyEndedAt = params.get("ee") || "";
+
+        function trackBetsieEvent(name, params) {
+            if (typeof gtag === "function") {
+                gtag("event", name, params || {});
+            }
+        }
+
+        function updateUrl(nextMode, data = {}) {
+            const next = new URL(window.location.href);
+            const nextParams = new URLSearchParams(params.toString());
+            if (nextMode) {
+                nextParams.set("mode", nextMode);
+            }
+            Object.entries(data).forEach(([key, value]) => {
+                if (value) {
+                    nextParams.set(key, value);
+                } else {
+                    nextParams.delete(key);
+                }
+            });
+            next.search = nextParams.toString();
+            next.hash = "";
+            window.location.href = next.toString();
+        }
+
+        function escapeHtml(value) {
+            return value
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;");
+        }
+
+        function shareActionLabel(label) {
+            const safeLabel = escapeHtml(String(label || ""));
+            return `<span class="share-action-label"><svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3V14M12 3L8.5 6.5M12 3L15.5 6.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="5" y="11" width="14" height="10" rx="2" ry="2" stroke-width="2"/></svg><span>${safeLabel}</span></span>`;
+        }
+
+        function calendarActionLabel(label) {
+            const safeLabel = escapeHtml(String(label || ""));
+            return `<span class="share-action-label"><svg class="calendar-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="15" rx="2" ry="2" stroke-width="2"/><path d="M8 3V7M16 3V7M4 10H20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${safeLabel}</span></span>`;
+        }
+
+        function saveImageActionLabel(label) {
+            const safeLabel = escapeHtml(String(label || ""));
+            return `<span class="share-action-label"><svg class="save-image-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2.5" ry="2.5" stroke-width="2"/><path d="M8.5 15.5L11 12.5L13 14.5L15.5 11.5L18 15.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9.5H9.01" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${safeLabel}</span></span>`;
+        }
+
+        let html2canvasLoaderPromise = null;
+        function ensureHtml2CanvasLoaded() {
+            if (typeof window.html2canvas === "function") {
+                return Promise.resolve(window.html2canvas);
+            }
+            if (html2canvasLoaderPromise) {
+                return html2canvasLoaderPromise;
+            }
+            html2canvasLoaderPromise = new Promise((resolve, reject) => {
+                const script = document.createElement("script");
+                script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+                script.async = true;
+                script.onload = () => {
+                    if (typeof window.html2canvas === "function") {
+                        resolve(window.html2canvas);
+                    } else {
+                        reject(new Error("html2canvas failed to initialize."));
+                    }
+                };
+                script.onerror = () => {
+                    reject(new Error("Unable to load screenshot library."));
+                };
+                document.head.appendChild(script);
+            }).catch((error) => {
+                html2canvasLoaderPromise = null;
+                throw error;
+            });
+            return html2canvasLoaderPromise;
+        }
+
+        async function saveReceiptAsImage() {
+            const captureRoot = document.getElementById("settle-receipt-capture");
+            if (!captureRoot) {
+                throw new Error("Receipt area not found.");
+            }
+            const html2canvas = await ensureHtml2CanvasLoaded();
+            const pixelRatio = window.devicePixelRatio || 1;
+            const canvas = await html2canvas(captureRoot, {
+                backgroundColor: null,
+                scale: Math.min(2, Math.max(1, pixelRatio)),
+                useCORS: true,
+                logging: false,
+                onclone: (doc) => {
+                    const saveButtonInClone = doc.getElementById("save-results-pill");
+                    if (saveButtonInClone) {
+                        saveButtonInClone.remove();
+                    }
+                    const clonedCaptureRoot = doc.getElementById("settle-receipt-capture");
+                    if (clonedCaptureRoot) {
+                        clonedCaptureRoot.style.background = "linear-gradient(160deg, #FEDA75 0%, #FA7E1E 24%, #D62976 52%, #962FBF 74%, #4F5BD5 100%)";
+                        clonedCaptureRoot.style.borderRadius = "26px";
+                        clonedCaptureRoot.style.padding = "18px";
+                        const receiptBrandRow = clonedCaptureRoot.querySelector(".brand-row");
+                        if (receiptBrandRow && receiptBrandRow.nextElementSibling && receiptBrandRow.nextElementSibling.classList.contains("subtitle")) {
+                            receiptBrandRow.nextElementSibling.remove();
+                        }
+                        const subtitleNodes = Array.from(clonedCaptureRoot.querySelectorAll(".subtitle"));
+                        const betEndedLine = subtitleNodes.find((node) => node.textContent && node.textContent.trim().startsWith("Bet ended:"));
+                        const matchupSection = clonedCaptureRoot.querySelector(".matchup");
+                        if (betEndedLine && matchupSection) {
+                            betEndedLine.style.marginTop = "8px";
+                            betEndedLine.style.marginBottom = "0";
+                            matchupSection.insertAdjacentElement("afterend", betEndedLine);
+                        }
+                        const clonedFlipAvatars = clonedCaptureRoot.querySelectorAll(".avatar.flip-coin");
+                        clonedFlipAvatars.forEach((avatar) => {
+                            avatar.classList.remove("is-flipped", "is-flipping");
+                            avatar.style.transform = "none";
+                            avatar.style.transformStyle = "flat";
+                            const winnerCard = avatar.closest(".competitor.is-winner");
+                            const backFace = avatar.querySelector(".avatar-face.back");
+                            const frontFaces = avatar.querySelectorAll(".avatar-face.front");
+                            frontFaces.forEach((face) => {
+                                face.style.transform = "none";
+                                face.style.backfaceVisibility = "visible";
+                            });
+                            if (winnerCard) {
+                                frontFaces.forEach((face) => {
+                                    face.style.display = "none";
+                                });
+                                if (backFace) {
+                                    backFace.style.display = "flex";
+                                    backFace.style.transform = "none";
+                                    backFace.style.backfaceVisibility = "visible";
+                                }
+                            } else {
+                                if (backFace) {
+                                    backFace.style.display = "none";
+                                }
+                                frontFaces.forEach((face) => {
+                                    face.style.display = "flex";
+                                });
+                            }
+                        });
+                        const lockup = doc.createElement("img");
+                        lockup.src = "/Betsie-Wordmark-Red.png";
+                        lockup.alt = "Betsie wordmark logo";
+                        lockup.setAttribute("aria-hidden", "true");
+                        lockup.style.display = "block";
+                        lockup.style.width = "160px";
+                        lockup.style.maxWidth = "62%";
+                        lockup.style.height = "auto";
+                        lockup.style.margin = "0 auto 10px";
+                        clonedCaptureRoot.insertBefore(lockup, clonedCaptureRoot.firstChild);
+                        const receiptCard = doc.createElement("div");
+                        receiptCard.style.background = "#FFFFFF";
+                        receiptCard.style.borderRadius = "18px";
+                        receiptCard.style.padding = "14px 12px 12px";
+                        receiptCard.style.boxShadow = "0 12px 28px rgba(17, 24, 39, 0.22)";
+                        while (clonedCaptureRoot.firstChild) {
+                            receiptCard.appendChild(clonedCaptureRoot.firstChild);
+                        }
+                        clonedCaptureRoot.appendChild(receiptCard);
+                        const attribution = doc.createElement("p");
+                        attribution.textContent = "This bet was played on https://try.betsie.app";
+                        attribution.style.margin = "12px 0 2px";
+                        attribution.style.textAlign = "center";
+                        attribution.style.fontSize = "0.73rem";
+                        attribution.style.lineHeight = "1.45";
+                        attribution.style.color = "rgba(255, 255, 255, 0.9)";
+                        attribution.style.fontFamily = "\"Avenir Next\", Avenir, \"Poppins\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif";
+                        clonedCaptureRoot.appendChild(attribution);
+                    }
+                }
+            });
+            const blob = await new Promise((resolve) => {
+                canvas.toBlob(resolve, "image/png", 1);
+            });
+            if (!blob) {
+                throw new Error("Could not generate image.");
+            }
+            const dateStamp = new Date().toISOString().slice(0, 10);
+            const filename = `betsie-receipt-${dateStamp}.png`;
+            if (navigator.share) {
+                try {
+                    const imageFile = new File([blob], filename, { type: "image/png" });
+                    const supportsFileShare = typeof navigator.canShare !== "function" || navigator.canShare({ files: [imageFile] });
+                    if (supportsFileShare) {
+                        await navigator.share({
+                            title: "Betsie receipt",
+                            text: "I have the receipt.",
+                            files: [imageFile]
+                        });
+                        return;
+                    }
+                } catch (_) {
+                    // Continue to download fallback.
+                }
+            }
+            const objectUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = objectUrl;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(objectUrl);
+        }
+
+        function avatarLetters(name, fallback = "") {
+            const compact = (name || fallback).trim().replace(/\s+/g, "");
+            if (!compact) {
+                return fallback.slice(0, 2).toUpperCase();
+            }
+            return compact.slice(0, 2).toUpperCase();
+        }
+
+        function bindCharCounter(inputId, counterId, maxLength) {
+            const input = document.getElementById(inputId);
+            const counter = document.getElementById(counterId);
+            if (!input || !counter) {
+                return;
+            }
+            const update = () => {
+                const next = clampText(input.value, maxLength);
+                if (next !== input.value) {
+                    input.value = next;
+                }
+                counter.textContent = `${next.length}/${maxLength}`;
+            };
+            update();
+            input.addEventListener("input", update);
+        }
+
+        function composeShareText(shareContext) {
+            const claim = cleanFieldText(title, FIELD_LIMITS.claim) || "I made a new challenge.";
+            const creatorHook = cleanFieldText(trashTalk, FIELD_LIMITS.trashTalk) || "Prove me wrong.";
+            const challengerHook = cleanFieldText(challengerTrashTalk, FIELD_LIMITS.trashTalk);
+            const challengerPosition = cleanFieldText(p2, FIELD_LIMITS.claim);
+            const creatorLabel = cleanFieldText(creatorName, FIELD_LIMITS.name) || "Creator";
+            const challengerLabel = cleanFieldText(challengerName, FIELD_LIMITS.name) || "Challenger";
+            if (shareContext === "creator_reminder") {
+                return "Still waiting on your response.\nProve me wrong.";
+            }
+            if (shareContext.startsWith("creator_")) {
+                return `The bet: ${claim}\nComment: ${creatorHook}`;
+            }
+            if (shareContext.startsWith("challenger_")) {
+                const lineOne = challengerPosition ? `I'm taking: ${challengerPosition}` : "I accepted your challenge.";
+                const lineTwo = `Comment: ${challengerHook || "No comment."}`;
+                return `${lineOne}\n${lineTwo}`;
+            }
+            if (shareContext === "settle_result") {
+                const samePosition = Boolean(challengerPosition) && challengerPosition === claim;
+                const lines = [];
+                if (winner === "0") {
+                    lines.push("Result: No Contest.");
+                } else if (samePosition && winner === "1") {
+                    lines.push("Result: both were right.");
+                } else if (samePosition && winner === "2") {
+                    lines.push("Result: both were wrong.");
+                } else if (winner === "1") {
+                    lines.push(`${creatorLabel} was right about ${claim}.`);
+                } else if (winner === "2") {
+                    lines.push(`${challengerLabel} was right about ${challengerPosition || claim}.`);
+                } else {
+                    lines.push("Result is in.");
+                }
+                if (!samePosition && winner === "1") {
+                    if (challengerPosition) {
+                        lines.push(`${challengerLabel} thought ${challengerPosition}.`);
+                    }
+                } else if (!samePosition && winner === "2") {
+                    lines.push(`${creatorLabel} thought ${claim}.`);
+                } else if (samePosition && winner === "1") {
+                    lines.push(`${creatorLabel} and ${challengerLabel} predicted ${challengerPosition || claim}.`);
+                } else if (samePosition && winner === "2") {
+                    lines.push(`${creatorLabel} and ${challengerLabel} thought ${challengerPosition || claim}.`);
+                } else {
+                    lines.push(`${creatorLabel}: ${claim}`);
+                    if (challengerPosition) {
+                        lines.push(`${challengerLabel}: ${challengerPosition}`);
+                    }
+                }
+                if (samePosition && winner === "2") {
+                    lines.push("Nobody called it this time.");
+                } else if (winner === "0") {
+                    lines.push("Something else happened.");
+                }
+                return lines.join("\n");
+            }
+            return "It's happening now, on Betsie Lite.";
+        }
+
+        function toDatetimeLocalInputValue(raw) {
+            if (!raw) {
+                return new Date(Date.now() + 24 * 3600000).toISOString().slice(0, 16);
+            }
+            const parsed = new Date(raw);
+            if (Number.isNaN(parsed.getTime())) {
+                return new Date(Date.now() + 24 * 3600000).toISOString().slice(0, 16);
+            }
+            const pad = (n) => String(n).padStart(2, "0");
+            return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}T${pad(parsed.getHours())}:${pad(parsed.getMinutes())}`;
+        }
+
+        function nowLocalInputValue() {
+            const now = new Date();
+            now.setSeconds(0, 0);
+            const pad = (n) => String(n).padStart(2, "0");
+            return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        }
+
+        function formatBetEndsLineDate(value) {
+            const d = new Date(value);
+            if (Number.isNaN(d.getTime())) {
+                return "—";
+            }
+            return d.toLocaleString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit"
+            });
+        }
+
+        function formatCountdown(target) {
+            const remaining = new Date(target).getTime() - Date.now();
+            if (remaining <= 0) {
+                return "Pick Your Winner";
+            }
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+        }
+
+        function toIcsTime(date) {
+            return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+        }
+
+        function createCalendarFile(filename = "betsie-deadline.ics") {
+            if (!title || !deadline) {
+                return;
+            }
+            const start = new Date(deadline);
+            const end = new Date(start.getTime() + 30 * 60000);
+            const betUrl = toCompressedHashUrl(window.location.href);
+            const escapedBetUrl = betUrl
+                .replaceAll("\\", "\\\\")
+                .replaceAll(";", "\\;")
+                .replaceAll(",", "\\,");
+            const ics = [
+                "BEGIN:VCALENDAR",
+                "VERSION:2.0",
+                "PRODID:-//Betsie Lite//EN",
+                "BEGIN:VEVENT",
+                `UID:${Date.now()}@betsie-lite`,
+                `DTSTAMP:${toIcsTime(new Date())}`,
+                `DTSTART:${toIcsTime(start)}`,
+                `DTEND:${toIcsTime(end)}`,
+                `SUMMARY:Betsie Bet: ${title}`,
+                `DESCRIPTION:Settle your bet in Betsie Lite\\n${escapedBetUrl}`,
+                `URL:${betUrl}`,
+                "END:VEVENT",
+                "END:VCALENDAR"
+            ].join("\r\n");
+            const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function openGoogleCalendar() {
+            if (!title || !deadline) {
+                return;
+            }
+            const start = new Date(deadline);
+            const end = new Date(start.getTime() + 30 * 60000);
+            const betUrl = toCompressedHashUrl(window.location.href);
+            const googleUrl = new URL("https://calendar.google.com/calendar/render");
+            googleUrl.searchParams.set("action", "TEMPLATE");
+            googleUrl.searchParams.set("text", `Betsie Bet: ${title}`);
+            googleUrl.searchParams.set("dates", `${toIcsTime(start)}/${toIcsTime(end)}`);
+            googleUrl.searchParams.set("details", `Settle your bet in Betsie Lite.\n${betUrl}`);
+            googleUrl.searchParams.set("location", betUrl);
+            window.open(googleUrl.toString(), "_blank", "noopener,noreferrer");
+        }
+
+        function openCalendarModal() {
+            calendarModal.classList.remove("is-hidden");
+        }
+
+        function openLandingPreviewModal() {
+            landingPreviewModal.classList.remove("is-hidden");
+        }
+
+        function closeLandingPreviewModal() {
+            landingPreviewModal.classList.add("is-hidden");
+        }
+
+        function closeCalendarModal() {
+            calendarModal.classList.add("is-hidden");
+        }
+
+        function openFreshModal() {
+            freshModal.classList.remove("is-hidden");
+        }
+
+        function closeFreshModal() {
+            freshModal.classList.add("is-hidden");
+        }
+
+        function openEarlyEndModal() {
+            earlyEndModal.classList.remove("is-hidden");
+        }
+
+        function closeEarlyEndModal() {
+            earlyEndModal.classList.add("is-hidden");
+        }
+
+        function closeCelebrationModal() {
+            celebrationModal.classList.add("is-hidden");
+            triggerWinnerPreviewFlip();
+        }
+
+        function openCelebrationModal(content = {}) {
+            const {
+                settleHeadline = "Result locked in",
+                betDateLabel = "",
+                creatorCardHtml = "",
+                challengerCardHtml = ""
+            } = content;
+            const titleEl = document.getElementById("celebration-title");
+            const dateEl = document.getElementById("celebration-date");
+            const matchupEl = document.getElementById("celebration-matchup");
+            const shareButtonEl = document.getElementById("celebration-close");
+            titleEl.textContent = settleHeadline;
+            dateEl.textContent = betDateLabel ? `Ended: ${betDateLabel}` : "";
+            matchupEl.innerHTML = `${creatorCardHtml}${challengerCardHtml}`;
+            shareButtonEl.innerHTML = shareActionLabel("Share results");
+            celebrationModal.classList.remove("is-hidden");
+            triggerWinnerPreviewFlip(celebrationModal);
+        }
+
+        function triggerWinnerPreviewFlip(root = app) {
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (reduceMotion) {
+                return;
+            }
+            const winningCards = root.querySelectorAll(".competitor.is-winner");
+            if (!winningCards.length) {
+                return;
+            }
+            winningCards.forEach((card) => {
+                const avatar = card.querySelector(".avatar");
+                if (!avatar) {
+                    return;
+                }
+                avatar.classList.remove("is-flipped");
+                avatar.classList.remove("is-flipping");
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        avatar.classList.add("is-flipping");
+                        avatar.addEventListener("animationend", () => {
+                            avatar.classList.remove("is-flipping");
+                            avatar.classList.add("is-flipped");
+                        }, { once: true });
+                    });
+                }, 1000);
+            });
+        }
+
+        function urlWithoutHandoffFlash(urlString) {
+            return stripHandoffFlashFromUrl(urlString);
+        }
+
+        function removeHandoffFlashFromAddressBar() {
+            const next = new URL(window.location.href);
+            const decodedHashState = decodeStateFromHash(next.hash);
+            if (decodedHashState) {
+                SHAREABLE_STATE_KEYS.forEach((key) => next.searchParams.delete(key));
+                Object.entries(decodedHashState).forEach(([key, value]) => {
+                    if (value && key !== "hf") {
+                        next.searchParams.set(key, value);
+                    }
+                });
+                next.hash = "";
+                history.replaceState({}, "", next.toString());
+                return;
+            }
+            if (!next.searchParams.has("hf")) {
+                return;
+            }
+            next.searchParams.delete("hf");
+            history.replaceState({}, "", next.toString());
+        }
+
+        function buildShareHandoffSummaryRows(role) {
+            const rows = [];
+            if (role === "creator") {
+                rows.push(["You", creatorName || "—"]);
+                rows.push(["Prediction", title || "—"]);
+                rows.push(["Deadline", deadline ? new Date(deadline).toLocaleString() : "—"]);
+                if (trashTalk) {
+                    rows.push(["Trash talk", trashTalk]);
+                }
+            } else {
+                rows.push(["The Bet", title || "—"]);
+                rows.push(["Your position", p2 || "—"]);
+                rows.push(["Trash talk", challengerTrashTalk || "—"]);
+                rows.push(["Your name", challengerName || "—"]);
+                rows.push(["Bet ends", deadline ? formatBetEndsLineDate(deadline) : "—"]);
+            }
+            return rows
+                .map(
+                    ([k, v]) =>
+                        `<div class="modal-summary-row"><span class="modal-summary-k">${escapeHtml(k)}</span><span class="modal-summary-v">${escapeHtml(v)}</span></div>`
+                )
+                .join("");
+        }
+
+        function openShareHandoffModal(role, handoffUrl, creatorLabel, challengerLabel) {
+            shareHandoffState.role = role;
+            shareHandoffState.url = urlWithoutHandoffFlash(handoffUrl);
+            const titleEl = document.getElementById("share-handoff-title");
+            const bodyEl = document.getElementById("share-handoff-body");
+            const summaryEl = document.getElementById("share-handoff-summary");
+            const hintEl = document.getElementById("share-handoff-hint");
+            const primaryEl = document.getElementById("share-handoff-primary");
+            summaryEl.removeAttribute("hidden");
+            const detailsCaption = "Bet Details";
+            summaryEl.innerHTML = `
+                <div class="modal-summary-header">
+                    <p class="modal-summary-caption">${detailsCaption}</p>
+                    <button type="button" class="modal-summary-edit" id="share-handoff-edit-link">Edit</button>
+                </div>
+                ${buildShareHandoffSummaryRows(role)}
+            `;
+            if (role === "creator") {
+                titleEl.textContent = "Confirm bet details";
+                titleEl.className = "modal-title modal-title--share-handoff-confirm";
+                bodyEl.textContent = "Make sure everything looks good before you share with a friend.";
+                hintEl.textContent =
+                    "Next: your device opens a share sheet or picker. Choose Messages, WhatsApp, or another chat where you already talk, then send the link.";
+                primaryEl.innerHTML = shareActionLabel("Confirm and send");
+            } else {
+                titleEl.textContent = "Confirm your position";
+                titleEl.className = "modal-title modal-title--share-handoff-confirm";
+                bodyEl.textContent = "Make sure everything looks good before you lock in.";
+                hintEl.textContent =
+                    "Next: your device opens a share sheet or picker. Choose Messages, WhatsApp, or another chat where you already talk, then send the link.";
+                primaryEl.innerHTML = shareActionLabel("Confirm and send");
+            }
+            shareHandoffModal.classList.remove("is-hidden");
+            primaryEl.focus();
+        }
+
+        function closeShareHandoffModal() {
+            shareHandoffModal.classList.add("is-hidden");
+            shareHandoffState.role = null;
+            shareHandoffState.url = "";
+            const titleEl = document.getElementById("share-handoff-title");
+            titleEl.className = "modal-title";
+            const summaryEl = document.getElementById("share-handoff-summary");
+            summaryEl.setAttribute("hidden", "");
+            summaryEl.innerHTML = "";
+        }
+
+        function navigateFromHandoffEdit() {
+            const role = shareHandoffState.role;
+            closeShareHandoffModal();
+            if (role === "creator") {
+                const q = new URLSearchParams();
+                q.set("mode", "create");
+                if (creatorName) {
+                    q.set("cn", creatorName);
+                }
+                if (title) {
+                    q.set("t", title);
+                }
+                if (deadline) {
+                    q.set("d", deadline);
+                }
+                if (trashTalk) {
+                    q.set("tt", trashTalk);
+                }
+                q.set("p1", p1 || "For");
+                window.location.href = `${window.location.pathname}?${q.toString()}`;
+                return;
+            }
+            if (role === "challenger") {
+                try {
+                    sessionStorage.setItem(
+                        "betsieAcceptDraft",
+                        JSON.stringify({
+                            chn: challengerName,
+                            position: p2,
+                            ct: challengerTrashTalk,
+                            agreeWithCreator: String(p2).trim() === String(title).trim()
+                        })
+                    );
+                } catch (_) {
+                    // Ignore storage failures (private mode, quota).
+                }
+                const q = new URLSearchParams();
+                q.set("mode", "accept");
+                if (creatorName) {
+                    q.set("cn", creatorName);
+                }
+                if (title) {
+                    q.set("t", title);
+                }
+                if (deadline) {
+                    q.set("d", deadline);
+                }
+                if (trashTalk) {
+                    q.set("tt", trashTalk);
+                }
+                q.set("p1", p1 || "For");
+                window.location.href = `${window.location.pathname}?${q.toString()}`;
+            }
+        }
+
+        async function shareCurrentLink(shareUrl = window.location.href, analytics = {}) {
+            const normalizedShareUrl = toCompressedHashUrl(shareUrl);
+            const shareContext = analytics.share_context || "general";
+            const shareText = composeShareText(shareContext);
+            const shareData = {
+                title: "Betsie challenge",
+                text: shareText,
+                url: normalizedShareUrl
+            };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    trackBetsieEvent("betsie_share", { share_method: "native", ...analytics });
+                    return;
+                }
+            } catch (error) {
+                // Fallback to clipboard when share is cancelled or unavailable.
+            }
+            if (navigator.clipboard) {
+                await navigator.clipboard.writeText(`${shareText}\n${normalizedShareUrl}`);
+                trackBetsieEvent("betsie_share", { share_method: "clipboard", ...analytics });
+                alert("This message has been copied. For your friend to get the bet, you need to paste it into a chat or email message to them.");
+            }
+        }
+
+        document.getElementById("calendar-google").addEventListener("click", () => {
+            trackBetsieEvent("betsie_calendar_export", { calendar_provider: "google_calendar" });
+            openGoogleCalendar();
+            closeCalendarModal();
+        });
+        document.getElementById("landing-preview-start").addEventListener("click", () => {
+            trackBetsieEvent("betsie_cta", { cta_id: "landing_preview_start_bet", location: "landing_preview_modal" });
+            closeLandingPreviewModal();
+            updateUrl("create");
+        });
+        document.getElementById("calendar-icloud").addEventListener("click", () => {
+            trackBetsieEvent("betsie_calendar_export", { calendar_provider: "icloud_ics" });
+            createCalendarFile("betsie-deadline-apple.ics");
+            closeCalendarModal();
+        });
+        document.getElementById("calendar-ics").addEventListener("click", () => {
+            trackBetsieEvent("betsie_calendar_export", { calendar_provider: "ics_download" });
+            createCalendarFile();
+            closeCalendarModal();
+        });
+        document.getElementById("calendar-cancel").addEventListener("click", () => {
+            trackBetsieEvent("betsie_calendar_modal", { action: "cancel" });
+            closeCalendarModal();
+        });
+        calendarModal.addEventListener("click", (event) => {
+            if (event.target === calendarModal) {
+                closeCalendarModal();
+            }
+        });
+        document.getElementById("logo-button").addEventListener("click", () => {
+            trackBetsieEvent("betsie_header_logo", { action: "open_start_fresh" });
+            openFreshModal();
+        });
+        document.getElementById("fresh-cancel").addEventListener("click", () => {
+            trackBetsieEvent("betsie_start_fresh", { action: "cancel" });
+            closeFreshModal();
+        });
+        document.getElementById("fresh-confirm").addEventListener("click", () => {
+            trackBetsieEvent("betsie_start_fresh", { action: "confirm" });
+            const next = new URL(window.location.href);
+            next.search = "mode=create";
+            next.hash = "";
+            window.location.href = next.toString();
+        });
+        freshModal.addEventListener("click", (event) => {
+            if (event.target === freshModal) {
+                closeFreshModal();
+            }
+        });
+        document.getElementById("celebration-close").addEventListener("click", () => {
+            trackBetsieEvent("betsie_settle_celebration", { action: "share_results" });
+            trackBetsieEvent("betsie_share_intent", { share_context: "settle_result" });
+            void shareCurrentLink(settleShareUrlForModal || window.location.href, { share_context: "settle_result" });
+            closeCelebrationModal();
+        });
+        celebrationModal.addEventListener("click", (event) => {
+            if (event.target === celebrationModal) {
+                trackBetsieEvent("betsie_settle_celebration", { action: "backdrop_close" });
+                closeCelebrationModal();
+            }
+        });
+        document.getElementById("share-handoff-primary").addEventListener("click", async () => {
+            if (!shareHandoffState.url) {
+                return;
+            }
+            const role = shareHandoffState.role;
+            const handoffUrl = shareHandoffState.url;
+            trackBetsieEvent("betsie_share_handoff", { action: "primary_share", role });
+            await shareCurrentLink(handoffUrl, { share_context: role === "creator" ? "creator_handoff" : "challenger_handoff" });
+            closeShareHandoffModal();
+            if (role === "creator") {
+                updateUrl("active", { inv: "1", cs: "invite" });
+            } else if (role === "challenger") {
+                trackBetsieEvent("betsie_challenger_step", { step: "respond", source: "handoff_copy" });
+                updateUrl("active", { src: "accept", cr: "1" });
+            }
+        });
+        document.getElementById("share-handoff-copy").addEventListener("click", async () => {
+            if (!shareHandoffState.url) {
+                return;
+            }
+            const role = shareHandoffState.role;
+            const handoffUrl = shareHandoffState.url;
+            const shareContext = role === "creator" ? "creator_handoff_copy" : "challenger_handoff_copy";
+            const shareText = composeShareText(shareContext);
+            trackBetsieEvent("betsie_share_handoff", { action: "copy_link", role });
+            if (navigator.clipboard) {
+                await navigator.clipboard.writeText(`${shareText}\n${handoffUrl}`);
+                trackBetsieEvent("betsie_share", {
+                    share_method: "clipboard",
+                    share_context: shareContext
+                });
+                alert(
+                    role === "creator"
+                        ? "Invite message copied — paste it into your chat with your friend."
+                        : "Confirmation message copied — paste it into your chat with the creator."
+                );
+            }
+            closeShareHandoffModal();
+            if (role === "creator") {
+                updateUrl("active", { inv: "1", cs: "invite" });
+            } else if (role === "challenger") {
+                updateUrl("active", { src: "accept", cr: "1" });
+            }
+        });
+        shareHandoffModal.addEventListener("click", (event) => {
+            if (event.target === shareHandoffModal) {
+                closeShareHandoffModal();
+                return;
+            }
+            const editTrigger = event.target.closest("#share-handoff-edit-link");
+            if (editTrigger) {
+                event.preventDefault();
+                trackBetsieEvent("betsie_share_handoff", { action: "edit_bet", role: shareHandoffState.role });
+                navigateFromHandoffEdit();
+            }
+        });
+        document.getElementById("early-end-confirm").addEventListener("click", () => {
+            trackBetsieEvent("betsie_vote", { choice: "call_early_confirm", phase: "countdown" });
+            closeEarlyEndModal();
+            updateUrl("active", { ev: "1", ee: new Date().toISOString() });
+        });
+        document.getElementById("early-end-cancel").addEventListener("click", () => {
+            trackBetsieEvent("betsie_vote", { choice: "call_early_cancel", phase: "countdown" });
+            closeEarlyEndModal();
+        });
+        earlyEndModal.addEventListener("click", (event) => {
+            if (event.target === earlyEndModal) {
+                closeEarlyEndModal();
+            }
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !calendarModal.classList.contains("is-hidden")) {
+                closeCalendarModal();
+            }
+            if (event.key === "Escape" && !freshModal.classList.contains("is-hidden")) {
+                closeFreshModal();
+            }
+            if (event.key === "Escape" && !shareHandoffModal.classList.contains("is-hidden")) {
+                closeShareHandoffModal();
+            }
+            if (event.key === "Escape" && !earlyEndModal.classList.contains("is-hidden")) {
+                closeEarlyEndModal();
+            }
+            if (event.key === "Escape" && !celebrationModal.classList.contains("is-hidden")) {
+                trackBetsieEvent("betsie_settle_celebration", { action: "escape_blocked" });
+            }
+        });
+
+        function renderLanding() {
+            app.innerHTML = `
+                <h1>Create a friendly bet in under a minute.</h1>
+                <p class="subtitle">Challenge a friend, pass each other links, and keep the vibes competitive. No account needed.</p>
+                <section class="list" aria-label="Betsie highlights">
+                    <div class="item"><span class="icon" aria-hidden="true">1</span>Set your bet title, details, and deadline.</div>
+                    <div class="item"><span class="icon" aria-hidden="true">2</span>Exchange updates with links in iMessage or WhatsApp.</div>
+                    <div class="item"><span class="icon" aria-hidden="true">3</span>Track countdown and settle with bragging rights.</div>
+                </section>
+                <button id="start-bet" class="cta" type="button">Start a quick bet</button>
+                <p class="meta" style="color: #002cfc;">No email or account required!</p>
+            `;
+            document.getElementById("start-bet").addEventListener("click", () => {
+                trackBetsieEvent("betsie_cta", { cta_id: "start_first_bet", location: "landing" });
+                updateUrl("create");
+            });
+            openLandingPreviewModal();
+        }
+
+        function renderCreatorBreadcrumb(step, allowForwardNav = false) {
+            const order = ["create", "confirm", "invite"];
+            const currentIndex = order.indexOf(step);
+            const canVisit = (target) => {
+                const targetIndex = order.indexOf(target);
+                return targetIndex <= currentIndex || allowForwardNav;
+            };
+            return `
+                <nav class="creator-breadcrumb" aria-label="Creator progress">
+                    <button type="button" class="crumb ${step === "create" ? "is-current" : currentIndex > 0 ? "is-complete" : ""}" data-step-number="01" data-creator-step="create" ${canVisit("create") ? "" : "disabled"}>Create</button>
+                    <span class="crumb-sep" aria-hidden="true"></span>
+                    <button type="button" class="crumb ${step === "confirm" ? "is-current" : currentIndex > 1 ? "is-complete" : ""}" data-step-number="02" data-creator-step="confirm" ${canVisit("confirm") ? "" : "disabled"}>Confirm</button>
+                    <span class="crumb-sep" aria-hidden="true"></span>
+                    <button type="button" class="crumb ${step === "invite" ? "is-current" : ""}" data-step-number="03" data-creator-step="invite" ${canVisit("invite") ? "" : "disabled"}>Invite</button>
+                </nav>
+            `;
+        }
+
+        function bindCreatorBreadcrumb() {
+            document.querySelectorAll("[data-creator-step]").forEach((node) => {
+                node.addEventListener("click", (event) => {
+                    const nextStep = event.currentTarget.getAttribute("data-creator-step");
+                    if (nextStep === "create") {
+                        trackBetsieEvent("betsie_creator_step", { step: "create", source: "breadcrumb" });
+                        updateUrl("create");
+                        return;
+                    }
+                    if (nextStep === "invite" && invited !== "1") {
+                        return;
+                    }
+                    trackBetsieEvent("betsie_creator_step", { step: nextStep, source: "breadcrumb" });
+                    updateUrl("active", { cs: nextStep, inv: invited });
+                });
+            });
+        }
+
+        function renderChallengerBreadcrumb(step) {
+            return `
+                <nav class="creator-breadcrumb" aria-label="Challenger progress">
+                    <button type="button" class="crumb ${step === "accept" ? "is-current" : "is-complete"}" data-step-number="01" data-challenger-step="accept" ${step === "accept" ? "" : "disabled"}>Accept</button>
+                    <span class="crumb-sep" aria-hidden="true"></span>
+                    <button type="button" class="crumb ${step === "confirm" ? "is-current" : step === "respond" ? "is-complete" : ""}" data-step-number="02" data-challenger-step="confirm">Confirm</button>
+                    <span class="crumb-sep" aria-hidden="true"></span>
+                    <button type="button" class="crumb ${step === "respond" ? "is-current" : ""}" data-step-number="03" data-challenger-step="respond" ${step === "respond" ? "" : "disabled"}>Game On</button>
+                </nav>
+            `;
+        }
+
+        function bindChallengerBreadcrumb() {
+            document.querySelectorAll("[data-challenger-step]").forEach((node) => {
+                node.addEventListener("click", (event) => {
+                    const nextStep = event.currentTarget.getAttribute("data-challenger-step");
+                    if (nextStep === "confirm") {
+                        trackBetsieEvent("betsie_challenger_step", { step: "confirm", source: "breadcrumb" });
+                        updateUrl("active", { src: "accept", cr: challengerResponded });
+                    }
+                });
+            });
+        }
+
+        function renderCreate() {
+            const defaultDate = new Date(Date.now() + 24 * 3600000).toISOString().slice(0, 16);
+            const deadlineFieldValue = deadline ? toDatetimeLocalInputValue(deadline) : defaultDate;
+            const minDeadlineValue = nowLocalInputValue();
+            app.innerHTML = `
+                ${renderCreatorBreadcrumb("create")}
+                <h1>Create your bet</h1>
+                <form id="create-form">
+                    <div>
+                        <div class="label-row">
+                            <label for="creator-name">Your name</label>
+                            <span id="creator-name-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <input id="creator-name" name="creatorName" type="text" maxlength="${FIELD_LIMITS.name}" required placeholder="or what people call you" value="${escapeHtml(creatorName)}">
+                    </div>
+                    <div>
+                        <div class="label-row">
+                            <label for="bet-title">I bet...</label>
+                            <span id="bet-title-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <input id="bet-title" name="title" type="text" maxlength="${FIELD_LIMITS.claim}" required placeholder="Robin and Jules will hook up" value="${escapeHtml(title)}">
+                    </div>
+                    <div>
+                        <label for="bet-deadline">Bet ends</label>
+                        <input id="bet-deadline" name="deadline" type="datetime-local" step="60" required min="${minDeadlineValue}" value="${deadlineFieldValue}">
+                    </div>
+                    <div>
+                        <div class="label-row">
+                            <label for="bet-trash-talk">Trash talk</label>
+                            <span id="bet-trash-talk-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <input id="bet-trash-talk" name="trashTalk" type="text" maxlength="${FIELD_LIMITS.trashTalk}" placeholder="Optional, but highly encouraged" value="${escapeHtml(trashTalk)}">
+                    </div>
+                    <button class="cta" type="submit">Next</button>
+                </form>
+            `;
+            bindCharCounter("creator-name", "creator-name-count", FIELD_LIMITS.name);
+            bindCharCounter("bet-title", "bet-title-count", FIELD_LIMITS.claim);
+            bindCharCounter("bet-trash-talk", "bet-trash-talk-count", FIELD_LIMITS.trashTalk);
+            document.getElementById("create-form").addEventListener("submit", (event) => {
+                event.preventDefault();
+                const form = new FormData(event.currentTarget);
+                const deadlineValue = String(form.get("deadline") || "");
+                const parsedDeadline = new Date(deadlineValue);
+                if (!deadlineValue || Number.isNaN(parsedDeadline.getTime()) || parsedDeadline.getTime() < Date.now()) {
+                    alert("Please choose a bet end time that is in the future.");
+                    return;
+                }
+                trackBetsieEvent("betsie_form_submit", { form_id: "create_bet", has_trash_talk: form.get("trashTalk") ? "yes" : "no" });
+                const nextCreatorName = cleanFieldText(form.get("creatorName"), FIELD_LIMITS.name);
+                const nextClaim = cleanFieldText(form.get("title"), FIELD_LIMITS.claim);
+                const nextTrashTalk = cleanFieldText(form.get("trashTalk"), FIELD_LIMITS.trashTalk);
+                updateUrl("active", {
+                    cn: nextCreatorName,
+                    t: nextClaim,
+                    p1: "For",
+                    d: deadlineValue,
+                    tt: nextTrashTalk,
+                    p2: "",
+                    cs: "confirm",
+                    inv: "",
+                    hf: "c"
+                });
+            });
+            bindCreatorBreadcrumb();
+            if (shouldShowFirstRunModal) {
+                requestAnimationFrame(() => {
+                    trackBetsieEvent("betsie_modal", { modal_id: "landing_preview", action: "auto_open_create_default" });
+                    openLandingPreviewModal();
+                });
+            }
+        }
+
+        function renderActive() {
+            const escapedTitle = escapeHtml(title);
+            const escapedCreatorName = escapeHtml(creatorName || "Creator");
+            const escapedChallengerName = escapeHtml(challengerName || "Challenger");
+            const creatorAvatar = avatarLetters(creatorName, "Creator");
+            const challengerAvatar = avatarLetters(challengerName, "Challenger");
+            const escapedP2 = escapeHtml(p2);
+            const challengerPosition = p2 ? escapedP2 : "Waiting for reply";
+            const escapedCreatorTrashTalk = escapeHtml(trashTalk);
+            const escapedChallengerTrashTalk = escapeHtml(challengerTrashTalk);
+            const acceptedFromChallenger = source === "accept";
+            const hasChallengerAccepted = Boolean(p2);
+            const isCreatorView = !acceptedFromChallenger;
+            const hasInvitedChallenger = invited === "1";
+            const flowStep = hasChallengerAccepted || hasInvitedChallenger ? "invite" : "confirm";
+            const inviteButtonText = hasInvitedChallenger ? "Send a reminder" : "Invite challenger";
+            const inviteButtonLabel = shareActionLabel(inviteButtonText);
+            const inviteButtonClass = "cta";
+            const hasChallengerSentConfirmation = challengerResponded === "1";
+            const challengerFlowStep = hasChallengerSentConfirmation ? "respond" : "confirm";
+            const challengerButtonText = hasChallengerSentConfirmation ? "Re-share the link to this bet" : "Confirm and send";
+            const challengerButtonLabel = shareActionLabel(challengerButtonText);
+            const challengerButtonClass = hasChallengerSentConfirmation ? "ghost" : "cta";
+            const challengerAgreesWithCreator = hasChallengerAccepted && String(p2).trim() === String(title).trim();
+            const challengeShareUrl = (() => {
+                const shareUrl = new URL(window.location.href);
+                shareUrl.searchParams.set("mode", "accept");
+                shareUrl.searchParams.delete("p2");
+                shareUrl.searchParams.delete("src");
+                shareUrl.searchParams.delete("w");
+                shareUrl.searchParams.delete("cs");
+                shareUrl.searchParams.delete("inv");
+                shareUrl.searchParams.delete("hf");
+                const inviteUrl = new URL(toCompressedHashUrl(shareUrl.toString()));
+                inviteUrl.pathname = "/share/invite/";
+                return inviteUrl.toString();
+            })();
+            const reminderShareUrl = (() => {
+                const reminderUrl = new URL(challengeShareUrl);
+                reminderUrl.pathname = "/share/reminder/";
+                return reminderUrl.toString();
+            })();
+            const confirmationShareUrl = (() => {
+                const shareUrl = new URL(window.location.href);
+                shareUrl.searchParams.set("mode", "active");
+                shareUrl.searchParams.set("src", "accept");
+                shareUrl.searchParams.set("cr", "1");
+                shareUrl.searchParams.delete("hf");
+                const confirmUrl = new URL(toCompressedHashUrl(shareUrl.toString()));
+                confirmUrl.pathname = challengerAgreesWithCreator ? "/share/confirm-agree/" : "/share/confirm/";
+                return confirmUrl.toString();
+            })();
+            const forceVotingPeriod = earlyVote === "1";
+            const votingPeriod = forceVotingPeriod || (deadline && (new Date(deadline).getTime() <= Date.now()));
+            const parsedEarlyEndedAt = earlyEndedAt ? new Date(earlyEndedAt) : null;
+            const hasEarlyEndedTimestamp = Boolean(parsedEarlyEndedAt && !Number.isNaN(parsedEarlyEndedAt.getTime()));
+            const betTimingLabel = forceVotingPeriod && hasEarlyEndedTimestamp
+                ? `Bet ended: ${formatBetEndsLineDate(parsedEarlyEndedAt)}`
+                : `Bet ends: ${formatBetEndsLineDate(deadline)}`;
+            const samePosition = challengerAgreesWithCreator;
+            const creatorVoteLabel = samePosition ? "Both Right!" : `${escapedCreatorName} Won!`;
+            const challengerVoteLabel = samePosition ? "Both Wrong!" : `${escapedChallengerName} Won!`;
+            const showCreatorWaitingForConfirmation =
+                isCreatorView && flowStep === "invite" && !hasChallengerSentConfirmation;
+            app.innerHTML = `
+                ${isCreatorView ? renderCreatorBreadcrumb(flowStep, true) : renderChallengerBreadcrumb(challengerFlowStep)}
+                <h1>${escapedTitle || "Your Bet"}</h1>
+                <div class="countdown" id="countdown">--</div>
+                <p class="subtitle bet-timing-line" style="text-align: center; margin-top: 0; margin-bottom: 2px;">${betTimingLabel}</p>
+                ${acceptedFromChallenger && hasChallengerAccepted && hasChallengerSentConfirmation && !votingPeriod ? `<p class="subtitle" style="text-align: center; margin-top: 4px; margin-bottom: 10px; line-height: 1;"><button id="add-calendar-pill" class="pill add-calendar-pill" type="button">${calendarActionLabel("Add to calendar")}</button></p>` : ""}
+                <section class="matchup" aria-label="Head to head positions">
+                    <article class="competitor">
+                        <div class="avatar creator" aria-hidden="true">${creatorAvatar}</div>
+                        <div class="competitor-label">${escapedCreatorName}</div>
+                        <div class="competitor-position">${escapedTitle}</div>
+                        <div class="competitor-quote">${trashTalk ? `"${escapedCreatorTrashTalk}"` : "\"No comment.\""}</div>
+                    </article>
+                    <article class="competitor">
+                        <div class="avatar challenger" aria-hidden="true">${challengerAvatar}</div>
+                        <div class="competitor-label">${escapedChallengerName}</div>
+                        <div class="competitor-position">${challengerPosition}</div>
+                        <div class="competitor-quote">${challengerTrashTalk ? `"${escapedChallengerTrashTalk}"` : "\"No comment.\""}</div>
+                    </article>
+                </section>
+                <div class="voting-actions${votingPeriod ? "" : " is-hidden"}">
+                    <button id="creator-won" class="winner-btn${samePosition ? " both-right" : ""}" type="button">${creatorVoteLabel}</button>
+                    <button id="challenger-won" class="winner-btn" type="button">${challengerVoteLabel}</button>
+                </div>
+                ${acceptedFromChallenger && hasChallengerSentConfirmation && votingPeriod && !samePosition ? '<p class="subtitle" style="text-align: center;">If no one was right, <button id="no-contest-link" type="button" style="border: 0; background: transparent; color: inherit; text-decoration: underline; padding: 0; font: inherit; cursor: pointer;">click here</button>.</p>' : ""}
+                <p class="subtitle"><strong>Who can see this?</strong><br>Anyone with a link</p>
+                ${showCreatorWaitingForConfirmation ? '<p class="subtitle"><strong>Status:</strong> Waiting for your friend to send you back their confirmation link.</p>' : ""}
+                ${acceptedFromChallenger && hasChallengerSentConfirmation && !votingPeriod ? '<p class="subtitle"><strong>Next step:</strong> Check back for the countdown and then you\'ll be able to vote.</p>' : ""}
+                ${!acceptedFromChallenger || !hasChallengerSentConfirmation
+                    ? `<button id="share-link" class="${acceptedFromChallenger ? challengerButtonClass : inviteButtonClass}${votingPeriod ? " is-hidden" : ""}" type="button">${acceptedFromChallenger ? challengerButtonLabel : inviteButtonLabel}</button>`
+                    : ""}
+                ${acceptedFromChallenger && !hasChallengerSentConfirmation ? '<p class="subtitle">Sharing the confirmation link allows you to watch the bet and vote when timer is done.</p>' : ""}
+                ${p2 || votingPeriod ? "" : '<p class="preview-accept-wrap"><a id="accept-preview" class="preview-accept-link" href="#">Preview what they\'ll see</a></p>'}
+                ${hasChallengerAccepted
+                    ? `<button id="call-bet-early-cta" class="cta${votingPeriod ? " is-hidden" : ""}" type="button">Call the bet early</button>${
+                    acceptedFromChallenger && hasChallengerSentConfirmation
+                        ? `<p class="reshare-confirm-wrap"><button type="button" class="reshare-confirm-link${votingPeriod ? " is-hidden" : ""}" id="share-link">${shareActionLabel("Re-share the link to this bet")}</button></p>`
+                        : ""
+                }`
+                    : ""}
+                <div class="banner"><a id="betsie-app-promo" href="https://betsie.app/download" target="_blank" rel="noopener noreferrer">Unlock history, streaks, and leaderboard with our mobile app.</a></div>
+            `;
+            const promoLink = document.getElementById("betsie-app-promo");
+            if (promoLink) {
+                promoLink.addEventListener("click", () => {
+                    trackBetsieEvent("betsie_outbound_click", { link_id: "app_download_promo", destination: "betsie_app_download" });
+                });
+            }
+            if (document.getElementById("share-link")) {
+                document.getElementById("share-link").addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    if (e.currentTarget.getAttribute("aria-disabled") === "true") {
+                        return;
+                    }
+                    const shareUrl = hasChallengerAccepted
+                        ? (acceptedFromChallenger ? confirmationShareUrl : window.location.href)
+                        : challengeShareUrl;
+                    const showCreatorHandoff = isCreatorView && !hasChallengerAccepted && !hasInvitedChallenger;
+                    const showChallengerHandoff = acceptedFromChallenger && !hasChallengerSentConfirmation;
+                    if (showCreatorHandoff) {
+                        trackBetsieEvent("betsie_share_flow", { flow: "creator_handoff_modal" });
+                        openShareHandoffModal("creator", shareUrl, creatorName, challengerName);
+                        return;
+                    }
+                    if (showChallengerHandoff) {
+                        trackBetsieEvent("betsie_share_flow", { flow: "challenger_handoff_modal" });
+                        openShareHandoffModal("challenger", shareUrl, creatorName, challengerName);
+                        return;
+                    }
+                    const shareContext = (() => {
+                        if (!isCreatorView) {
+                            return hasChallengerSentConfirmation ? "challenger_resend_confirm" : "challenger_send_confirm";
+                        }
+                        if (!hasChallengerAccepted && hasInvitedChallenger) {
+                            return "creator_reminder";
+                        }
+                        if (hasChallengerAccepted) {
+                            return "creator_post_accept";
+                        }
+                        return "creator_invite_direct";
+                    })();
+                    const shareTargetUrl = shareContext === "creator_reminder" ? reminderShareUrl : shareUrl;
+                    trackBetsieEvent("betsie_share_intent", { share_context: shareContext });
+                    await shareCurrentLink(shareTargetUrl, { share_context: shareContext });
+                    if (isCreatorView && !hasChallengerAccepted && !hasInvitedChallenger) {
+                        updateUrl("active", { inv: "1", cs: "invite" });
+                        return;
+                    }
+                    if (!isCreatorView && !hasChallengerSentConfirmation) {
+                        trackBetsieEvent("betsie_challenger_step", { step: "respond", source: "share_button" });
+                        updateUrl("active", { src: "accept", cr: "1" });
+                    }
+                });
+            }
+            if (!p2 && !votingPeriod && document.getElementById("accept-preview")) {
+                document.getElementById("accept-preview").addEventListener("click", (event) => {
+                    event.preventDefault();
+                    trackBetsieEvent("betsie_preview", { target: "challenger_accept_link" });
+                    updateUrl("accept");
+                });
+            }
+            if (hasChallengerAccepted) {
+                document.getElementById("call-bet-early-cta").addEventListener("click", () => {
+                    trackBetsieEvent("betsie_vote", { choice: "call_early_prompt", phase: "countdown" });
+                    openEarlyEndModal();
+                });
+            }
+            const addCalendarPill = document.getElementById("add-calendar-pill");
+            if (addCalendarPill) {
+                addCalendarPill.addEventListener("click", () => {
+                    trackBetsieEvent("betsie_calendar_modal", { action: "open" });
+                    openCalendarModal();
+                });
+            }
+            document.getElementById("creator-won").addEventListener("click", () => {
+                trackBetsieEvent("betsie_vote", { choice: "creator", phase: "after_deadline" });
+                updateUrl("settle", { w: "1" });
+            });
+            document.getElementById("challenger-won").addEventListener("click", () => {
+                trackBetsieEvent("betsie_vote", { choice: "challenger", phase: "after_deadline" });
+                updateUrl("settle", { w: "2" });
+            });
+            const noContestLink = document.getElementById("no-contest-link");
+            if (noContestLink) {
+                noContestLink.addEventListener("click", () => {
+                    trackBetsieEvent("betsie_vote", { choice: "no_contest", phase: "after_deadline" });
+                    updateUrl("settle", { w: "0" });
+                });
+            }
+            if (isCreatorView) {
+                bindCreatorBreadcrumb();
+            } else {
+                bindChallengerBreadcrumb();
+            }
+
+            const shouldAutoCreatorHandoff =
+                handoffFlash === "c" && isCreatorView && !hasChallengerAccepted && !hasInvitedChallenger;
+            const shouldAutoChallengerHandoff =
+                handoffFlash === "ch" && acceptedFromChallenger && !hasChallengerSentConfirmation;
+            if (handoffFlash === "c" || handoffFlash === "ch") {
+                if (shouldAutoCreatorHandoff || shouldAutoChallengerHandoff) {
+                    removeHandoffFlashFromAddressBar();
+                    requestAnimationFrame(() => {
+                        if (shouldAutoCreatorHandoff) {
+                            trackBetsieEvent("betsie_share_handoff", { action: "auto_open", role: "creator" });
+                            openShareHandoffModal("creator", challengeShareUrl, creatorName, challengerName);
+                        } else if (shouldAutoChallengerHandoff) {
+                            trackBetsieEvent("betsie_share_handoff", { action: "auto_open", role: "challenger" });
+                            openShareHandoffModal("challenger", confirmationShareUrl, creatorName, challengerName);
+                        }
+                    });
+                } else {
+                    removeHandoffFlashFromAddressBar();
+                }
+            }
+            function setVotingPeriod(isVotingPeriod) {
+                document.getElementById("creator-won").classList.toggle("is-hidden", !isVotingPeriod);
+                document.getElementById("challenger-won").classList.toggle("is-hidden", !isVotingPeriod);
+                document.getElementById("share-link").classList.toggle("is-hidden", isVotingPeriod);
+                if (hasChallengerAccepted) {
+                    document.getElementById("call-bet-early-cta").classList.toggle("is-hidden", isVotingPeriod);
+                }
+            }
+
+            const el = document.getElementById("countdown");
+            const timer = setInterval(() => {
+                el.textContent = forceVotingPeriod ? "Pick Your Winner" : formatCountdown(deadline);
+                if (el.textContent === "Pick Your Winner") {
+                    setVotingPeriod(true);
+                    clearInterval(timer);
+                }
+            }, 1000);
+            el.textContent = forceVotingPeriod ? "Pick Your Winner" : formatCountdown(deadline);
+            setVotingPeriod(el.textContent === "Pick Your Winner");
+        }
+
+        function renderAccept() {
+            if (p2) {
+                updateUrl("active");
+                return;
+            }
+            let acceptDraft = null;
+            try {
+                const raw = sessionStorage.getItem("betsieAcceptDraft");
+                if (raw) {
+                    acceptDraft = JSON.parse(raw);
+                    sessionStorage.removeItem("betsieAcceptDraft");
+                }
+            } catch (_) {
+                acceptDraft = null;
+            }
+            const agreeWithCreatorLabel = creatorName.trim()
+                ? `Agree with ${escapeHtml(creatorName)}`
+                : "Agree with creator";
+            const creatorBetsLabel = creatorName.trim()
+                ? `${escapeHtml(creatorName)} bets that...`
+                : "Creator bets that...";
+            const creatorAvatar = avatarLetters(creatorName, "Creator");
+            const startWithAgree = !acceptDraft || acceptDraft.agreeWithCreator;
+            const draftChnValue = acceptDraft && acceptDraft.chn ? escapeHtml(acceptDraft.chn) : "";
+            const draftCtValue = acceptDraft && acceptDraft.ct ? escapeHtml(acceptDraft.ct) : "";
+            const positionFieldValue = startWithAgree
+                ? escapeHtml(title)
+                : escapeHtml((acceptDraft && acceptDraft.position) || "");
+            app.innerHTML = `
+                ${renderChallengerBreadcrumb("accept")}
+                <article class="competitor accept-creator-preview" aria-label="Creator prediction preview">
+                    <div class="avatar creator" aria-hidden="true">${creatorAvatar}</div>
+                    <div class="competitor-label">${creatorBetsLabel}</div>
+                    <div class="competitor-position">${escapeHtml(title)}</div>
+                    <div class="competitor-quote">${trashTalk ? `"${escapeHtml(trashTalk)}"` : "\"No comment.\""}</div>
+                </article>
+                <form id="accept-form">
+                    <h2 class="accept-form-heading">Your response</h2>
+                    <div>
+                        <div class="label-row">
+                            <label for="challenger-name">Your name</label>
+                            <span id="challenger-name-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <input id="challenger-name" name="challengerName" type="text" maxlength="${FIELD_LIMITS.name}" required placeholder="or what people call you" value="${draftChnValue}">
+                    </div>
+                    <div>
+                        <div class="label-row">
+                            <label for="challenger-position">Your position</label>
+                            <span id="challenger-position-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <div class="choice-row" role="radiogroup" aria-label="Choose your position type">
+                            <button id="agree-option" class="choice${startWithAgree ? " active" : ""}" type="button" aria-pressed="${startWithAgree}">${agreeWithCreatorLabel}</button>
+                            <button id="custom-option" class="choice${startWithAgree ? "" : " active"}" type="button" aria-pressed="${!startWithAgree}">Make a different call</button>
+                        </div>
+                        <input id="challenger-position" name="position" type="text" maxlength="${FIELD_LIMITS.claim}" required value="${positionFieldValue}" placeholder="your prediction..."${startWithAgree ? " disabled" : ""}>
+                    </div>
+                    <div>
+                        <div class="label-row">
+                            <label for="challenger-trash-talk">Trash talk</label>
+                            <span id="challenger-trash-talk-count" class="char-count" aria-live="polite"></span>
+                        </div>
+                        <input id="challenger-trash-talk" name="challengerTrashTalk" type="text" maxlength="${FIELD_LIMITS.trashTalk}" placeholder="Optional, but highly encouraged" value="${draftCtValue}">
+                    </div>
+                    <button class="cta" type="submit">Next</button>
+                </form>
+            `;
+            const agreeOption = document.getElementById("agree-option");
+            const customOption = document.getElementById("custom-option");
+            const challengerInput = document.getElementById("challenger-position");
+            bindCharCounter("challenger-name", "challenger-name-count", FIELD_LIMITS.name);
+            bindCharCounter("challenger-position", "challenger-position-count", FIELD_LIMITS.claim);
+            bindCharCounter("challenger-trash-talk", "challenger-trash-talk-count", FIELD_LIMITS.trashTalk);
+
+            function setMode(isAgree) {
+                agreeOption.classList.toggle("active", isAgree);
+                customOption.classList.toggle("active", !isAgree);
+                agreeOption.setAttribute("aria-pressed", String(isAgree));
+                customOption.setAttribute("aria-pressed", String(!isAgree));
+                challengerInput.disabled = isAgree;
+                challengerInput.required = !isAgree;
+                if (isAgree) {
+                    challengerInput.value = title;
+                } else if (challengerInput.value.trim() === title) {
+                    challengerInput.value = "";
+                    challengerInput.focus();
+                }
+            }
+
+            agreeOption.addEventListener("click", () => {
+                trackBetsieEvent("betsie_accept_position", { mode: "agree" });
+                setMode(true);
+            });
+            customOption.addEventListener("click", () => {
+                trackBetsieEvent("betsie_accept_position", { mode: "custom" });
+                setMode(false);
+            });
+            document.getElementById("accept-form").addEventListener("submit", (event) => {
+                event.preventDefault();
+                const form = new FormData(event.currentTarget);
+                const nextChallengerName = cleanFieldText(form.get("challengerName"), FIELD_LIMITS.name);
+                const nextPosition = cleanFieldText(form.get("position"), FIELD_LIMITS.claim);
+                const nextChallengerTrashTalk = cleanFieldText(form.get("challengerTrashTalk"), FIELD_LIMITS.trashTalk);
+                const position = String(nextPosition || "").trim();
+                const agreeWithCreator = position === String(title).trim();
+                trackBetsieEvent("betsie_form_submit", {
+                    form_id: "accept_bet",
+                    position_mode: agreeWithCreator ? "agree" : "custom",
+                    has_trash_talk: form.get("challengerTrashTalk") ? "yes" : "no"
+                });
+                trackBetsieEvent("betsie_challenger_step", { step: "accept_submitted", source: "form_submit" });
+                updateUrl("active", {
+                    chn: nextChallengerName,
+                    p2: nextPosition || title,
+                    ct: nextChallengerTrashTalk,
+                    src: "accept",
+                    cr: "",
+                    hf: "ch"
+                });
+            });
+            bindChallengerBreadcrumb();
+        }
+
+        function renderSettle() {
+            const creatorDisplayName = creatorName.trim() || "Creator";
+            const challengerDisplayName = challengerName.trim() || "Challenger";
+            const name = winner === "1" ? creatorDisplayName : winner === "2" ? challengerDisplayName : "";
+            const samePosition = Boolean(p2) && String(p2).trim() === String(title).trim();
+            const parsedEarlyEndedAt = earlyEndedAt ? new Date(earlyEndedAt) : null;
+            const hasValidEarlyEndDate = parsedEarlyEndedAt && !Number.isNaN(parsedEarlyEndedAt.getTime());
+            const betEndedDateSource = hasValidEarlyEndDate ? parsedEarlyEndedAt : (deadline || "");
+            const betDateLabel = betEndedDateSource ? new Date(betEndedDateSource).toLocaleDateString() : "";
+            const noContest = winner === "0";
+            const bothWin = samePosition && winner === "1";
+            const bothLose = samePosition && winner === "2";
+            const creatorIsWinner = bothWin || (!bothLose && winner === "1");
+            const challengerIsWinner = bothWin || (!bothLose && winner === "2");
+            const creatorIsLoser = bothLose;
+            const challengerIsLoser = bothLose;
+            const creatorWinnerClass = creatorIsWinner ? " is-winner" : "";
+            const challengerWinnerClass = challengerIsWinner ? " is-winner" : "";
+            const creatorLoserClass = creatorIsLoser ? " is-loser" : "";
+            const challengerLoserClass = challengerIsLoser ? " is-loser" : "";
+            const creatorCardHtml = `
+                <article class="competitor${creatorWinnerClass}${creatorLoserClass}">
+                    <div class="avatar creator flip-coin" aria-hidden="true">
+                        <span class="avatar-face front creator">${avatarLetters(creatorName, "Creator")}</span>
+                        <span class="avatar-face back"><span class="winner-icon" aria-hidden="true">&#x1F3C6;</span></span>
+                    </div>
+                    <div class="competitor-label">${escapeHtml(creatorName || "Creator")}</div>
+                    <div class="competitor-position">${escapeHtml(title || "-")}</div>
+                    <div class="competitor-quote">${trashTalk ? `"${escapeHtml(trashTalk)}"` : "\"No comment.\""}</div>
+                </article>
+            `;
+            const challengerCardHtml = `
+                <article class="competitor${challengerWinnerClass}${challengerLoserClass}">
+                    <div class="avatar challenger flip-coin" aria-hidden="true">
+                        <span class="avatar-face front challenger">${avatarLetters(challengerName, "Challenger")}</span>
+                        <span class="avatar-face back"><span class="winner-icon" aria-hidden="true">&#x1F3C6;</span></span>
+                    </div>
+                    <div class="competitor-label">${escapeHtml(challengerName || "Challenger")}</div>
+                    <div class="competitor-position">${escapeHtml(p2 || "-")}</div>
+                    <div class="competitor-quote">${challengerTrashTalk ? `"${escapeHtml(challengerTrashTalk)}"` : "\"No comment.\""}</div>
+                </article>
+            `;
+            const settleHeadline = (() => {
+                if (noContest) {
+                    return "No Contest!";
+                }
+                if (samePosition && winner === "1") {
+                    return "Both win this round";
+                }
+                if (samePosition && winner === "2") {
+                    return "Both lose this round";
+                }
+                if (name) {
+                    return `${name} wins this round`;
+                }
+                return "Deadline reached";
+            })();
+            const settleShareUrl = (() => {
+                const resultUrl = new URL(toCompressedHashUrl(window.location.href));
+                if (winner === "0") {
+                    resultUrl.pathname = "/share/result-no-contest/";
+                } else if (samePosition && winner === "1") {
+                    resultUrl.pathname = "/share/result-both-right/";
+                } else if (samePosition && winner === "2") {
+                    resultUrl.pathname = "/share/result-both-wrong/";
+                } else if (winner === "1") {
+                    resultUrl.pathname = "/share/result-creator-won/";
+                } else if (winner === "2") {
+                    resultUrl.pathname = "/share/result-challenger-won/";
+                }
+                return resultUrl.toString();
+            })();
+            settleShareUrlForModal = settleShareUrl;
+            app.innerHTML = `
+                <div id="settle-receipt-capture">
+                    <div class="brand-row"><span class="brand-label">Bet Receipt</span></div>
+                    <h1>${settleHeadline}</h1>
+                    ${betDateLabel ? `<p class="subtitle" style="text-align: center; margin-top: 0; margin-bottom: 2px;">Bet ended: ${escapeHtml(betDateLabel)}</p>` : ""}
+                    <p class="subtitle" style="text-align: center; margin-top: 4px; margin-bottom: 10px; line-height: 1;"><button id="save-results-pill" class="pill save-results-pill" type="button">${saveImageActionLabel("Download receipt")}</button></p>
+                    <section class="matchup" aria-label="Final head to head">
+                        ${creatorCardHtml}
+                        ${challengerCardHtml}
+                    </section>
+                </div>
+                <button id="share-result" class="cta" type="button">${shareActionLabel("Share this receipt")}</button>
+                <button id="new-bet" class="ghost" type="button">Start new bet</button>
+                <div class="banner"><a id="betsie-app-promo" href="https://betsie.app/download" target="_blank" rel="noopener noreferrer">Unlock history, streaks, and leaderboard with our mobile app.</a></div>
+            `;
+            const promoLink = document.getElementById("betsie-app-promo");
+            if (promoLink) {
+                promoLink.addEventListener("click", () => {
+                    trackBetsieEvent("betsie_outbound_click", { link_id: "app_download_promo", destination: "betsie_app_download" });
+                });
+            }
+            document.getElementById("share-result").addEventListener("click", () => {
+                trackBetsieEvent("betsie_share_intent", { share_context: "settle_result" });
+                void shareCurrentLink(settleShareUrl, { share_context: "settle_result" });
+            });
+            const saveResultsPill = document.getElementById("save-results-pill");
+            if (saveResultsPill) {
+                saveResultsPill.addEventListener("click", async () => {
+                    const originalLabel = saveImageActionLabel("Download receipt");
+                    try {
+                        saveResultsPill.disabled = true;
+                        saveResultsPill.innerHTML = saveImageActionLabel("Saving image...");
+                        trackBetsieEvent("betsie_receipt_export", { export_type: "image", action: "start" });
+                        await saveReceiptAsImage();
+                        trackBetsieEvent("betsie_receipt_export", { export_type: "image", action: "success" });
+                    } catch (error) {
+                        trackBetsieEvent("betsie_receipt_export", { export_type: "image", action: "error" });
+                        alert("Could not save image right now. Please try again.");
+                    } finally {
+                        saveResultsPill.disabled = false;
+                        saveResultsPill.innerHTML = originalLabel;
+                    }
+                });
+            }
+            document.getElementById("new-bet").addEventListener("click", () => {
+                trackBetsieEvent("betsie_cta", { cta_id: "start_new_bet", location: "settle" });
+                const next = new URL(window.location.href);
+                next.search = "mode=create";
+                next.hash = "";
+                window.open(next.toString(), "_blank", "noopener");
+            });
+            if (winner) {
+                trackBetsieEvent("betsie_settle_celebration", { action: "auto_open" });
+                requestAnimationFrame(() => {
+                    openCelebrationModal({
+                        settleHeadline,
+                        betDateLabel,
+                        creatorCardHtml,
+                        challengerCardHtml
+                    });
+                });
+            }
+        }
+
+        const hasBetData = Boolean(title && deadline);
+        const invalidSettleState = mode === "settle" && hasBetData && !winner;
+        if (invalidSettleState) {
+            updateUrl("active");
+        }
+        const effectiveMode = invalidSettleState ? "active" : mode;
+        const surface = (() => {
+            if (!effectiveMode && !hasBetData) {
+                return "create";
+            }
+            if (effectiveMode === "create") {
+                return "create";
+            }
+            if (effectiveMode === "accept" && hasBetData) {
+                return "accept";
+            }
+            if (effectiveMode === "settle" && hasBetData) {
+                return "settle";
+            }
+            if (hasBetData) {
+                return "active";
+            }
+            return "landing";
+        })();
+        trackBetsieEvent("betsie_surface_view", {
+            surface,
+            url_mode: effectiveMode || "",
+            invited_flag: invited || "",
+            challenger_responded: challengerResponded || "",
+            has_winner: winner ? "yes" : "no"
+        });
+        if (!effectiveMode && !hasBetData) {
+            renderCreate();
+        } else if (effectiveMode === "create") {
+            renderCreate();
+        } else if (effectiveMode === "accept" && hasBetData) {
+            renderAccept();
+        } else if (effectiveMode === "settle" && hasBetData) {
+            renderSettle();
+        } else if (hasBetData) {
+            renderActive();
+        } else {
+            renderLanding();
+        }
+    </script>
+</body>
+</html>
