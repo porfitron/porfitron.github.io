@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Local Icons" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <title>Local Icons</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --ios-blue: #0a84ff;
+      --ios-bg: #0a0a0b;
+      --ios-card: #1c1c1e;
+      --ios-sep: rgba(255,255,255,0.08);
+    }
+    html { -webkit-tap-highlight-color: transparent; }
+    body {
+      min-height: 100dvh;
+      background: var(--ios-bg);
+      color: #f5f5f7;
+    }
+    .glass {
+      background: rgba(28, 28, 30, 0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+    }
+    @keyframes shimmer {
+      0%, 100% { background-position: 200% center; }
+      50% { background-position: -200% center; }
+    }
+    .card-legendary {
+      background: linear-gradient(135deg, rgba(255, 214, 10, 0.35), rgba(255, 149, 0, 0.2), rgba(255, 214, 10, 0.35));
+      background-size: 200% 200%;
+      animation: shimmer 2.5s ease-in-out infinite;
+    }
+    .field-focus:focus-within {
+      box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.35);
+    }
+    .pressable:active { transform: scale(0.98); opacity: 0.92; }
+    @media (prefers-reduced-motion: reduce) {
+      .card-legendary, .animate-shimmer { animation: none; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-blue-500/30">
+  <div id="toast" class="fixed left-1/2 z-[100] -translate-x-1/2 translate-y-4 opacity-0 pointer-events-none transition-all duration-300 px-4 py-2.5 rounded-full glass text-sm text-white shadow-lg max-w-[90vw] text-center" style="top: calc(var(--safe-top) + 12px)" role="status" aria-live="polite"></div>
+
+  <header class="sticky top-0 z-50 glass border-b border-white/[0.06]" style="padding-top: var(--safe-top)">
+    <div class="flex items-center justify-between px-4 h-11 max-w-lg mx-auto">
+      <span class="text-[17px] font-semibold tracking-tight">Local Icons</span>
+      <button type="button" id="btn-screenshot" class="pressable text-[15px] text-[var(--ios-blue)] font-medium py-1 px-2 -mr-2 rounded-lg" aria-label="Screenshot mode">Screenshot</button>
+    </div>
+  </header>
+
+  <main id="main-scroll" class="max-w-lg mx-auto px-4 pb-32 pt-2" style="padding-bottom: calc(5.5rem + var(--safe-bottom))">
+    <!-- Shared / deep link card view -->
+    <section id="hero-card-wrap" class="hidden mb-6">
+      <p class="text-[13px] text-white/45 text-center mb-3 uppercase tracking-wide">Trading card</p>
+      <div id="hero-card-slot"></div>
+      <button type="button" id="btn-new-from-shared" class="pressable mt-4 w-full py-3.5 rounded-2xl bg-white/[0.08] text-[17px] font-semibold border border-white/10">
+        Log your own sighting
+      </button>
+    </section>
+
+    <section id="intro-block" class="mb-8">
+      <h1 class="text-[34px] font-bold leading-tight tracking-tight text-white mb-2">Neighborhood legends</h1>
+      <p class="text-[17px] text-white/55 leading-relaxed">Spot local icons and mint them as digital trading cards. No account—share a link.</p>
+    </section>
+
+    <section id="form-section" class="space-y-5">
+      <div class="rounded-2xl border border-amber-500/25 bg-amber-500/[0.06] px-4 py-3">
+        <p class="text-[13px] text-amber-200/90 leading-snug">
+          <strong class="font-semibold text-amber-100">Privacy:</strong> Use fun nicknames (e.g. “The Rollerblade Guitarist”), not real names. Public places only—streets, parks, cafés.
+        </p>
+      </div>
+
+      <label class="block">
+        <span class="text-[13px] font-medium text-white/50 uppercase tracking-wide ml-1">Icon name</span>
+        <input id="field-name" type="text" autocomplete="off" placeholder="Park Mascot, Bridge Cat…" maxlength="80"
+          class="mt-1.5 w-full rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3.5 text-[17px] placeholder:text-white/30 outline-none field-focus transition-shadow" />
+      </label>
+
+      <label class="block">
+        <span class="text-[13px] font-medium text-white/50 uppercase tracking-wide ml-1">Where (neighborhood level)</span>
+        <input id="field-loc" type="text" autocomplete="off" placeholder="Riverside dog park, Main & 4th…" maxlength="120"
+          class="mt-1.5 w-full rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3.5 text-[17px] placeholder:text-white/30 outline-none field-focus" />
+      </label>
+
+      <label class="block">
+        <span class="flex items-center gap-1.5 text-[13px] font-medium text-white/50 uppercase tracking-wide ml-1">
+          Vibe check
+          <span class="relative group inline-flex">
+            <button type="button" class="w-5 h-5 rounded-full bg-white/15 text-[11px] font-bold text-white/70 flex items-center justify-center" aria-describedby="vibe-tip" tabindex="0">?</button>
+            <span id="vibe-tip" role="tooltip" class="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-[min(280px,calc(100vw-2rem))] -translate-x-1/2 rounded-xl border border-white/10 bg-[#2c2c2e] px-3 py-2.5 text-[13px] font-normal normal-case tracking-normal text-white/90 opacity-0 shadow-xl transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+              Is this sighting celebratory? If this person saw this card, would they feel like a legend?
+            </span>
+          </span>
+        </span>
+        <textarea id="field-vibe" rows="3" maxlength="280" placeholder="Always waves, knows every dog by name…"
+          class="mt-1.5 w-full rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3.5 text-[17px] placeholder:text-white/30 outline-none field-focus resize-none"></textarea>
+      </label>
+
+      <div>
+        <span class="text-[13px] font-medium text-white/50 uppercase tracking-wide ml-1 block mb-2">Rarity</span>
+        <div id="rarity-pills" class="flex flex-wrap gap-2" role="radiogroup" aria-label="Rarity">
+          <button type="button" data-rarity="Common" class="rarity-pill pressable px-4 py-2.5 rounded-full text-[15px] font-medium border border-slate-500/50 bg-slate-500/15 text-slate-200 ring-2 ring-transparent">Common</button>
+          <button type="button" data-rarity="Rare" class="rarity-pill pressable px-4 py-2.5 rounded-full text-[15px] font-medium border border-blue-400/40 bg-blue-500/15 text-blue-200 ring-2 ring-transparent">Rare</button>
+          <button type="button" data-rarity="Legendary" class="rarity-pill pressable px-4 py-2.5 rounded-full text-[15px] font-medium border border-amber-400/50 bg-amber-500/15 text-amber-100 ring-2 ring-transparent">Legendary</button>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden">
+        <button type="button" id="toggle-prompt" class="pressable w-full flex items-center justify-between px-4 py-3.5 text-left">
+          <span class="text-[15px] font-semibold">Image prompt</span>
+          <span id="prompt-chevron" class="text-white/40 text-lg transition-transform">›</span>
+        </button>
+        <div id="prompt-panel" class="hidden border-t border-white/10 px-4 py-3 bg-black/20 space-y-4">
+          <p id="prompt-output" class="text-[14px] text-white/70 leading-relaxed break-words font-mono"></p>
+          <button type="button" id="btn-copy-prompt" class="pressable w-full py-2.5 rounded-xl bg-[var(--ios-blue)] text-white text-[15px] font-semibold">Copy prompt</button>
+          <div class="pt-1 border-t border-white/10">
+            <label class="block">
+              <span class="text-[13px] font-medium text-white/50 uppercase tracking-wide ml-1">Artwork URL</span>
+              <input id="field-image-url" type="url" inputmode="url" autocomplete="off" placeholder="Paste direct image link (https://…)"
+                class="mt-1.5 w-full rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3 text-[15px] placeholder:text-white/30 outline-none field-focus font-mono" />
+            </label>
+            <p class="text-[12px] text-white/35 mt-2 px-1 leading-snug">Use a <strong class="text-white/50 font-medium">direct image</strong> URL (ends in <span class="text-white/45">.png</span> / <span class="text-white/45">.jpg</span> or a CDN raw file). Links like <span class="text-white/45">gemini.google.com/share/…</span> open a page, not an image—download or export from Gemini, then paste the file link or a <span class="text-white/45">data:image/…</span> URL.</p>
+            <button type="button" id="btn-clear-image" class="pressable mt-2 text-[15px] text-[var(--ios-blue)] font-medium py-1">Clear artwork</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-[12px] text-white/35 px-1">Serial numbers are derived from your card details for a collectible feel.</p>
+    </section>
+
+    <section id="preview-section" class="mt-10">
+      <h2 class="text-[20px] font-bold mb-3 px-1">Live preview</h2>
+      <div id="preview-slot"></div>
+    </section>
+  </main>
+
+  <footer class="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/[0.08]" style="padding-bottom: var(--safe-bottom)">
+    <div class="max-w-lg mx-auto px-4 py-3 flex gap-3">
+      <button type="button" id="btn-share" class="pressable flex-1 py-3.5 rounded-2xl bg-[var(--ios-blue)] text-white text-[17px] font-semibold shadow-lg shadow-blue-500/20">
+        Share card link
+      </button>
+    </div>
+  </footer>
+
+  <div id="screenshot-overlay" class="fixed inset-0 z-[60] bg-black hidden flex-col items-center justify-center p-6" aria-hidden="true">
+    <p class="text-white/50 text-[15px] mb-4 text-center">Hide chrome for a clean screenshot</p>
+    <div id="screenshot-card-slot" class="w-full max-w-[min(100%,320px)]"></div>
+    <button type="button" id="btn-close-screenshot" class="pressable mt-8 px-8 py-3.5 rounded-full bg-white/15 text-[17px] font-semibold">Done</button>
+  </div>
+
+  <template id="tpl-card">
+    <article class="trading-card relative aspect-[2.5/3.5] w-full rounded-2xl overflow-hidden shadow-2xl border-4 flex flex-col">
+      <div class="card-inner flex flex-col flex-1 min-h-0">
+        <header class="card-header relative px-4 pt-4 pb-2 flex-shrink-0">
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="card-title text-[clamp(1.1rem,4.5vw,1.35rem)] font-bold leading-tight tracking-tight text-white drop-shadow-md"></h3>
+            <span class="card-rarity-badge text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-black/35 backdrop-blur-md border border-white/10 whitespace-nowrap"></span>
+          </div>
+        </header>
+        <div class="card-art flex-1 min-h-[42%] mx-3 mb-2 rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-black/40 relative overflow-hidden flex items-center justify-center">
+          <img class="card-art-img absolute inset-0 w-full h-full object-cover hidden z-[1]" alt="" loading="lazy" referrerpolicy="no-referrer" decoding="async" />
+          <div class="card-art-placeholder text-center px-4 py-6 relative z-0">
+            <span class="text-4xl mb-2 block opacity-90">✦</span>
+            <p class="text-[13px] text-white/45 leading-snug">Use the copied prompt in your favorite image model</p>
+          </div>
+        </div>
+        <footer class="card-footer mt-auto px-4 pb-4 pt-1 space-y-1.5">
+          <p class="card-vibe text-[14px] text-white/80 leading-snug line-clamp-3"></p>
+          <div class="flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-white/45 font-medium">
+            <span class="card-loc"></span>
+            <span class="card-time"></span>
+          </div>
+          <p class="card-serial text-[11px] text-white/35 font-mono tracking-wide pt-1"></p>
+        </footer>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    const STYLE_SIGNATURE = 'In the style of a vibrant, clean-lined graphic novel, flat colors, thick borders, atmospheric lighting, centered composition, digital art, high contrast.';
+
+    function generateIconPrompt(name, loc, vibe) {
+      const base = 'A collectible trading card illustration of';
+      const signature = 'vibrant graphic novel style, flat colors, thick borders, centered, digital art.';
+      return `${base} ${name} at ${loc}. Characteristics: ${vibe}. ${signature} ${STYLE_SIGNATURE}`;
+    }
+
+    function encodeCard(data) {
+      const json = JSON.stringify(data);
+      return btoa(unescape(encodeURIComponent(json)));
+    }
+
+    function decodeCard(param) {
+      const json = decodeURIComponent(escape(atob(param)));
+      return JSON.parse(json);
+    }
+
+    const MAX_IMAGE_URL_LEN = 16384;
+
+    /** App “share” pages (HTML), not direct image resources — <img> cannot render them. */
+    function isHtmlAppShareUrl(u) {
+      const h = u.hostname.replace(/^www\./i, '').toLowerCase();
+      const p = u.pathname || '';
+      if (h === 'gemini.google.com' && p.toLowerCase().startsWith('/share/')) return true;
+      if (h === 'bard.google.com' && p.toLowerCase().startsWith('/share/')) return true;
+      if ((h === 'chatgpt.com' || h === 'chat.openai.com') && p.includes('/share/')) return true;
+      if (h === 'claude.ai' && p.includes('/share/')) return true;
+      return false;
+    }
+
+    /** User-facing hint when the field looks like a known share page, not an image URL. */
+    function artworkSharePageHint(raw) {
+      const s = typeof raw === 'string' ? raw.trim() : '';
+      if (!s) return null;
+      try {
+        const u = new URL(s);
+        if (!isHtmlAppShareUrl(u)) return null;
+        if (u.hostname.toLowerCase().includes('gemini')) {
+          return 'Gemini share links are web pages, not image files. Open Gemini, download or export the image, then paste a direct .png/.jpg link or data:image…';
+        }
+        if (/openai|chatgpt/i.test(u.hostname)) {
+          return 'That share link is a page, not a direct image. Save the image and use a file or hosting URL.';
+        }
+        return 'That link opens an app page, not a raw image. Use a direct image URL or data:image…';
+      } catch {
+        return null;
+      }
+    }
+
+    /** @returns {string} safe URL or empty */
+    function sanitizeImageUrl(raw) {
+      const s = typeof raw === 'string' ? raw.trim() : '';
+      if (!s || s.length > MAX_IMAGE_URL_LEN) return '';
+      if (/^javascript:/i.test(s) || /\s/.test(s)) return '';
+      try {
+        if (/^data:image\//i.test(s)) return s;
+        const u = new URL(s);
+        if (u.protocol === 'http:' || u.protocol === 'https:') {
+          if (isHtmlAppShareUrl(u)) return '';
+          return u.href;
+        }
+      } catch {
+        return '';
+      }
+      return '';
+    }
+
+    function simpleHash(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return (h >>> 0).toString(16).toUpperCase().padStart(8, '0');
+    }
+
+    function serialFor(data) {
+      return 'IS-' + simpleHash(JSON.stringify({
+        n: data.n, l: data.l, t: data.t, v: data.v, r: data.r, i: data.i || '',
+      }));
+    }
+
+    const state = {
+      rarity: 'Common',
+      screenshot: false,
+      /** @type {null | { n: string, l: string, t: string, v: string, r: string, i?: string }} */
+      sharedCard: null,
+      /** Dedupe toast for the same rejected artwork URL while typing */
+      artworkHintSentFor: '',
+    };
+
+    const els = {
+      name: document.getElementById('field-name'),
+      loc: document.getElementById('field-loc'),
+      vibe: document.getElementById('field-vibe'),
+      previewSlot: document.getElementById('preview-slot'),
+      heroWrap: document.getElementById('hero-card-wrap'),
+      heroSlot: document.getElementById('hero-card-slot'),
+      intro: document.getElementById('intro-block'),
+      form: document.getElementById('form-section'),
+      promptOut: document.getElementById('prompt-output'),
+      promptPanel: document.getElementById('prompt-panel'),
+      chevron: document.getElementById('prompt-chevron'),
+      ssOverlay: document.getElementById('screenshot-overlay'),
+      ssSlot: document.getElementById('screenshot-card-slot'),
+      toast: document.getElementById('toast'),
+      previewSection: document.getElementById('preview-section'),
+      imageUrl: document.getElementById('field-image-url'),
+    };
+
+    function getSightingData() {
+      const n = (els.name.value || '').trim() || 'Unknown Icon';
+      const l = (els.loc.value || '').trim() || 'Somewhere public';
+      const v = (els.vibe.value || '').trim() || 'Mysterious local energy.';
+      const t = new Date().toISOString();
+      const i = sanitizeImageUrl(els.imageUrl.value);
+      const o = { n, l, t, v, r: state.rarity };
+      if (i) o.i = i;
+      return o;
+    }
+
+    function cardPayload() {
+      return state.sharedCard || getSightingData();
+    }
+
+    function rarityClass(r) {
+      if (r === 'Legendary') return 'border-amber-400/90 card-legendary';
+      if (r === 'Rare') return 'border-blue-400 shadow-[0_0_24px_rgba(59,130,246,0.25)]';
+      return 'border-slate-500/70';
+    }
+
+    function rarityBadgeClass(r) {
+      if (r === 'Legendary') return 'text-amber-200 border-amber-300/30';
+      if (r === 'Rare') return 'text-blue-200 border-blue-300/30';
+      return 'text-slate-300 border-white/10';
+    }
+
+    function applyCardArt(node, data) {
+      const img = node.querySelector('.card-art-img');
+      const ph = node.querySelector('.card-art-placeholder');
+      const url = sanitizeImageUrl(data.i || '');
+      img.onload = null;
+      img.onerror = null;
+      if (!url) {
+        img.removeAttribute('src');
+        img.classList.add('hidden');
+        ph.classList.remove('hidden');
+        return;
+      }
+      img.alt = 'Artwork for ' + (data.n || 'card');
+      const reveal = () => {
+        img.classList.remove('hidden');
+        ph.classList.add('hidden');
+      };
+      img.onload = () => reveal();
+      img.onerror = () => {
+        img.removeAttribute('src');
+        img.classList.add('hidden');
+        ph.classList.remove('hidden');
+        showToast('Image could not load');
+      };
+      img.classList.add('hidden');
+      ph.classList.remove('hidden');
+      img.src = url;
+      if (img.complete && img.naturalWidth > 0) reveal();
+    }
+
+    function buildCardEl(data) {
+      const tpl = document.getElementById('tpl-card');
+      const node = tpl.content.firstElementChild.cloneNode(true);
+      node.classList.add(...rarityClass(data.r).split(' '));
+      node.querySelector('.card-title').textContent = data.n;
+      const badge = node.querySelector('.card-rarity-badge');
+      badge.textContent = data.r;
+      badge.classList.add(...rarityBadgeClass(data.r).split(' '));
+      node.querySelector('.card-vibe').textContent = data.v;
+      node.querySelector('.card-loc').textContent = data.l;
+      const when = new Date(data.t);
+      node.querySelector('.card-time').textContent = when.toLocaleString(undefined, {
+        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+      });
+      node.querySelector('.card-serial').textContent = 'No. ' + serialFor(data);
+      applyCardArt(node, data);
+      return node;
+    }
+
+    function renderPreview() {
+      if (state.sharedCard) return;
+      const data = getSightingData();
+      els.previewSlot.innerHTML = '';
+      els.previewSlot.appendChild(buildCardEl(data));
+      const prompt = generateIconPrompt(data.n, data.l, data.v);
+      els.promptOut.textContent = prompt;
+    }
+
+    function showToast(msg) {
+      const t = els.toast;
+      t.textContent = msg;
+      t.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+      t.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(showToast._id);
+      showToast._id = setTimeout(() => {
+        t.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        t.classList.remove('opacity-100', 'translate-y-0');
+      }, 2200);
+    }
+
+    function shareUrl() {
+      if (state.sharedCard) return window.location.href;
+      const data = getSightingData();
+      const card = encodeCard(data);
+      const u = new URL(window.location.href);
+      u.searchParams.set('card', card);
+      return u.toString();
+    }
+
+    function loadFromQuery() {
+      const u = new URL(window.location.href);
+      const card = u.searchParams.get('card');
+      if (!card) return null;
+      try {
+        return decodeCard(card);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function normalizeSharedPayload(raw) {
+      if (!raw || typeof raw !== 'object') return null;
+      const rarities = ['Common', 'Rare', 'Legendary'];
+      const r = rarities.includes(raw.r) ? raw.r : 'Common';
+      const base = {
+        n: typeof raw.n === 'string' ? raw.n : 'Unknown Icon',
+        l: typeof raw.l === 'string' ? raw.l : 'Somewhere public',
+        t: typeof raw.t === 'string' ? raw.t : new Date().toISOString(),
+        v: typeof raw.v === 'string' ? raw.v : '',
+        r,
+      };
+      const i = sanitizeImageUrl(raw.i);
+      if (i) base.i = i;
+      return base;
+    }
+
+    function applySharedView(data) {
+      const normalized = normalizeSharedPayload(data);
+      if (!normalized) return;
+      state.sharedCard = normalized;
+      els.heroWrap.classList.remove('hidden');
+      els.intro.classList.add('hidden');
+      els.form.classList.add('hidden');
+      els.previewSection.classList.add('hidden');
+      els.heroSlot.innerHTML = '';
+      els.heroSlot.appendChild(buildCardEl(normalized));
+    }
+
+    function exitSharedView() {
+      state.sharedCard = null;
+      const u = new URL(window.location.href);
+      u.searchParams.delete('card');
+      history.replaceState({}, '', u.pathname + u.search);
+      els.heroWrap.classList.add('hidden');
+      els.intro.classList.remove('hidden');
+      els.form.classList.remove('hidden');
+      els.previewSection.classList.remove('hidden');
+      renderPreview();
+    }
+
+    document.querySelectorAll('.rarity-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.rarity = btn.getAttribute('data-rarity');
+        document.querySelectorAll('.rarity-pill').forEach((b) => {
+          b.classList.remove('ring-white/30', 'ring-2');
+        });
+        btn.classList.add('ring-white/30', 'ring-2');
+        renderPreview();
+      });
+    });
+
+    document.getElementById('toggle-prompt').addEventListener('click', () => {
+      const open = els.promptPanel.classList.toggle('hidden');
+      els.chevron.style.transform = open ? '' : 'rotate(90deg)';
+    });
+
+    document.getElementById('btn-copy-prompt').addEventListener('click', async () => {
+      const data = getSightingData();
+      const text = generateIconPrompt(data.n, data.l, data.v);
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('Prompt copied');
+      } catch {
+        showToast('Copy failed—select prompt manually');
+      }
+    });
+
+    document.getElementById('btn-clear-image').addEventListener('click', () => {
+      els.imageUrl.value = '';
+      state.artworkHintSentFor = '';
+      renderPreview();
+    });
+
+    function onImageUrlInput() {
+      const raw = (els.imageUrl.value || '').trim();
+      const ok = sanitizeImageUrl(raw);
+      const hint = artworkSharePageHint(raw);
+      if (raw && !ok && hint && state.artworkHintSentFor !== raw) {
+        state.artworkHintSentFor = raw;
+        showToast(hint);
+      }
+      if (!raw || ok) state.artworkHintSentFor = '';
+      renderPreview();
+    }
+
+    ['input', 'change'].forEach((ev) => {
+      els.imageUrl.addEventListener(ev, onImageUrlInput);
+    });
+    els.imageUrl.addEventListener('paste', () => setTimeout(onImageUrlInput, 0));
+
+    document.getElementById('btn-share').addEventListener('click', async () => {
+      const url = shareUrl();
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: 'Local Icons', text: 'Check out this trading card', url });
+        } else {
+          await navigator.clipboard.writeText(url);
+          showToast('Link copied');
+        }
+      } catch (e) {
+        if (e && e.name !== 'AbortError') {
+          try {
+            await navigator.clipboard.writeText(url);
+            showToast('Link copied');
+          } catch {
+            showToast('Could not share');
+          }
+        }
+      }
+    });
+
+    document.getElementById('btn-screenshot').addEventListener('click', () => {
+      state.screenshot = true;
+      els.ssOverlay.classList.remove('hidden');
+      els.ssOverlay.setAttribute('aria-hidden', 'false');
+      els.ssSlot.innerHTML = '';
+      els.ssSlot.appendChild(buildCardEl(cardPayload()));
+    });
+
+    document.getElementById('btn-close-screenshot').addEventListener('click', () => {
+      state.screenshot = false;
+      els.ssOverlay.classList.add('hidden');
+      els.ssOverlay.setAttribute('aria-hidden', 'true');
+    });
+
+    document.getElementById('btn-new-from-shared').addEventListener('click', () => {
+      exitSharedView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    ['input', 'change'].forEach((ev) => {
+      els.name.addEventListener(ev, renderPreview);
+      els.loc.addEventListener(ev, renderPreview);
+      els.vibe.addEventListener(ev, renderPreview);
+    });
+
+    const shared = loadFromQuery();
+    if (shared) {
+      applySharedView(shared);
+    } else {
+      document.querySelector('.rarity-pill[data-rarity="Common"]').classList.add('ring-white/30', 'ring-2');
+      renderPreview();
+    }
+  </script>
+</body>
+</html>
