@@ -6,16 +6,16 @@
     <title>Betsie Quick Bet | Bets with your Besties</title>
     <meta name="description" content="Betsie Lite lets you create and share a friendly 1-on-1 bet in seconds.">
     <meta name="keywords" content="betsie, betsie lite, social betting, friendly bets, 1-on-1 bets, prediction challenge, shareable bets, wager app, no account betting, mobile bet app">
-    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-    <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-    <link rel="canonical" href="https://try.betsie.app/">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="googlebot" content="noindex,nofollow">
+    <link rel="canonical" href="https://porfir.io/quickbet/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Betsie Quick Bet">
     <meta property="og:title" content="Betsie Quick Bet | Bets with your Besties">
     <meta property="og:description" content="Create and share a friendly 1-on-1 bet in under a minute. No account needed.">
-    <meta property="og:url" content="https://try.betsie.app/">
-    <meta property="og:image" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
-    <meta property="og:image:secure_url" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
+    <meta property="og:url" content="https://porfir.io/quickbet/">
+    <meta property="og:image" content="https://porfir.io/quickbet/assets/og/betsie-lite-og.png">
+    <meta property="og:image:secure_url" content="https://porfir.io/quickbet/assets/og/betsie-lite-og.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -24,16 +24,16 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Betsie Quick Bet | Bets with your Besties">
     <meta name="twitter:description" content="Create and share a friendly 1-on-1 bet in under a minute. No account needed.">
-    <meta name="twitter:image" content="https://try.betsie.app/assets/og/betsie-lite-og.png">
+    <meta name="twitter:image" content="https://porfir.io/quickbet/assets/og/betsie-lite-og.png">
     <meta name="twitter:image:alt" content="Betsie Lite social preview with app branding and tagline.">
     <meta name="theme-color" content="#F36D6F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Betsie Lite">
-    <link rel="manifest" href="/manifest.webmanifest">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700&display=swap" rel="stylesheet">
@@ -54,9 +54,9 @@
     </script>
     <script>
         if ("serviceWorker" in navigator) {
-            const SW_VERSION = "2026-04-22";
+            const SW_VERSION = "2026-05-01";
             window.addEventListener("load", () => {
-                navigator.serviceWorker.register(`/sw.js?v=${SW_VERSION}`, { updateViaCache: "none" })
+                navigator.serviceWorker.register(`sw.js?v=${SW_VERSION}`, { updateViaCache: "none" })
                     .then((registration) => {
                         registration.update();
                     })
@@ -1252,7 +1252,7 @@
     <header class="site-header">
         <div class="header-brand">
             <button id="logo-button" class="logo-button" type="button" aria-label="Open start fresh options">
-                <img src="/Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="panel-logo">
+                <img src="Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="panel-logo">
             </button>
         </div>
         <p class="value-prop">Bets with your Besties</p>
@@ -1264,7 +1264,7 @@
     </footer>
     <div id="landing-preview-modal" class="modal-overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="landing-preview-title">
         <div class="modal-card landing-preview-card">
-            <img src="/Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="landing-preview-wordmark">
+            <img src="Betsie-Wordmark-Red.png" alt="Betsie wordmark logo" class="landing-preview-wordmark">
             <h2 id="landing-preview-title" class="landing-preview-title">Create a quick bet<br>in under a minute.</h2>
             <p class="landing-preview-subtitle">Here's how it works:</p>
             <section class="list landing-preview-list" aria-label="Betsie highlights">
@@ -1362,6 +1362,24 @@
             claim: 70,
             trashTalk: 45
         };
+
+        function getAppBasePath() {
+            const path = window.location.pathname;
+            const shareIdx = path.indexOf("/share/");
+            if (shareIdx >= 0) {
+                return path.slice(0, shareIdx).replace(/\/+$/, "") || "";
+            }
+            const normalized = path.replace(/\/?index\.html$/i, "");
+            if (normalized === "" || normalized === "/") {
+                return "";
+            }
+            return normalized.replace(/\/+$/, "") || "";
+        }
+
+        function shareLandingPath(segment) {
+            const base = getAppBasePath();
+            return `${base}/share/${segment}/`;
+        }
 
         function normalizeSingleLine(value) {
             return String(value || "")
@@ -1620,7 +1638,7 @@
                             }
                         });
                         const lockup = doc.createElement("img");
-                        lockup.src = "/Betsie-Wordmark-Red.png";
+                        lockup.src = `${getAppBasePath()}/Betsie-Wordmark-Red.png`;
                         lockup.alt = "Betsie wordmark logo";
                         lockup.setAttribute("aria-hidden", "true");
                         lockup.style.display = "block";
@@ -1639,7 +1657,7 @@
                         }
                         clonedCaptureRoot.appendChild(receiptCard);
                         const attribution = doc.createElement("p");
-                        attribution.textContent = "This bet was played on https://try.betsie.app";
+                        attribution.textContent = "This bet was played on https://porfir.io/quickbet/";
                         attribution.style.margin = "12px 0 2px";
                         attribution.style.textAlign = "center";
                         attribution.style.fontSize = "0.73rem";
@@ -2460,12 +2478,12 @@
                 shareUrl.searchParams.delete("inv");
                 shareUrl.searchParams.delete("hf");
                 const inviteUrl = new URL(toCompressedHashUrl(shareUrl.toString()));
-                inviteUrl.pathname = "/share/invite/";
+                inviteUrl.pathname = shareLandingPath("invite");
                 return inviteUrl.toString();
             })();
             const reminderShareUrl = (() => {
                 const reminderUrl = new URL(challengeShareUrl);
-                reminderUrl.pathname = "/share/reminder/";
+                reminderUrl.pathname = shareLandingPath("reminder");
                 return reminderUrl.toString();
             })();
             const confirmationShareUrl = (() => {
@@ -2475,7 +2493,7 @@
                 shareUrl.searchParams.set("cr", "1");
                 shareUrl.searchParams.delete("hf");
                 const confirmUrl = new URL(toCompressedHashUrl(shareUrl.toString()));
-                confirmUrl.pathname = challengerAgreesWithCreator ? "/share/confirm-agree/" : "/share/confirm/";
+                confirmUrl.pathname = challengerAgreesWithCreator ? shareLandingPath("confirm-agree") : shareLandingPath("confirm");
                 return confirmUrl.toString();
             })();
             const forceVotingPeriod = earlyVote === "1";
@@ -2848,15 +2866,15 @@
             const settleShareUrl = (() => {
                 const resultUrl = new URL(toCompressedHashUrl(window.location.href));
                 if (winner === "0") {
-                    resultUrl.pathname = "/share/result-no-contest/";
+                    resultUrl.pathname = shareLandingPath("result-no-contest");
                 } else if (samePosition && winner === "1") {
-                    resultUrl.pathname = "/share/result-both-right/";
+                    resultUrl.pathname = shareLandingPath("result-both-right");
                 } else if (samePosition && winner === "2") {
-                    resultUrl.pathname = "/share/result-both-wrong/";
+                    resultUrl.pathname = shareLandingPath("result-both-wrong");
                 } else if (winner === "1") {
-                    resultUrl.pathname = "/share/result-creator-won/";
+                    resultUrl.pathname = shareLandingPath("result-creator-won");
                 } else if (winner === "2") {
-                    resultUrl.pathname = "/share/result-challenger-won/";
+                    resultUrl.pathname = shareLandingPath("result-challenger-won");
                 }
                 return resultUrl.toString();
             })();

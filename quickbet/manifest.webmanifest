@@ -2,19 +2,19 @@
   "name": "Betsie Lite",
   "short_name": "Betsie Lite",
   "description": "Create and share a friendly 1-on-1 bet in seconds.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/quickbet/",
+  "scope": "/quickbet/",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#F36D6F",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "/quickbet/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/quickbet/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
