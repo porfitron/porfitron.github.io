@@ -1,13 +1,15 @@
-const CACHE_NAME = "betsie-lite-v2";
+const CACHE_NAME = "betsie-lite-v3";
+const SW_SCRIPT_PATH = self.location.pathname || "/sw.js";
+const APP_BASE_PATH = SW_SCRIPT_PATH.slice(0, SW_SCRIPT_PATH.lastIndexOf("/"));
 const PRECACHE_URLS = [
-  "/",
-  "/index.html",
-  "/manifest.webmanifest",
-  "/icons/favicon-16.png",
-  "/icons/favicon-32.png",
-  "/icons/apple-touch-icon.png",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  `${APP_BASE_PATH}/`,
+  `${APP_BASE_PATH}/index.html`,
+  `${APP_BASE_PATH}/manifest.webmanifest`,
+  `${APP_BASE_PATH}/icons/favicon-16.png`,
+  `${APP_BASE_PATH}/icons/favicon-32.png`,
+  `${APP_BASE_PATH}/icons/apple-touch-icon.png`,
+  `${APP_BASE_PATH}/icons/icon-192.png`,
+  `${APP_BASE_PATH}/icons/icon-512.png`
 ];
 
 self.addEventListener("install", (event) => {
@@ -38,6 +40,8 @@ self.addEventListener("fetch", (event) => {
   const requestUrl = new URL(event.request.url);
   const isSameOrigin = requestUrl.origin === self.location.origin;
   const isNavigationRequest = event.request.mode === "navigate";
+  const indexPath = `${APP_BASE_PATH}/index.html`;
+  const basePathRoot = `${APP_BASE_PATH}/`;
 
   if (isNavigationRequest) {
     // Always prefer fresh HTML so users see latest deployed code.
@@ -46,13 +50,13 @@ self.addEventListener("fetch", (event) => {
         .then((response) => {
           if (response && response.status === 200 && isSameOrigin) {
             const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put("/index.html", responseClone));
+            caches.open(CACHE_NAME).then((cache) => cache.put(indexPath, responseClone));
           }
           return response;
         })
         .catch(async () => {
-          const cachedIndex = await caches.match("/index.html");
-          return cachedIndex || caches.match("/");
+          const cachedIndex = await caches.match(indexPath);
+          return cachedIndex || caches.match(basePathRoot);
         })
     );
     return;
@@ -76,7 +80,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => caches.match("/index.html"));
+        .catch(() => caches.match(indexPath));
     })
   );
 });
