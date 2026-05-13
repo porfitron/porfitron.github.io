@@ -63,6 +63,14 @@
         width: 24%;
         margin-bottom: 20px;
         text-align: center;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .tile-link:focus-visible {
+        outline: 2px solid #8ab4ff;
+        outline-offset: 4px;
+        border-radius: 8px;
       }
 
       /* Icons ~half prior size; column width unchanged so layout still fills row */
@@ -72,6 +80,16 @@
         height: auto;
         border-radius: 10px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
+
+      .tile-link .tile-label {
+        margin-top: 8px;
+        font-size: 0.95rem;
+        line-height: 1.25;
+        color: #b8b8bc;
+        text-align: center;
+        width: 100%;
+        word-break: break-word;
       }
 
       /* Footer Styles */
@@ -96,6 +114,7 @@
         display: inline-block;
         padding: 4px 2px;
         color: #fff;
+        text-decoration: none;
       }
 
       #footer a:focus {
@@ -271,7 +290,7 @@
       }
     </style>
   </head>
-  <body onload="initWeatherLocation();">
+  <body onload="initWeatherLocation(); initTileOutboundTracking();">
     <div class="header-logo-container">
       <a
         href="https://tesla.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
@@ -302,55 +321,77 @@
         </button>
       </p>
 
-      <div class="tile-grid">
+      <div class="tile-grid" id="tile-grid">
         <a
           class="tile-link"
-          href="http://duckhuntjs.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile-duckhuntjs.png"
-        /></a>
+          data-tile-id="duckhuntjs"
+          href="http://duckhuntjs.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile-duckhuntjs.png" alt="duckhuntjs" />
+          <span class="tile-label">duckhuntjs</span>
+        </a>
         <a
           class="tile-link"
-          href="https://www.abettertheater.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile_theater.png"
-        /></a>
+          data-tile-id="theater"
+          href="https://www.abettertheater.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile_theater.png" alt="theater" />
+          <span class="tile-label">theater</span>
+        </a>
         <a
           class="tile-link"
-          href="https://play.famobi.com/solitaire-legend/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile_solitairelegend.png"
-        /></a>
+          data-tile-id="solitairelegend"
+          href="https://play.famobi.com/solitaire-legend/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile_solitairelegend.png" alt="solitairelegend" />
+          <span class="tile-label">solitairelegend</span>
+        </a>
         <a
           class="tile-link"
-          href="https://play.famobi.com/archery-world-tour/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile_archery.png"
-        /></a>
+          data-tile-id="archery"
+          href="https://play.famobi.com/archery-world-tour/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile_archery.png" alt="archery" />
+          <span class="tile-label">archery</span>
+        </a>
 
         <a
           class="tile-link"
           id="weather"
-          href="https://weather.com/weather/today/l/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile-weather.png"
-        /></a>
+          data-tile-id="weather"
+          href="https://weather.com/weather/today/l/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile-weather.png" alt="weather" />
+          <span class="tile-label">weather</span>
+        </a>
         <a
           class="tile-link"
-          href="http://www.kinetic.com/teslascreens/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile_kinetic.png"
-        /></a>
+          data-tile-id="kinetic"
+          href="http://www.kinetic.com/teslascreens/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile_kinetic.png" alt="kinetic" />
+          <span class="tile-label">kinetic</span>
+        </a>
         <a
           class="tile-link"
-          href="http://teslarati.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile-teslarati.png"
-        /></a>
+          data-tile-id="teslarati"
+          href="http://teslarati.com/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile-teslarati.png" alt="teslarati" />
+          <span class="tile-label">teslarati</span>
+        </a>
         <a
           class="tile-link"
-          href="https://news.google.com/search?q=tesla&utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github"
-          ><img src="images/tile-teslanews.png"
-        /></a>
+          data-tile-id="teslanews"
+          href="https://news.google.com/search?q=tesla&utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile-teslanews.png" alt="teslanews" />
+          <span class="tile-label">teslanews</span>
+        </a>
+        <a
+          class="tile-link"
+          data-tile-id="quick-bet"
+          href="https://try.betsie.app/?utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
+          <img src="images/tile-quick-bet.png" alt="quick-bet" />
+          <span class="tile-label">quick-bet</span>
+        </a>
       </div>
     </div>
 
     <div id="footer">
-      Tesla start page by @porfitron &copy; 2026
-      <a href="https://porfir.io">Porfirio Landeros</a>
+      Tesla start page by @porfitron &copy; 2026 &nbsp;<a href="https://porfir.io">Porfirio Landeros</a>
     </div>
 
     <div
@@ -388,6 +429,26 @@
         </p>
       </div>
     </div>
+
+    <script type="text/javascript">
+      window.initTileOutboundTracking = function () {
+        var grid = document.getElementById("tile-grid");
+        if (!grid) return;
+        grid.addEventListener("click", function (e) {
+          var t = e.target;
+          if (!t || !t.closest) return;
+          var link = t.closest("a.tile-link");
+          if (!link || !grid.contains(link)) return;
+          if (typeof gtag !== "function") return;
+          var tileId = link.getAttribute("data-tile-id") || "";
+          gtag("event", "tesla_outbound_click", {
+            event_category: "tile",
+            event_label: tileId || link.href || "unknown",
+            transport_type: "beacon"
+          });
+        });
+      };
+    </script>
 
     <script type="text/javascript">
       (function () {
