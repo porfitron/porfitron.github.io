@@ -200,11 +200,11 @@
         <section class="mb-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <div class="md:col-span-3">
-                    <img src="terminator/t3-tundra_00_9677.jpeg" alt="Primary Front View" class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(0)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
+                    <img src="terminator/t3-tundra_00_9677.jpeg" alt="Unique grill and blacked-out styling" class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(0)" onerror="this.src='https://via.placeholder.com/1200x800?text=Primary+Image+Not+Found'">
                 </div>
                 <div class="hidden md:flex flex-col gap-2">
-                    <img src="terminator/t3-tundra_hawk-hill.jpeg" alt="Action View" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(16)" onerror="this.src='https://via.placeholder.com/400x300?text=Exterior+1'">
-                    <img src="terminator/t3-tundra-poster.JPG" alt="Terminator 3 Poster" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(24)" onerror="this.src='https://via.placeholder.com/400x300?text=Poster+Image'">
+                    <img src="terminator/t3-tundra_hawk-hill.jpeg" alt="Freshly detailed and waxed" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(16)" onerror="this.src='https://via.placeholder.com/400x300?text=Exterior+1'">
+                    <img src="terminator/t3-tundra-poster.JPG" alt="Terminator 3 Tundra magazine ad" class="w-full h-[148px] sm:h-[198px] md:h-[246px] object-cover rounded-sm shadow-sm cursor-pointer hover:opacity-95 transition" onclick="openModal(24)" onerror="this.src='https://via.placeholder.com/400x300?text=Poster+Image'">
                 </div>
             </div>
         </section>
@@ -271,7 +271,7 @@
                     
                     <div class="sidebar-item">
                         <div class="sidebar-label">Model Year / Configuration</div>
-                        <div class="sidebar-value">2003 Access Cab (4-Door)</div>
+                        <div class="sidebar-value">2003 Toyota Tundra Access Cab (4-Door)</div>
                     </div>
                     <div class="sidebar-item">
                         <div class="sidebar-label">Mileage / Location</div>
@@ -355,33 +355,31 @@
     <script>
         // Updated array: Standard photos first, Promo items at the end
         const photos = [
-            "t3-tundra_00_9677.jpeg",
-            "t3-tundra_0378.jpeg",
-            "t3-tundra_0654.jpeg",
-            "t3-tundra_0655.jpeg",
-            "t3-tundra_0907.jpeg",
-            "t3-tundra_1259.jpeg",
-            "t3-tundra_2144.jpeg",
-            "t3-tundra_7393.JPG",
-            "t3-tundra_7819.jpeg",
-            "t3-tundra_7820.jpeg",
-            "t3-tundra_7821.jpeg",
-            "t3-tundra_7836.jpeg",
-            "t3-tundra_7838.jpeg",
-            "t3-tundra_8295.jpeg",
-            "t3-tundra_9397.jpeg",
-            "t3-tundra_engine_8573.jpg",
-            "t3-tundra_hawk-hill.jpeg",
-            "t3-tundra_sticker_7753.JPG",
-            "t3-tundra-interior-screen.jpeg",
-            "t3-tundra-interior.jpg",
-            
-            // Promo items at the end
-            "t3-tundra_plaque_1296.jpg",
-            "t3-tundra_movie-prop_9059.JPG",
-            "t3-tundra_red-carpet_9705.JPG",
-            "t3-tundra_red-carpet_9707.JPG",
-            "t3-tundra-poster.JPG"
+            { file: "t3-tundra_00_9677.jpeg", caption: "Unique grill and blacked-out styling" },
+            { file: "t3-tundra_0378.jpeg", caption: "Tonneau cover with keys" },
+            { file: "t3-tundra_0654.jpeg", caption: "Terminator 3 bedside badges" },
+            { file: "t3-tundra_0655.jpeg", caption: "Chrome accents removed, including mirrors, color-matched" },
+            { file: "t3-tundra_0907.jpeg", caption: "Exclusive titanium colored wheels" },
+            { file: "t3-tundra_1259.jpeg", caption: "Factory tinted back windows" },
+            { file: "t3-tundra_2144.jpeg", caption: "Close-up of limited edition grille and badge" },
+            { file: "t3-tundra_7393.JPG", caption: "Close-up of limited edition bedside decals" },
+            { file: "t3-tundra_7819.jpeg", caption: "Front and driver's side view" },
+            { file: "t3-tundra_7820.jpeg", caption: "Rear and driver's side view" },
+            { file: "t3-tundra_7821.jpeg", caption: "Rear and passenger side view" },
+            { file: "t3-tundra_7836.jpeg", caption: "Rear and passenger side view" },
+            { file: "t3-tundra_7838.jpeg", caption: "Rear and driver's side view" },
+            { file: "t3-tundra_8295.jpeg", caption: "Front and passenger side view" },
+            { file: "t3-tundra_9397.jpeg", caption: "Top down view" },
+            { file: "t3-tundra_engine_8573.jpg", caption: "Engine bay" },
+            { file: "t3-tundra_hawk-hill.jpeg", caption: "Freshly detailed and waxed" },
+            { file: "t3-tundra_sticker_7753.JPG", caption: "Original window sticker" },
+            { file: "t3-tundra-interior-screen.jpeg", caption: "Rear-view camera" },
+            { file: "t3-tundra-interior.jpg", caption: "Interior and CarPlay" },
+            { file: "t3-tundra_plaque_1296.jpg", caption: "T3 Promotional Material" },
+            { file: "t3-tundra_movie-prop_9059.JPG", caption: "Prop and driver from T3 movie (not the same truck)" },
+            { file: "t3-tundra_red-carpet_9705.JPG", caption: "Red carpet with Kristanna Loken" },
+            { file: "t3-tundra_red-carpet_9707.JPG", caption: "Red carpet with Arnold Schwarzenegger" },
+            { file: "t3-tundra-poster.JPG", caption: "Terminator 3 Tundra magazine ad" }
         ];
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
@@ -421,11 +419,11 @@
             }
         }
 
-        photos.forEach((filename, index) => {
+        photos.forEach((photo, index) => {
             const div = document.createElement('div');
             const img = document.createElement('img');
-            img.src = `terminator/${filename}`;
-            img.alt = `Photo ${index + 1}`;
+            img.src = `terminator/${photo.file}`;
+            img.alt = photo.caption;
             img.loading = "lazy";
             img.className = "rounded-sm shadow-sm";
             img.onclick = () => openModal(index);
@@ -463,8 +461,9 @@
         }
 
         function updateModal() {
-            modalImg.src = `terminator/${photos[currentIndex]}`;
-            modalCaption.innerText = `Image ${currentIndex + 1} of ${photos.length}`;
+            modalImg.src = `terminator/${photos[currentIndex].file}`;
+            modalImg.alt = photos[currentIndex].caption;
+            modalCaption.innerText = `${photos[currentIndex].caption} (${currentIndex + 1} of ${photos.length})`;
         }
 
         document.addEventListener('keydown', (e) => {
