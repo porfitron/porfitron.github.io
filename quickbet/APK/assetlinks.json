@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.betsie.twa",
+        "sha256_cert_fingerprints": ["E1:B3:2A:F1:D4:67:D7:3E:82:DA:67:C3:C2:0C:19:FD:F7:6E:D5:4F:74:88:BF:8B:A1:0B:8E:3F:92:2E:0F:E3"]
+      }
+    }]
