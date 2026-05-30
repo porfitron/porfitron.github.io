@@ -46,12 +46,11 @@
         border: none;
       }
 
-      /* New 4-across layout for tiles using Flexbox */
+      /* New 4-across layout for tiles using CSS Grid */
       .tile-grid {
-        display: flex;
-        flex-wrap: wrap; /* Allows items to wrap to the next line */
-        justify-content: space-between; /* Distribute space evenly */
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px 12px;
         padding: 20px 0;
       }
 
@@ -59,9 +58,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Four equal columns; space-between shares leftover width as gutters */
-        width: 24%;
-        margin-bottom: 20px;
+        margin-bottom: 0;
         text-align: center;
         color: inherit;
         text-decoration: none;
@@ -80,6 +77,28 @@
         height: auto;
         border-radius: 10px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
+
+      .tile-icon {
+        display: block;
+        width: 50%;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+      }
+
+      .tile-icon--weather-retro {
+        background-color: #000;
+      }
+
+      .tile-icon--weather-retro img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+        object-fit: contain;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .tile-link .tile-label {
@@ -379,6 +398,15 @@
           href="https://news.google.com/search?q=tesla&utm_source=tesla&utm_medium=browser&utm_campaign=custom_start_page&utm_content=porfitron_github">
           <img src="images/tile-teslanews.png" alt="teslanews" />
           <span class="tile-label">teslanews</span>
+        </a>
+        <a
+          class="tile-link tile-link--weather-retro"
+          data-tile-id="weather-retro"
+          href="https://weather.com/retro/">
+          <span class="tile-icon tile-icon--weather-retro">
+            <img src="images/tile-weather-retro.png" alt="weather-retro" />
+          </span>
+          <span class="tile-label">weather-retro</span>
         </a>
         <a
           class="tile-link"
