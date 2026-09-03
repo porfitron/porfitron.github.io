@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
+    </script>
     <title>1953 Ford Customline Club Coupe | 50th Anniversary | Escondido, CA</title>
     <meta name="description" content="Private listing: 1953 Ford Customline Club Coupe—low-mileage Louisiana survivor. Shed-stored for decades, started after a battery swap, acquired at ~12,000 miles over 30 years ago and transported to California. Sheridan Blue, 101-hp 215ci OHV six, 3-speed with overdrive, ~14,000 miles shown. Escondido, California.">
     <meta name="keywords" content="1953 Ford, Customline, Club Coupe, Louisiana survivor, shed find, Mileage Maker six, column shift overdrive, 50th anniversary Ford, classic Ford for sale, Escondido classic car, private car sale">

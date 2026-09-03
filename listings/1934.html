@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
+    </script>
     <title>1934 Ford Model 40 Deluxe Cabriolet Hot Rod | Scotts Hot Rod Shop Build | Paso Robles, CA</title>
     <meta name="description" content="Private listing: 1934 Ford Model 40 Deluxe Cabriolet hot rod by Scotts Hot Rod Shop—Vermillion Red, ZZ4 350ci V8, 700-R4, Currie 9-inch, Vintage Air, ~4,466 miles shown. Paso Robles, California.">
     <meta name="keywords" content="1934 Ford, Model 40 Deluxe, Cabriolet, hot rod, Scotts Hot Rod Shop, ZZ4 350, Ford hot rod, Paso Robles classic car, private car sale">

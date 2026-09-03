@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
+    </script>
     <title>2003 Toyota Tundra Terminator 3 Special Edition | T3 Limited Truck | California</title>
     <meta name="description" content="Private listing: 2003 Toyota Tundra T3 Special Edition (1 of 850)—Access Cab, 4.7L i-Force V8, TRD dual-exit exhaust, sport suspension, factory tow package, ~83k miles. Two-owner California truck with OEM parts &amp; documentation.">
     <meta name="keywords" content="Toyota Tundra T3, Terminator 3 Tundra, 2003 Tundra Special Edition, Rise of the Machines truck, limited edition Tundra, TRD Tundra, California Tundra for sale, collector pickup">

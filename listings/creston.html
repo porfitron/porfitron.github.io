@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+      (function () {
+        if (location.protocol !== "http:") return;
+        var host = location.hostname;
+        if (host === "localhost" || host === "127.0.0.1") return;
+        location.replace(
+          "https://" + location.host + location.pathname + location.search + location.hash
+        );
+      })();
+    </script>
     <title>717 &amp; 719 Creston Road — Townhomes for Rent | Paso Robles, SLO County</title>
     <meta name="description" content="Renovated 2-bedroom, 1.5-bath townhomes for rent at 717 &amp; 719 Creston Road, Paso Robles, CA 93446. Quiet 8-unit community; rent $2,200–$2,500/mo plus $100/mo water. Shown by appointment.">
     <meta name="keywords" content="Paso Robles rentals, townhomes for rent, Creston Road, San Luis Obispo County, SLO County rental, North County Paso Robles, 2 bedroom townhome, apartment rental 93446, Paso Robles CA housing">
