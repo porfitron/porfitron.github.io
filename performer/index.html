@@ -225,6 +225,30 @@
         .about p { margin: 0 0 12px; max-width: 68ch; }
         .about p:last-child { margin-bottom: 0; }
 
+        .appearance-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.9fr 1.15fr;
+            gap: 20px 40px;
+        }
+
+        .appearance-grid h3 {
+            margin: 0 0 10px;
+            font-family: "Source Sans 3", sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--faint);
+        }
+
+        .appearance-grid ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .appearance-grid li + li { margin-top: 4px; }
+
         .videos {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -451,7 +475,8 @@
 
         @media (max-width: 800px) {
             .badges,
-            .videos { grid-template-columns: 1fr; }
+            .videos,
+            .appearance-grid { grid-template-columns: 1fr; }
             .credit {
                 grid-template-columns: 88px minmax(0, 1fr);
             }
@@ -534,6 +559,35 @@
             <p>I am a championship ballroom dancer and performer in San Francisco. With my partner, Laetitia Santore, I competed in American Smooth — Waltz, Tango, Foxtrot, and Viennese Waltz — and reached the USA Dance National Final four years running, including a National Silver Medal in 2005.</p>
             <p>That work moved from the competition floor to the stage and onto television and film, including Fox Searchlight’s <em>Antwone Fisher</em>, 20th Century Fox Television’s <em>Point Pleasant</em>, the San Diego Symphony, and Santa Barbara Spanish Days. I also teach through <em>The Quick Start Guide to Ballroom Dancing</em> and the <em>Forget the Feet Wedding Dance Program</em>.</p>
             <p>I am retired from competition and available for performance, choreography, and consulting for stage, film, and television.</p>
+        </section>
+
+        <section class="section" aria-labelledby="appearance-heading">
+            <h2 id="appearance-heading">Appearance</h2>
+            <div class="appearance-grid">
+                <div>
+                    <h3>Attributes</h3>
+                    <ul>
+                        <li>5'11" (Height)</li>
+                        <li>185 lbs (Weight)</li>
+                        <li>Muscular (Build)</li>
+                        <li>Dark Brown (Hair)</li>
+                        <li>Green (Eyes)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Playing Age</h3>
+                    <ul>
+                        <li>40–50 (Age Range)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ethnicities</h3>
+                    <ul>
+                        <li>White / European</li>
+                        <li>Latin-American / Hispanic</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <section class="section" aria-labelledby="video-heading">
@@ -787,6 +841,58 @@
                 <li><a href="https://www.instagram.com/porfitron">Instagram — @porfitron</a></li>
                 <li><a href="/dance.html">Partnership page with Laetitia Santore</a></li>
             </ul>
+        </section>
+
+        <section class="section" aria-labelledby="license-heading">
+            <h2 id="license-heading">License &amp; Passport</h2>
+            <ul class="links">
+                <li>Has a Driver's License</li>
+                <li>Has a Passport</li>
+            </ul>
+        </section>
+
+        <section class="section" aria-labelledby="vehicles-heading">
+            <h2 id="vehicles-heading">Vehicles</h2>
+            <article class="credit">
+                <div class="credit-date">2003</div>
+                <div>
+                    <h4>Toyota Tundra</h4>
+                    <p class="role">Truck / Black</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2018</div>
+                <div>
+                    <h4>Tesla Model 3</h4>
+                    <p class="role">Sedan / White</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2022</div>
+                <div>
+                    <h4>Super73 Cafe Racer</h4>
+                    <p class="role">E-bike / Black</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">1934</div>
+                <div>
+                    <h4>Ford Cabriolet</h4>
+                    <p class="role">Street rod / Red</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">1941</div>
+                <div>
+                    <h4>Ford Cabriolet</h4>
+                    <p class="role">Street rod / Black</p>
+                </div>
+                <div class="side"></div>
+            </article>
         </section>
 
     </main>
