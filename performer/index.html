@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porfirio José Landeros | Dancer &amp; Performer</title>
+    <meta name="description" content="Performer profile and resume for Porfirio José Landeros, a championship ballroom dancer available for competition, stage, television, and film.">
+    <link rel="canonical" href="https://porfir.io/performer/">
+
+    <meta property="og:title" content="Porfirio José Landeros | Dancer &amp; Performer">
+    <meta property="og:description" content="Championship ballroom dancer. Credits in competition, stage, television, and film.">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://porfir.io/performer/">
+    <meta property="og:image" content="https://porfir.io/images/bio_porfirio.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN76XZSY41"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YN76XZSY41');
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Porfirio José Landeros",
+      "jobTitle": "Dancer and Performer",
+      "url": "https://porfir.io/performer/",
+      "image": "https://porfir.io/images/bio_porfirio.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Francisco",
+        "addressRegion": "CA"
+      },
+      "sameAs": [
+        "https://www.instagram.com/porfitron",
+        "https://porfir.io/dance.html"
+      ]
+    }
+    </script>
+    <style>
+        :root {
+            --bg: #f2f1ec;
+            --ink: #111111;
+            --muted: #5e5d58;
+            --faint: #8a887f;
+            --line: #e3e1d8;
+            --line-strong: #d4d2c8;
+            --card: #ffffff;
+            --purple: #4f4fe8;
+            --purple-dark: #3939d1;
+            --shadow: 0 10px 30px rgba(17, 17, 17, 0.16);
+            --max: 1040px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: "Source Sans 3", "Segoe UI", sans-serif;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        a { color: var(--purple); }
+        a:hover { color: var(--purple-dark); }
+
+        img { max-width: 100%; display: block; }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .topbar-inner,
+        .profile {
+            width: min(var(--max), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 72px;
+        }
+
+        .wordmark {
+            color: var(--ink);
+            text-decoration: none;
+            font-family: Outfit, sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: -0.04em;
+        }
+
+        .wordmark:hover { color: var(--ink); }
+
+        .topbar-label {
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .profile { padding: 28px 0 72px; }
+
+        .reel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+            scrollbar-color: #c8c6bc transparent;
+        }
+
+        .shot {
+            flex: 0 0 min(78vw, 560px);
+            aspect-ratio: 1;
+            scroll-snap-align: start;
+            border: 0;
+            padding: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ddd9d0;
+            cursor: pointer;
+        }
+
+        .shot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 18%;
+        }
+
+        .shot:focus-visible,
+        .video-card:focus-visible,
+        .lightbox-nav:focus-visible,
+        .close-btn:focus-visible {
+            outline: 2px solid var(--purple);
+            outline-offset: 3px;
+        }
+
+        .identity { margin-top: 28px; }
+
+        h1 {
+            margin: 0;
+            font-family: Outfit, sans-serif;
+            font-size: clamp(34px, 4vw, 40px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .roles {
+            margin: 8px 0 0;
+            font-size: 20px;
+            color: #2c2c2c;
+        }
+
+        .badges {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 240px));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .badge {
+            background: var(--card);
+            border: 1px solid var(--line-strong);
+            border-radius: 12px;
+            padding: 16px 16px 14px;
+        }
+
+        .badge-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-family: Outfit, sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .badge p {
+            margin: 4px 0 0 28px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .section {
+            margin-top: 34px;
+            padding-top: 22px;
+            border-top: 1px solid var(--line-strong);
+            position: relative;
+        }
+
+        .section::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 72px;
+            height: 3px;
+            background: var(--ink);
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            font-family: Outfit, sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .about p { margin: 0 0 12px; max-width: 68ch; }
+        .about p:last-child { margin-bottom: 0; }
+
+        .videos {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .video-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: left;
+            cursor: pointer;
+            color: inherit;
+            font: inherit;
+        }
+
+        .video-card:hover { border-color: #c5c3b8; }
+
+        .video-title {
+            font-family: Outfit, sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .thumb {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1c1c1c;
+            aspect-ratio: 16 / 10;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play {
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--purple);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 6px 16px rgba(79, 79, 232, 0.35);
+        }
+
+        .category {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 26px 0 0;
+            font-family: Outfit, sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .category svg { flex: none; }
+
+        .credit {
+            display: grid;
+            grid-template-columns: 108px minmax(0, 1.4fr) minmax(180px, 0.9fr);
+            gap: 8px 28px;
+            padding: 16px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .credit:first-of-type { margin-top: 8px; }
+
+        .credit-date {
+            color: var(--faint);
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding-top: 3px;
+        }
+
+        .credit h4 {
+            margin: 0;
+            font-family: Outfit, sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .credit .role,
+        .credit .side p,
+        .credit-ref {
+            margin: 0;
+        }
+
+        .credit .side p + p,
+        .credit-ref { margin-top: 2px; }
+
+        .credit-ref { font-size: 15px; }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .skill {
+            background: var(--card);
+            border: 1px solid var(--line-strong);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 15px;
+        }
+
+        .links {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .links li + li { margin-top: 6px; }
+
+        footer {
+            width: min(var(--max), calc(100% - 40px));
+            margin: 0 auto;
+            padding: 8px 0 36px;
+            color: var(--faint);
+            font-size: 14px;
+        }
+
+        footer a { color: inherit; }
+
+        .lightbox,
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: none;
+            background: #111111;
+            align-items: center;
+            justify-content: center;
+            padding: 64px 56px 28px;
+        }
+
+        .lightbox[open],
+        .video-modal[open] { display: flex; }
+
+        .lightbox-figure {
+            margin: 0;
+            max-width: min(920px, 100%);
+            max-height: calc(100vh - 80px);
+        }
+
+        .lightbox-figure img {
+            max-height: calc(100vh - 140px);
+            width: auto;
+            max-width: 100%;
+            margin: 0 auto;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .lightbox-figure figcaption {
+            color: #fff;
+            text-align: center;
+            margin-top: 12px;
+            font-family: Outfit, sans-serif;
+            font-weight: 600;
+        }
+
+        .close-btn,
+        .lightbox-nav {
+            position: absolute;
+            border: 0;
+            background: #fff;
+            color: var(--ink);
+            cursor: pointer;
+            font-family: Outfit, sans-serif;
+        }
+
+        .close-btn {
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .lightbox-nav {
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 28px;
+        }
+
+        .lightbox-nav.prev { left: 16px; }
+        .lightbox-nav.next { right: 16px; }
+
+        .video-frame {
+            width: min(960px, 100%);
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 800px) {
+            .badges,
+            .videos { grid-template-columns: 1fr; }
+            .credit {
+                grid-template-columns: 88px minmax(0, 1fr);
+            }
+            .credit .side { grid-column: 2; }
+        }
+
+        @media (max-width: 560px) {
+            .topbar-inner,
+            .profile,
+            footer { width: min(var(--max), calc(100% - 28px)); }
+            .wordmark { font-size: 24px; }
+            .shot { flex-basis: 86vw; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
+
+        @media print {
+            .topbar, .videos, .lightbox, .video-modal { display: none; }
+            body { background: #fff; }
+            .shot { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="wordmark" href="/">Porfirio</a>
+            <span class="topbar-label">Dancer &amp; Performer</span>
+        </div>
+    </header>
+
+    <main class="profile">
+        <!--
+          Headshots: drop files in /performer/headshots/ and add a button.shot
+          as the first item in this reel. The first image is the lead photo.
+          Role references: add a <p class="credit-ref"> inside the matching credit.
+          Projects: copy an <article class="credit"> into the right category.
+          Special skills: copy an <li class="skill">.
+        -->
+        <div class="reel" aria-label="Photos">
+            <button class="shot" type="button" data-caption="Porfirio José Landeros" aria-label="Portrait of Porfirio José Landeros">
+                <img src="/images/bio_porfirio.jpg" alt="Portrait of Porfirio José Landeros">
+            </button>
+            <button class="shot" type="button" data-caption="American Foxtrot, with Laetitia Santore" aria-label="American Foxtrot, with Laetitia Santore">
+                <img src="/images/ballroom-01.jpg" alt="Porfirio and Laetitia dancing an American Foxtrot">
+            </button>
+            <button class="shot" type="button" data-caption="American Waltz, with Laetitia Santore" aria-label="American Waltz, with Laetitia Santore">
+                <img src="/images/ballroom-02.jpg" alt="Porfirio and Laetitia dancing an American Waltz">
+            </button>
+            <button class="shot" type="button" data-caption="American Tango, with Laetitia Santore" aria-label="American Tango, with Laetitia Santore">
+                <img src="/images/ballroom-03.jpg" alt="Porfirio and Laetitia dancing an American Tango">
+            </button>
+        </div>
+
+        <header class="identity">
+            <h1>Porfirio José Landeros</h1>
+            <p class="roles">Dancer, Performer <span aria-hidden="true">•</span> San Francisco, CA</p>
+            <div class="badges">
+                <article class="badge">
+                    <p class="badge-title">
+                        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="#4f4fe8" d="M10 1.5 12.2 7l5.8.5-4.4 3.8 1.4 5.7L10 14.2 4.99 17l1.4-5.7L2 7.5 7.8 7 10 1.5Z"/></svg>
+                        Experienced
+                    </p>
+                    <p>National finalist with stage, television, and film credits</p>
+                </article>
+                <article class="badge">
+                    <p class="badge-title">
+                        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.2" fill="none" stroke="#4f4fe8" stroke-width="1.8"/><path d="M10 6.2v4.2l2.6 1.6" fill="none" stroke="#4f4fe8" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        Available
+                    </p>
+                    <p>Performance, choreography, and consulting</p>
+                </article>
+            </div>
+        </header>
+
+        <section class="section about" aria-labelledby="about-heading">
+            <h2 id="about-heading">About Me</h2>
+            <p>I am a championship ballroom dancer and performer in San Francisco. With my partner, Laetitia Santore, I competed in American Smooth — Waltz, Tango, Foxtrot, and Viennese Waltz — and reached the USA Dance National Final four years running, including a National Silver Medal in 2005.</p>
+            <p>That work moved from the competition floor to the stage and onto television and film, including Fox Searchlight’s <em>Antwone Fisher</em>, 20th Century Fox Television’s <em>Point Pleasant</em>, the San Diego Symphony, and Santa Barbara Spanish Days. I also teach through <em>The Quick Start Guide to Ballroom Dancing</em> and the <em>Forget the Feet Wedding Dance Program</em>.</p>
+            <p>I am retired from competition and available for performance, choreography, and consulting for stage, film, and television.</p>
+        </section>
+
+        <section class="section" aria-labelledby="video-heading">
+            <h2 id="video-heading">Performance Video</h2>
+            <div class="videos">
+                <button class="video-card" type="button" data-video="https://www.youtube.com/embed/D3qszdFtgcQ?autoplay=1">
+                    <span class="video-title">Jr. Cotillion</span>
+                    <span class="thumb">
+                        <img src="https://img.youtube.com/vi/D3qszdFtgcQ/hqdefault.jpg" alt="">
+                        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M6 3.5v11l9-5.5-9-5.5Z"/></svg></span>
+                    </span>
+                </button>
+                <button class="video-card" type="button" data-video="https://www.youtube.com/embed/P45TSoO92nc?autoplay=1">
+                    <span class="video-title">UCSB Cotillion</span>
+                    <span class="thumb">
+                        <img src="https://img.youtube.com/vi/P45TSoO92nc/hqdefault.jpg" alt="">
+                        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M6 3.5v11l9-5.5-9-5.5Z"/></svg></span>
+                    </span>
+                </button>
+                <button class="video-card" type="button" data-video="https://www.youtube.com/embed/X9gUqQAaCGc?autoplay=1">
+                    <span class="video-title">Competition, with Laetitia Santore</span>
+                    <span class="thumb">
+                        <img src="https://img.youtube.com/vi/X9gUqQAaCGc/hqdefault.jpg" alt="">
+                        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M6 3.5v11l9-5.5-9-5.5Z"/></svg></span>
+                    </span>
+                </button>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="credits-heading">
+            <h2 id="credits-heading">Credits &amp; Experience</h2>
+
+            <h3 class="category">
+                <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M11 2.2 13.1 8h6.1l-4.9 3.6 1.9 5.8L11 13.8 5.8 17.4 7.7 11.6 2.8 8h6.1L11 2.2Z"/></svg>
+                Competition
+            </h3>
+            <article class="credit">
+                <div class="credit-date">2003–2006</div>
+                <div>
+                    <h4>USA Dance National Ballroom Championships</h4>
+                    <p class="role">National Finalist (Top 6), four consecutive years</p>
+                </div>
+                <div class="side">
+                    <p>with Laetitia Santore</p>
+                    <p>American Smooth</p>
+                </div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2006</div>
+                <div>
+                    <h4>Pacific DanceSport Championships</h4>
+                    <p class="role">Professional Rising Star Champion</p>
+                </div>
+                <div class="side"><p>with Laetitia Santore</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2006</div>
+                <div>
+                    <h4>Southwestern Regional Championships</h4>
+                    <p class="role">World Class Smooth Champion</p>
+                </div>
+                <div class="side"><p>with Laetitia Santore</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2005</div>
+                <div>
+                    <h4>USA Dance National Ballroom Championships</h4>
+                    <p class="role">American Smooth Silver Medalist</p>
+                </div>
+                <div class="side"><p>with Laetitia Santore</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">2005</div>
+                <div>
+                    <h4>Southwestern Regional Championships</h4>
+                    <p class="role">American Smooth Champion</p>
+                </div>
+                <div class="side"><p>with Laetitia Santore</p></div>
+            </article>
+
+            <h3 class="category">
+                <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M8.2 3.2c1.6 1.2 2.4 3.2 2.2 5.2-.8.2-1.8.2-2.8-.2-1.6-.6-2.6-2-2.8-3.6.9-.8 2.2-1.2 3.4-1.4Zm5.6 0c1.2.2 2.5.6 3.4 1.4-.2 1.6-1.2 3-2.8 3.6-1 .4-2 .4-2.8.2-.2-2 0.6-4 2.2-5.2ZM4.2 11.2c1.7.2 3.2 1.1 4.1 2.4-1.5.7-3.3.8-5 .2-.9-.3-1.6-.9-2.1-1.6 1-.6 2-.9 3-1Zm13.6 0c1 .1 2 .4 3 1-.5.7-1.2 1.3-2.1 1.6-1.7.6-3.5.5-5-.2.9-1.3 2.4-2.2 4.1-2.4ZM11 10.2c2.6 0 4.2 2.2 4.2 4.6 0 2.8-2.2 5-4.2 5s-4.2-2.2-4.2-5c0-2.4 1.6-4.6 4.2-4.6Z"/></svg>
+                Stage
+            </h3>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>Dancing Through the Decades</h4>
+                    <p class="role">Ballroom / Foxtrot Dancer</p>
+                </div>
+                <div class="side"><p>NRG Productions</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>A Night in Vienna</h4>
+                    <p class="role">Viennese Waltz Dancer</p>
+                </div>
+                <div class="side">
+                    <p>San Diego Symphony</p>
+                    <p>San Diego, CA</p>
+                </div>
+            </article>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>’Twas the Night Before Christmas</h4>
+                    <p class="role">Ballroom Dancer</p>
+                </div>
+                <div class="side">
+                    <p>Poway Center for the Creative Arts</p>
+                    <p>Poway, CA</p>
+                </div>
+            </article>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>A Tribute to Richard Rogers</h4>
+                    <p class="role">Ballroom Dancer</p>
+                </div>
+                <div class="side"><p>Grand Prix Productions</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>Noches de Ronda</h4>
+                    <p class="role">Latin Dancer</p>
+                </div>
+                <div class="side">
+                    <p>Santa Barbara Spanish Days</p>
+                    <p>Santa Barbara, CA</p>
+                </div>
+            </article>
+
+            <h3 class="category">
+                <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="2" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M8 2.5h6v2.2H8zM7.5 19h7v1.4h-7z"/></svg>
+                Television
+            </h3>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>Point Pleasant: Last Dance</h4>
+                    <p class="role">Swing Dancer</p>
+                    <!-- <p class="credit-ref">Reference: <a href="">Name</a>, title</p> -->
+                </div>
+                <div class="side"><p>20th Century Fox Television</p></div>
+            </article>
+
+            <h3 class="category">
+                <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="2" y="4" width="18" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M9 8.2 14.2 11 9 13.8V8.2Z"/></svg>
+                Film
+            </h3>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>Antwone Fisher</h4>
+                    <p class="role">Salsa Dancer</p>
+                    <!-- <p class="credit-ref">Reference: <a href="">Name</a>, title</p> -->
+                </div>
+                <div class="side"><p>Fox Searchlight Pictures</p></div>
+            </article>
+
+            <h3 class="category">Instructional</h3>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>The Quick Start Guide to Ballroom Dancing</h4>
+                    <p class="role">Instructor, with Laetitia Santore</p>
+                    <p class="credit-ref"><a href="https://www.amazon.com/gp/video/detail/B08SPXY3Y8/">Watch on Amazon</a></p>
+                </div>
+                <div class="side"><p>Waltz, Tango, Salsa, Swing</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date"></div>
+                <div>
+                    <h4>Forget the Feet Wedding Dance Program</h4>
+                    <p class="role">Instructor, with Laetitia Santore</p>
+                    <p class="credit-ref"><a href="https://www.amazon.com/gp/video/detail/B08H4DRP7Y/">Watch on Amazon</a></p>
+                </div>
+                <div class="side"><p>Wedding dance</p></div>
+            </article>
+        </section>
+
+        <section class="section" aria-labelledby="skills-heading">
+            <h2 id="skills-heading">Special Skills</h2>
+            <ul class="skills">
+                <li class="skill">Dance: Waltz</li>
+                <li class="skill">Dance: Tango</li>
+                <li class="skill">Dance: Foxtrot</li>
+                <li class="skill">Dance: Viennese Waltz</li>
+                <li class="skill">Dance: Salsa</li>
+                <li class="skill">Dance: Swing</li>
+                <li class="skill">Dance: Latin</li>
+                <li class="skill">Dance: Rhythm</li>
+                <li class="skill">Dance: Choreography</li>
+                <li class="skill">Movement: Aikido (Black Belt)</li>
+                <li class="skill">Movement: Collegiate Wrestling</li>
+                <li class="skill">Movement: Cycling</li>
+                <li class="skill">Movement: Snowboarding</li>
+                <li class="skill">Languages: Spanish</li>
+            </ul>
+        </section>
+
+        <section class="section" aria-labelledby="training-heading">
+            <h2 id="training-heading">Education &amp; Training</h2>
+            <article class="credit">
+                <div class="credit-date">Coach</div>
+                <div>
+                    <h4><a href="https://en.wikipedia.org/wiki/Mary_Murphy_(choreographer)">Mary Murphy</a></h4>
+                    <p class="role">American Smooth</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Coach</div>
+                <div>
+                    <h4><a href="https://en.wikipedia.org/wiki/Michael_Mead">Michael Mead</a></h4>
+                    <p class="role">American Smooth</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Coach</div>
+                <div>
+                    <h4><a href="https://en.wikipedia.org/wiki/Toni_Redpath">Toni Redpath</a></h4>
+                    <p class="role">American Smooth</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Studio</div>
+                <div>
+                    <h4><a href="https://en.wikipedia.org/wiki/Ken_and_Miye_Ota">Ken and Miye Ota</a></h4>
+                    <p class="role">Ballroom</p>
+                </div>
+                <div class="side"><p>UCSB</p></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Studio</div>
+                <div>
+                    <h4>Champion Ballroom Academy</h4>
+                    <p class="role">American Smooth</p>
+                </div>
+                <div class="side"></div>
+            </article>
+        </section>
+
+        <section class="section" aria-labelledby="links-heading">
+            <h2 id="links-heading">Links</h2>
+            <ul class="links">
+                <li><a href="https://www.instagram.com/porfitron">Instagram — @porfitron</a></li>
+                <li><a href="/dance.html">Partnership page with Laetitia Santore</a></li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="/">Porfirio José Landeros</a> · Performer resume</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+        <button class="close-btn" type="button" data-close="lightbox" aria-label="Close photo">&times;</button>
+        <button class="lightbox-nav prev" type="button" aria-label="Previous photo">‹</button>
+        <figure class="lightbox-figure">
+            <img id="lightbox-img" alt="">
+            <figcaption id="lightbox-caption"></figcaption>
+        </figure>
+        <button class="lightbox-nav next" type="button" aria-label="Next photo">›</button>
+    </div>
+
+    <div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Performance video" hidden>
+        <button class="close-btn" type="button" data-close="video" aria-label="Close video">&times;</button>
+        <div class="video-frame">
+            <iframe id="video-frame" title="Performance video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        const shots = [...document.querySelectorAll(".shot")];
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxCaption = document.getElementById("lightbox-caption");
+        const videoModal = document.getElementById("video-modal");
+        const videoFrame = document.getElementById("video-frame");
+        let shotIndex = 0;
+        let lastFocus = null;
+
+        function showShot(index) {
+            shotIndex = (index + shots.length) % shots.length;
+            const img = shots[shotIndex].querySelector("img");
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightboxCaption.textContent = shots[shotIndex].dataset.caption || img.alt;
+        }
+
+        function openLightbox(index) {
+            lastFocus = document.activeElement;
+            showShot(index);
+            lightbox.hidden = false;
+            lightbox.setAttribute("open", "");
+            document.body.style.overflow = "hidden";
+            lightbox.querySelector(".close-btn").focus();
+        }
+
+        function closeLightbox() {
+            lightbox.hidden = true;
+            lightbox.removeAttribute("open");
+            lightboxImg.src = "";
+            if (!videoModal.hasAttribute("open")) document.body.style.overflow = "";
+            if (lastFocus) lastFocus.focus();
+        }
+
+        function openVideo(src) {
+            lastFocus = document.activeElement;
+            videoFrame.src = src;
+            videoModal.hidden = false;
+            videoModal.setAttribute("open", "");
+            document.body.style.overflow = "hidden";
+            videoModal.querySelector(".close-btn").focus();
+        }
+
+        function closeVideo() {
+            videoModal.hidden = true;
+            videoModal.removeAttribute("open");
+            videoFrame.src = "";
+            if (!lightbox.hasAttribute("open")) document.body.style.overflow = "";
+            if (lastFocus) lastFocus.focus();
+        }
+
+        shots.forEach((shot, index) => {
+            shot.addEventListener("click", () => openLightbox(index));
+        });
+
+        lightbox.querySelector(".prev").addEventListener("click", () => showShot(shotIndex - 1));
+        lightbox.querySelector(".next").addEventListener("click", () => showShot(shotIndex + 1));
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) closeLightbox();
+        });
+
+        document.querySelectorAll(".video-card").forEach((card) => {
+            card.addEventListener("click", () => openVideo(card.dataset.video));
+        });
+        videoModal.addEventListener("click", (event) => {
+            if (event.target === videoModal) closeVideo();
+        });
+
+        document.querySelectorAll("[data-close]").forEach((button) => {
+            button.addEventListener("click", () => {
+                if (button.dataset.close === "lightbox") closeLightbox();
+                else closeVideo();
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                if (lightbox.hasAttribute("open")) closeLightbox();
+                if (videoModal.hasAttribute("open")) closeVideo();
+            }
+            if (!lightbox.hasAttribute("open")) return;
+            if (event.key === "ArrowLeft") showShot(shotIndex - 1);
+            if (event.key === "ArrowRight") showShot(shotIndex + 1);
+        });
+    </script>
+</body>
+</html>
