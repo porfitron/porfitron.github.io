@@ -228,6 +228,24 @@
         .about p { margin: 0 0 12px; max-width: 68ch; }
         .about p:last-child { margin-bottom: 0; }
 
+        .about-toggle {
+            border: 0;
+            padding: 0;
+            background: none;
+            color: var(--purple);
+            font: inherit;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .about-toggle:hover { color: var(--purple-dark); }
+
+        .about-toggle:focus-visible {
+            outline: 2px solid var(--purple);
+            outline-offset: 2px;
+        }
+
         .appearance-grid {
             display: grid;
             grid-template-columns: 1.15fr 0.9fr 1.15fr;
@@ -520,7 +538,7 @@
         }
 
         @media print {
-            .topbar, .videos, .lightbox, .video-modal { display: none; }
+            .topbar, .videos, .lightbox, .video-modal, .about-toggle { display: none; }
             body { background: #fff; }
             .shot { break-inside: avoid; }
         }
@@ -579,16 +597,19 @@
                         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.2" fill="none" stroke="#4f4fe8" stroke-width="1.8"/><path d="M10 6.2v4.2l2.6 1.6" fill="none" stroke="#4f4fe8" stroke-width="1.8" stroke-linecap="round"/></svg>
                         Available
                     </p>
-                    <p>Performance, choreography, and consulting</p>
+                    <p>Dance-double, photo-double stand-in, background, performance, choreography, and consulting</p>
                 </article>
             </div>
         </header>
 
         <section class="section about" aria-labelledby="about-heading">
             <h2 id="about-heading">About Me</h2>
-            <p>I am a championship ballroom dancer and performer in San Francisco. With my partner, Laetitia Santore, I competed in American Smooth — Waltz, Tango, Foxtrot, and Viennese Waltz — and reached the USA Dance National Final four years running, including a National Silver Medal in 2005.</p>
-            <p>That work moved from the competition floor to the stage and onto television and film, including Fox Searchlight’s <em>Antwone Fisher</em>, 20th Century Fox Television’s <em>Point Pleasant</em>, the San Diego Symphony, and Fiesta, Old Spanish Days. I also teach through <em>The Quick Start Guide to Ballroom Dancing</em> and the <em>Forget the Feet Wedding Dance Program</em>.</p>
-            <p>I am retired from competition and available for performance, choreography, and consulting for stage, film, and television.</p>
+            <div id="about-body">
+            <p>I am a championship ballroom dancer and performer based in San Francisco. I trained under some of the most respected names in American ballroom: Michael Mead and Toni Redpath in competitive American Smooth, Mary Murphy at Champion Ballroom Academy, and Ken and Miye Ota, who taught me ballroom and Latin along with the manners and social graces of cotillion.</p>
+            <p>With my partner, Laetitia Santore, I reached the USA Dance National Final four years running, won the National Silver Medal in American Smooth in 2005, and took the Professional Rising Star title at the 2006 Pacific DanceSport Championships. That work carried from the competition floor to the stage with the San Diego Symphony and Fiesta, Old Spanish Days, and onto the screen in Fox Searchlight’s <em>Antwone Fisher</em> and 20th Century Fox Television’s <em>Point Pleasant</em>. In 2026 I returned to camera as a featured undercover detective in Netflix’s <em>A Man on the Inside</em> and as a 1930s San Franciscan in Dan Pritzker’s <em>Fog City</em>.</p>
+            <p>Outside the ballroom, I hold a black belt in Aikido and wrestled collegiately, so I am at home with partnered contact and physical direction. I speak Spanish, and my 1934 and 1941 Ford Cabriolets are available for period productions. I also co-created <em>The Quick Start Guide to Ballroom Dancing</em> and the <em>Forget the Feet Wedding Dance Program</em>.</p>
+            <p>Now retired from competition, I am available as a dance double, photo double, stand-in, and background or featured performer, and for choreography and consulting on stage, film, and television.</p>
+            </div>
         </section>
 
         <section class="section" aria-labelledby="appearance-heading">
@@ -994,6 +1015,93 @@
     </div>
 
     <script>
+        const aboutBody = document.getElementById("about-body");
+        const aboutWordLimit = 60;
+        const sentenceEnd = /[.!?][”’"')]*$/;
+
+        function textNodes(root) {
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            return nodes;
+        }
+
+        function wordCount(root) {
+            return root.textContent.trim().split(/\s+/).length;
+        }
+
+        function cutAfter(root, node, offset) {
+            node.textContent = node.textContent.slice(0, offset);
+            for (let n = node; n !== root; n = n.parentNode) {
+                while (n.nextSibling) n.nextSibling.remove();
+            }
+        }
+
+        function buildPreview(source, limit) {
+            const preview = source.cloneNode(true);
+            if (wordCount(preview) <= limit) return null;
+            let count = 0;
+            for (const node of textNodes(preview)) {
+                for (const match of node.textContent.matchAll(/\S+/g)) {
+                    if (++count === limit) {
+                        cutAfter(preview, node, match.index + match[0].length);
+                        return preview;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function snapToSentence(preview, minWords) {
+            const nodes = textNodes(preview);
+            for (let i = nodes.length - 1; i >= 0; i--) {
+                const ends = [...nodes[i].textContent.matchAll(/[.!?][”’"')]*(?=\s|$)/g)];
+                if (!ends.length) continue;
+                const last = ends[ends.length - 1];
+                const snapped = preview.cloneNode(true);
+                cutAfter(snapped, textNodes(snapped)[i], last.index + last[0].length);
+                return wordCount(snapped) >= minWords ? snapped : preview;
+            }
+            return preview;
+        }
+
+        if (aboutBody) {
+            const fullAbout = aboutBody.cloneNode(true);
+            const cutAbout = buildPreview(fullAbout, aboutWordLimit);
+
+            if (cutAbout) {
+                const previewAbout = snapToSentence(cutAbout, aboutWordLimit * 0.75);
+                const aboutToggle = document.createElement("button");
+                aboutToggle.type = "button";
+                aboutToggle.className = "about-toggle";
+                aboutToggle.setAttribute("aria-controls", "about-body");
+                let aboutExpanded = false;
+
+                const renderAbout = () => {
+                    const source = aboutExpanded ? fullAbout : previewAbout;
+                    aboutBody.replaceChildren(...source.cloneNode(true).childNodes);
+                    const lastParagraph = aboutBody.lastElementChild;
+                    const complete = aboutExpanded || sentenceEnd.test(lastParagraph.textContent.trimEnd());
+                    lastParagraph.append(complete ? " " : "… ", aboutToggle);
+                    aboutToggle.textContent = aboutExpanded ? "Show less" : "Show more";
+                    aboutToggle.setAttribute("aria-expanded", String(aboutExpanded));
+                };
+
+                aboutToggle.addEventListener("click", () => {
+                    aboutExpanded = !aboutExpanded;
+                    renderAbout();
+                    aboutToggle.focus();
+                });
+
+                window.addEventListener("beforeprint", () => {
+                    aboutExpanded = true;
+                    renderAbout();
+                });
+
+                renderAbout();
+            }
+        }
+
         const shots = [...document.querySelectorAll(".shot")];
         const vehiclePhotos = [...document.querySelectorAll(".vehicle-photo")];
         const lightbox = document.getElementById("lightbox");
