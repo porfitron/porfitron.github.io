@@ -39,6 +39,8 @@
       },
       "sameAs": [
         "https://www.instagram.com/porfitron",
+        "https://www.linkedin.com/in/porfirio",
+        "https://calendar.app.google/G3QKYwTXzLXazPps8",
         "https://porfir.io/dance.html"
       ]
     }
@@ -142,6 +144,7 @@
         }
 
         .shot:focus-visible,
+        .vehicle-photo:focus-visible,
         .video-card:focus-visible,
         .lightbox-nav:focus-visible,
         .close-btn:focus-visible {
@@ -354,6 +357,27 @@
 
         .credit-ref { font-size: 15px; }
 
+        .vehicle-thumb {
+            display: block;
+            width: 148px;
+            aspect-ratio: 3 / 2;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #e4e2db;
+        }
+
+        button.vehicle-thumb {
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .vehicle-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .skills {
             display: flex;
             flex-wrap: wrap;
@@ -521,6 +545,12 @@
         <div class="reel" aria-label="Photos">
             <button class="shot" type="button" data-caption="Porfirio José Landeros" aria-label="Portrait of Porfirio José Landeros">
                 <img src="/images/bio_porfirio.jpg" alt="Portrait of Porfirio José Landeros">
+            </button>
+            <button class="shot" type="button" data-caption="Porfirio José Landeros" aria-label="Headshot of Porfirio José Landeros in a suit">
+                <img src="/performer/headshots/2026-suit.jpg" alt="Porfirio José Landeros in a navy suit">
+            </button>
+            <button class="shot" type="button" data-caption="Fog City - 1930s San Francisco" aria-label="Headshot of Porfirio José Landeros on the Fog City set">
+                <img src="/performer/headshots/2026-fog-city.jpg" alt="Porfirio José Landeros in 1930s costume on the Fog City set">
             </button>
             <button class="shot" type="button" data-caption="American Foxtrot, with Laetitia Santore" aria-label="American Foxtrot, with Laetitia Santore">
                 <img src="/images/ballroom-01.jpg" alt="Porfirio and Laetitia dancing an American Foxtrot">
@@ -826,16 +856,8 @@
             <article class="credit">
                 <div class="credit-date">Coach</div>
                 <div>
-                    <h4><a href="https://en.wikipedia.org/wiki/Mary_Murphy_(choreographer)" target="_blank" rel="noopener noreferrer">Mary Murphy</a></h4>
-                    <p class="role">American Smooth</p>
-                </div>
-                <div class="side"></div>
-            </article>
-            <article class="credit">
-                <div class="credit-date">Coach</div>
-                <div>
                     <h4><a href="https://en.wikipedia.org/wiki/Michael_Mead" target="_blank" rel="noopener noreferrer">Michael Mead</a></h4>
-                    <p class="role">American Smooth</p>
+                    <p class="role">American Style Ballroom, Smooth Dances</p>
                 </div>
                 <div class="side"></div>
             </article>
@@ -843,7 +865,23 @@
                 <div class="credit-date">Coach</div>
                 <div>
                     <h4><a href="https://en.wikipedia.org/wiki/Toni_Redpath" target="_blank" rel="noopener noreferrer">Toni Redpath</a></h4>
-                    <p class="role">American Smooth</p>
+                    <p class="role">American Style Ballroom, Smooth Dances</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Coach</div>
+                <div>
+                    <h4><a href="https://en.wikipedia.org/wiki/Mary_Murphy_(choreographer)" target="_blank" rel="noopener noreferrer">Mary Murphy</a></h4>
+                    <p class="role">American Style Ballroom, Smooth Dances</p>
+                </div>
+                <div class="side"></div>
+            </article>
+            <article class="credit">
+                <div class="credit-date">Studio</div>
+                <div>
+                    <h4>Champion Ballroom Academy</h4>
+                    <p class="role">Waltz, Tango, Foxtrot, Viennese Waltz, Rumba, Cha-Cha, Samba, Swing</p>
                 </div>
                 <div class="side"></div>
             </article>
@@ -851,24 +889,18 @@
                 <div class="credit-date">Studio</div>
                 <div>
                     <h4><a href="https://en.wikipedia.org/wiki/Ken_and_Miye_Ota" target="_blank" rel="noopener noreferrer">Ken and Miye Ota</a></h4>
-                    <p class="role">Ballroom</p>
+                    <p class="role">Cotillion, Etiquette, Ballroom, Latin and Swing</p>
                 </div>
                 <div class="side"><p>UCSB</p></div>
             </article>
-            <article class="credit">
-                <div class="credit-date">Studio</div>
-                <div>
-                    <h4>Champion Ballroom Academy</h4>
-                    <p class="role">American Smooth</p>
-                </div>
-                <div class="side"></div>
-            </article>
         </section>
 
-        <section class="section" aria-labelledby="links-heading">
-            <h2 id="links-heading">Links</h2>
+        <section class="section" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Contact &amp; Socials</h2>
             <ul class="links">
                 <li><a href="https://www.instagram.com/porfitron" target="_blank" rel="noopener noreferrer">Instagram — @porfitron</a></li>
+                <li><a href="https://www.linkedin.com/in/porfirio" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" rel="noopener noreferrer">Booking Calendar</a></li>
                 <li><a href="/dance.html" target="_blank" rel="noopener noreferrer">Partnership page with Laetitia Santore</a></li>
             </ul>
         </section>
@@ -886,10 +918,14 @@
             <article class="credit">
                 <div class="credit-date">2003</div>
                 <div>
-                    <h4>Toyota Tundra</h4>
+                    <h4><a href="/listings/terminator.html" target="_blank" rel="noopener noreferrer">Toyota Tundra</a></h4>
                     <p class="role">Truck / Black</p>
                 </div>
-                <div class="side"></div>
+                <div class="side">
+                    <a class="vehicle-thumb" href="/listings/terminator.html" target="_blank" rel="noopener noreferrer" aria-label="Toyota Tundra listing">
+                        <img src="/listings/terminator/thumbs/t3-tundra_0655.jpeg" alt="" width="640" height="480">
+                    </a>
+                </div>
             </article>
             <article class="credit">
                 <div class="credit-date">2018</div>
@@ -897,7 +933,11 @@
                     <h4>Tesla Model 3</h4>
                     <p class="role">Sedan / White</p>
                 </div>
-                <div class="side"></div>
+                <div class="side">
+                    <button class="vehicle-thumb vehicle-photo" type="button" data-full="/performer/vehicles/tesla.jpg" data-caption="2018 Tesla Model 3" aria-label="Tesla Model 3 photo">
+                        <img src="/performer/vehicles/thumbs/tesla.jpg" alt="" width="640" height="429">
+                    </button>
+                </div>
             </article>
             <article class="credit">
                 <div class="credit-date">2022</div>
@@ -905,15 +945,23 @@
                     <h4>Super73 Cafe Racer</h4>
                     <p class="role">E-bike / Black</p>
                 </div>
-                <div class="side"></div>
+                <div class="side">
+                    <button class="vehicle-thumb vehicle-photo" type="button" data-full="/performer/vehicles/super73.jpg" data-caption="2022 Super73 Cafe Racer" aria-label="Super73 Cafe Racer photo">
+                        <img src="/performer/vehicles/thumbs/super73.jpg" alt="" width="640" height="479">
+                    </button>
+                </div>
             </article>
             <article class="credit">
                 <div class="credit-date">1934</div>
                 <div>
-                    <h4>Ford Cabriolet</h4>
+                    <h4><a href="/listings/1934.html" target="_blank" rel="noopener noreferrer">Ford Cabriolet</a></h4>
                     <p class="role">Street rod / Red</p>
                 </div>
-                <div class="side"></div>
+                <div class="side">
+                    <a class="vehicle-thumb" href="/listings/1934.html" target="_blank" rel="noopener noreferrer" aria-label="1934 Ford Cabriolet listing">
+                        <img src="/listings/1934/thumbs/IMG_9179.jpeg" alt="" width="640" height="480">
+                    </a>
+                </div>
             </article>
             <article class="credit">
                 <div class="credit-date">1941</div>
@@ -921,7 +969,11 @@
                     <h4>Ford Cabriolet</h4>
                     <p class="role">Street rod / Black</p>
                 </div>
-                <div class="side"></div>
+                <div class="side">
+                    <button class="vehicle-thumb vehicle-photo" type="button" data-full="/performer/vehicles/1941.jpg" data-caption="1941 Ford Cabriolet" aria-label="1941 Ford Cabriolet photo">
+                        <img src="/performer/vehicles/thumbs/1941.jpg" alt="" width="640" height="479">
+                    </button>
+                </div>
             </article>
         </section>
 
@@ -950,23 +1002,27 @@
 
     <script>
         const shots = [...document.querySelectorAll(".shot")];
+        const vehiclePhotos = [...document.querySelectorAll(".vehicle-photo")];
         const lightbox = document.getElementById("lightbox");
         const lightboxImg = document.getElementById("lightbox-img");
         const lightboxCaption = document.getElementById("lightbox-caption");
         const videoModal = document.getElementById("video-modal");
         const videoFrame = document.getElementById("video-frame");
+        let gallery = shots;
         let shotIndex = 0;
         let lastFocus = null;
 
         function showShot(index) {
-            shotIndex = (index + shots.length) % shots.length;
-            const img = shots[shotIndex].querySelector("img");
-            lightboxImg.src = img.src;
-            lightboxImg.alt = img.alt;
-            lightboxCaption.textContent = shots[shotIndex].dataset.caption || img.alt;
+            shotIndex = (index + gallery.length) % gallery.length;
+            const item = gallery[shotIndex];
+            const img = item.querySelector("img");
+            lightboxImg.src = item.dataset.full || img.src;
+            lightboxImg.alt = item.dataset.caption || img.alt;
+            lightboxCaption.textContent = item.dataset.caption || img.alt;
         }
 
-        function openLightbox(index) {
+        function openLightbox(index, source) {
+            gallery = source;
             lastFocus = document.activeElement;
             showShot(index);
             lightbox.hidden = false;
@@ -1001,7 +1057,11 @@
         }
 
         shots.forEach((shot, index) => {
-            shot.addEventListener("click", () => openLightbox(index));
+            shot.addEventListener("click", () => openLightbox(index, shots));
+        });
+
+        vehiclePhotos.forEach((photo, index) => {
+            photo.addEventListener("click", () => openLightbox(index, vehiclePhotos));
         });
 
         lightbox.querySelector(".prev").addEventListener("click", () => showShot(shotIndex - 1));
