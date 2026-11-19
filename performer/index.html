@@ -63,7 +63,10 @@
 
         * { box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 84px;
+        }
 
         body {
             margin: 0;
@@ -80,6 +83,9 @@
         img { max-width: 100%; display: block; }
 
         .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
             background: #fff;
             border-bottom: 1px solid var(--line);
         }
@@ -108,10 +114,103 @@
 
         .wordmark:hover { color: var(--ink); }
 
+        .topbar-actions {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
         .topbar-label {
             color: var(--muted);
             font-size: 15px;
             font-weight: 600;
+        }
+
+        .menu-toggle {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 1px solid var(--line-strong);
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .menu-toggle:hover { border-color: var(--ink); }
+
+        .menu-toggle[aria-expanded="true"] {
+            background: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .menu-icon,
+        .menu-icon::before,
+        .menu-icon::after {
+            display: block;
+            width: 16px;
+            height: 2px;
+            border-radius: 1px;
+            background: var(--ink);
+            position: relative;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: "";
+            position: absolute;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { top: 5px; }
+
+        .menu-toggle[aria-expanded="true"] .menu-icon { background: transparent; }
+
+        .menu-toggle[aria-expanded="true"] .menu-icon::before,
+        .menu-toggle[aria-expanded="true"] .menu-icon::after {
+            background: #fff;
+            top: 0;
+        }
+
+        .menu-toggle[aria-expanded="true"] .menu-icon::before { transform: rotate(45deg); }
+        .menu-toggle[aria-expanded="true"] .menu-icon::after { transform: rotate(-45deg); }
+
+        .section-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: max-content;
+            min-width: 220px;
+            max-width: min(320px, calc(100vw - 28px));
+            margin: 0;
+            padding: 8px;
+            list-style: none;
+            background: #fff;
+            border: 1px solid var(--line-strong);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-menu a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--ink);
+            text-decoration: none;
+            font-family: Outfit, sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+
+        .section-menu a:hover,
+        .section-menu a:focus-visible {
+            background: var(--bg);
+            color: var(--ink);
         }
 
         .profile { padding: 28px 0 72px; }
@@ -148,7 +247,9 @@
         .vehicle-photo:focus-visible,
         .video-card:focus-visible,
         .lightbox-nav:focus-visible,
-        .close-btn:focus-visible {
+        .close-btn:focus-visible,
+        .menu-toggle:focus-visible,
+        .section-menu a:focus-visible {
             outline: 2px solid var(--purple);
             outline-offset: 3px;
         }
@@ -421,7 +522,15 @@
             list-style: none;
         }
 
-        .links li + li { margin-top: 6px; }
+        .links li + li { margin-top: 8px; }
+
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .links a svg { flex: none; }
 
         footer {
             width: min(var(--max), calc(100% - 40px));
@@ -532,6 +641,7 @@
             .profile,
             footer { width: min(var(--max), calc(100% - 28px)); }
             .wordmark { font-size: 24px; }
+            .topbar-label { display: none; }
             .shot { flex-basis: 86vw; }
         }
 
@@ -550,7 +660,13 @@
     <header class="topbar">
         <div class="topbar-inner">
             <a class="wordmark" href="/" target="_blank" rel="noopener noreferrer">Porfirio</a>
-            <span class="topbar-label">Dancer &amp; Performer</span>
+            <div class="topbar-actions">
+                <span class="topbar-label">Dancer &amp; Performer</span>
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="section-menu" aria-label="Open section menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <ul class="section-menu" id="section-menu" hidden></ul>
+            </div>
         </div>
     </header>
 
@@ -562,7 +678,7 @@
           Projects: copy an <article class="credit"> into the right category.
           Special skills: copy an <li class="skill">.
         -->
-        <div class="reel" aria-label="Photos">
+        <div class="reel" id="photos" aria-label="Photos">
             <button class="shot" type="button" data-caption="Porfirio José Landeros" aria-label="Portrait of Porfirio José Landeros">
                 <img src="/images/bio_porfirio.jpg" alt="Portrait of Porfirio José Landeros">
             </button>
@@ -625,7 +741,7 @@
                     <ul>
                         <li>5'11" (Height)</li>
                         <li>185 lbs (Weight)</li>
-                        <li>Muscular (Build)</li>
+                        <li>Athletic (Build)</li>
                         <li>Dark Brown (Hair)</li>
                         <li>Green (Eyes)</li>
                     </ul>
@@ -918,11 +1034,9 @@
         <section class="section" aria-labelledby="contact-heading">
             <h2 id="contact-heading">Contact &amp; Socials</h2>
             <ul class="links">
-                <li><a href="https://www.instagram.com/porfitron" target="_blank" rel="noopener noreferrer">Instagram — @porfitron</a></li>
-                <li><a href="https://www.linkedin.com/in/porfirio" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://www.backstage.com/tal/porfirio-landeros" target="_blank" rel="noopener noreferrer">Backstage</a></li>
-                <li><a href="https://calendar.app.google/G3QKYwTXzLXazPps8" target="_blank" rel="noopener noreferrer">Booking Calendar</a></li>
-                <li><a href="/dance.html" target="_blank" rel="noopener noreferrer">Partnership page with Laetitia Santore</a></li>
+                <li><a href="https://www.instagram.com/porfitron" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor"/></svg>Instagram — @porfitron</a></li>
+                <li><a href="https://www.linkedin.com/in/porfirio" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.7 3.4a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM3.1 8.6h3.2V20.6H3.1V8.6Zm6.1 0h3.1v1.6h.1c.4-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.2 3.9 5v7.1h-3.2v-6.3c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3v6.4H9.2V8.6Z"/></svg>LinkedIn</a></li>
+                <li><a href="https://www.backstage.com/tal/porfirio-landeros" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M9.2 7.4h2.6a2.2 2.2 0 0 1 0 4.4H9.2V7.4Zm0 4.4h3a2.4 2.4 0 0 1 0 4.8H9.2v-4.8Z"/></svg>Backstage</a></li>
             </ul>
         </section>
 
@@ -1034,6 +1148,44 @@
     </div>
 
     <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const sectionMenu = document.getElementById("section-menu");
+        const photos = document.getElementById("photos");
+
+        function addSectionLink(id, label) {
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = "#" + id;
+            link.textContent = label;
+            item.append(link);
+            sectionMenu.append(item);
+        }
+
+        if (photos) addSectionLink("photos", "Photos");
+        document.querySelectorAll("main > section").forEach((section) => {
+            if (section.hidden) return;
+            const heading = section.querySelector("h2");
+            if (heading && heading.id) addSectionLink(heading.id, heading.textContent);
+        });
+
+        function setMenuOpen(open) {
+            menuToggle.setAttribute("aria-expanded", String(open));
+            menuToggle.setAttribute("aria-label", open ? "Close section menu" : "Open section menu");
+            sectionMenu.hidden = !open;
+        }
+
+        menuToggle.addEventListener("click", () => {
+            setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        sectionMenu.addEventListener("click", (event) => {
+            if (event.target.closest("a")) setMenuOpen(false);
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!sectionMenu.hidden && !event.target.closest(".topbar-actions")) setMenuOpen(false);
+        });
+
         const aboutBody = document.getElementById("about-body");
         const aboutWordLimit = 60;
         const sentenceEnd = /[.!?][”’"')]*$/;
@@ -1206,6 +1358,10 @@
 
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
+                if (!sectionMenu.hidden) {
+                    setMenuOpen(false);
+                    menuToggle.focus();
+                }
                 if (lightbox.hasAttribute("open")) closeLightbox();
                 if (videoModal.hasAttribute("open")) closeVideo();
             }
