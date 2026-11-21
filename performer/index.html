@@ -441,6 +441,28 @@
 
         .category svg { flex: none; }
 
+        .category-toggle {
+            margin-left: 6px;
+            border: 0;
+            padding: 0;
+            background: none;
+            color: var(--purple);
+            font-family: "Source Sans 3", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            cursor: pointer;
+        }
+
+        .category-toggle:hover { color: var(--purple-dark); }
+
+        .category-toggle:focus-visible {
+            outline: 2px solid var(--purple);
+            outline-offset: 2px;
+        }
+
         .credit {
             display: grid;
             grid-template-columns: 108px minmax(0, 1.4fr) minmax(180px, 0.9fr);
@@ -650,7 +672,8 @@
         }
 
         @media print {
-            .topbar, .videos, .lightbox, .video-modal, .about-toggle { display: none; }
+            .topbar, .videos, .lightbox, .video-modal, .about-toggle, .category-toggle { display: none; }
+            .category-items[hidden] { display: block; }
             body { background: #fff; }
             .shot { break-inside: avoid; }
         }
@@ -1271,6 +1294,52 @@
 
                 renderAbout();
             }
+        }
+
+        const creditsSection = document.getElementById("credits-heading")?.closest("section");
+        if (creditsSection) {
+            creditsSection.querySelectorAll("h3.category").forEach((heading, index) => {
+                const items = [];
+                let sibling = heading.nextElementSibling;
+                while (sibling && !sibling.matches("h3.category")) {
+                    items.push(sibling);
+                    sibling = sibling.nextElementSibling;
+                }
+                if (!items.length) return;
+
+                const collapsed = /Additional Content|Competition|Stage/.test(heading.textContent);
+                const panel = document.createElement("div");
+                panel.id = "credits-group-" + index;
+                panel.className = "category-items";
+                panel.hidden = collapsed;
+                heading.after(panel);
+                panel.append(...items);
+
+                const toggle = document.createElement("button");
+                toggle.type = "button";
+                toggle.className = "category-toggle";
+                toggle.setAttribute("aria-controls", panel.id);
+                toggle.setAttribute("aria-expanded", String(!collapsed));
+                toggle.textContent = collapsed ? "Show" : "Hide";
+                heading.append(toggle);
+
+                toggle.addEventListener("click", () => {
+                    const expanded = toggle.getAttribute("aria-expanded") === "true";
+                    panel.hidden = expanded;
+                    toggle.setAttribute("aria-expanded", String(!expanded));
+                    toggle.textContent = expanded ? "Show" : "Hide";
+                });
+            });
+
+            window.addEventListener("beforeprint", () => {
+                creditsSection.querySelectorAll(".category-items").forEach((panel) => {
+                    panel.hidden = false;
+                });
+                creditsSection.querySelectorAll(".category-toggle").forEach((toggle) => {
+                    toggle.setAttribute("aria-expanded", "true");
+                    toggle.textContent = "Hide";
+                });
+            });
         }
 
         const shots = [...document.querySelectorAll(".shot")];
